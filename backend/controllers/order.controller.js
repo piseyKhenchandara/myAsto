@@ -1,6 +1,13 @@
 import db from "../models/index.js";
 import { Op } from "sequelize";
 
+const BAKONG_BASE_URL = process.env.BAKONG_PROD_BASE_API_URL;
+const BAKONG_ACCESS_TOKEN = process.env.BAKONG_ACCESS_TOKEN;
+
+const generateOrderID = async () => {
+    
+}
+
 export const orders = async (req, res) => {
     
     const { customer_name,
@@ -24,7 +31,7 @@ export const orders = async (req, res) => {
         
         if(!checkUser) return res.status(404).json({message :"User not found!"});
 
-        // ✅ Parse cart BEFORE transaction (same pattern as uploadProduct)
+
         let parsedCart = [];
         
         try{
@@ -34,14 +41,14 @@ export const orders = async (req, res) => {
             return res.status(400).json({message : "Invalid cart format (must be JSON)"});
         }
 
-        // ✅ Validate cart has items
+
         if(!parsedCart || parsedCart.length === 0) {
             return res.status(400).json({message : "Cart cannot be empty"});
         }
 
         await db.sequelize.transaction(async(transaction) => {
 
-            // Create address
+      
             await db.Address.create({
                 customer_name,
                 phone_number,
@@ -49,7 +56,6 @@ export const orders = async (req, res) => {
                 user_id : checkUser.id,
             }, {transaction});
 
-            // Generate order number
             const generateOrderNumber = async () => {
                 const year = new Date().getFullYear();
                 
@@ -60,14 +66,13 @@ export const orders = async (req, res) => {
                             [Op.lt]: new Date(`${year + 1}-01-01`)
                         }
                     },
-                    transaction // ✅ Include transaction in count
+                    transaction 
                 });
                 
                 const orderNumber = `ORD-${year}-${String(count + 1).padStart(6, '0')}`;
                 return orderNumber;
             };
 
-            // Create order
             const order = await db.Order.create({
                 user_id : checkUser.id,
                 total_price,
@@ -78,7 +83,7 @@ export const orders = async (req, res) => {
                 order_number: await generateOrderNumber(),  
             }, {transaction});
 
-            // ✅ Create promises array (same pattern as uploadProduct)
+
             const promises = [];
 
             // Add order items

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bakong-khqr": "^1.0.20",
     "bcrypt": "^6.0.0",
     "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.7",

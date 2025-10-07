@@ -51,10 +51,24 @@ export default (sequelize) => {
         },
         delivery_company: {
             type :  DataTypes.ENUM ("Vireak Buntam", "J&T", 'Phnom Penh delivery'),
+            allowNull : false,
 
-        }
+        },
+       
 
-    }, {tableName : "orders", timestamps : true});
+
+        
+
+    }, {tableName : "orders",
+        timestamps : true,
+        indexes : [
+            {fields : ['user_id']},
+            {fields : ["order_number"], unique : true},
+            {fields : ['createdAt']},
+            {fields : ['status']}
+        ]
+
+    });
 
     return Order;
 
