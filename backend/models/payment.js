@@ -29,7 +29,7 @@ export default (sequelize) => {
         },
         amount : {
             type : DataTypes.DECIMAL(10,2),
-            allowNull : false
+            default : 0,
         },
         
         // KHQR specific fields (only for khqr payment method)

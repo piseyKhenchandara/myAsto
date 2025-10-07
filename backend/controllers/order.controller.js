@@ -1,28 +1,28 @@
 import db from "../models/index.js";
 import { Op } from "sequelize";
 
-const BAKONG_BASE_URL = process.env.BAKONG_PROD_BASE_API_URL;
-const BAKONG_ACCESS_TOKEN = process.env.BAKONG_ACCESS_TOKEN;
 
-const generateOrderID = async () => {
-    
-}
+
 
 export const orders = async (req, res) => {
     
-    const { customer_name,
+    const { 
+            amount,
+            customer_name,
             phone_number, 
             shipping_address,
-            delivery_method, 
-            total_price,
-            cart,
+            discount_amount,
+            currency,
+            delivery_company, 
+            //payment model
             payment_method,
-            paid_at,
+            
+            cart,
             
         } = req.body;
 
     // ✅ Fixed validation
-    if(!customer_name || !phone_number || !delivery_method || !shipping_address || !total_price || !payment_method) {
+    if(!customer_name || !phone_number || !delivery_company || !shipping_address || !amount || !payment_method) {
         return res.status(400).json({message : "All fields are required!"});
     }
         
@@ -46,7 +46,7 @@ export const orders = async (req, res) => {
             return res.status(400).json({message : "Cart cannot be empty"});
         }
 
-        await db.sequelize.transaction(async(transaction) => {
+        const result = await db.sequelize.transaction(async(transaction) => {
 
       
             await db.Address.create({
@@ -75,12 +75,16 @@ export const orders = async (req, res) => {
 
             const order = await db.Order.create({
                 user_id : checkUser.id,
-                total_price,
+                amount,
+                status : "pending",
                 customer_name,
                 phone_number,
                 shipping_address,
-                delivery_method,
+                discount_amount : discount_amount || 0,
+                order_notes : order_notes || null,
                 order_number: await generateOrderNumber(),  
+                currency : currency || "USD",
+                delivery_company,
             }, {transaction});
 
 
@@ -103,7 +107,10 @@ export const orders = async (req, res) => {
             const paymentData = {
                 order_id : order.id,
                 payment_method,
-                paid_at : paid_at || new Date(),
+                currency : currency || "USD",
+                status : "pending",
+                paid : false,
+                paid_at : null,
                 
             };
 
@@ -116,7 +123,13 @@ export const orders = async (req, res) => {
         });
 
         // ✅ Fixed success response
-        res.status(201).json({success: true, message : "Order created successfully!✅"});
+        res.status(201).json({success: true, message : "Order created successfully!✅", 
+            data : {
+                order_id : result.id,
+                order_number : result.order_number,
+
+            }
+        });
 
     }
     catch(error) {

@@ -11,7 +11,7 @@ export default (sequelize) => {
             type  : DataTypes.INTEGER,
             allowNull : false,
         },
-        total_price : {
+        amount : {
             type : DataTypes.DECIMAL(10,2), 
             allowNull : false,
         },
