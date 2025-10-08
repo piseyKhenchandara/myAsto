@@ -1,85 +1,100 @@
-import db from "../models.js";
-import {BakongKHQR, khqrData, INdividualInfo} from 'bakong-khqr';
+import db from "../models/index.js";
+import {BakongKHQR, khqrData, IndividualInfo} from 'bakong-khqr';
+import axios from 'axios';
 
-
-const BAKONG_BASE_URL = process.env.BAKONG_PROD_BASE_API_URL;
-const BAKONG_ACCESS_TOKEN = process.env.BAKONG_ACCESS_TOKEN;
-
-export const createKHQRPayment = async (req,res) => {
+export const createKHQRPayment = async (req, res) => {
     try {
-        const {order_id} = req.body;
+        const {order_id} = req.params;
+        
+        const user = await db.User.findByPk(req.user.id);
+
+        if(!user) return res.status(404).json({success: false, message: "User not found!"});
 
         if(!order_id) {
             return res.status(400).json({
-                success : false, 
-                message : "Order_id is required!"
+                success: false, 
+                message: "Order_id is required!"
             })
         }
 
         const order = await db.Order.findByPk(order_id);
         if(!order) {
             return res.status(404).json({
-                sucess : false,
-                message : "Order not found!"
+                success: false,
+                message: "Order not found!"
             })
         }
 
-        const payment = await db.Payment.findOne({where : {order_id : order_id}})
+        const payment = await db.Payment.findOne({where: {order_id: order_id}})
 
         if(!payment) {
             return res.status(404).json({ 
                 success: false, 
                 message: "Payment not found for this order" 
             });
-
         }
+
+        // Check environment variables
+        if (!process.env.BAKONG_ACCOUNT_USERNAME) {
+            throw new Error('BAKONG_ACCOUNT_USERNAME not set in environment variables');
+        }
+
         //Generate KHQR
-        const expirationTimestamp = Date.now() + 5 *60 * 1000;
-        
+        const expirationTimestamp = Date.now() + 5 * 60 * 1000;
         
         const optionalData = {
-            currency : khqrData.currency.khr,
-            amount : parseFloat(order.amount),
+            currency: khqrData.currency.usd,
+            amount: parseFloat(order.amount),
             expirationTimestamp,
         };
 
-        const individualInfo = new INdividualInfo(
+        console.log('Creating IndividualInfo with:', {
+            username: process.env.BAKONG_ACCOUNT_USERNAME,
+            name: process.env.BAKONG_ACCOUNT_NAME || "ASTO",
+            location: "PHNOM PENH",
+            amount: optionalData.amount
+        });
+
+        const customerInfo = new IndividualInfo(
             process.env.BAKONG_ACCOUNT_USERNAME,
             process.env.BAKONG_ACCOUNT_NAME || "ASTO",
             "PHNOM PENH",
             optionalData
         );
 
-
-
         const khqr = new BakongKHQR();
-        const qrData = khqr.generateIndividual(individualInfo);
+        const qrData = khqr.generateIndividual(customerInfo);
+
+        console.log('KHQR generated:', qrData);
+
+        // Check if qrData is valid
+        if (!qrData || !qrData.data || !qrData.data.qr) { // ✅ Changed from qrData.data.qr
+            throw new Error('KHQR generation failed - no QR code returned');
+        }
 
         await payment.update({
-            currency : "USD",
-            qr_code : qrData.data.qr,
-            qr_md5 : qrData.data.md5,
-            qr_expiration : expirationTimestamp,
+            currency: "USD",
+            qr_code: qrData.data.qr,      // ✅ Changed from qrData.data.qr
+            qr_md5: qrData.data.md5,       // ✅ Changed from qrData.data.md5
+            qr_expiration: expirationTimestamp,
         })
 
         return res.status(201).json({
-            success : true,
-            message : "KHQR generated successfully!",
-            data : {
-                payment_id : payment.id,
-                order_id : order.id,
-                order_number : order.order_number,
+            success: true,
+            message: "KHQR generated successfully!",
+            data: {
+                payment_id: payment.id,
+                order_id: order.id,
+                order_number: order.order_number,
                 qr_code: payment.qr_code,
                 qr_md5: payment.qr_md5,
                 amount: payment.amount,
                 currency: payment.currency,
                 qr_expiration: new Date(payment.qr_expiration).toISOString()
-
             }
         });
 
-    }
-    catch (error) {
+    } catch (error) {
         console.error('KHQR generation error:', error);
         return res.status(500).json({ 
             success: false, 
@@ -91,7 +106,8 @@ export const createKHQRPayment = async (req,res) => {
 
 export const checkPaymentStatus = async (req,res) => {
     try {
-        const {order_id, qr_md5} = req.body;
+        const {qr_md5} = req.body;
+        const {order_id} = req.params;
 
         if (!qr_md5) {
             return res.status(400).json({ 
@@ -100,7 +116,7 @@ export const checkPaymentStatus = async (req,res) => {
             });
         }
 
-        const order = await db.Order.findByPk({id : order_id});
+        const order = await db.Order.findByPk(order_id);
         if(!order) {
             return res.status(404).json({success : false, message : "order not found!"});
         }
@@ -109,19 +125,19 @@ export const checkPaymentStatus = async (req,res) => {
             where : {qr_md5},   
         })
 
-        if(!payment) res.status(404).json({success : false, message : "User haven't paid yet!"});
+        if(!payment) return res.status(404).json({success : false, message : "User haven't paid yet!"});
 
         const response = await axios.post(
-            `${BAKONG_BASE_URL}/v1/check_transaction_by_md5`,{qr_md5 :payment.qr_md5},{header :{Authorization : `Bearer ${BAKONG_ACCESS_TOKEN}`}}
+            `${process.env.BAKONG_PROD_BASE_API_URL}/check_transaction_by_md5`,{qr_md5 :payment.qr_md5},{headers :{Authorization : `Bearer ${process.env.BAKONG_ACCESS_TOKEN}`}}
         )
         const data = response.data;
 
         if(data.responseCode === 0 && data.data?.hash) {
-            await payment.updateOne({where : {order_id : order.id }},
+            await payment.update({where : {order_id : order.id }},
                 {
                     bakongHash: data.data.hash,
                     fromAccountId : data.data.fromAccountId,
-                    toAccount : data.data.toAccount,
+                    toAccountId : data.data.toAccountId,
                     currency : data.data.currency,
                     amount : data.data.amount,
                     description : data.data.description,
@@ -130,14 +146,12 @@ export const checkPaymentStatus = async (req,res) => {
                     trackingStatus : data.data.trackingStatus,
                     receiverBank : data.data.receiverBank,
                     receiverBankAccount : data.data.receiverBankAccount,
-                    responseCode : data.data.responseCode,
-                    responseMessage : data.data.responseMessage,
                     paid : true,
                     paid_at : new Date()
                 }
             );
 
-            return res.status(200).json({success : true, message : "Payment confirmed", 
+            return res.status(200).json({success : true, message : "Payment confirmed!✅", 
                 data : {
                     order_id : order.id,
                     bakongHash : data.data.hash,
@@ -155,4 +169,24 @@ export const checkPaymentStatus = async (req,res) => {
         return res.status(400).json({success: false, message : error.message})
     }
     
+}
+
+
+export const getPaymentByOrderId = async (req, res) => {
+    try {
+        const {order_id} = req.params;
+
+        const payment = await db.Payment.findOne({where : {order_id}});
+
+        if(!payment) return res.status(404).json({success : false, message : 'payment not found!'});
+
+        return res.status(200).json({
+            success : true,
+            message : "payment fetched successfully!",
+            data : payment,
+        })
+    }
+    catch(error) {
+        return res.status(500).json({success : false, message : "Failed to fetch payment"})
+    }
 }

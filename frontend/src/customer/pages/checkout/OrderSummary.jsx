@@ -7,13 +7,14 @@ const OrderSummary = ({
   cart, 
   getCartCount, 
   calculateTotal,
-  handleCheckout,
+  handleOrder,
   submit,
   isProcessing,
   whoami,
   phoneNumber,
   selectedLocation,
   selectedDeliveryCompany,
+  setQrPopup
 }) => {
   
   const [isTyping, setIsTyping] = useState(false);
@@ -60,7 +61,7 @@ console.log('Product IDs:', cart.map(item => item.id));
         <ReciptBody 
           cart={cart}
           getCartCount={getCartCount}
-          handleCheckout={handleCheckout}
+          handleOrder={handleOrder}
           isProcessing={isProcessing}
           whoami={whoami}
           phoneNumber={debouncedPhoneNumber}
@@ -70,7 +71,7 @@ console.log('Product IDs:', cart.map(item => item.id));
         />
 
         <button
-          onClick={handleCheckout}
+          onClick={handleOrder}
           disabled={isProcessing || cart.length === 0}
 
           className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors ${
@@ -79,12 +80,12 @@ console.log('Product IDs:', cart.map(item => item.id));
               : 'bg-green-600 hover:bg-green-700 text-white'
           } ${submit ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 text-white"}`}
         >
-          {isProcessing ? 'Processing...' : 'Proceed to Checkout'}
+          {isProcessing ? 'Processing...' : 'Proceed to Order'}
         </button>
 
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-500">
-            Secure checkout powered by SSL encryption
+            Secure Order powered by SSL encryption
           </p>
         </div>
       </div>

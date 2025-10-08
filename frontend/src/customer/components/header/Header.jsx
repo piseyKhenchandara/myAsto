@@ -34,7 +34,7 @@ const Header = ({asto_logo}) => {
 
           <SearchPopup toggleSearchPopup={toggleSearchPopup} searchPopup={searchPopup} />
 
-          <Link to={whoami ? "/checkout-page" : "/auth/signup"}>
+          <Link to={whoami ? "/rd-page" : "/auth/signup"}>
             <div className='flex items-center '>
               <AiOutlineShoppingCart className="cursor-pointer " />
               <p className='translate-y-1 -translate-x-1 rounded-full px-2 bg-green-500'>{getCartCount()}</p>

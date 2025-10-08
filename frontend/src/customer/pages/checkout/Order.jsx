@@ -5,14 +5,19 @@ import { useUser } from '../../../../context/UserContext';
 import { useCart } from '../../context/CartContext';
 import Signup from '../../../auth/pages/Signup';
 import Address from './Address';
-import { orderAPI } from '../../../api/Checkout.api';
+import { orderAPI } from '../../../api/order.api';
+import KhqrGenerator from './KhqrGenerator';
+import { createKHQRPaymentAPI } from '../../../api/payment.api';
 
 
-const Checkout = () => {
+
+
+const Order = () => {
   const { user: whoami } = useUser();
   const { cart, removeFromCart, decreaseFromCart, increaseFromCart, getCartCount } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const [submit, setSubmit] = useState(false);
+  const [message, setMessage] =useState({type :'', text :""});
 
 
    //whoami
@@ -24,13 +29,17 @@ const Checkout = () => {
   //payment method
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedDeliveryCompany, setSelectedDeliveryCompany] = useState('');
+  const [qrPopup, setQrPopup] = useState(false);
+  const [resFromOrder, setResFromOrder] = useState(null);
+  const [resFromKHQR, setResFromKHQR] = useState(null);
+
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
   };
   const finalAddress = address +"(" + orderNotes + ")";
 
-  const handleCheckout = async () => {
+  const handleOrder = async () => {
     setIsProcessing(true);
     
     try {
@@ -44,24 +53,29 @@ const Checkout = () => {
         customer_name : whoami.name,
         phone_number : phoneNumber,
         shipping_address : finalAddress,
-        delivery_method : selectedDeliveryCompany,
-        total_price : calculateTotal(),
+        delivery_company : selectedDeliveryCompany,
+        amount : calculateTotal(),
         cart : cart,
-        payment_method : "cod",
+        discount_amount : 0,
       }
 
       const response = await orderAPI({payload});
       console.log('Response:', response);
         
         if (response.success) {
-            alert('Order placed successfully!');
+          alert('Order placed successfully!');
+          const khqrResponse = await createKHQRPaymentAPI(response.data.order_id);
+          setResFromKHQR(khqrResponse);
+          setQrPopup(true);
         }
 
       
       setTimeout(() => {
         setSubmit(false);
+        setQrPopup(true)
 
       }, 2000);
+
 
       
     } catch (error) {
@@ -71,19 +85,24 @@ const Checkout = () => {
     }
   };
 
+
+ 
+
   if (!whoami) {
     return (
       <div className='w-full'>
         <div className='max-w-[1920px] mx-auto px-6 py-8'>
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">Sign in to continue</h2>
-            <p className="text-gray-600">You need to be signed in to view your cart and checkout</p>
+            <p className="text-gray-600">You need to be signed in to view your cart and Order</p>
           </div>
           <Signup />
         </div> 
       </div>
     );
   }
+
+
 
   return (
     <div className='w-full min-h-screen bg-gray-50'>
@@ -121,7 +140,7 @@ const Checkout = () => {
                 cart={cart}
                 getCartCount={getCartCount}
                 calculateTotal={calculateTotal}
-                handleCheckout={handleCheckout}
+                handleOrder={handleOrder}
                 submit = {submit}
                 isProcessing={isProcessing}
                 whoami = {whoami}
@@ -129,6 +148,7 @@ const Checkout = () => {
                 selectedLocation = {selectedLocation}
                 selectedDeliveryCompany = {selectedDeliveryCompany}
                 setOrderNotes = {setOrderNotes}
+            
                 
               />
             </div>
@@ -153,8 +173,18 @@ const Checkout = () => {
           </div>
         )}
       </div>
+      {qrPopup && 
+        <div className='fixed inset-0 flex items-center justify-center z-50 bg-black/50'>
+          <KhqrGenerator resFromKHQR = {resFromKHQR} onClose={() => setQrPopup(false)}/>
+        
+          
+        </div>
+      }
+
     </div>
+
+
   );
 };
 
-export default Checkout;
+export default Order;

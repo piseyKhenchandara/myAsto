@@ -50,7 +50,7 @@ export default (sequelize) => {
             defaultValue: "USD"
         },
         delivery_company: {
-            type :  DataTypes.ENUM ("Vireak Buntam", "J&T", 'Phnom Penh delivery'),
+            type :  DataTypes.ENUM ("Vireak Buntham", "J&T", 'Phnom Penh delivery'),
             allowNull : false,
 
         },

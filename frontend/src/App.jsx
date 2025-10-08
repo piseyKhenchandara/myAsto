@@ -29,7 +29,7 @@ import Logout from './auth/components/Logout'
 import {guestOnlyLoader, requireAuth, requireSellerNAdmin, verificationOnlyLoader} from './auth/components/loader'
 import { UserProvider, useUser } from '../context/UserContext'
 import Auth from './customer/pages/Auth'
-import Checkout from './customer/pages/checkout/Checkout'
+import Order from './customer/pages/checkout/Order'
 import { CartProvider } from './customer/context/CartContext'
 import EmailEntry from './auth/pages/EmailEntry'
 import SearchResults from './seller/components/header/searchResults'
@@ -63,7 +63,7 @@ const router = createBrowserRouter(
         <Route path='category/:category_slug/brand/first/products' element={<RedirectToFirstBrand/>}/>
         <Route path='category/:category_slug/brand/:brand_slug/products' element={<Products/>}/>
         <Route path='category/:category_slug/brand/:brand_slug/product/detail/:id' element= {<ProductDetail/>}/>
-        <Route path='checkout-page' element = {<Checkout/>} loader = {requireAuth}/>
+        <Route path='checkout-page' element = {<Order/>} loader = {requireAuth}/>
         <Route path='user-profile' element = {<Auth/>} loader = {requireAuth}/>
       </Route>
 

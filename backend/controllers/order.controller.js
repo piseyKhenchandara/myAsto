@@ -12,17 +12,14 @@ export const orders = async (req, res) => {
             phone_number, 
             shipping_address,
             discount_amount,
-            currency,
             delivery_company, 
             //payment model
-            payment_method,
-            
+            payment_method,           
             cart,
-            
         } = req.body;
 
     // ✅ Fixed validation
-    if(!customer_name || !phone_number || !delivery_company || !shipping_address || !amount || !payment_method) {
+    if(!customer_name || !phone_number || !delivery_company || !shipping_address || !amount) {
         return res.status(400).json({message : "All fields are required!"});
     }
         
@@ -81,9 +78,8 @@ export const orders = async (req, res) => {
                 phone_number,
                 shipping_address,
                 discount_amount : discount_amount || 0,
-                order_notes : order_notes || null,
                 order_number: await generateOrderNumber(),  
-                currency : currency || "USD",
+                currency :"USD",
                 delivery_company,
             }, {transaction});
 
@@ -106,12 +102,13 @@ export const orders = async (req, res) => {
             // Add payment
             const paymentData = {
                 order_id : order.id,
-                payment_method,
-                currency : currency || "USD",
+                payment_method : payment_method || 'KHQR',
+                currency :"USD",
                 status : "pending",
                 paid : false,
                 paid_at : null,
-                
+                amount,
+            
             };
 
             promises.push(db.Payment.create(paymentData, {transaction}));

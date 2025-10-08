@@ -6,6 +6,9 @@ import productRoutes from './routes/product.routes.js';
 import categoryRoutes from './routes/category.routes.js';
 import brandRoutes from './routes/brand.routes.js'
 import checkoutRoute from './routes/checkout.routes.js'
+import orderRoute from './routes/order.routes.js'
+import paymentRoute from './routes/payment.routes.js'
+
 import db from './models/index.js';
 import cors from 'cors';
 const {sequelize} = db;
@@ -24,6 +27,8 @@ app.use('/api/auth',authRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/brand',brandRoutes);
 app.use('/api/checkout',checkoutRoute);
+app.use('/api/order',orderRoute);
+app.use('/api/payment', paymentRoute);
 
 
 

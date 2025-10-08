@@ -14,10 +14,10 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
                 <div className="grid grid-cols-2 gap-4">
                 {/* VET Option */}
                 <div 
-                    onClick={() => handleDeliveryCompanySelect('VET')}
+                    onClick={() => handleDeliveryCompanySelect('Vireak Buntham')} // ✅ CHANGED
                     required
                     className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
-                    selectedDeliveryCompany === 'VET' 
+                    selectedDeliveryCompany === 'Vireak Buntham'  // ✅ CHANGED
                         ? 'border-green-500 bg-green-50' 
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
@@ -31,10 +31,10 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
 
                 {/* J&T Option */}
                 <div 
-                    onClick={() => handleDeliveryCompanySelect('JNT')}
+                    onClick={() => handleDeliveryCompanySelect('J&T')} // ✅ CHANGED
                     required
                     className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
-                    selectedDeliveryCompany === 'JNT' 
+                    selectedDeliveryCompany === 'J&T'  // ✅ CHANGED
                         ? 'border-green-500 bg-green-50' 
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
@@ -54,9 +54,9 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
             <div className="space-y-4">
                 <p className="text-sm text-gray-600 mb-3">Available for Phnom Penh delivery:</p>
                 <div 
-                onClick={() => handleDeliveryCompanySelect('GRAB')}
+                onClick={() => handleDeliveryCompanySelect('Phnom Penh delivery')} // ✅ CHANGED
                 className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md max-w-xs ${
-                    selectedDeliveryCompany === 'GRAB' 
+                    selectedDeliveryCompany === 'Phnom Penh delivery'  // ✅ CHANGED
                     ? 'border-green-500 bg-green-50' 
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
@@ -78,9 +78,9 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 <span className="text-green-800 font-medium">
-                    {selectedDeliveryCompany === 'VET' && 'VET Express selected'}
-                    {selectedDeliveryCompany === 'JNT' && 'J&T Express selected'}
-                    {selectedDeliveryCompany === 'GRAB' && 'Grab Express selected'}
+                    {selectedDeliveryCompany === 'Vireak Buntham' && 'VET Express selected'}
+                    {selectedDeliveryCompany === 'J&T' && 'J&T Express selected'}
+                    {selectedDeliveryCompany === 'Phnom Penh delivery' && 'Grab Express selected'}
                 </span>
                 </div>
             </div>
