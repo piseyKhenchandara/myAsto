@@ -74,10 +74,12 @@ export const createKHQRPayment = async (req, res) => {
 
         await payment.update({
             currency: "USD",
-            qr_code: qrData.data.qr,      // ✅ Changed from qrData.data.qr
-            qr_md5: qrData.data.md5,       // ✅ Changed from qrData.data.md5
+            qr_code: qrData.data.qr,      
+            qr_md5: qrData.data.md5,       
             qr_expiration: expirationTimestamp,
         })
+
+        console.log(qrData);
 
         return res.status(201).json({
             success: true,
@@ -103,6 +105,7 @@ export const createKHQRPayment = async (req, res) => {
         });
     }
 };
+
 
 export const checkPaymentStatus = async (req,res) => {
     try {
@@ -133,7 +136,7 @@ export const checkPaymentStatus = async (req,res) => {
         const data = response.data;
 
         if(data.responseCode === 0 && data.data?.hash) {
-            await payment.update({where : {order_id : order.id }},
+            await payment.update(
                 {
                     bakongHash: data.data.hash,
                     fromAccountId : data.data.fromAccountId,
@@ -150,6 +153,11 @@ export const checkPaymentStatus = async (req,res) => {
                     paid_at : new Date()
                 }
             );
+
+            await order.update({
+                status: 'paid', // or 'completed', 'confirmed' - whatever your Order model uses
+                paid_at: new Date()
+            });
 
             return res.status(200).json({success : true, message : "Payment confirmed!✅", 
                 data : {

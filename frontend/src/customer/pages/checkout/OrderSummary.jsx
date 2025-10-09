@@ -49,8 +49,7 @@ const OrderSummary = ({
     return null;
   }
 
-  console.log('Cart before sending:', cart);
-console.log('Product IDs:', cart.map(item => item.id));
+
   
   return (
     <section>

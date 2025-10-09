@@ -99,9 +99,7 @@ export const getProductById = async (req, res) => {
 
 export const getProductsByBrandNCategory = async( req,res) => {
     const {category_slug, brand_slug} = req.params;
-       console.log('Full req.params:', req.params);
-    console.log('category_slug:', req.params.category_slug);
-    console.log('brand_slug:', req.params.brand_slug);
+ 
     const page = parseInt(req.query.page) || 1; 
     const limit = parseInt(req.query.limit) || 6;
     const offset = (page-1) * limit;
