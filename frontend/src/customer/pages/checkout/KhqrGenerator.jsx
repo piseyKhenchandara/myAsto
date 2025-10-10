@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
+import { checkPaymentStatus } from '../../../api/payment.api';
 
 const KhqrGenerator = ({ resFromKHQR, onClose }) => {
   const [timeLeft, setTimeLeft] = useState(null);
+  const [pollPayment, setPollPayment] = useState(null);
+  const [message, setMessage] = useState({type : '',text : ""});
+
+
+
 
   useEffect(() => {
     console.log('KHQR Response:', resFromKHQR);
@@ -43,6 +49,36 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
     );
   }
 
+
+  useEffect(() =>{
+    
+    const pollPayment = async () => {
+      try{
+        const response = await checkPaymentStatus(resFromKHQR.data.qr_md5, resFromKHQR.data.order_id);
+        console.log(response);
+        setPollPayment(response);
+        
+        if(response.success) {
+          setMessage({type :"success", text : "payment successfully!✅"})
+          clearInterval(pollInterval);
+        }
+      }
+
+      catch(error) {
+        setMessage({type :'error' , text  : error.response?.data.message || "failed to check payment transaction"});
+      }
+    }
+
+    const pollInterval = setInterval(() => pollPayment(), 3000);
+    const timeout = setTimeout(() => clearInterval(pollInterval), 5* 60 *1000);
+
+    return () => {
+      clearInterval(pollInterval);
+      clearTimeout(timeout);
+    }
+
+  },[resFromKHQR?.data?.qr_md5, resFromKHQR?.data?.order_id])
+
   const isExpired = timeLeft?.expired;
 
   return (
@@ -61,10 +97,12 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
 
       {/* Header */}
       <div className='text-center mb-6'>
+        {message.type === 'error'? <p className='text-red-600'>{message.text}</p> : <p className='text-green-600'>{message.text}</p>}
+        
         <h2 className='text-2xl font-bold text-gray-800 mb-2'>Scan to Pay</h2>
         <p className='text-gray-600'>Use your Bakong app to scan</p>
       </div>
-
+    
       {/* QR Code */}
       <div className='bg-white p-4 rounded-lg border-2 border-gray-200 mb-6'>
         {isExpired ? (
@@ -78,7 +116,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
         ) : (
           <div className='flex justify-center'>
             <QRCode
-              value={resFromKHQR.qr_code}
+              value={resFromKHQR.data.qr_code}
               size={256}
               level='H'
               className='max-w-full h-auto'
@@ -91,17 +129,17 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
       <div className='space-y-3 mb-6'>
         <div className='flex justify-between items-center'>
           <span className='text-gray-600'>Order Number:</span>
-          <span className='font-semibold text-gray-800'>{resFromKHQR.order_number}</span>
+          <span className='font-semibold text-gray-800'>{resFromKHQR.data.order_number}</span>
         </div>
         <div className='flex justify-between items-center'>
           <span className='text-gray-600'>Amount:</span>
           <span className='font-bold text-2xl text-green-600'>
-            ${parseFloat(resFromKHQR.amount).toFixed(2)}
+            ${parseFloat(resFromKHQR.data.amount).toFixed(2)}
           </span>
         </div>
         <div className='flex justify-between items-center'>
           <span className='text-gray-600'>Currency:</span>
-          <span className='font-semibold text-gray-800'>{resFromKHQR.currency}</span>
+          <span className='font-semibold text-gray-800'>{resFromKHQR.data.currency}</span>
         </div>
       </div>
 
@@ -137,7 +175,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
       {/* MD5 Hash (for verification) */}
       <div className='mt-4 text-center'>
         <p className='text-xs text-gray-400'>
-          MD5: {resFromKHQR.qr_md5?.substring(0, 16)}...
+          MD5: {resFromKHQR.data.qr_md5?.substring(0, 16)}...
         </p>
       </div>
     </div>

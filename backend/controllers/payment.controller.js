@@ -131,10 +131,11 @@ export const checkPaymentStatus = async (req,res) => {
         if(!payment) return res.status(404).json({success : false, message : "User haven't paid yet!"});
 
         const response = await axios.post(
-            `${process.env.BAKONG_PROD_BASE_API_URL}/check_transaction_by_md5`,{qr_md5 :payment.qr_md5},{headers :{Authorization : `Bearer ${process.env.BAKONG_ACCESS_TOKEN}`}}
+            `${process.env.BAKONG_PROD_BASE_API_URL}/check_transaction_by_md5`,{md5 :payment.qr_md5},{headers :{Authorization : `Bearer ${process.env.BAKONG_ACCESS_TOKEN}`}}
         )
         const data = response.data;
-
+        
+        console.log(data);
         if(data.responseCode === 0 && data.data?.hash) {
             await payment.update(
                 {
