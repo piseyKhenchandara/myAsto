@@ -271,7 +271,7 @@ h1,h2,h3,h4,h6 {
 
 @keyframes popup_form {
   0% {
-    transform: translateY(-50%);
+    transform: translateY(50%);
   }
   100%{
     transform: translateY(0);

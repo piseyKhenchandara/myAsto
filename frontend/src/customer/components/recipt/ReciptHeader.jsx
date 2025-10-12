@@ -4,11 +4,11 @@ import asto_telegram_qr from '../../../assets/qrcode/asto_telegram_qr.jpg'
 import asto_tiktok_qr from '../../../assets/qrcode/asto_tiktok_qr.jpg'
 
 const ReciptHeader = ({asto_logo = false}) => {
-    const shape = "w-12 h-12 xs:w-12 xs:h-12 sm:w-16 sm:h-16 md:w-25 md:h-25 object-contain";
+    const shape = "w-20 h-20 md:w-25 md:h-25 object-contain";
 
   return (
     <div className="w-full border-b-1">
-      <div className="flex justify-between items-start gap-2 sm:gap-4">
+      <div className="flex justify-between items-center gap-2 sm:gap-4">
         {/* Logo Section */}
         <div className="flex-shrink-0">
           {asto_logo && (
@@ -32,11 +32,7 @@ const ReciptHeader = ({asto_logo = false}) => {
             alt="TikTok QR Code" 
             className={`${shape}`}
           />
-          <img 
-            src={asto_telegram_qr} 
-            alt="Telegram QR Code" 
-            className={`${shape}`}
-          />
+          
         </div>
       </div>
 

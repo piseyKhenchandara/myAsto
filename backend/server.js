@@ -8,6 +8,9 @@ import brandRoutes from './routes/brand.routes.js'
 import checkoutRoute from './routes/checkout.routes.js'
 import orderRoute from './routes/order.routes.js'
 import paymentRoute from './routes/payment.routes.js'
+import userRoute from './routes/user.routes.js'
+import reciptRoute from './routes/recipt.routes.js'
+
 
 import db from './models/index.js';
 import cors from 'cors';
@@ -29,7 +32,8 @@ app.use('/api/brand',brandRoutes);
 app.use('/api/checkout',checkoutRoute);
 app.use('/api/order',orderRoute);
 app.use('/api/payment', paymentRoute);
-
+app.use('/api/users', userRoute);
+app.use('/api/recipts', reciptRoute)
 
 
 const PORT = process.env.PORT ;

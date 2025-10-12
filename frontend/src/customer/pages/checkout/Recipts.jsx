@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { reciptsAPI } from '../../../api/Recipt.api';
 import { useUser } from '../../../../context/UserContext';
 import ReciptBody from '../../components/recipt/ReciptBody';
+import ReciptHeader from '../../components/recipt/reciptHeader';
+import asto_logo from '../../../assets/logoes/asto_logo.png'
+import { useOutletContext } from 'react-router-dom';
 
 const Recipts = () => {
     const { user: whoami } = useUser();
+    const {visible = false} = useOutletContext() || {};
+
 
     const [message, setMessage] = useState({ type: '', text: '' });
     const [receipts, setReceipts] = useState([]);
@@ -27,7 +32,7 @@ const Recipts = () => {
                 setLoading(false);
                 setMessage({ 
                     type: 'error', 
-                    text: error.response?.data?.message || 'Failed to load receipts' 
+                    text: error.response?.data?.message || error.message || 'Failed to load receipts' 
                 });
             }
         }
@@ -78,42 +83,23 @@ const Recipts = () => {
     }
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6">My Receipts</h1>
+        <div className=" mx-auto p-4 max-w-[1920px]">
+         
             
-            {message.type === 'success' && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                    {message.text}
-                </div>
-            )}
 
-            <div className="space-y-8">
+
+            <div className= 'grid min-[840px]:grid-cols-2 xl:grid-cols-3 gap-6'>
+                
                 {receipts.map((payment, index) => (
-                    <div key={payment.id || index} className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-                        {/* Receipt Header */}
-                        <div className="bg-gray-100 px-4 py-3 border-b">
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-xl font-semibold">
-                                    Receipt #{index + 1}
-                                </h2>
-                                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                                    payment.status === 'completed' 
-                                        ? 'bg-green-200 text-green-800' 
-                                        : 'bg-yellow-200 text-yellow-800'
-                                }`}>
-                                    {payment.status}
-                                </span>
-                            </div>
-                            <div className="text-sm text-gray-600 mt-1">
-                                Payment Method: {payment.payment_method} | Amount: ${Number(payment.amount).toFixed(2)}
-                            </div>
-                        </div>
+                    <div key={payment.id || index} className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 p-5">
+                        {/* Receipt Header */} 
+                        <ReciptHeader asto_logo= {asto_logo}/>
 
                         {/* Receipt Body */}
                         <ReciptBody
-                            cart={payment.OrderItems || []}
-                            getCartCount={() => getCartCount(payment.OrderItems)}
-                            calculateTotal={() => calculateTotal(payment.OrderItems)}
+                            cart={payment.Order?.OrderItems || []}
+                            getCartCount={() => getCartCount(payment.Order?.OrderItems)}
+                            calculateTotal={() => calculateTotal(payment.Order?.OrderItems)}
                             whoami={{ name: payment.Order?.customer_name }}
                             phoneNumber={payment.Order?.phone_number}
                             selectedLocation={payment.Order?.shipping_address}
@@ -121,6 +107,7 @@ const Recipts = () => {
                         />
                     </div>
                 ))}
+                
             </div>
         </div>
     );

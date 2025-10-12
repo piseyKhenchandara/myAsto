@@ -1,9 +1,11 @@
 import db from "../models/index.js";
 
-
 export const recipts = async (req, res) => {
     try {
         const user = await db.User.findByPk(req.params.id);
+        
+        // Add debug logging
+        console.log('User ID:', req.params.id);
         
         if (!user) {
             return res.status(404).json({
@@ -12,30 +14,38 @@ export const recipts = async (req, res) => {
             });
         }
 
-        const order = await db.Order.findOne({
+        // Change: Find all orders for the user instead of just one
+        const orders = await db.Order.findAll({
             where: { user_id: user.id }
         });
         
-        if (!order) {
+        console.log('Found orders:', orders.length);
+
+        if (!orders || orders.length === 0) {
             return res.status(404).json({
                 success: false, 
-                message: "Order not found!"
+                message: "No orders found!"
             });
         }
 
+        // Get order IDs
+        const orderIds = orders.map(order => order.id);
+        console.log('Order IDs:', orderIds);
+
         const payments = await db.Payment.findAll({
             where: { 
-                order_id: order.id,
-                paid: '1'
+                order_id: orderIds,
+                paid: true  // Changed from '1' to true
             },
             attributes: ['status', 'payment_method', 'amount', 'paid'], 
             include: [
                 {
                     model: db.Order,
-                    attributes: ['user_id', 'customer_name', 'phone_number', 'shipping_address', 'discount_amount', 'order_number', 'delivery_company'],
+                    attributes: ['user_id', 'customer_name', 'phone_number', 
+                               'shipping_address', 'discount_amount', 
+                               'order_number', 'delivery_company'],
                     include: [
                         {
-                            // ✅ Nested include - OrderItems through Order
                             model: db.OrderItem,
                             attributes: ['quantity', 'price', 'name']
                         }
@@ -43,6 +53,9 @@ export const recipts = async (req, res) => {
                 }
             ]
         });
+        
+        // Add debug logging
+        console.log('Found payments:', payments.length);
         
         if (!payments || payments.length === 0) {
             return res.status(404).json({
@@ -58,6 +71,7 @@ export const recipts = async (req, res) => {
         });
     }
     catch (error) {
+        console.error('Error in receipts:', error);
         return res.status(500).json({
             success: false, 
             message: error.message

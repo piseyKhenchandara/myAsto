@@ -48,7 +48,7 @@ const ProductCard = ({
 
         {/* Price and Actions */}
         <div className="flex justify-between items-center w-full gap-2">
-          <p className="font-bold text-lg md:text-xl">
+          <p className="font-bold ">
             ${product.price}
           </p>
           

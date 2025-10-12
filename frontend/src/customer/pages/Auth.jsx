@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {whoamiAPI } from '../../api/auth.api'
 import Logout from '../../auth/components/Logout'
+import Recipts from './checkout/Recipts'
 
 const UserProfile = () => {
   const [user, setUser] = useState(null)
@@ -54,24 +55,13 @@ const UserProfile = () => {
 
   const handleSaveProfile = async () => {
     try {
-      // Add API call to update profile when you implement it
-      // const updatedUser = await updateProfileAPI(editForm)
-      // setUser(updatedUser)
+
       console.log('Profile update API not implemented yet:', editForm)
       setIsEditing(false)
     } catch (err) {
       console.error('Failed to update profile:', err)
       setError('Failed to update profile')
     }
-  }
-
-  const getRoleBadge = (role) => {
-    const roleStyles = {
-      admin: 'bg-purple-100 text-purple-800',
-      seller: 'bg-blue-100 text-blue-800',
-      customer: 'bg-green-100 text-green-800'
-    }
-    return roleStyles[role] || 'bg-gray-100 text-gray-800'
   }
 
   const getVerificationStatus = (isVerified) => {
@@ -118,8 +108,9 @@ const UserProfile = () => {
 
   return (
     <div className='w-full min-h-screen'>
-  <div className="p-6 bg-gradient-to-br from-black via-lime-50 to-black w-full">
-    <div className=" mx-auto">
+  
+    <div className=" relative p-6 bg-gradient-to-br from-green-100 via-lime-50 to-emerald-100 overflow-hidden">
+      
       <div className='flex items-center justify-between max-w-[1920px] mx-auto'>
         
         <div className="flex items-center space-x-4">
@@ -134,20 +125,13 @@ const UserProfile = () => {
           </div>
         </div>
 
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={handleEditToggle}
-            className="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-md transition-colors"
-          >
-            {isEditing ? 'Cancel' : 'Edit Profile'}
-          </button>
-
           <Logout/>
-        </div>
         
       </div>
+
     </div>
-  </div>
+    <Recipts/>
+ 
 </div>
   )
 }

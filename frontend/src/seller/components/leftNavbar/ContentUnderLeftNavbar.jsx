@@ -69,7 +69,7 @@ import { NavLink } from "react-router-dom";
         <ul className="space-y-2">
           
           <li>
-            <NavLink to="/seller-dashboard/view-all-users" className={({isActive}) => isActive ? "text-green-600" : ""}>
+            <NavLink to="/dashboard/view-all-users" className={({isActive}) => isActive ? "text-green-600" : ""}>
 
                 View All Users
             </NavLink> 

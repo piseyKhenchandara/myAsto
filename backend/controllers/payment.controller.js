@@ -151,7 +151,8 @@ export const checkPaymentStatus = async (req,res) => {
                     receiverBank : data.data.receiverBank,
                     receiverBankAccount : data.data.receiverBankAccount,
                     paid : true,
-                    paid_at : new Date()
+                    paid_at : new Date(),
+                    status : 'paid'
                 }
             );
 
