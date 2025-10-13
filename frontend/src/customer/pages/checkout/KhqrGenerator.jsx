@@ -104,7 +104,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
       </div>
     
             {/* QR Code */}
-      <div className='bg-white rounded-2xl animation_form_popup' style={{ boxShadow: '0 0 16px rgba(0, 0, 0, 0.1)' }}>
+      <div className='bg-white rounded-3xl animation_form_popup' style={{ boxShadow: '0 0 16px rgba(0, 0, 0, 0.1)' }}>
         {isExpired ? (
           <div className='flex flex-col items-center justify-center h-64'>
             <svg className='w-16 h-16 text-red-500 mb-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -115,17 +115,17 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
           </div>
         ) : (
           <div>
-            <h2 className='text-center bg-red-600 text-white rounded-t-2xl py-2'>KHQR</h2>
+            <h2 className='text-center bg-red-600 text-white rounded-t-3xl py-2'>KHQR</h2>
 
-            <div className='px-10 pt-10 pb-2'>
-              <div className='flex items-center mb-4'>
-                <span className='text-gray-600'>Amount:</span>
+            <div className=' pt-10 pb-2 '>
+              <div className='flex items-center border-b-2 border-dashed pb-5 border-gray-400'>
+                <span className='pl-10 text-gray-600'>Amount:</span>
                 <span className='font-bold pl-2'>
                   ${parseFloat(resFromKHQR.data.amount).toFixed(2)}
                 </span>
               </div>
 
-              <div className='relative bg-red-500'>
+              <div className='relative pt-5 px-10'>
                 <QRCode
                   value={resFromKHQR.data.qr_code}
                   size={256}
@@ -136,6 +136,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
                   <span className='text-white rounded-full text-xl font-bold bg-black px-[14px] py-[6px]'>$</span>
                 </div>
               </div>
+
               {/* MD5 Hash (for verification) */}
               <div className='mt-5 text-center'>
                 <p className='text-xs text-gray-400'>

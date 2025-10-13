@@ -11,12 +11,12 @@ import {
     resendPasswordToken, 
     whoami,
     checkEmail,
-    googleAuth
+    googleAuth,
+    getUserById
 } from "../controllers/auth.controller.js";
 import { authenticate } from "../middleware/autheticate.js";
-
+import {authorizeRoles} from '../middleware/authorizeRoles.js'
 const router = Router();
-
 // Add debugging middleware to see all requests
 /* router.use((req, res, next) => {
     console.log(`🔍 Auth route hit: ${req.method} ${req.path}`);
@@ -41,6 +41,7 @@ router.post('/logout', logout);
 
 // Add debugging specifically for whoami
 router.get('/whoami',authenticate, whoami);
+router.get('/users/:id', authenticate,authorizeRoles('admin'),getUserById);
 
 // Add a test route to verify auth routes are working
 router.get('/test', (req, res) => {

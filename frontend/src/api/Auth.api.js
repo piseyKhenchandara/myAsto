@@ -75,3 +75,9 @@ export const whoamiAPI = async () => {
     const {data} = await http.get('/auth/whoami');
     return data.user;
 }
+
+
+export const getUserByIdAPI = async (userId) => {
+    const {data} = await http.get(`/auth/users/${userId}`);
+    return data.user;
+}

@@ -69,7 +69,7 @@ const Users = () => {
   }
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 p-8">
+    <div className="max-w-[1920px] m-auto min-h-screen p-8">
       <h2 className="text-3xl font-bold mb-6 text-gray-800">User Management</h2>
 
       {message.text && (

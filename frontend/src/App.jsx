@@ -34,7 +34,8 @@ import { CartProvider } from './customer/context/CartContext'
 import EmailEntry from './auth/pages/EmailEntry'
 import SearchResults from './seller/components/header/searchResults'
 import Users from './seller/components/user/Users'
-
+import ViewAuthProfile from './seller/components/category_brand_product/ViewAuthProfile'
+import Orders from './seller/components/orderManagement/Orders'
 
 
 const router = createBrowserRouter(
@@ -77,7 +78,9 @@ const router = createBrowserRouter(
         <Route path='category/:category_slug/brand/:brand_slug/product/detail/:id' element= {<ProductDetail/>}/>
         <Route path='category/:category_slug/brand/:brand_slug/product/detail/edit/:id' element= {<ProductEdit/>}/>
         <Route path= 'view-all-users' element = {<Users/>}/>
-        
+
+        <Route path='User-profile/:user_id/receipts' element = {<ViewAuthProfile/>}/>
+        <Route path='view-all-orders' element = {<Orders/>}/>
       </Route>
         
     </>

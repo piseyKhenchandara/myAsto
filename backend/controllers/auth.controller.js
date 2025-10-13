@@ -518,3 +518,29 @@ export const whoami = async(req,res) =>{
 }
 
 
+
+export const getUserById = async (req, res) => {
+    try {
+        const targetUserId = req.params.id;
+        
+        // Only admins can view other users' info
+        if (req.user.role !== 'admin' && req.user.id !== parseInt(targetUserId)) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+
+        const user = await db.User.findByPk(targetUserId, {
+            attributes: ['id', 'name', 'email', 'role', 'is_verified']
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ user });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch user info" });
+    }
+}
+
+
+

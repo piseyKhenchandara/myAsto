@@ -2,11 +2,9 @@ import db from "../models/index.js";
 
 export const recipts = async (req, res) => {
     try {
-        const user = await db.User.findByPk(req.params.id);
+        const targetUser = req.params.id;
         
-        // Add debug logging
-        console.log('User ID:', req.params.id);
-        
+        const user = await db.User.findByPk(targetUser);
         if (!user) {
             return res.status(404).json({
                 success: false, 
@@ -14,12 +12,16 @@ export const recipts = async (req, res) => {
             });
         }
 
-        // Change: Find all orders for the user instead of just one
+        if (req.user.role !== 'admin' && req.user.id !== parseInt(targetUser)) {
+            return res.status(403).json({
+                success: false, 
+                message: "Unauthorized"
+            });
+        }
+
         const orders = await db.Order.findAll({
             where: { user_id: user.id }
         });
-        
-        console.log('Found orders:', orders.length);
 
         if (!orders || orders.length === 0) {
             return res.status(404).json({
@@ -28,33 +30,31 @@ export const recipts = async (req, res) => {
             });
         }
 
-        // Get order IDs
         const orderIds = orders.map(order => order.id);
-        console.log('Order IDs:', orderIds);
-
+        
         const payments = await db.Payment.findAll({
             where: { 
                 order_id: orderIds,
-                paid: true  // Changed from '1' to true
+                paid: true  
             },
-            attributes: ['status', 'payment_method', 'amount', 'paid'], 
+            order: [['createdAt', 'DESC']], 
+            attributes: ['id', 'status', 'payment_method', 'amount', 'paid', 'createdAt'], 
             include: [
                 {
                     model: db.Order,
-                    attributes: ['user_id', 'customer_name', 'phone_number', 
+                    attributes: ['id', 'user_id', 'customer_name', 'phone_number', 
                                'shipping_address', 'discount_amount', 
                                'order_number', 'delivery_company'],
                     include: [
                         {
                             model: db.OrderItem,
-                            attributes: ['quantity', 'price', 'name']
+                            attributes: ['id', 'quantity', 'price', 'name']
                         }
                     ]
                 }
             ]
         });
-        
-        // Add debug logging
+   
         console.log('Found payments:', payments.length);
         
         if (!payments || payments.length === 0) {

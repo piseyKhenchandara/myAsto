@@ -1,0 +1,46 @@
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import Recipts from '../../../customer/pages/checkout/Recipts'
+import { getUserByIdAPI } from '../../../api/auth.api' // ✅ New API
+
+const ViewAuthProfile = () => {
+  const { user_id } = useParams();
+  const [targetUser, setTargetUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchTargetUser = async () => {
+      try {
+        setLoading(true);
+        const user = await getUserByIdAPI(user_id); // ✅ Fetch target user
+        setTargetUser(user);
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user_id) {
+      fetchTargetUser();
+    }
+  }, [user_id]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!targetUser) return <div>User not found</div>;
+
+  return (
+    <div>
+      <div className="bg-white shadow p-4 mb-4 border-b-2 border-green-600">
+        <h4 className="text-xl font-bold">
+          Viewing Receipts for: {targetUser.name}
+        </h4>
+        <p className="text-gray-600">{targetUser.email}</p>
+      </div>
+      
+      <Recipts whoami={targetUser} />
+    </div>
+  )
+}
+
+export default ViewAuthProfile

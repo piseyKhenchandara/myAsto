@@ -130,7 +130,7 @@ const UserProfile = () => {
       </div>
 
     </div>
-    <Recipts/>
+    <Recipts whoami = {user}/>
  
 </div>
   )

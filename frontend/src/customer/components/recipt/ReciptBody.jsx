@@ -3,6 +3,7 @@ import React from 'react'
 const ReciptBody = (
     {
         cart, 
+        invoiceNumber = 0,
         getCartCount, 
         calculateTotal,
 
@@ -12,22 +13,14 @@ const ReciptBody = (
         selectedDeliveryCompany,
     }
 ) => {
-  // Generate current date
-  const currentDate = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  });
-
-  // Generate invoice number (you can customize this logic)
-  const invoiceNumber = `INV-${Date.now().toString().slice(-6)}`;
 
   return (
     <div className='flex flex-col font-bold p-4 max-w-full overflow-x-auto'>
       {/* Invoice Header */}
-      <div className='self-end mb-4 text-sm sm:text-base'>
+      <div className='self-end mb-4 text-xs text-gray-500'>
         <p>INVOICE NO: <span className='font-normal'>{invoiceNumber}</span></p>
-        <p>DATE: <span className='font-normal'>{currentDate}</span></p>
+        <p>Date : <span>{new Date().toLocaleDateString()}</span></p>
+        
       </div>
 
       {/* Client Information */}
@@ -100,7 +93,7 @@ const ReciptBody = (
               {getCartCount ? getCartCount() : cart.length}
             </span>
           </div>
-          <div className='flex justify-between text-lg sm:text-xl border-t pt-2 border-gray-300'>
+          <div className='flex justify-between  border-t pt-2 border-gray-300'>
             <span>TOTAL:</span>
             <span>
               ${calculateTotal ? Number(calculateTotal()).toFixed(2) : '0.00'}
@@ -112,11 +105,11 @@ const ReciptBody = (
 
       {/* Footer/Notes Section */}
       <div className='mt-6 text-xs sm:text-sm'>
-        <p className='font-normal text-gray-600'>
+        <p className='font-normal text-gray-500'>
           Thank you for supporting us!
         </p>
         {selectedDeliveryCompany && (
-          <p className='font-normal text-gray-600 mt-1'>
+          <p className='font-normal text-gray-500 mt-1'>
             Delivery will be handled by: {selectedDeliveryCompany}
           </p>
         )}

@@ -6,8 +6,8 @@ import ReciptHeader from '../../components/recipt/reciptHeader';
 import asto_logo from '../../../assets/logoes/asto_logo.png'
 import { useOutletContext } from 'react-router-dom';
 
-const Recipts = () => {
-    const { user: whoami } = useUser();
+const Recipts = ({whoami}) => {
+  
     const {visible = false} = useOutletContext() || {};
 
 
@@ -20,6 +20,8 @@ const Recipts = () => {
             try {
                 setLoading(true);
                 const response = await reciptsAPI(whoami.id);
+
+
                 
                 setLoading(false);
                 
@@ -41,6 +43,7 @@ const Recipts = () => {
             fetchReceipts();
         }
     }, [whoami?.id]);
+
 
     // Helper function to calculate total from order items
     const calculateTotal = (orderItems) => {
@@ -83,12 +86,9 @@ const Recipts = () => {
     }
 
     return (
+        
         <div className=" mx-auto p-4 max-w-[1920px]">
-         
-            
-
-
-            <div className= 'grid min-[840px]:grid-cols-2 xl:grid-cols-3 gap-6'>
+            <div className= {`grid ${visible ? "md:grid-cols-1 xl:grid-cols-2" : "min-[840px]:grid-cols-2 xl:grid-cols-3"}  gap-6`}>
                 
                 {receipts.map((payment, index) => (
                     <div key={payment.id || index} className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 p-5">
@@ -98,6 +98,7 @@ const Recipts = () => {
                         {/* Receipt Body */}
                         <ReciptBody
                             cart={payment.Order?.OrderItems || []}
+                            invoiceNumber = {payment.Order?.order_number}
                             getCartCount={() => getCartCount(payment.Order?.OrderItems)}
                             calculateTotal={() => calculateTotal(payment.Order?.OrderItems)}
                             whoami={{ name: payment.Order?.customer_name }}
