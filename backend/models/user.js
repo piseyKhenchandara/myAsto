@@ -67,6 +67,10 @@ export default (sequelize) => {
         profile_picture: {
             type: DataTypes.TEXT,
             allowNull: true
+        },
+        public_id: {  // ✅ Add this field to store Cloudinary public_id
+            type: DataTypes.STRING,
+            allowNull: true
         }
     }, {
         // 👈 ISSUE 3: Combine options into single object

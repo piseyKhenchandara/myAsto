@@ -36,3 +36,5 @@ export const viewAlluser = async (req,res) => {
     }
 }
 
+
+

@@ -45,7 +45,7 @@ const Logout = () => {
       {msg.type === 'error' ? <p className='text-red-500 text-center'>{msg.text}</p> : <p className='text-green-500 text-center'>{msg.text}</p>}
 
 
-      <button type='submit' className='text-white bg-red-500 px-5 py-2 rounded-[10px] shadow-lg cursor-pointer disabled:bg-gray-300' onClick = { () => setOpen(true)}>
+      <button type='button' className=' text-red-600 cursor-pointer disabled:bg-gray-300 border-b-1' onClick = { () => setOpen(true)}>
         logout
 
       </button>

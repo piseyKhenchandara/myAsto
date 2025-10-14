@@ -12,10 +12,12 @@ import {
     whoami,
     checkEmail,
     googleAuth,
-    getUserById
+    getUserById,
+    updateAuth
 } from "../controllers/auth.controller.js";
 import { authenticate } from "../middleware/autheticate.js";
 import {authorizeRoles} from '../middleware/authorizeRoles.js'
+import { uploadSingle } from "../middleware/uploadImage.js";
 const router = Router();
 // Add debugging middleware to see all requests
 /* router.use((req, res, next) => {
@@ -26,7 +28,8 @@ const router = Router();
 });
  */
 router.post("/check-email",checkEmail);
-router.post('/google',googleAuth)
+router.post('/google',googleAuth);
+
 // Public routes (no authentication required)
 router.post('/signup', signup);
 router.post('/login', login);
@@ -39,6 +42,8 @@ router.post('/verify-email', authenticate, verificationCode);
 router.post('/resend-verification', authenticate, resendVerificationCode);
 router.post('/logout', logout);
 
+
+router.patch('/profile/update',authenticate,uploadSingle, updateAuth);
 // Add debugging specifically for whoami
 router.get('/whoami',authenticate, whoami);
 router.get('/users/:id', authenticate,authorizeRoles('admin'),getUserById);

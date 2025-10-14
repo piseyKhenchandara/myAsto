@@ -6,6 +6,7 @@ import db from '../models/index.js';
 import { sendPasswordResetEmail } from '../mail/mailService/sendPasswordResetEmail.js';
 import { sendWelcomeEmail } from '../mail/mailService/sendWelcomEmail.js';
 import { sendResetSuccessEmail } from '../mail/mailService/sendResetSuccessEmail.js';
+import cloudinary from '../config/cloudinary.js';
 
 
 
@@ -100,15 +101,43 @@ export const googleAuth = async (req, res) => {
 
         } else {
             console.log('🆕 Creating new user...');
+
+              let cloudinaryUrl = null;
+            let publicId = null;
+            
+            if (photoUrl) {
+                try {
+                    
+                    const uploadResult = await cloudinary.uploader.upload(photoUrl, {
+                        folder: 'user_profiles',
+                        public_id: `google_user_${provider_id}`,
+                        overwrite: true,
+                        transformation: [
+                            { width: 400, height: 400, crop: 'fill', gravity: 'face' },
+                            { quality: 'auto', fetch_format: 'auto' }
+                        ]
+                    });
+                    cloudinaryUrl = uploadResult.secure_url;
+                    publicId = uploadResult.public_id;
+                    console.log('✅ Photo uploaded to Cloudinary:', cloudinaryUrl);
+                } catch (uploadError) {
+                    console.error('⚠️ Failed to upload photo:', uploadError);
+                    // Continue without profile picture
+                }
+            }
+
             const newUser = await db.User.create({
                 email,
                 name,
                 password: null,                    
                 auth_provider: 'google',           
                 provider_id,                       
-                profile_picture: photoUrl,         
+                profile_picture: cloudinaryUrl,  // ✅ Use Cloudinary URL
+                public_id: publicId,             // ✅ Use Cloudinary public_id
                 is_verified: 1,                    
             });
+
+
 
             console.log('✅ New user created:', newUser.id);
             generateTokenAndSetCookie(res, newUser.id);
@@ -510,6 +539,9 @@ export const whoami = async(req,res) =>{
                 email : req.user.email,
                 role : req.user.role,
                 is_verified : req.user.is_verified,
+                phone : req.user.phone,
+                address : req.user.address,
+                profile_picture : req.user.profile_picture
             }
         })
     }catch(error){
@@ -541,6 +573,65 @@ export const getUserById = async (req, res) => {
         res.status(500).json({ message: "Failed to fetch user info" });
     }
 }
+
+
+export const updateAuth = async (req,res) => {
+
+    const {name, email, password, phone, address} = req.body;
+    const file = req.file;
+
+    try{
+        const user = await db.User.findByPk(req.user.id);
+        if(!user) return res.status(404).json({success : false, message : "User not found!"});
+
+        if(file && user.public_id) {
+
+            try{
+                await cloudinary.uploader.destroy(user.public_id);
+            }catch(error) {
+                console.log('Error deleteing old image : ', error);
+            }
+            
+        }
+
+        let hashedPassword = user.password;
+        if(password) {
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
+
+        await user.update({
+            name : name || user.name,
+            email : email || user.email,
+            password : hashedPassword || user.password,
+            phone : phone || user.phone,
+            address : address || user.address,
+            profile_picture : file? file.path : user.profile_picture,
+            public_id : file ? file.filename : user.public_id
+        })
+
+        return res.status(200).json({
+            success: true, 
+            message: "Profile updated successfully!",
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                address: user.address,
+                profile_picture: user.profile_picture,
+                role: user.role
+            }
+        });
+
+    }
+    catch(error) {
+        return res.status(500).json({success : false , message : error.message})
+    }
+    
+
+}
+
+
 
 
 
