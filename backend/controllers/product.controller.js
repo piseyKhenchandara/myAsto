@@ -147,7 +147,7 @@ export const getProductsByBrandNCategory = async( req,res) => {
     }
 }
 
-// UPDATED: Changed to accept category_slug instead of category_slug
+
 export const uploadProduct = async(req, res) => {
     const {name, description, price, stock, brand_slug, category_slug, features} = req.body;
 

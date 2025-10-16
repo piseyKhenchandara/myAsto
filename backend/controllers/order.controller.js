@@ -135,18 +135,111 @@ export const orders = async (req, res) => {
     
 }
 
-export const getAllOrders = async (req,res) => {
 
+export const getAllUsersWhoOrdered = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12; 
-    
-    if(req.user?.role === 'admin') {
-        try{
+    const offset = (page - 1) * limit;
+
+    if (req.user?.role === 'admin' || req.user?.role === 'seller') {
+        try {
+            const { rows: orders, count: total } = await db.Order.findAndCountAll({
+                limit,
+                offset,
+                attributes: ['id', 'user_id', 'customer_name', 'phone_number', 
+                'shipping_address', 'discount_amount', 'amount',
+                'order_number', 'delivery_company','createdAt', 'updatedAt'
+                 
+            ],
+
+                include: [
+                    {
+                        model: db.User,
+                        attributes: ['id', 'name', 'email','role', 'phone', 'profile_picture']
+                    },
+                    {
+                        model: db.Payment,
+                        attributes : ['id','paid_at']
+                    },
+                    {
+                        
+                        model: db.OrderItem,
+                        attributes: ['id', 'quantity', 'price', 'name']
+                        
+                    }
+                   
+                ],
+
+                order: [['createdAt', 'DESC']], 
+            });
             
-        }catch(erorr) {
-            
+            res.status(200).json({
+                success: true,
+                data: orders,
+                pagination: {
+                    total,
+                    page,
+                    limit,
+                    totalPages: Math.ceil(total / limit)
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            res.status(500).json({
+                success: false, 
+                message: "Failed to fetch orders"
+            });
         }
+    } else {
+        return res.status(403).json({
+            success: false, 
+            message: "Unauthorized!"
+        });
     }
 }
 
+
+export const getTheReceipt = async (req, res) => {
+    const {user_id} = req.params.id;
+    const {order_number} = req.body;
+
+    if(req.user?.role === 'admin' || req.user?.role === 'seller'){
+        try{
+            
+            const user = await db.findByPk(user_id);
+            if(!user) res.status(404).json({success : false, message : "User not found!"});
+
+            const order = await db.findOne(
+            {
+                where : {order_number},
+                attributes: ['id', 'user_id', 'customer_name', 'phone_number', 
+                           'shipping_address', 'discount_amount', 
+                           'order_number', 'delivery_company'],
+                include: [
+                    {
+                        model: db.User,
+                        attributes: ['id', 'name', 'email', 'role', 'phone', 'profile_picture']
+                    },
+                    {
+                        model: db.OrderItem,
+                        attributes: ['id', 'quantity', 'price', 'name']
+                    }
+                ],
+            
+            });
+            if(!order) res.status(404).json({success : false, message : "Order number not found!"});
+
+            res.status(200).json({success : true,
+                order
+            })
+
+        }
+        catch(error) {
+            res.status(500).json({success : false, message : error.message});
+        }
+    }
+    else{
+        res.status(409).json({success : false, message : "Unauthorized!"});
+    }
+}
 

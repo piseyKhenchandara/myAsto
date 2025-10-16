@@ -15,7 +15,7 @@ const MainContent = ({ visible, asto_logo }) => {
             {location.pathname === '/dashboard' && (
                 <div>
                     <h1>Dashboard Home</h1>
-                    <CategoryScroll />
+                
                 </div>
           
         )}
