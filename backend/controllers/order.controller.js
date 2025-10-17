@@ -200,16 +200,16 @@ export const getAllUsersWhoOrdered = async (req, res) => {
 
 
 export const getTheReceipt = async (req, res) => {
-    const {user_id} = req.params.id;
-    const {order_number} = req.body;
+    const {user_id} = req.params;
+    const {order_number} = req.query;
 
     if(req.user?.role === 'admin' || req.user?.role === 'seller'){
         try{
             
-            const user = await db.findByPk(user_id);
-            if(!user) res.status(404).json({success : false, message : "User not found!"});
+            const user = await db.User.findByPk(user_id);
+            if(!user) return res.status(404).json({success : false, message : "User not found!"});
 
-            const order = await db.findOne(
+            const order = await db.Order.findOne(
             {
                 where : {order_number},
                 attributes: ['id', 'user_id', 'customer_name', 'phone_number', 
@@ -221,9 +221,23 @@ export const getTheReceipt = async (req, res) => {
                         attributes: ['id', 'name', 'email', 'role', 'phone', 'profile_picture']
                     },
                     {
+                        model: db.Payment,
+                        attributes : ['id','paid_at']
+                    },
+                    {
                         model: db.OrderItem,
-                        attributes: ['id', 'quantity', 'price', 'name']
-                    }
+                        attributes: ['id', 'quantity', 'price', 'name', 'product_id'],
+                        include : [{
+                            model:db.Product,
+                            include : [{
+                                model : db.ProductImage,
+                                attributes : ['is_main', 'image_url','product_id']
+                            }]
+                        }]
+                    },
+                    
+                        
+                    
                 ],
             
             });
@@ -235,6 +249,7 @@ export const getTheReceipt = async (req, res) => {
 
         }
         catch(error) {
+            console.error('ERROR in getTheReceipt:', error);
             res.status(500).json({success : false, message : error.message});
         }
     }

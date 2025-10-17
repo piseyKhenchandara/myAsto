@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { getAllWhoOrderedAPI } from '../../../api/order.api';
+import React, { useState, useEffect, use } from 'react';
+import { getAllWhoOrderedAPI, getTheReceipt } from '../../../api/order.api';
 import OrdersTable from './OrdersTable';
-import DisplayTheOrder from './displayTheOrder';
+import OrderDetail from './orderDetail/OrderDetail';
 
 
-const OrderList = () => {
+
+const Orders = () => {
+  
   const [orders, setOrders] = useState([]);
+  const [theReceipt, setTheReceipt] =useState(null);
   const [pagination, setPagination] = useState({});
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
   const [open, setOpen] = useState(false);
+
+
   useEffect(() => {
     fetchOrders();
   }, [page, limit]);
@@ -17,6 +22,7 @@ const OrderList = () => {
   const fetchOrders = async () => {
     try {
       const response = await getAllWhoOrderedAPI(limit, page);
+ 
       setOrders(response.data);
       setPagination(response.pagination);
     } catch (error) {
@@ -31,16 +37,44 @@ const OrderList = () => {
     setPage(1);
   };
 
+  const fetchTheReceipt = async (userId, orderNumber) => {
+    setOpen(true);
+    try{
+
+      const response = await getTheReceipt(userId, orderNumber);
+      setTheReceipt(response.data);
+      console.log(response.data)
+      
+
+    }catch(error) {
+      console.log('Error fetching orders : ', error);
+    }
+  }
 
 
   return (
-    <div className="container mx-auto text-xs p-4">
-      <h2 className="text-xl md:text-2xl font-bold mb-5 text-gray-800 flex items-center gap-2">
-        📦 Order List
-      </h2>
+    <div className=" w-full flex justify-center">
+
+      <div className=' text-xs max-w-[1920px] py-5'>
+        <OrdersTable
+                orders={orders}
+                page = {page}
+                handlePageChange={handlePageChange}
+                pagination={pagination}
+                setOpen={setOpen}
+                fetchTheReceipt = {fetchTheReceipt}
+              />
+              {open && 
+                <div className='inset-0 fixed flex items-center justify-center bg-black/50 z-50'>
+                  <OrderDetail theReceipt = {theReceipt} setOpen = {setOpen} />
+
+                </div>
+              }
+      </div>
+      
 
       {/* Limit Selector */}
-      <div className="mb-5 flex items-center gap-2">
+      {/* <div className="mb-5 flex items-center gap-2">
         <label className="font-medium text-gray-600">Items per page:</label>
         <select
           value={limit}
@@ -51,23 +85,11 @@ const OrderList = () => {
           <option value="24">24</option>
           <option value="48">48</option>
         </select>
-      </div>
+      </div> */}
 
-      <OrdersTable
-        orders={orders}
-        page = {page}
-        handlePageChange={handlePageChange}
-        pagination={pagination}
-        setOpen = {setOpen}
-      />
-      {open && 
-        <div className='inset-0 fixed flex items-center justify-center bg-black/50 z-50'>
-          <DisplayTheOrder orders = {orders} setOpen = {setOpen}/>
-
-        </div>
-      }
+      
     </div>
   );
 };
 
-export default OrderList;
+export default Orders;

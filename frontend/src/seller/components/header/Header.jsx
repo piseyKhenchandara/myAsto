@@ -7,6 +7,7 @@ import { useUser } from '../../../../context/UserContext';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useCart } from '../../../customer/context/CartContext';
 import LanguageChoice from './LanguageChoice'; // ADD THIS IMPORT
+import { IoNotificationsOutline } from "react-icons/io5";
 
 const Header = ({setVisible, asto_logo}) => {
   const location = useLocation();
@@ -68,11 +69,16 @@ const Header = ({setVisible, asto_logo}) => {
               </div>
             </Link>
           )}
+
+
+          <IoNotificationsOutline className='cursor-pointer text-2xl md:text-3xl'/>
+
           
           {/* Profile */}
           <Link to="/User-profile" className="flex-shrink-0">
             <CgProfile className='cursor-pointer text-2xl md:text-3xl'/>
           </Link>
+
           
           {/* Language Choice Component */}
           <div className="flex-shrink-0">

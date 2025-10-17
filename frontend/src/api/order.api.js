@@ -28,6 +28,6 @@ export const getAllWhoOrderedAPI = async (limit, page) => {
 export const getTheReceipt = async (user_id, order_number) => {
     
     const data = await http.get(`/order/get-the-receipt-from-the-user/${user_id}`, {params : {order_number}});
-    return data.order;
+    return data;
 }
 
