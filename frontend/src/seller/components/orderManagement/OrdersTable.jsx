@@ -1,18 +1,39 @@
 import React from 'react'
 
 const OrdersTable = ({ orders, page, handlePageChange, pagination, setOpen, fetchTheReceipt }) => {
+  // Helper function to check if order is less than 1 day old
+  const isNewOrder = (paidAt) => {
+    const paidDate = new Date(paidAt)
+    const now = new Date()
+    const diffInMs = now - paidDate
+    const diffInHours = diffInMs / (1000 * 60 * 60)
+    return diffInHours < 24
+  }
+
+  const createdAt = (paid_at) => {
+     return new Date(paid_at).toLocaleDateString('en-Us', {
+                      year : 'numeric',
+                      month : '2-digit',
+                      day : '2-digit',
+                      hour : '2-digit',
+                      minute : '2-digit'
+                    })
+      
+
+  }
+
   return (
-    <div className="w-full px-2 sm:px-4">
+    <div className="max-w-[1920px] px-2 sm:px-4  mx-auto">
       {/* Desktop & Tablet View */}
-      <div className="hidden lg:block overflow-x-auto shadow-lg rounded-lg border border-gray-200">
+      <div className="hidden lg:block  shadow-lg rounded-lg border border-gray-200   p-2 w-full">
         <table className="min-w-full border-collapse text-sm">
           <thead className="bg-gradient-to-br from-green-300 via-green-100 to-green-300">
             <tr>
               <th className="px-4 py-3 text-left">Ordered At</th>
-              <th className="px-4 py-3 text-left">Total</th>
-              <th className="px-4 py-3 text-left">Phone</th>
               <th className="px-4 py-3 text-left">Order #</th>
+              <th className="px-4 py-3 text-left">Total</th>
               <th className="px-4 py-3 text-left">User</th>
+              <th className="px-4 py-3 text-left">Delivery-Check</th>
             </tr>
           </thead>
           <tbody>
@@ -26,21 +47,20 @@ const OrdersTable = ({ orders, page, handlePageChange, pagination, setOpen, fetc
               orders.map((order, i) => (
                 <tr
                   key={order.id}
-                  className={`${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50 transition cursor-pointer`}
+                  className={`${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50 transition cursor-pointer `}
                   onClick={() => {
                     setOpen(true)
                     fetchTheReceipt(order.user_id, order.order_number)
                   }}
                 >
                   <td className="border-t px-4 py-3 text-gray-700 truncate max-w-[120px]">
-                    {order.Payment.paid_at}
+                    {createdAt(order.Payment.paid_at)};
                   </td>
+                  <td className="border-t px-4 py-3 text-gray-700">{order.order_number}</td>
                   <td className="border-t px-4 py-3 text-green-600 font-medium">
                     {order.amount} $
                   </td>
-                  <td className="border-t px-4 py-3 text-gray-700">{order.phone_number}</td>
-                  <td className="border-t px-4 py-3 text-gray-700">{order.order_number}</td>
-                  <td className="border-t px-4 py-3">
+                  <td className="border-t px-4 py-3 relative">
                     {order.User ? (
                       <div className="flex items-center gap-2">
                         <img
@@ -52,9 +72,19 @@ const OrdersTable = ({ orders, page, handlePageChange, pagination, setOpen, fetc
                           <p className="font-semibold text-gray-800">{order.User.name}</p>
                           <p className="text-gray-600 text-xs">{order.User.email}</p>
                         </div>
+                        
                       </div>
                     ) : (
                       <span className="italic text-gray-400">No user info</span>
+                    )}
+                    
+                  </td>
+                  <td className="border-t px-4 py-3 text-gray-700 relative">
+                    {order.phone_number}
+                    {isNewOrder(order.Payment.paid_at) && (
+                      <div className="absolute top-1 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                        NEW
+                      </div>
                     )}
                   </td>
                 </tr>
@@ -74,23 +104,28 @@ const OrdersTable = ({ orders, page, handlePageChange, pagination, setOpen, fetc
           orders.map((order) => (
             <div
               key={order.id}
-              className="bg-white shadow-md rounded-lg border border-gray-200 p-4 hover:shadow-xl transition cursor-pointer"
+              className="bg-white shadow-md rounded-lg border border-gray-200 p-4 hover:shadow-xl transition cursor-pointer relative"
               onClick={() => {
                 setOpen(true)
                 fetchTheReceipt(order.user_id, order.order_number)
               }}
             >
               <div className="flex justify-between items-start mb-3">
-                <div>
+                <div className='relative'>
+                  {isNewOrder(order.Payment.paid_at) && (
+                    <div className="absolute -top-1 left-18 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                      NEW
+                    </div>
+                  )}
                   <p className="text-xs text-gray-500 uppercase">Order #</p>
                   <p className="text-sm font-semibold text-gray-800">{order.order_number}</p>
                 </div>
-                <p className="text-base font-bold text-blue-600">{order.amount} $</p>
+                <p className="text-base font-bold text-green-600">{order.amount} $</p>
               </div>
 
               <div className="text-sm text-gray-700 space-y-1 mb-2">
+                <p><span className="text-gray-500">Ordered:</span> {createdAt(order.Payment.paid_at)}</p>
                 <p><span className="text-gray-500">Phone:</span> {order.phone_number}</p>
-                <p><span className="text-gray-500">Ordered:</span> {order.Payment.paid_at}</p>
               </div>
 
               {order.User && (

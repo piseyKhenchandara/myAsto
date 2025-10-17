@@ -159,7 +159,8 @@ export const getAllUsersWhoOrdered = async (req, res) => {
                     },
                     {
                         model: db.Payment,
-                        attributes : ['id','paid_at']
+                        where : {status : "paid"},
+                        attributes : ['id','paid_at', ]
                     },
                     {
                         
@@ -222,7 +223,8 @@ export const getTheReceipt = async (req, res) => {
                     },
                     {
                         model: db.Payment,
-                        attributes : ['id','paid_at']
+                        attributes : ['id','paid_at'],
+                        where : {status : 'paid'},
                     },
                     {
                         model: db.OrderItem,
@@ -257,4 +259,7 @@ export const getTheReceipt = async (req, res) => {
         res.status(409).json({success : false, message : "Unauthorized!"});
     }
 }
+
+
+
 

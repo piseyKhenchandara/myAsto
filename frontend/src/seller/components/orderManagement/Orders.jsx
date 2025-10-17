@@ -53,9 +53,10 @@ const Orders = () => {
 
 
   return (
-    <div className=" w-full flex justify-center">
+    <div className=" w-full ">
 
-      <div className=' text-xs max-w-[1920px] py-5'>
+      <div className=' text-xs py-5 '>
+        
         <OrdersTable
                 orders={orders}
                 page = {page}

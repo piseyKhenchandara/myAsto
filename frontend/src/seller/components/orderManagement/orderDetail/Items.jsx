@@ -38,10 +38,7 @@ const Items = ({ items }) => {
                 <h5 className='font-semibold text-gray-800 text-base sm:text-lg'>
                   {item.Product?.name || item.name}
                 </h5>
-                <div className='text-sm text-gray-500 mt-1 space-y-1'>
-                  <p>Color: {item.color || 'N/A'}</p>
-                  <p>Size: {item.size || 'N/A'}</p>
-                </div>
+              
               </div>
 
               {/* Price Info */}
