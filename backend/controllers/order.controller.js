@@ -148,7 +148,7 @@ export const getAllUsersWhoOrdered = async (req, res) => {
                 offset,
                 attributes: ['id', 'user_id', 'customer_name', 'phone_number', 
                 'shipping_address', 'discount_amount', 'amount',
-                'order_number', 'delivery_company','createdAt', 'updatedAt'
+                'order_number', 'delivery_company','createdAt', 'updatedAt','delivery_check'
                  
             ],
 
@@ -215,7 +215,7 @@ export const getTheReceipt = async (req, res) => {
                 where : {order_number},
                 attributes: ['id', 'user_id', 'customer_name', 'phone_number', 
                            'shipping_address', 'discount_amount', 
-                           'order_number', 'delivery_company'],
+                           'order_number', 'delivery_company', 'delivery_check'],
                 include: [
                     {
                         model: db.User,
@@ -260,6 +260,48 @@ export const getTheReceipt = async (req, res) => {
     }
 }
 
+export const updateDeliveryCheck = async (req, res) => {
+    const { order_id } = req.params;
+    const { delivery_check } = req.body;
+    
 
+    if (req.user?.role === 'admin' || req.user?.role === 'seller') {
+        try {
+      
+      
+
+            // Find the order
+            const order = await db.Order.findByPk(order_id);
+            
+            if (!order) {
+                return res.status(404).json({
+                    success: false, 
+                    message: "Order not found!"
+                });
+            }
+
+            // Update delivery_check
+            await order.update({ delivery_check });
+
+            res.status(200).json({
+                success: true,
+                message: "Delivery status updated successfully",
+                delivery_check: order.delivery_check
+            });
+
+        } catch (error) {
+            console.error('ERROR in updateDeliveryCheck:', error);
+            res.status(500).json({
+                success: false, 
+                message: error.message
+            });
+        }
+    } else {
+        res.status(403).json({
+            success: false, 
+            message: "Unauthorized!"
+        });
+    }
+}
 
 

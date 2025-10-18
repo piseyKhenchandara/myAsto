@@ -31,3 +31,7 @@ export const getTheReceipt = async (user_id, order_number) => {
     return data;
 }
 
+export const updateDeliveryCheckAPI = async (orderId, delivery_check) => {
+    const {data} = await http.patch(`/order/${orderId}/delivery`, { delivery_check });
+    return data;
+}

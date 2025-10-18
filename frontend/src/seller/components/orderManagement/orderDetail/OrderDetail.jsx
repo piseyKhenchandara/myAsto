@@ -13,7 +13,7 @@ const OrderDetail = ({ theReceipt, setOpen }) => {
 
   return (
     <div className="rounded-lg w-[95%] sm:w-[90%] mx-auto p-3 sm:p-5 ">
-     <div className="bg-gray-50 mx-auto max-w-[900px] max-h-[70vh] md:h-auto overflow-y-scroll rounded-2xl px-4 sm:px-6 py-5 sm:py-6 lg:overflow-hidden animation_form_popup">
+     <div className="bg-gray-50 mx-auto max-w-[900px] max-h-[70vh] md:max-h-none overflow-y-scroll md:overflow-visible rounded-2xl px-4 sm:px-6 py-5 sm:py-6 animation_form_popup">
         {/* Header */}
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4'>
           <div className='text-center sm:text-left mb-3 sm:mb-0 '>

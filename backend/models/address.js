@@ -24,7 +24,8 @@ export default (sequelize) => {
       customer_name : {
         type : DataTypes.STRING(150),
         allowNull : false
-      }
+      },
+
     },
     { tableName: "addresses", timestamps: true }
   );

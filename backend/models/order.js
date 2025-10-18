@@ -54,6 +54,10 @@ export default (sequelize) => {
             allowNull : false,
 
         },
+        delivery_check : {
+            type : DataTypes.BOOLEAN,
+            allowNull : true,
+      }
        
 
 
