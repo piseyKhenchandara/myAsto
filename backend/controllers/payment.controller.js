@@ -161,6 +161,15 @@ export const checkPaymentStatus = async (req,res) => {
                 paid_at: new Date()
             });
 
+            io.emit('paymentConfirmed', {
+                order_id: order.id,
+                order_number: order.order_number,
+                payment_id: payment.id,
+                amount: payment.amount,
+                paid_at: payment.paid_at,
+                bakongHash: data.data.hash
+            });
+
             return res.status(200).json({success : true, message : "Payment confirmed!✅", 
                 data : {
                     order_id : order.id,

@@ -7,6 +7,7 @@ import { sendPasswordResetEmail } from '../mail/mailService/sendPasswordResetEma
 import { sendWelcomeEmail } from '../mail/mailService/sendWelcomEmail.js';
 import { sendResetSuccessEmail } from '../mail/mailService/sendResetSuccessEmail.js';
 import cloudinary from '../config/cloudinary.js';
+import { io } from '../server.js';
 
 
 
@@ -144,6 +145,16 @@ export const googleAuth = async (req, res) => {
 
             await sendWelcomeEmail(newUser.email, newUser.name);
 
+
+            io.emit('newUser', {
+                id : newUser.id,
+                name : newUser.name,
+                email : newUser.email,
+                role : newUser.role,
+                auth_provider : 'google',
+                createdAt : newUser.createdAt
+            })
+
             return res.status(201).json({
                 success: true, 
                 message: "Account created successfully!",
@@ -202,6 +213,14 @@ export const signup = async(req,res) => {
 
         generateTokenAndSetCookie(res,newUser.id);
         await sendVerificationEmail(newUser.email, verificationToken, newUser.name);
+
+        io.emit('newUser', {
+            id : newUser.id,
+            name : newUser.name,
+            email : newUser.email,
+            createdAt : newUser.createdAt,
+            
+        })
 
         res.status(201).json({
             success: true,
@@ -275,6 +294,14 @@ export const verificationCode = async (req, res) => {
         });
 
         await sendWelcomeEmail(newUser.email, newUser.name);
+
+        io.emit('userVerified', {
+            id: findUser.id,
+            name: findUser.name,
+            email: findUser.email,
+            is_verified: true,
+            
+        })
 
 
         

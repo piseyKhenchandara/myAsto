@@ -1,5 +1,6 @@
 import db from "../models/index.js";
 import { Op } from "sequelize";
+import { io } from "../server.js";
 
 
 
@@ -119,7 +120,16 @@ export const orders = async (req, res) => {
             return order;
         });
 
-        // ✅ Fixed success response
+        // In orders function - after order creation
+        io.emit('newOrder', {
+            order_id: result.id,
+            order_number: result.order_number,
+            customer_name: result.customer_name,
+            amount: result.amount,
+            status: result.status,
+            createdAt: result.createdAt
+        });
+                // ✅ Fixed success response
         res.status(201).json({success: true, message : "Order created successfully!✅", 
             data : {
                 order_id : result.id,
@@ -283,11 +293,21 @@ export const updateDeliveryCheck = async (req, res) => {
             // Update delivery_check
             await order.update({ delivery_check });
 
+            // In updateDeliveryCheck function - after delivery status update
+            io.emit('deliveryStatusUpdated', {
+                order_id: order.id,
+                order_number: order.order_number,
+                delivery_check: order.delivery_check,
+                updatedAt: new Date()
+            });
+
             res.status(200).json({
                 success: true,
                 message: "Delivery status updated successfully",
                 delivery_check: order.delivery_check
             });
+
+            
 
         } catch (error) {
             console.error('ERROR in updateDeliveryCheck:', error);
