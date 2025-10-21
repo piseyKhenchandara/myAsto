@@ -163,13 +163,27 @@ export const checkPaymentStatus = async (req,res) => {
                 paid_at: new Date()
             });
 
+            const notification = await db.Notification.create({
+                type: 'payment',
+                message: `Payment confirmed for order: ${order.order_number}`,
+                target_role: 'seller', // ✅ Add target_role
+                order_id: order.id,
+                user_id: order.user_id,
+                read: false
+            });
+
+            // ✅ Emit socket event
             io.to('room').emit('paymentConfirmed', {
+                id: notification.id,
+                type: notification.type,
+                message: notification.message,
                 order_id: order.id,
                 order_number: order.order_number,
-                payment_id: payment.id,
                 amount: payment.amount,
                 paid_at: payment.paid_at,
-                bakongHash: data.data.hash
+                bakongHash: data.data.hash,
+                createdAt: notification.createdAt,
+                read: false
             });
 
             return res.status(200).json({success : true, message : "Payment confirmed!✅", 

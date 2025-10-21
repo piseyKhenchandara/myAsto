@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 import { Op } from "sequelize";
 import { io } from "../server.js";
+import notification from "../models/notification.js";
 
 
 
@@ -100,19 +101,15 @@ export const orders = async (req, res) => {
                 promises.push(db.OrderItem.bulkCreate(cartData, {transaction}));
             }
 
-            // Add payment
-            const paymentData = {
-                order_id : order.id,
-                payment_method : payment_method || 'KHQR',
-                currency :"USD",
-                status : "pending",
-                paid : false,
-                paid_at : null,
-                amount,
-            
-            };
+           
 
-            promises.push(db.Payment.create(paymentData, {transaction}));
+
+           promises.push(db.Payment.create({
+                order_id: order.id,
+                amount: amount,
+                payment_method: payment_method || 'khqr',
+                status: 'pending'
+            }, {transaction}));
 
             // ✅ Wait for all promises (same pattern as uploadProduct)
             await Promise.all(promises);
@@ -121,14 +118,29 @@ export const orders = async (req, res) => {
         });
 
         // In orders function - after order creation
+        const notification = await db.Notification.create({
+            type: 'order',
+            message: `New order placed: ${result.order_number}`,
+            target_role: 'seller', // ✅ Add target_role
+            order_id: result.id,
+            user_id: result.user_id,
+            read: false
+        });
+
+        // ✅ Emit socket event with notification data
         io.to('room').emit('newOrder', {
+            id: notification.id,
+            type: notification.type,
+            message: notification.message,
             order_id: result.id,
             order_number: result.order_number,
             customer_name: result.customer_name,
             amount: result.amount,
             status: result.status,
-            createdAt: result.createdAt
+            createdAt: notification.createdAt,
+            read: false
         });
+
                 // ✅ Fixed success response
         res.status(201).json({success: true, message : "Order created successfully!✅", 
             data : {

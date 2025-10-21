@@ -12,7 +12,7 @@ import UserModel from "./user.js";
 import { sequelize } from '../config/sequelize.js';
 import ProductVideoModel from "./ProductVideo.js";
 import ProductBannerModel from "./productBanner.js";
-
+import NotificationModel from "./notification.js";
 
 const Address = AddressModel(sequelize);
 const Brand = BrandModel(sequelize);
@@ -27,6 +27,7 @@ const Review = ReviewModel(sequelize);
 const User = UserModel(sequelize);
 const ProductVideo = ProductVideoModel(sequelize);
 const ProductBanner = ProductBannerModel(sequelize);
+const Notification = NotificationModel(sequelize);
 const db = {
   sequelize,
   Address,
@@ -41,7 +42,8 @@ const db = {
   Review,
   User,
   ProductVideo,
-  ProductBanner
+  ProductBanner,
+  Notification
 };
 
 export default db;
@@ -181,4 +183,20 @@ Product.belongsTo(Category, {
     foreignKey: "category_id"
 });
 
+Order.hasMany(Notification, {
+    foreignKey: "order_id",
+    onDelete: "CASCADE"
+});
+Notification.belongsTo(Order, {
+    foreignKey: "order_id"
+});
+
+// 📢 User ↔ Notification (to link notifications to users)
+User.hasMany(Notification, {
+    foreignKey: "user_id",
+    onDelete: "CASCADE"
+});
+Notification.belongsTo(User, {
+    foreignKey: "user_id"
+});
 

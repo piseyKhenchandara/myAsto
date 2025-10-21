@@ -146,13 +146,24 @@ export const googleAuth = async (req, res) => {
             await sendWelcomeEmail(newUser.email, newUser.name);
 
 
+            const notification = await db.Notification.create({ 
+                type: 'user',
+                message: `New user registered: ${newUser.name}`,
+                target_role: 'admin', // ✅ Add this
+                user_id: newUser.id,
+                read: false
+            });
+
+            // ✅ Emit socket event
             io.to('room').emit('newUser', {
-                id : newUser.id,
-                name : newUser.name,
-                email : newUser.email,
-                auth_provider : 'google',
-                createdAt : newUser.createdAt
-            })
+                id: notification.id,
+                type: notification.type,
+                message: notification.message,
+                name: newUser.name,
+                email: newUser.email,
+                createdAt: notification.createdAt,
+                read: false
+            });
 
             return res.status(201).json({
                 success: true, 
@@ -213,14 +224,24 @@ export const signup = async(req,res) => {
         generateTokenAndSetCookie(res,newUser.id);
         await sendVerificationEmail(newUser.email, verificationToken, newUser.name);
 
+        const notification = await db.Notification.create({
+            type: 'user',
+            message: `New user registered: ${newUser.name}`,
+            target_role: 'admin', // ✅ Add this
+            user_id: newUser.id,
+            read: false
+        });
+
+        // ✅ Emit socket event
         io.to('room').emit('newUser', {
-            id : newUser.id,
-            name : newUser.name,
-            email : newUser.email,
-            createdAt : newUser.createdAt,
-            
-        })
-        
+            id: notification.id,
+            type: notification.type,
+            message: notification.message,
+            name: newUser.name,
+            email: newUser.email,
+            createdAt: notification.createdAt,
+            read: false
+        });
 
         res.status(201).json({
             success: true,
@@ -295,14 +316,24 @@ export const verificationCode = async (req, res) => {
 
         await sendWelcomeEmail(newUser.email, newUser.name);
 
+        const notification = await db.Notification.create({
+            type: 'userVerified',
+            message: `User verified: ${newUser.name}`,
+            target_role: 'admin', // ✅ Add this
+            user_id: newUser.id,
+            read: false
+        });
+
+        // ✅ Emit socket event
         io.to('room').emit('userVerified', {
-            id: findUser.id,
-            name: findUser.name,
-            email: findUser.email,
-            is_verified: true,
-            createdAt : findUser.createdAt
-            
-        })
+            id: notification.id,
+            type: notification.type,
+            message: notification.message,
+            name: newUser.name,
+            email: newUser.email,
+            createdAt: notification.createdAt,
+            read: false
+        });
 
 
         

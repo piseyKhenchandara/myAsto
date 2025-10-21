@@ -14,7 +14,7 @@ import orderRoute from './routes/order.routes.js';
 import paymentRoute from './routes/payment.routes.js';
 import userRoute from './routes/user.routes.js';
 import reciptRoute from './routes/recipt.routes.js';
-
+import notificationRoute from './routes/notification.routes.js';
 import db from './models/index.js';
 
 const { sequelize } = db;
@@ -38,7 +38,7 @@ app.use('/api/order', orderRoute);
 app.use('/api/payment', paymentRoute);
 app.use('/api/users', userRoute);
 app.use('/api/recipts', reciptRoute);
-
+app.use('/api/notifications', notificationRoute);
 const PORT = process.env.PORT || 5000;
 
 // Create HTTP server and attach Socket.IO
@@ -53,8 +53,6 @@ export const io = new Server(server, {
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
-  
-  console.log('Socket connected:', socket.id);
 
   socket.on('join', (userData) => {
 
@@ -62,7 +60,7 @@ io.on('connection', (socket) => {
     
     if(role === 'admin' || role === 'seller') {
       socket.join('room');
-      console.log(`User ${socket.id} joined rooom (role : ${role})`);
+
     }
   })
 
@@ -95,3 +93,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+

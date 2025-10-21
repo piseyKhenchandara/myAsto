@@ -1,8 +1,11 @@
-import { Children, createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { socket } from "../../socket";
-import { useEffect } from "react";
 import { useUser } from "../UserContext";
-
+import { 
+    getNotificationsAPI, 
+    markAsReadAPI, 
+    markAllAsReadAPI 
+} from "../../src/api/notification.api";
 
 const NotificationContext = createContext();
 
@@ -16,95 +19,118 @@ export const NotificationProvider = ({children}) => {
         setUnreadCount((prevCount) => prevCount + 1);
     }
 
-
     useEffect(() => {
-
-
         if(user && (user.role === 'admin' || user.role === 'seller')) {
+            
+            // ✅ STEP 1: Fetch existing notifications from database using API
+            const fetchNotifications = async () => {
+                try {
+                    const data = await getNotificationsAPI();
+                    setNotification(data.notifications || []);
+                    setUnreadCount(data.unreadCount || 0);
+                } catch (error) {
+                    console.error('Failed to fetch notifications:', error);
+                }
+            };
+
+            fetchNotifications();
+
+            // ✅ STEP 2: Join socket room for real-time updates
             socket.emit('join', { role: user.role });
+            
+            // ✅ STEP 3: Listen for new real-time notifications
+            const onNewOrder = (order) => addNotification({
+                id: order.id,
+                type: 'order',
+                message: order.message || `New order: ${order.order_number}`,
+                data: order.data || {},
+                createdAt: order.createdAt,
+                read: false
+            });
+
+            const onNewUser = (payload) => addNotification({
+                id: payload.id,
+                type: 'user',
+                message: payload.message || `New user: ${payload.name}`,
+                data: payload.data || {},
+                createdAt: payload.createdAt,
+                read: false
+            });
+
+            const onUserVerified = (payload) => addNotification({
+                id: payload.id,
+                type: 'userVerified',
+                message: payload.message || `User verified: ${payload.name}`,
+                data: payload.data || {},
+                createdAt: payload.createdAt,
+                read: false
+            });
+
+            const onPaymentConfirmed = (payload) => addNotification({
+                id: payload.id,
+                type: 'payment',
+                message: payload.message || `Payment confirmed: ${payload.order_number}`,
+                data: payload.data || {},
+                createdAt: payload.createdAt,
+                read: false
+            });
+
+            socket.on('newOrder', onNewOrder);
+            socket.on('newUser', onNewUser);
+            socket.on('userVerified', onUserVerified);
+            socket.on('paymentConfirmed', onPaymentConfirmed);
+
+            return () => {
+                socket.off('newOrder', onNewOrder);
+                socket.off('newUser', onNewUser);
+                socket.off('userVerified', onUserVerified);
+                socket.off('paymentConfirmed', onPaymentConfirmed);
+            }
         }
-        
-        const onNewOrder = (order) => addNotification({
-            id: `order-${order.order_id}-${Date.now()}`,
-            type: 'order',
-            message: `New order: ${order.order_number}`,
-            order_number : order.order_number,
-            createdAt : order.createdAt,
-            read: false
-        });
+    }, [user]);
 
-        const onNewUser = (user) => addNotification({
-            id: `user-${user.id}-${date.now()}`,
-            type : 'user',
-            message : `New user : ${user.name || user.username}`,
-            email : user.email,
-            createdAt : user.createdAt,
-            read : false,
-        })
-
-
-        const onUserVerified = (payload) => addNotification({
-            id: `verified-${payload.id}-${Date.now()}`,
-            type: 'userVerified',
-            message: `User verified: ${payload.name}`,
-            email: payload.email,
-            createdAt : payload.createdAt,
-            read: false
-        });
-
-        const onPaymentConfirmed = (payload) => addNotification({
-            id: `payment-${payload.order_id}-${Date.now()}`,
-            type: 'payment',
-            message: `Payment confirmed: ${payload.order_number} ($${payload.amount})`,
-            order_number : payload.order_number,
-            createdAt : payload.paid_at,
-            read: false
-        });
-
-
-        socket.on('newOrder', onNewOrder);
-        socket.on('newUser', onNewUser);
-        socket.on('userVerified', onUserVerified);
-        socket.on('paymentConfirmed', onPaymentConfirmed);
-
-
-        return () => {
-            socket.off('newOrder', onNewOrder);
-            socket.off('newUser', onNewUser);
-            socket.off('userVerified', onUserVerified);
-            socket.off('paymentConfirmed', onPaymentConfirmed);
+    const markAllAsRead = async () => {
+        try {
+            // Update in backend using API
+            await markAllAsReadAPI();
+            
+            // Update local state
+            setNotification(prev => prev.map(n => ({...n, read: true})));
+            setUnreadCount(0);
+        } catch (error) {
+            console.error('Failed to mark all as read:', error);
         }
-
-
-    },[]);
-
-    const markAllAsRead = () => {
-        setNotification(pre => pre.map(n => ({...n, read : true})));
-        setUnreadCount(0)
     }
 
-
-    const markAsRead = (id) => {
-        setNotification(pre => pre.map(n => n.id === id ? {...n, read :true} : n));
-        setUnreadCount(pre => Math.max(0, pre-1));
+    const markAsRead = async (id) => {
+        try {
+            // Update in backend using API
+            await markAsReadAPI(id);
+            
+            // Update local state
+            setNotification(prev => prev.map(n => 
+                n.id === id ? {...n, read: true} : n
+            ));
+            setUnreadCount(prev => Math.max(0, prev - 1));
+        } catch (error) {
+            console.error('Failed to mark as read:', error);
+        }
     }
 
-    return <NotificationContext.Provider value={{
-        notification,
-        unreadCount,
-        markAllAsRead,
-        markAsRead
-    }}>
-
-        {children}
-    </NotificationContext.Provider>
-
+    return (
+        <NotificationContext.Provider value={{
+            notification,
+            unreadCount,
+            markAllAsRead,
+            markAsRead
+        }}>
+            {children}
+        </NotificationContext.Provider>
+    );
 }
-
 
 export const useNotifications = () => {
     const context = useContext(NotificationContext);
-
-    if(!context) throw new Error('useNotifications must be used within NotificationProvider')
+    if(!context) throw new Error('useNotifications must be used within NotificationProvider');
     return context;
 }
