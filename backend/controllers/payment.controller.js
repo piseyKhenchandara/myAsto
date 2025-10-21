@@ -1,6 +1,8 @@
 import db from "../models/index.js";
 import {BakongKHQR, khqrData, IndividualInfo} from 'bakong-khqr';
 import axios from 'axios';
+import { io } from "../server.js";
+
 
 export const createKHQRPayment = async (req, res) => {
     try {
@@ -161,7 +163,7 @@ export const checkPaymentStatus = async (req,res) => {
                 paid_at: new Date()
             });
 
-            io.emit('paymentConfirmed', {
+            io.to('room').emit('paymentConfirmed', {
                 order_id: order.id,
                 order_number: order.order_number,
                 payment_id: payment.id,

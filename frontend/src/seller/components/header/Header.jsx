@@ -7,7 +7,8 @@ import { useUser } from '../../../../context/UserContext';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useCart } from '../../../customer/context/CartContext';
 import LanguageChoice from './LanguageChoice'; // ADD THIS IMPORT
-import { IoNotificationsOutline } from "react-icons/io5";
+import RingNotification from './RingNotification';
+
 
 const Header = ({setVisible, asto_logo}) => {
   const location = useLocation();
@@ -71,7 +72,10 @@ const Header = ({setVisible, asto_logo}) => {
           )}
 
 
-          <IoNotificationsOutline className='cursor-pointer text-2xl md:text-3xl'/>
+          <div className="flex items-center gap-4">
+                <RingNotification />
+                {/* ...other header items... */}
+            </div>
 
           
           {/* Profile */}

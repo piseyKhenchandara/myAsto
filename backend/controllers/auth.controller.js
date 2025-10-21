@@ -146,11 +146,10 @@ export const googleAuth = async (req, res) => {
             await sendWelcomeEmail(newUser.email, newUser.name);
 
 
-            io.emit('newUser', {
+            io.to('room').emit('newUser', {
                 id : newUser.id,
                 name : newUser.name,
                 email : newUser.email,
-                role : newUser.role,
                 auth_provider : 'google',
                 createdAt : newUser.createdAt
             })
@@ -214,13 +213,14 @@ export const signup = async(req,res) => {
         generateTokenAndSetCookie(res,newUser.id);
         await sendVerificationEmail(newUser.email, verificationToken, newUser.name);
 
-        io.emit('newUser', {
+        io.to('room').emit('newUser', {
             id : newUser.id,
             name : newUser.name,
             email : newUser.email,
             createdAt : newUser.createdAt,
             
         })
+        
 
         res.status(201).json({
             success: true,
@@ -295,11 +295,12 @@ export const verificationCode = async (req, res) => {
 
         await sendWelcomeEmail(newUser.email, newUser.name);
 
-        io.emit('userVerified', {
+        io.to('room').emit('userVerified', {
             id: findUser.id,
             name: findUser.name,
             email: findUser.email,
             is_verified: true,
+            createdAt : findUser.createdAt
             
         })
 

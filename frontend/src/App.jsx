@@ -36,6 +36,7 @@ import SearchResults from './seller/components/header/searchResults'
 import Users from './seller/components/user/Users'
 import ViewAuthProfile from './seller/components/category_brand_product/ViewAuthProfile'
 import Orders from './seller/components/orderManagement/Orders'
+import { NotificationProvider } from '../context/notificationContext/NotificationContext'
 
 
 const router = createBrowserRouter(
@@ -96,11 +97,13 @@ const App = () => {
 
   return (
     <UserProvider>
-      <CartProvider>
-
-        <RouterProvider router={router} />
-      </CartProvider>
+    <NotificationProvider>
+        <CartProvider>
+          <RouterProvider router={router} />
+        </CartProvider>
+    </NotificationProvider>
     </UserProvider>
+   
   )
 }
 

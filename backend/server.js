@@ -53,14 +53,26 @@ export const io = new Server(server, {
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
-  console.log('Socket connected:', socket.id);
   
+  console.log('Socket connected:', socket.id);
+
+  socket.on('join', (userData) => {
+
+    const {role} = userData;
+    
+    if(role === 'admin' || role === 'seller') {
+      socket.join('room');
+      console.log(`User ${socket.id} joined rooom (role : ${role})`);
+    }
+  })
+
+
   socket.on('disconnect', () => {
     console.log('Socket disconnected:', socket.id);
   });
 });
 
-// Start server
+
 const startServer = async () => {
   try {
     await sequelize.authenticate();

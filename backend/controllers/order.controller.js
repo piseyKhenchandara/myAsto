@@ -121,7 +121,7 @@ export const orders = async (req, res) => {
         });
 
         // In orders function - after order creation
-        io.emit('newOrder', {
+        io.to('room').emit('newOrder', {
             order_id: result.id,
             order_number: result.order_number,
             customer_name: result.customer_name,
@@ -293,13 +293,6 @@ export const updateDeliveryCheck = async (req, res) => {
             // Update delivery_check
             await order.update({ delivery_check });
 
-            // In updateDeliveryCheck function - after delivery status update
-            io.emit('deliveryStatusUpdated', {
-                order_id: order.id,
-                order_number: order.order_number,
-                delivery_check: order.delivery_check,
-                updatedAt: new Date()
-            });
 
             res.status(200).json({
                 success: true,
