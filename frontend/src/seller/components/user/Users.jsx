@@ -92,7 +92,7 @@ const Users = () => {
             <section>
                 <UsersList visible={visible} users={users}/>
 
-                <Pagination pagination={pagination}/>
+                <Pagination pagination={pagination} handlePageChange={handlePageChange}/>
             </section>
         )}
     </div>

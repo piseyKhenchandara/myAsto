@@ -20,9 +20,6 @@ const Recipts = ({whoami}) => {
             try {
                 setLoading(true);
                 const response = await reciptsAPI(whoami.id);
-
-
-                
                 setLoading(false);
                 
                 if (response.success) {

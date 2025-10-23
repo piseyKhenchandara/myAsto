@@ -17,10 +17,9 @@ const Order = () => {
   const { cart, removeFromCart, decreaseFromCart, increaseFromCart, getCartCount } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const [submit, setSubmit] = useState(false);
-  const [message, setMessage] =useState({type :'', text :""});
 
 
-   //whoami
+
   const [phoneNumber, setPhoneNumber] = useState('');
   //address + ordernotes
   const [address, setAddress] = useState('');
@@ -30,14 +29,13 @@ const Order = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedDeliveryCompany, setSelectedDeliveryCompany] = useState('');
   const [qrPopup, setQrPopup] = useState(false);
-  const [resFromOrder, setResFromOrder] = useState(null);
   const [resFromKHQR, setResFromKHQR] = useState(null);
 
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
   };
-  const finalAddress = address +"(" + orderNotes + ")";
+  const finalAddress = orderNotes ? selectedLocation +"(" + orderNotes + ")" : selectedLocation;
 
   const handleOrder = async () => {
     setIsProcessing(true);
@@ -130,9 +128,11 @@ const Order = () => {
                 whoami = {whoami}
                 phoneNumber = {phoneNumber}
                 address = {address}
+                
                 selectedLocation = {selectedLocation}
                 setSelectedDeliveryCompany = {setSelectedDeliveryCompany}
                 selectedDeliveryCompany = {selectedDeliveryCompany}
+                orderNotes = {orderNotes}
                 setOrderNotes = {setOrderNotes}
               />
               

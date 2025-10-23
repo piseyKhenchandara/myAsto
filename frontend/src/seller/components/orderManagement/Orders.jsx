@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getAllWhoOrderedAPI, getTheReceipt, updateDeliveryCheckAPI } from '../../../api/order.api';
 import OrdersTable from './ordersTable/OrdersTable';
 import OrderDetail from './orderDetail/OrderDetail';
+import Pagination from '../user/Pagination';
 
 const Orders = () => {
   
@@ -9,7 +10,7 @@ const Orders = () => {
   const [theReceipt, setTheReceipt] = useState(null);
   const [pagination, setPagination] = useState({});
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(12);
+  const limit = 12;
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -41,21 +42,19 @@ const Orders = () => {
 
   const handleDeliveryToggle = async (orderId, isChecked) => {
     try {
-      const response = await updateDeliveryCheckAPI(orderId, isChecked );
+      const response = await updateDeliveryCheckAPI(orderId, isChecked);
       
       if (response.success) {
-
         setOrders(prevOrders => 
           prevOrders.map(order => 
             order.id === orderId 
-              ? { ...order, delivery_check: isChecked  }
+              ? { ...order, delivery_check: isChecked }
               : order
           )
         );
       }
     } catch (error) {
-      console.error('Failed to update delivery status:', error.reponse?.data.message);
-      
+      console.error('Failed to update delivery status:', error.response?.data.message);
     }
   };
 
@@ -78,33 +77,15 @@ const Orders = () => {
         }
       </div>
 
-
-      <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3  max-w-[1920px] px-2 sm:px-4 mx-auto">
-        <div className="flex items-center gap-3">
-          <button
-            disabled={page === 1}
-            onClick={() => handlePageChange(page - 1)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-          <span className="text-gray-700 text-sm">
-            Page {page} of {pagination.totalPages || 1}
-          </span>
-          <button
-            disabled={page === pagination.totalPages}
-            onClick={() => handlePageChange(page + 1)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-        </div>
-
-        <p className="text-gray-600 text-sm">
-          Total Orders:{' '}
-          <span className="font-semibold">{pagination.totalItems || orders.length}</span>
-        </p>
-      </div>
+      {/* Use the Pagination component */}
+      <Pagination 
+        pagination={{
+          page: page,
+          totalPages: pagination.totalPages || 1,
+          total: pagination.totalItems || orders.length
+        }}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };

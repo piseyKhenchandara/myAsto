@@ -13,7 +13,7 @@ const Address = ({
   setSelectedLocation,
   whoami,
   phoneNumber,
-  address,
+  orderNotes,
   selectedLocation,
   setSelectedDeliveryCompany,
   selectedDeliveryCompany,
@@ -58,7 +58,7 @@ const Address = ({
           vet_logo={vet_logo}
           jnt_logo={jnt_logo}
           grab_logo={grab_logo}
-          address={address}
+          orderNotes={orderNotes}
           setAddress={setAddress}
           setOrderNotes = {setOrderNotes}
         />

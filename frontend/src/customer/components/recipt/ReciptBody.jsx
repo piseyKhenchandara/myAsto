@@ -27,7 +27,7 @@ const ReciptBody = (
       <div className='mb-6 text-sm sm:text-base'>
         <p>Client Name: <span className='font-normal'>{whoami?.name || 'N/A'}</span></p>
         <p>Client Phone: <span className='font-normal'>{phoneNumber || 'N/A'}</span></p>
-        <p>Address: <span className='font-normal'>{selectedLocation || 'N/A'}</span></p>
+        <p>Address: <span>{selectedLocation || 'N/A'}</span></p>
        
       </div>
 

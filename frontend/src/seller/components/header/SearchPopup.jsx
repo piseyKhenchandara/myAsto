@@ -1,5 +1,4 @@
-
-  import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { getAllProduct } from "../../../api/Product.api";
 import { getAllBrandsAPI } from "../../../api/BrandProduct.api";
@@ -15,6 +14,7 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
   
   const navigate = useNavigate();
   const { category_slug, brand_slug } = useParams();
+  const searchRef = useRef(null);
 
   // Fetch products when popup opens
   useEffect(() => {
@@ -22,6 +22,23 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
       getProductsName();
     }
   }, [searchPopup]);
+
+  // Close search popup when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        toggleSearchPopup();
+      }
+    };
+
+    if (searchPopup) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchPopup, toggleSearchPopup]);
 
 
 
@@ -50,7 +67,6 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
     }
   };
 
-
   const getFilteredItems = () => {
     if (!searchTerm.trim()) return [];
 
@@ -63,34 +79,31 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
 
   // Handle clicking on a specific product
   const handleProductClick = (product) => {
-
     navigate(`/category/${category_slug}/brand/${brand_slug}/product/detail/${product.id}`);
     toggleSearchPopup();
   };
 
   // Handle pressing Enter or clicking "View all results"
-const handleSearchSubmit = () => {
-  if (searchTerm.trim()) {
-
-    navigate(`/dashboard/results?search_query=${encodeURIComponent(searchTerm.trim())}`, {
-      state : {
-        searchTerm
-      }
-    });
-
-    
-    toggleSearchPopup();
-  }
-};
+  const handleSearchSubmit = () => {
+    if (searchTerm.trim()) {
+      navigate(`/dashboard/results?search_query=${encodeURIComponent(searchTerm.trim())}`, {
+        state: {
+          searchTerm
+        }
+      });
+      
+      toggleSearchPopup();
+    }
+  };
 
   return (
     <>
-      <button onClick={toggleSearchPopup} aria-label="Open search">
+      <button onClick={toggleSearchPopup} aria-label="Open search" ref={searchRef}>
         <IoIosSearch className="cursor-pointer md:text-2xl" />
       </button>
 
       {searchPopup && (
-        <div className="fixed left-0 right-0 top-12 flex justify-center z-10">
+        <div className="fixed left-0 right-0 top-12 md:top-15 flex justify-center z-10">
           <div className="bg-white shadow-lg rounded-b-md p-4 w-full md:max-w-[1920px]">
             {/* Search Input */}
             <div className="flex flex-row items-center gap-2 border-b pb-2">
@@ -137,8 +150,6 @@ const handleSearchSubmit = () => {
                       </div>
                     ))}
                   </div>
-                  
-                
                 </>
               ) : (
                 // No results message

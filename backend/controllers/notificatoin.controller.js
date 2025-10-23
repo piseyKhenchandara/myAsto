@@ -15,7 +15,7 @@ export const getNotifications = async (req, res) => {
     const notifications = await Notification.findAll({
       where: { target_role: role },
       order: [['createdAt', 'DESC']],
-      limit: 50
+      limit: 10
     });
 
     const unreadCount = await Notification.count({

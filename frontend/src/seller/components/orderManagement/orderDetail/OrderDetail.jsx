@@ -33,7 +33,7 @@ const OrderDetail = ({ theReceipt, setOpen }) => {
 
           <button 
             onClick={() => setOpen(false)}
-            className='text-gray-500 hover:text-gray-700 text-3xl sm:text-2xl self-end sm:self-auto'
+            className='text-gray-500 hover:text-gray-700 text-3xl sm:text-3xl self-end sm:self-auto cursor-pointer'
           >
             ×
           </button>

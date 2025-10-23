@@ -117,30 +117,39 @@ export const orders = async (req, res) => {
             return order;
         });
 
-        // In orders function - after order creation
-        const notification = await db.Notification.create({
-            type: 'order',
-            message: `New order placed: ${result.order_number}`,
-            target_role: 'seller', // ✅ Add target_role
-            order_id: result.id,
-            user_id: result.user_id,
-            read: false
-        });
+        // Create notifications for both admin and seller
+        const notifications = await Promise.all([
+            db.Notification.create({
+                type: 'order',
+                message: `New order placed: ${result.order_number}`,
+                target_role: 'admin',
+                order_id: result.id,
+                user_id: result.user_id,
+                read: false
+            }),
+            db.Notification.create({
+                type: 'order',
+                message: `New order placed: ${result.order_number}`,
+                target_role: 'seller',
+                order_id: result.id,
+                user_id: result.user_id,
+                read: false
+            })
+        ]);
 
-        // ✅ Emit socket event with notification data
+        // Emit socket event (will notify both roles listening to 'room')
         io.to('room').emit('newOrder', {
-            id: notification.id,
-            type: notification.type,
-            message: notification.message,
+            id: notifications[0].id,
+            type: notifications[0].type,
+            message: notifications[0].message,
             order_id: result.id,
             order_number: result.order_number,
             customer_name: result.customer_name,
             amount: result.amount,
             status: result.status,
-            createdAt: notification.createdAt,
+            createdAt: notifications[0].createdAt,
             read: false
         });
-
                 // ✅ Fixed success response
         res.status(201).json({success: true, message : "Order created successfully!✅", 
             data : {

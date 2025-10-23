@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanySelect,selectedDeliveryCompany,vet_logo,jnt_logo,grab_logo, address, setAddress, setOrderNotes}) => {
+const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanySelect,selectedDeliveryCompany,vet_logo,jnt_logo,grab_logo, orderNotes,  setOrderNotes}) => {
   return (
     <div>
       {(isPhnomPenh || isProvince) && (
@@ -12,7 +12,6 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
             <div className="space-y-4">
                 <p className="text-sm text-gray-600 mb-3">Available for province delivery:</p>
                 <div className="grid grid-cols-2 gap-4">
-                {/* VET Option */}
                 <div 
                     onClick={() => handleDeliveryCompanySelect('Vireak Buntham')} // ✅ CHANGED
                     required
@@ -90,8 +89,8 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
             <label className="block text-sm font-medium text-gray-700 mb-2">Notes <span className='text-gray-500'>-(optional)</span></label>
             <textarea 
                 placeholder="Enter your full address (street, building, etc.)"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                value={orderNotes}
+                onChange={(e) => setOrderNotes(e.target.value)}
                 rows={3}
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
                 

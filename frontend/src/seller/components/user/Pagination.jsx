@@ -1,6 +1,7 @@
 import React from 'react'
+import { GrLinkPrevious, GrLinkNext } from 'react-icons/gr';
 
-const Pagination = ({pagination}) => {
+const Pagination = ({pagination, handlePageChange}) => {
   return (
     <div>
         <div className="flex justify-center items-center gap-4 mt-8">
@@ -9,7 +10,7 @@ const Pagination = ({pagination}) => {
             disabled={pagination.page === 1}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
-            Previous
+            <GrLinkPrevious />
             </button>
 
             <span className="text-gray-700 font-medium">
@@ -21,7 +22,7 @@ const Pagination = ({pagination}) => {
             disabled={pagination.page >= pagination.totalPages}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
-            Next
+            <GrLinkNext/>
             </button>
         </div>
 

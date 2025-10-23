@@ -163,26 +163,37 @@ export const checkPaymentStatus = async (req,res) => {
                 paid_at: new Date()
             });
 
-            const notification = await db.Notification.create({
-                type: 'payment',
-                message: `Payment confirmed for order: ${order.order_number}`,
-                target_role: 'seller', // ✅ Add target_role
-                order_id: order.id,
-                user_id: order.user_id,
-                read: false
-            });
+            // Create notifications for both admin and seller
+            const notifications = await Promise.all([
+                db.Notification.create({
+                    type: 'payment',
+                    message: `Payment confirmed for order: ${order.order_number}`,
+                    target_role: 'admin', // ✅ Single value
+                    order_id: order.id,
+                    user_id: order.user_id,
+                    read: false
+                }),
+                db.Notification.create({
+                    type: 'payment',
+                    message: `Payment confirmed for order: ${order.order_number}`,
+                    target_role: 'seller', // ✅ Single value
+                    order_id: order.id,
+                    user_id: order.user_id,
+                    read: false
+                })
+            ]);
 
             // ✅ Emit socket event
             io.to('room').emit('paymentConfirmed', {
-                id: notification.id,
-                type: notification.type,
-                message: notification.message,
+                id: notifications[0].id,
+                type: notifications[0].type,
+                message: notifications[0].message,
                 order_id: order.id,
                 order_number: order.order_number,
                 amount: payment.amount,
                 paid_at: payment.paid_at,
                 bakongHash: data.data.hash,
-                createdAt: notification.createdAt,
+                createdAt: notifications[0].createdAt,
                 read: false
             });
 
