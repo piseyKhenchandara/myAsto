@@ -122,40 +122,39 @@ const UserProfile = () => {
   return (
     <div className='w-full min-h-screen'>
   
-      <div className="relative p-6 bg-gradient-to-br from-green-100 via-lime-50 to-emerald-100 overflow-hidden">
-        
-        <div className='flex items-center gap-2 max-w-[1920px] mx-auto'>
-          
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center overflow-hidden">
-              {user?.profile_picture ? (
-                <img 
-                  src={user.profile_picture} 
-                  alt={user.name} 
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-2xl font-bold text-black">
-                  {user?.name?.charAt(0)?.toUpperCase()}
-                </span>
-              )}
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold">{user?.name}</h3>
-              <p className="text-black">{user?.email}</p>
-            </div>
-          </div>
-         
-          <button 
-            onClick={() => setOpen(true)} 
-            className='bg-white p-2 text-2xl rounded-full cursor-pointer border-1 shadow-lg hover:scale-110 transform-fill transition duration-200'
-          >
-            <VscSettingsGear/>
-          </button>
-        </div>
-
+<div className="relative p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-green-100 via-lime-50 to-emerald-100 overflow-hidden">
+  
+  <div className='flex flex-row items-center justify-between gap-2 sm:gap-4 max-w-[1920px] mx-auto'>
+    
+    <div className="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0">
+      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+        {user?.profile_picture ? (
+          <img 
+            src={user.profile_picture} 
+            alt={user.name} 
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <span className="text-lg sm:text-xl md:text-2xl font-bold text-black">
+            {user?.name?.charAt(0)?.toUpperCase()}
+          </span>
+        )}
       </div>
+      <div className="min-w-0 flex-1">
+        <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold truncate">{user?.name}</h3>
+        <p className="text-xs sm:text-sm md:text-base text-black truncate">{user?.email}</p>
+      </div>
+    </div>
+   
+    <button 
+      onClick={() => setOpen(true)} 
+      className='bg-white p-1.5 sm:p-2 text-lg sm:text-xl md:text-2xl rounded-full cursor-pointer border shadow-lg hover:scale-110 transition duration-200 flex-shrink-0'
+    >
+      <VscSettingsGear/>
+    </button>
+  </div>
 
+</div>
       {open && 
         <section className='inset-0 flex justify-center items-center fixed z-50 bg-black/50'>
           <AuthSetting

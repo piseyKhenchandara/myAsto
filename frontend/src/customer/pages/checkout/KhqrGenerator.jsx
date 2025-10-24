@@ -1,12 +1,14 @@
 import React, { use, useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { checkPaymentStatus } from '../../../api/payment.api';
+import { useNavigate } from 'react-router-dom';
 
 const KhqrGenerator = ({ resFromKHQR, onClose }) => {
+
   const [timeLeft, setTimeLeft] = useState(null);
   const [pollPayment, setPollPayment] = useState(null);
   const [message, setMessage] = useState({type : '',text : ""});
-
+  const navigate = useNavigate();
 
 
 
@@ -28,6 +30,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
 
       return { minutes, seconds, expired: false };
     };
+
 
     setTimeLeft(calculateTimeLeft());
 
@@ -61,6 +64,12 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
         if(response.success) {
           setMessage({type :"success", text : "payment successfully!✅"})
           clearInterval(pollInterval);
+
+          setTimeout(() => {
+            navigate('/User-profile');
+          },3000)
+
+          
         }
       }
 

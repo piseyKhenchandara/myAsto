@@ -4,6 +4,7 @@ const ReciptBody = (
     {
         cart, 
         invoiceNumber = 0,
+        date = null,
         getCartCount, 
         calculateTotal,
 
@@ -18,8 +19,19 @@ const ReciptBody = (
     <div className='flex flex-col font-bold p-4 max-w-full overflow-x-auto'>
       {/* Invoice Header */}
       <div className='self-end mb-4 text-xs text-gray-500'>
-        <p>INVOICE NO: <span className='font-normal'>{invoiceNumber}</span></p>
-        <p>Date : <span>{new Date().toLocaleDateString()}</span></p>
+        {invoiceNumber === 0 ? "" : <p>INVOICE NO: <span className='font-normal'>{invoiceNumber}</span></p>}
+        <p>Date :  
+          <span>
+            {date ? new Date(date).toLocaleString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+            }) : 'N/A'}
+          </span>
+        </p>
         
       </div>
 

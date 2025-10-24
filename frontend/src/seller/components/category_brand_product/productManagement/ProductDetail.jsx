@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { getProductDetail } from '../../../../api/Product.api';
 import { useParams } from 'react-router-dom';
+import { useCart } from '../../../../customer/context/CartContext';
+import { useUser } from '../../../../../context/UserContext';
+import { FaCartArrowDown } from 'react-icons/fa6';
+
+import ShareLinkToSocial from './ShareLinkToSocial';
 
 const ProductDetail = () => {
     const [productDetail, setProductDetail] = useState(null);
@@ -8,6 +13,8 @@ const ProductDetail = () => {
     const [error, setError] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    const {addToCart} = useCart();
+    const {user : whoami} = useUser();
 
     const { id } = useParams();
 
@@ -149,13 +156,6 @@ const ProductDetail = () => {
                         <h3 className='text-2xl sm:text-3xl font-bold text-gray-900'>
                             {productDetail.name}
                         </h3>
-                        <div className='flex items-center space-x-4'>
-                            
-                            <p>price : <span className=' font-bold text-green-600'>
-                                ${productDetail.price}
-                            </span></p>
-
-                        </div>
                     </div>
 
                     {/* Description */}
@@ -185,6 +185,27 @@ const ProductDetail = () => {
                             </div>
                         </div>
                     )}
+                    <div className='flex items-center space-x-4'>
+                        
+                        <p>price : <span className=' font-bold text-green-600'>
+                            ${productDetail.price}
+                        </span></p>
+                        
+
+                    </div>
+
+                    {whoami?.role === 'customer' && (
+                        <button 
+                            className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-green-500 rounded-[6px] flex items-center gap-1 min-w-[200px]"
+                            onClick={() => addToCart(productDetail)}
+                        >
+                            <FaCartArrowDown /><span className='pl-5'>Add to Cart</span>
+                        
+                        </button>
+                    )}
+                    <ShareLinkToSocial productDetail={productDetail}/>
+                    
+                    
 
                     
 

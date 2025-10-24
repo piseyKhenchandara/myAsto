@@ -59,6 +59,7 @@ const OrderSummary = ({
 
         <ReciptBody 
           cart={cart}
+          date = {new Date()}
           getCartCount={getCartCount}
           handleOrder={handleOrder}
           isProcessing={isProcessing}

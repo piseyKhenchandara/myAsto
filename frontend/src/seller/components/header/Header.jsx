@@ -72,13 +72,13 @@ const Header = ({setVisible, asto_logo}) => {
           )}
 
           {/* Notification */}
-          <div className="flex items-center flex-shrink-0">
-            <RingNotification />
-          </div>
+          {checkUserRole && <div className="flex items-center flex-shrink-0 ">
+            <RingNotification/>
+          </div>}
           
           {/* Profile */}
           <Link to="/User-profile" className="flex-shrink-0">
-            <CgProfile className='cursor-pointer text-xl xs:text-2xl sm:text-2xl md:text-3xl lg:text-3xl hover:text-green-600 transition-colors'/>
+            <CgProfile className='cursor-pointer text-xl xs:text-2xl sm:text-2xl md:text-3xl lg:text-3xl hover:text-gray-800 transition-colors'/>
           </Link>
           
           {/* Language Choice Component */}

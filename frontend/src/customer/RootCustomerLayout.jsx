@@ -74,12 +74,12 @@ const RootCustomerLayout = () => {
         </div>              
       </div>
       
-   {/*    <Footer 
+      <Footer 
         facebook_logo = {facebook_logo}
         ig_logo = {ig_logo}
         tiktok_logo = {tiktok_logo}
         telegram_logo = {telegram_logo}
-      /> */}
+      />
     </div>
   )
 }

@@ -10,10 +10,17 @@ const Recipts = ({whoami}) => {
   
     const {visible = false} = useOutletContext() || {};
 
-
     const [message, setMessage] = useState({ type: '', text: '' });
     const [receipts, setReceipts] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    // Helper function to check if receipt is new (less than 24 hours)
+    const isNewReceipt = (createdAt) => {
+        const receiptDate = new Date(createdAt);
+        const now = new Date();
+        const hoursDifference = (now - receiptDate) / (1000 * 60 * 60); // Convert to hours
+        return hoursDifference < 24;
+    };
 
     useEffect(() => {
         const fetchReceipts = async () => {
@@ -40,7 +47,6 @@ const Recipts = ({whoami}) => {
             fetchReceipts();
         }
     }, [whoami?.id]);
-
 
     // Helper function to calculate total from order items
     const calculateTotal = (orderItems) => {
@@ -84,18 +90,28 @@ const Recipts = ({whoami}) => {
 
     return (
         
-        <div className=" mx-auto p-4 max-w-[1920px]">
-            <div className= {`grid ${visible ? "md:grid-cols-1 xl:grid-cols-2" : "min-[840px]:grid-cols-2 xl:grid-cols-3"}  gap-6`}>
+        <div className="mx-auto p-4 max-w-[1920px]">
+            <div className={`grid ${visible ? "md:grid-cols-1 xl:grid-cols-2" : "min-[840px]:grid-cols-2 xl:grid-cols-3"} gap-6`}>
                 
                 {receipts.map((payment, index) => (
-                    <div key={payment.id || index} className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 p-5">
+                    <div key={payment.id || index} className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 p-5 relative">
+                        
+                        {/* NEW Badge - Shows if receipt is less than 24 hours old */}
+                        {isNewReceipt(payment.createdAt) && (
+                            <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                                NEW
+                            </div>
+                        
+                        )}
+
                         {/* Receipt Header */} 
-                        <ReciptHeader asto_logo= {asto_logo}/>
+                        <ReciptHeader asto_logo={asto_logo}/>
 
                         {/* Receipt Body */}
                         <ReciptBody
                             cart={payment.Order?.OrderItems || []}
-                            invoiceNumber = {payment.Order?.order_number}
+                            invoiceNumber={payment.Order?.order_number}
+                            date = {payment?.createdAt}
                             getCartCount={() => getCartCount(payment.Order?.OrderItems)}
                             calculateTotal={() => calculateTotal(payment.Order?.OrderItems)}
                             whoami={{ name: payment.Order?.customer_name }}

@@ -16,7 +16,7 @@ const CartItems = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full md:top-20  md:sticky">
       <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
         <h4 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">
           Cart Items ({getCartCount()})

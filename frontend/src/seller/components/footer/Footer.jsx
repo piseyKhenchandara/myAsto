@@ -177,57 +177,10 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
 
         </div>
 
-        {/* Newsletter Subscription */}
-        <div className="border-t border-gray-700 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <div>
-              <h4 className="text-lg font-semibold text-white mb-2">Stay Updated</h4>
-              <p className="text-gray-300 text-sm">Subscribe to get special offers and updates</p>
-            </div>
-            <div className="flex w-full md:w-auto max-w-sm">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 text-sm text-gray-900 bg-white rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-400"
-              />
-              <button className="px-6 py-2 bg-green-500 text-white rounded-r-md hover:bg-green-600 transition-colors duration-200 text-sm font-medium">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
+
       </div>
 
-      {/* Bottom Footer */}
-      <div className="bg-black border-t border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0">
-            <div className="text-gray-400 text-sm">
-              © 2025 ASTO. All rights reserved.
-            </div>
-            <div className="flex space-x-6">
-              <Link 
-                to="/privacy" 
-                className="text-gray-400 hover:text-green-400 transition-colors duration-200 text-sm"
-              >
-                Privacy Policy
-              </Link>
-              <Link 
-                to="/terms" 
-                className="text-gray-400 hover:text-green-400 transition-colors duration-200 text-sm"
-              >
-                Terms of Service
-              </Link>
-              <Link 
-                to="/cookies" 
-                className="text-gray-400 hover:text-green-400 transition-colors duration-200 text-sm"
-              >
-                Cookie Policy
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+   
     </footer>
   )
 }

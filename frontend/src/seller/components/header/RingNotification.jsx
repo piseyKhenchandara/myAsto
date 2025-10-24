@@ -29,7 +29,7 @@ const RingNotification = () => {
       {/* Bell Icon with Badge */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-1.5 sm:p-2 md:p-2.5 text-gray-600 hover:text-gray-800 focus:outline-none transition-colors"
+        className="relative p-1.5 sm:p-2 md:p-2.5 hover:text-gray-800 focus:outline-none transition-colors cursor-pointer"
         aria-label="Notifications"
       >
         <svg
