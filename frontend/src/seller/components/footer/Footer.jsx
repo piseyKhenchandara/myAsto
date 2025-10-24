@@ -169,7 +169,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
                   href="tel:+855123456789" 
                   className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm"
                 >
-                  +855 123 456 789
+                  +096 994 2041
                 </a>
               </div>
             </div>

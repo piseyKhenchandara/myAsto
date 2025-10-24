@@ -30,6 +30,12 @@ export default (sequelize) => {
             type : DataTypes.INTEGER,
             allowNull : false,
         },
+        warranty: {
+            type: DataTypes.STRING(50),
+            allowNull: true,
+            defaultValue: "1 Year"
+        },
+
     },
     {
         tableName : "products",
