@@ -15,6 +15,7 @@ const ReciptBody = (
     }
 ) => {
 
+
   return (
     <div className='flex flex-col font-bold p-4 max-w-full overflow-x-auto'>
       {/* Invoice Header */}
@@ -36,10 +37,11 @@ const ReciptBody = (
       </div>
 
       {/* Client Information */}
-      <div className='mb-6 text-sm sm:text-base'>
+      <div className='mb-6 text-xs'>
         <p>Client Name: <span className='font-normal'>{whoami?.name || 'N/A'}</span></p>
         <p>Client Phone: <span className='font-normal'>{phoneNumber || 'N/A'}</span></p>
         <p>Address: <span>{selectedLocation || 'N/A'}</span></p>
+        
        
       </div>
 
@@ -64,7 +66,10 @@ const ReciptBody = (
                   <td className='border border-gray-300 p-2 font-normal'>{index + 1}</td>
                   <td className='border border-gray-300 p-2 font-normal'>
                     <div className='break-words'>
-                      {item.name || item.title || item.description || 'Unknown Item'}
+                      <p>{item.name || item.title || item.description || 'Unknown Item'}<br/>
+                        <span className='text-gray-500'>(warranty: {item.Product?.warranty})</span>
+                    
+                      </p>
                     </div>
                   </td>
                   <td className='border border-gray-300 p-2 text-right font-normal'>
@@ -89,29 +94,39 @@ const ReciptBody = (
         </table>
       </div>
 
-      {/* Summary Section */}
+            {/* Summary Section */}
       {cart && cart.length > 0 && (
-        <div className='self-end w-full sm:w-80'>
+        <div className='self-end w-full sm:w-80 text-xs'>
           
-          <div className='flex justify-between mb-2 text-sm sm:text-base'>
+          <div className='flex justify-between mb-2 '>
             <span>Subtotal:</span>
             <span className='font-normal'>
               ${calculateTotal ? Number(calculateTotal()).toFixed(2) : '0.00'}
             </span>
           </div>
-          <div className='flex justify-between mb-2 text-sm sm:text-base'>
+          
+          <div className='flex justify-between mb-2 '>
             <span>Items Count:</span>
             <span className='font-normal'>
               {getCartCount ? getCartCount() : cart.length}
             </span>
           </div>
-          <div className='flex justify-between  border-t pt-2 border-gray-300'>
-            <span>TOTAL:</span>
-            <span>
-              ${calculateTotal ? Number(calculateTotal()).toFixed(2) : '0.00'}
+          
+          {/* Delivery Fee */}
+          <div className='flex justify-between mb-2 '>
+            <span>Delivery Fee:</span>
+            <span className='font-normal'>
+              $2.00
             </span>
           </div>
-         
+          
+          <div className='flex justify-between border-t pt-2 border-gray-300 text-base sm:text-lg'>
+            <span>TOTAL:</span>
+            <span>
+              ${calculateTotal ? (Number(calculateTotal()) + 2).toFixed(2) : '2.00'}
+            </span>
+          </div>
+        
         </div>
       )}
 

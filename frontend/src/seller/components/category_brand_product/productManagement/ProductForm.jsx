@@ -170,16 +170,19 @@ const ProductForm = ({
               />
             </div>
             <div>
-              <label className="block text-sm mb-1">Stock</label>
-              <input
-                type="number"
+              <label className="block text-sm mb-1">Stock Status</label>
+              <select
                 className="w-full border rounded px-3 py-2 outline-none focus:ring"
                 value={stock}
                 onChange={(e) => setStock(e.target.value)}
-                placeholder="e.g., 50"
                 disabled={isProcessing}
                 required
-              />
+              >
+                <option value="">Select status</option>
+                <option value="Available">Available</option>
+                <option value="Low Stock">Low Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
+              </select>
             </div>
           </div>
 

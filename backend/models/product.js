@@ -19,8 +19,9 @@ export default (sequelize) => {
             allowNull : false,
         },
         stock : {
-            type : DataTypes.STRING(20),  // Change from INTEGER
-            defaultValue : "Available"    // Change from 0
+            type : DataTypes.ENUM('Available', 'Low Stock', 'Out of Stock'),
+            defaultValue : "Available",
+            allowNull: false
         },
         category_id : {
             type : DataTypes.INTEGER,

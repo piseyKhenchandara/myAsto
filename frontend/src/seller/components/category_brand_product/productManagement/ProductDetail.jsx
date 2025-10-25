@@ -12,7 +12,7 @@ const ProductDetail = () => {
     const [load, setLoad] = useState(false);
     const [error, setError] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const [quantity, setQuantity] = useState(1);
+
     const {addToCart} = useCart();
     const {user : whoami} = useUser();
 
@@ -185,9 +185,9 @@ const ProductDetail = () => {
                             </div>
                         </div>
                     )}
-                    
+                
                     {/* Price and Warranty */}
-                    <div className='flex flex-col space-y-2'>
+                    <div className='flex justify-around items-center space-y-2'>
                         <p>Price: <span className='font-bold text-green-600'>
                             ${productDetail.price}
                         </span></p>
@@ -197,7 +197,18 @@ const ProductDetail = () => {
                                 {productDetail.warranty}
                             </span></p>
                         )}
+                        {productDetail.stock && (
+                            <p className={`px-3 py-1 rounded-md text-white font-medium ${
+                                productDetail.stock === 'Available' ? 'bg-green-400' :
+                                productDetail.stock === 'Low Stock' ? 'bg-yellow-300' :
+                                productDetail.stock === 'Out of Stock' ? 'bg-red-500' : 'bg-gray-500'
+                            }`}>
+                                {productDetail.stock}
+                            </p>
+                        )}
+
                     </div>
+
 
                     {whoami?.role === 'customer' && (
                         <button 

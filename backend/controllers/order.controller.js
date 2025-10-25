@@ -270,7 +270,7 @@ export const getTheReceipt = async (req, res) => {
                     },
                     
                         
-                    
+                
                 ],
             
             });

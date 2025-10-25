@@ -20,13 +20,13 @@ const Order = () => {
 
 
 
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(whoami?.phone ||'');
   //address + ordernotes
   const [address, setAddress] = useState('');
   const [orderNotes, setOrderNotes] = useState('');
   //cart
   //payment method
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(whoami?.address || '');
   const [selectedDeliveryCompany, setSelectedDeliveryCompany] = useState('');
   const [qrPopup, setQrPopup] = useState(false);
   const [resFromKHQR, setResFromKHQR] = useState(null);

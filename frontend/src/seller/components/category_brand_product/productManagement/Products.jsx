@@ -101,7 +101,12 @@ const Products = () => {
   const validateProduct = (formData) => {
     if (!formData.name.trim()) return "Product name is required.";
     if (!formData.price || Number.isNaN(Number(formData.price))) return "Valid price is required.";
-    if (formData.stock === "" || Number.isNaN(Number(formData.stock))) return "Valid stock is required.";
+
+    const validStockValues = ['Available', 'Low Stock', 'Out of Stock'];
+      if (!formData.stock || !validStockValues.includes(formData.stock)) {
+        return "Valid stock status is required.";
+    }
+
     if (!brand_slug) return "Brand is required.";
     if (!category_slug) return "Category is required.";
     if (!formData.files || formData.files.length === 0) return 'At least one image is required!';

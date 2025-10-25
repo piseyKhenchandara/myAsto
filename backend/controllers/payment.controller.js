@@ -87,6 +87,7 @@ export const createKHQRPayment = async (req, res) => {
             success: true,
             message: "KHQR generated successfully!",
             data: {
+                BAKONG_ACCOUNT_NAME : process.env.BAKONG_ACCOUNT_NAME,
                 payment_id: payment.id,
                 order_id: order.id,
                 order_number: order.order_number,

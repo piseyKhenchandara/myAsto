@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import { FiUpload } from 'react-icons/fi'
 import Logout from '../../../auth/components/Logout'
+import LocationSelector from '../../components/address/LocationSelector'  // ✅ Import
 
 const AuthSetting = ({
   msg,
@@ -20,6 +21,7 @@ const AuthSetting = ({
 
   const [previewImage, setPreviewImage] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [selectedLocation, setSelectedLocation] = useState(user?.address || '')  // ✅ Add state
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -28,7 +30,13 @@ const AuthSetting = ({
       setPreviewImage(URL.createObjectURL(file));
     }
   };
-    
+
+  // ✅ Handle location change
+  const handleLocationChange = (e) => {
+    const location = e.target.value;
+    setSelectedLocation(location);
+    setAddress(location);  // Update parent state
+  }
 
   const handleClose = () => {
     setPreviewImage(null);
@@ -49,7 +57,7 @@ const AuthSetting = ({
                      document.querySelector('input[type="email"]')?.value ||
                      document.querySelector('input[type="password"]')?.value ||
                      document.querySelector('input[type="tel"]')?.value ||
-                     document.querySelector('textarea')?.value;
+                     selectedLocation !== user?.address;
 
   return (
     <div className='bg-white rounded-2xl shadow-2xl w-full max-w-[95vw] lg:max-w-[1000px] xl:max-w-[1200px] max-h-[90vh] overflow-hidden flex flex-col'>
@@ -186,16 +194,15 @@ const AuthSetting = ({
 
               </div>
 
-              {/* Address - Full Width */}
+              {/* ✅ Address - Use LocationSelector Component */}
               <div>
-                <label className='block text-sm font-semibold text-gray-700 mb-2'>
-                  Address
-                </label>
-                <textarea
-                  rows='3'
-                  placeholder={user?.address || 'Enter your address'}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className='w-full px-4 py-3 border-1 border-gray-200 rounded-xl focus:ring-2 transition-all outline-none resize-none hover:border-gray-300'
+                <LocationSelector
+                  selectedLocation={selectedLocation}
+                  handleLocationChange={handleLocationChange}
+                  label="Address (Province/City)"
+                  placeholder={user?.address || "Select your location"}
+                  required={false}
+                  className="rounded-xl"
                 />
               </div>
 
@@ -228,7 +235,6 @@ const AuthSetting = ({
                     </span>
                   ) : (
                     <span className='flex items-center justify-center gap-2 cursor-pointer'>
-      
                       Save Changes
                     </span>
                   )}

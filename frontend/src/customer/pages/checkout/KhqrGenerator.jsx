@@ -124,11 +124,21 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
           </div>
         ) : (
           <div>
-            <h2 className='text-center bg-red-600 text-white rounded-t-3xl py-2'>KHQR</h2>
+            <h2 
+              className='text-center bg-red-600 text-white pb-10 py-2 font-semibold text-lg'
+              style={{
+                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 100% 100%, 90% 60%, 0 60%)',
+                borderTopLeftRadius: '24px',
+                borderTopRightRadius: '24px'
+              }}
+            >
+              KHQR
+            </h2>
 
-            <div className=' pt-10 pb-2 '>
-              <div className='flex items-center border-b-2 border-dashed pb-5 border-gray-400'>
-                <span className='pl-10 text-gray-600'>Amount:</span>
+            <div className='pb-2'>
+              <div className=' border-b-2 border-dashed pb-5 border-gray-400 pl-10'>
+                <p>{resFromKHQR.data.BAKONG_ACCOUNT_NAME}</p>
+                <span className=' text-gray-600'>Amount:</span>
                 <span className='font-bold pl-2'>
                   ${parseFloat(resFromKHQR.data.amount).toFixed(2)}
                 </span>
@@ -148,7 +158,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
 
               {/* MD5 Hash (for verification) */}
               <div className='mt-5 text-center'>
-                <p className='text-xs text-gray-400'>
+                <p className='text-xs text-gray-500'>
                   MD5: {resFromKHQR.data.qr_md5?.substring(0, 16)}...
                 </p>
               </div>

@@ -48,12 +48,17 @@ export const recipts = async (req, res) => {
                     include: [
                         {
                             model: db.OrderItem,
-                            attributes: ['id', 'quantity', 'price', 'name']
+                            attributes: ['id', 'quantity', 'price', 'name'],
+                            include : [{
+                                model : db.Product,
+                                attributes : ['warranty']
+                            }]
                         }
                     ]
                 }
             ]
         });
+        
    
         console.log('Found payments:', payments.length);
         

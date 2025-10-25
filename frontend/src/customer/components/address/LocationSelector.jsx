@@ -1,16 +1,25 @@
 import React from 'react'
 
-const LocationSelector = ({selectedLocation, handleLocationChange}) => {
+const LocationSelector = ({
+  selectedLocation, 
+  handleLocationChange, 
+  label = "Province/City",  // ✅ Default label
+  placeholder = "Select delivery location",  // ✅ Default placeholder
+  required = true,  // ✅ Optional required
+  className = ""  // ✅ Custom className
+}) => {
   return (
     <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Province/City</label>
-        <select 
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
+      <select 
         value={selectedLocation}
         onChange={handleLocationChange}
-        className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white"
-        required
-        >
-        <option value="">Select delivery location</option>
+        className={`w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white ${className}`}
+        required={required}
+      >
+        <option value="">{placeholder}</option>
         <option value="Phnom Penh">Phnom Penh</option>
         <option value="Kandal">Kandal</option>
         <option value="Siem Reap">Siem Reap</option>
@@ -36,7 +45,7 @@ const LocationSelector = ({selectedLocation, handleLocationChange}) => {
         <option value="Tbong Khmum">Tbong Khmum</option>
         <option value="Kampong Chhnang">Kampong Chhnang</option>
         <option value="Banteay Meanchey">Banteay Meanchey</option>
-        </select>
+      </select>
     </div>
   )
 }
