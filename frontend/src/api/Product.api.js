@@ -54,6 +54,7 @@ const {
         brand_slug,
         category_slug, // CHANGED: was category_slug
         features,
+        warranty,  
         files
     } = payload;
 
@@ -65,6 +66,11 @@ const {
     fd.append('stock', String(stock));
     fd.append('brand_slug', brand_slug);
     fd.append('category_slug', category_slug); // CHANGED: was category_slug
+
+    if(warranty) {
+        fd.append('warranty', warranty);
+    }
+
 
     const featuresJson = typeof features === 'string' ? features : JSON.stringify(features || []);
     fd.append('features', featuresJson);
@@ -85,7 +91,7 @@ const {
 }
 
 export const updateProduct = async (payload) => {
-    const {id, name, description, price, stock, features, files} = payload;
+    const {id, name, description, price, stock, features, warranty, files} = payload;
 
     const fd = new FormData();
 
@@ -94,6 +100,10 @@ export const updateProduct = async (payload) => {
     fd.append('description', description ? description.trim() : '');
     fd.append('price', price || 0);
     fd.append('stock', stock ? stock : 0);
+
+    if (warranty) {
+        fd.append('warranty', warranty);
+    }
     
     // Handle features
     const featuresJson = typeof features === 'string' ? features : JSON.stringify(features || []);

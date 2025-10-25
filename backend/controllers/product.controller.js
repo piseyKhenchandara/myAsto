@@ -13,7 +13,7 @@ export const getAllProduct = async (req,res) => {
             limit,
             offset,
             order : [["createdAt", "DESC"]],
-            attributes : ["id", "name", "stock", "price",'createdAt','description'],
+            attributes : ["id", "name", "stock", "price",'createdAt','description', 'warranty'],
             include : [
                 {
                     model : db.ProductImage,
@@ -60,7 +60,7 @@ export const getAllProduct = async (req,res) => {
 export const getProductById = async (req, res) => {
   try {
     const product = await db.Product.findByPk(req.params.id, {
-      attributes: ['description', 'stock', 'price', 'name','id'],
+      attributes: ['description', 'stock', 'price', 'name','id', 'warranty', 'createdAt', 'updatedAt'],
       include: [
         {
           model: db.ProductFeature,
@@ -92,7 +92,7 @@ export const getProductById = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message  
     });
   }
 };
@@ -149,7 +149,7 @@ export const getProductsByBrandNCategory = async( req,res) => {
 
 
 export const uploadProduct = async(req, res) => {
-    const {name, description, price, stock, brand_slug, category_slug, features} = req.body;
+    const {name, description, price, stock, brand_slug, category_slug, features, warranty} = req.body;
 
     if(!name || !price || !description || !stock || !brand_slug || !category_slug || !features){
         return res.status(400).json({message : "All fields are required!"});
@@ -190,7 +190,8 @@ export const uploadProduct = async(req, res) => {
                 price,
                 stock,
                 brand_id : brand.id,
-                category_id : category.id
+                category_id : category.id,
+                warranty : warranty || 'none',
             }, {transaction});
             
             const promises = [];
@@ -261,7 +262,7 @@ export const uploadProduct = async(req, res) => {
 export const getProductDetail = async (req, res) => {
     try {
         const product = await db.Product.findByPk(req.params.id, {
-            attributes: ['description', 'stock', 'price', 'name', 'id'],
+            attributes: ['description', 'stock', 'price', 'name', 'id', 'warranty'],
             include: [
                 {
                     model: db.ProductFeature,
@@ -307,7 +308,7 @@ export const getProductDetail = async (req, res) => {
 
 
 export const updateProduct = async (req,res) => {
-    let {name, price, stock, description, features} = req.body;
+    let {name, price, stock, description, features, warranty} = req.body;
     console.log(req.body);
 
     try{
@@ -329,6 +330,7 @@ export const updateProduct = async (req,res) => {
             description : description || product.description,
             brand_id,
             category_id, 
+            warranty : warranty || product.warranty
         })
 
         if(features) {

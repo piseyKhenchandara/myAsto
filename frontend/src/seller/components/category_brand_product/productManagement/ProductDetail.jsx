@@ -185,13 +185,18 @@ const ProductDetail = () => {
                             </div>
                         </div>
                     )}
-                    <div className='flex items-center space-x-4'>
-                        
-                        <p>price : <span className=' font-bold text-green-600'>
+                    
+                    {/* Price and Warranty */}
+                    <div className='flex flex-col space-y-2'>
+                        <p>Price: <span className='font-bold text-green-600'>
                             ${productDetail.price}
                         </span></p>
                         
-
+                        {productDetail.warranty && productDetail.warranty !== 'none' && (
+                            <p>Warranty: <span className='font-semibold text-green-600'>
+                                {productDetail.warranty}
+                            </span></p>
+                        )}
                     </div>
 
                     {whoami?.role === 'customer' && (
@@ -217,7 +222,7 @@ const ProductDetail = () => {
                             <svg className='w-4 h-4 mr-2' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                                 <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' />
                             </svg>
-                            Free shipping on orders over $30
+                            Thanks you for supporting  
                         </div>
                        
                     </div>

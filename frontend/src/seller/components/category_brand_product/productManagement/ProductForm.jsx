@@ -15,6 +15,7 @@ const ProductForm = ({
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
+  const [warranty, setWarranty] = useState("");
   const [features, setFeatures] = useState([
     { feature_name: "", feature_value: "" },
   ]);
@@ -61,6 +62,7 @@ const ProductForm = ({
       description,
       price,
       stock,
+      warranty,
       features: features.filter(f => f.feature_name.trim() || f.feature_value.trim()),
       files: [...imageFiles, ...videoFiles],
     };
@@ -73,6 +75,7 @@ const ProductForm = ({
     setDescription('');
     setPrice('');
     setStock('');
+    setWarranty('');
     setFeatures(prev => prev.map(f => ([{
       feature_name: f.feature_name, 
       feature_value: ''
@@ -178,6 +181,19 @@ const ProductForm = ({
                 required
               />
             </div>
+          </div>
+
+          {/* Warranty */}
+          <div>
+            <label className="block text-sm mb-1">Warranty</label>
+            <input
+              type="text"
+              className="w-full border rounded px-3 py-2 outline-none focus:ring"
+              value={warranty}
+              onChange={(e) => setWarranty(e.target.value)}
+              placeholder="e.g., 1 year, 6 months, none"
+              disabled={isProcessing}
+            />
           </div>
 
           {/* Description */}

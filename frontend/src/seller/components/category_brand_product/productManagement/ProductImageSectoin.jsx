@@ -91,7 +91,7 @@ const ProductImageSection = ({
                                     {/* Replace Button */}
                                     <div className="absolute -top-2 -right-2">
                                         <div className="relative">
-                                            <MdOutlineSwapHorizontalCircle className="text-2xl text-blue-500 bg-white rounded-full cursor-pointer hover:text-blue-600 border border-gray-200 shadow-sm" />
+                                            <MdOutlineSwapHorizontalCircle className="text-2xl text-green-500 bg-white rounded-full cursor-pointer hover:text-green-600 border border-gray-200 shadow-sm" />
                                             <input 
                                                 type="file"
                                                 accept="image/*"
@@ -114,7 +114,7 @@ const ProductImageSection = ({
                                     
                                     {/* Main image indicator */}
                                     {img.is_main && (
-                                        <span className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                                        <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
                                             Main
                                         </span>
                                     )}
@@ -131,9 +131,9 @@ const ProductImageSection = ({
 
                         {/* Replacement Summary */}
                         {Object.keys(finalImages).length > 0 && (
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                                <h4 className="text-md font-medium text-blue-800 mb-2">Images to be replaced:</h4>
-                                <ul className="text-sm text-blue-700">
+                            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <h4 className="text-md font-medium text-green-800 mb-2">Images to be replaced:</h4>
+                                <ul className="text-sm text-green-700">
                                     {Object.keys(finalImages).map(idx => (
                                         <li key={idx}>
                                             • Image {parseInt(idx) + 1}: {finalImages[idx].file.name}

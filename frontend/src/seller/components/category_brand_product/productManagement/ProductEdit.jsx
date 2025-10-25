@@ -15,6 +15,7 @@ const ProductEdit = () => {
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [stock, setStock] = useState('');
+    const [warranty, setWarranty] = useState('');
     const [features, setFeatures] = useState([
         { feature_name: "", feature_value: "" },
     ]);
@@ -37,6 +38,7 @@ const ProductEdit = () => {
             setPrice(data.price?.toString() || '');
             setStock(data.stock?.toString() || '');
             setDescription(data.description || '');
+            setWarranty(data.warranty || '');
             setFeatures(data.ProductFeatures?.length > 0 ? data.ProductFeatures : [{ feature_name: "", feature_value: "" }]);
             setExistingImages(data.ProductImages || []);
 
@@ -130,6 +132,7 @@ const ProductEdit = () => {
                 description: description.trim(),
                 price: parseFloat(price),
                 stock: stock.trim(),
+                warranty: warranty.trim(),
                 features: validFeatures,
                 files: files
             } 
@@ -177,18 +180,13 @@ const ProductEdit = () => {
     }
 
     const removeFeatureRow = (idx) => {
-        if (features.length > 1) {
-            setFeatures(prev => prev.filter((_, index) => index !== idx));
-        } else {
-            // Keep at least one empty feature row
-            setFeatures([{feature_name: "", feature_value: ""}]);
-        }
+        setFeatures(prev => prev.filter((_, i) => i !== idx));
     }
 
     if (load) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-500"></div>
             </div>
         );
     }
@@ -211,7 +209,7 @@ const ProductEdit = () => {
             {/* Product Info Section */}
             <div className='w-full lg:w-[55%]'>
                 <div className="bg-white rounded-lg shadow-lg p-6">
-                    <h1 className="text-2xl font-bold text-gray-800 mb-6">Edit Product</h1>
+                    <h4 className="text-2xl font-bold text-gray-800 mb-6">Edit Product</h4>
                     
                     <form onSubmit={editProduct} className='flex flex-col gap-6'>
                         {/* Basic Fields */}
@@ -224,7 +222,7 @@ const ProductEdit = () => {
                                     type="text" 
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
                                     placeholder="Enter product name"
                                     required
                                 />
@@ -240,29 +238,44 @@ const ProductEdit = () => {
                                     step="0.01"
                                     min="0"
                                     onChange={(e) => setPrice(e.target.value)}
-                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
                                     placeholder="0.00"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Stock Status *
-                            </label>
-                            <select
-                                value={stock}
-                                onChange={(e) => setStock(e.target.value)}
-                                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
-                                required
-                            >
-                                <option value="">Select stock status</option>
-                                <option value="Available">Available</option>
-                                <option value="Low Stock">Low Stock</option>
-                                <option value="Out of Stock">Out of Stock</option>
-                                <option value="Discontinued">Discontinued</option>
-                            </select>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Stock Status *
+                                </label>
+                                <select
+                                    value={stock}
+                                    onChange={(e) => setStock(e.target.value)}
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                                    required
+                                >
+                                    <option value="">Select stock status</option>
+                                    <option value="Available">Available</option>
+                                    <option value="Low Stock">Low Stock</option>
+                                    <option value="Out of Stock">Out of Stock</option>
+                                    <option value="Discontinued">Discontinued</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Warranty
+                                </label>
+                                <input 
+                                    type="text"
+                                    value={warranty}
+                                    onChange={(e) => setWarranty(e.target.value)}
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                                    placeholder="e.g., 1 year, 6 months, none"
+                                />
+                            </div>
                         </div>
 
                         <div>
@@ -273,7 +286,7 @@ const ProductEdit = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 rows={4}
-                                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
                                 placeholder="Enter product description"
                                 required
                             />
@@ -299,14 +312,14 @@ const ProductEdit = () => {
                                             type="text"
                                             value={feature.feature_name || ''}
                                             onChange={(e) => setFeatureForm(idx, 'feature_name', e.target.value)}
-                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                             placeholder="Feature name"
                                         />
                                         <input
                                             type="text"
                                             value={feature.feature_value || ''}
                                             onChange={(e) => setFeatureForm(idx, 'feature_value', e.target.value)}
-                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                             placeholder="Feature value"
                                         />
                                         <button
@@ -345,7 +358,7 @@ const ProductEdit = () => {
                             <button
                                 type="submit"
                                 disabled={submitLoading}
-                                className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {submitLoading ? 'Updating...' : 'Update Product'}
                             </button>
