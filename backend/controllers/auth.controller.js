@@ -636,7 +636,7 @@ export const getUserById = async (req, res) => {
 
 export const updateAuth = async (req,res) => {
 
-    const {name, email, password, phone, address} = req.body;
+    const {name, phone, address} = req.body;
     const file = req.file;
 
     try{
@@ -648,20 +648,13 @@ export const updateAuth = async (req,res) => {
             try{
                 await cloudinary.uploader.destroy(user.public_id);
             }catch(error) {
-                console.log('Error deleteing old image : ', error);
+                console.log('Error deleting old image : ', error);
             }
             
         }
 
-        let hashedPassword = user.password;
-        if(password) {
-            hashedPassword = await bcrypt.hash(password, 10);
-        }
-
         await user.update({
             name : name || user.name,
-            email : email || user.email,
-            password : hashedPassword || user.password,
             phone : phone || user.phone,
             address : address || user.address,
             profile_picture : file? file.path : user.profile_picture,

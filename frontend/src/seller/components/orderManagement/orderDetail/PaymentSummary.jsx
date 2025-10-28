@@ -4,8 +4,7 @@ const PaymentSummary = ({ orderItems, deliveryCompany, discountAmount }) => {
   const subtotal = orderItems?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
   const delivery = 2.0;
   const discount = parseFloat(discountAmount) || 0;
-  const tax = subtotal * 0.2;
-  const total = subtotal + delivery + tax - discount;
+  const total = subtotal + delivery - discount; // ✅ Removed tax
 
   return (
     <div className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>
@@ -28,12 +27,6 @@ const PaymentSummary = ({ orderItems, deliveryCompany, discountAmount }) => {
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
           <span className='text-gray-600'>Delivery</span>
           <span className='font-medium text-gray-800'>${delivery.toFixed(2)}</span>
-        </div>
-
-        {/* Tax */}
-        <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
-          <span className='text-gray-600'>Tax (VAT 20% included)</span>
-          <span className='font-medium text-gray-800'>${tax.toFixed(2)}</span>
         </div>
 
         {/* Discount */}

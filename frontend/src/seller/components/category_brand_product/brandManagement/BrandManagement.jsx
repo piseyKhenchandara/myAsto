@@ -320,6 +320,7 @@ const BrandManagement = ({ brand_slug, visible }) => {
               uploadCategories={uploadBrand}
               name={name}
               setName={setName}
+              file = {file}
               setFile={setFile}
             />
           )}
@@ -333,6 +334,7 @@ const BrandManagement = ({ brand_slug, visible }) => {
               updateType = {(e) => updateBrand(e)}
               name={name}
               setName={setName}
+              file = {file}
               setFile={setFile}
             />
           )}

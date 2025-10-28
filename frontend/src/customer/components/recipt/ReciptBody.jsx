@@ -7,7 +7,7 @@ const ReciptBody = (
         date = null,
         getCartCount, 
         calculateTotal,
-
+        
         whoami,
         phoneNumber,
         selectedLocation,
@@ -61,13 +61,15 @@ const ReciptBody = (
           </thead>
           <tbody>
             {cart && cart.length > 0 ? (
-              cart.map((item, index) => (
+              cart.map((item, index) => ( 
                 <tr key={item.id || index} className='hover:bg-gray-50'>
                   <td className='border border-gray-300 p-2 font-normal'>{index + 1}</td>
                   <td className='border border-gray-300 p-2 font-normal'>
                     <div className='break-words'>
                       <p>{item.name || item.title || item.description || 'Unknown Item'}<br/>
-                        <span className='text-gray-500'>(warranty: {item.Product?.warranty})</span>
+                        <span className='text-gray-500'>
+                          {item.warranty && item.warranty !== 'none' && item.warranty !== '' && `(warranty: ${item.warranty})`}
+                        </span>
                     
                       </p>
                     </div>

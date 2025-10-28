@@ -1,7 +1,8 @@
 import React from 'react'
+import DisplayFileNameSelected from '../DisplayFileNameSelected'
 
-const AddForm = ({type_name, setOpen, submit, progress, msg, uploadCategories,  name,setName, setFile}) => {
-    console.log('adform')
+const AddForm = ({type_name, setOpen, submit, progress, msg, uploadCategories, name, setName, file, setFile}) => {
+    
   return (
     <div className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">
         <div className="bg-white rounded-[20px] p-4 sm:p-6 w-full mx-4 max-w-[400px] shadow-lg shadow-green-600">
@@ -58,6 +59,8 @@ const AddForm = ({type_name, setOpen, submit, progress, msg, uploadCategories,  
                 required
                 />
             </button>
+            
+            <DisplayFileNameSelected fileName = {file? file.name : null}/>
             </div>
             
             <div className="flex gap-2 mt-2">

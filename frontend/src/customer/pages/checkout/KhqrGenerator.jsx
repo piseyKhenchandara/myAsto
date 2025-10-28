@@ -138,8 +138,8 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
             <div className='pb-2'>
               <div className=' border-b-2 border-dashed pb-5 border-gray-400 pl-10'>
                 <p>{resFromKHQR.data.BAKONG_ACCOUNT_NAME}</p>
-                <span className=' text-gray-600'>Amount:</span>
-                <span className='font-bold pl-2'>
+                
+                <span className='font-bold md:text-2xl'>
                   ${parseFloat(resFromKHQR.data.amount).toFixed(2)}
                 </span>
               </div>

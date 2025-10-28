@@ -1,7 +1,8 @@
 import React from 'react'
+import DisplayFileNameSelected from '../DisplayFileNameSelected';
 
 
-const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,setName, setFile}) => {
+const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,setName,file, setFile}) => {
 console.log('Submit state:', submit);
 console.log('Should show progress:', submit.formName && submit.process);
   return (
@@ -59,6 +60,13 @@ console.log('Should show progress:', submit.formName && submit.process);
                 className="border p-2 rounded-lg text-sm opacity-0 inset-0 absolute cursor-pointer" 
                 />
             </button>
+            {file && (
+                <div className="mt-2 p-2 bg-gray-100 rounded-lg">
+                <p className="text-xs  truncate">
+                    You selected: <span className='text-green-700'>{file.name}</span>
+                </p>
+                </div>
+            )}
             </div>
             
             <div className="flex gap-2 mt-2">
@@ -85,6 +93,9 @@ console.log('Should show progress:', submit.formName && submit.process);
             >
                 Submit
             </button>
+            <DisplayFileNameSelected fileName={file? file.name : null}/>
+
+            
             </div>
         </form>
         </div>

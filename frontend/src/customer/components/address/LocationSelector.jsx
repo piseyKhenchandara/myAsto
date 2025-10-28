@@ -3,13 +3,21 @@ import React from 'react'
 const LocationSelector = ({
   selectedLocation, 
   handleLocationChange, 
-  label = "Province/City",  // ✅ Default label
-  placeholder = "Select delivery location",  // ✅ Default placeholder
-  required = true,  // ✅ Optional required
-  className = ""  // ✅ Custom className
+  label = "Province/City",
+  placeholder = "Select delivery location",
+  required = true,
+  className = ""
 }) => {
   return (
     <div>
+      {/* Inline CSS inside component */}
+      <style>{`
+        select option:hover {
+          background-color: #4ade80; /* Tailwind green-400 */
+          color: white;
+        }
+      `}</style>
+
       <label className="block text-sm font-medium text-gray-700 mb-2">
         {label}
       </label>

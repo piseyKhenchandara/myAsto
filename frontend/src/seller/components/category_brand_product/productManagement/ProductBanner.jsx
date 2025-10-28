@@ -7,6 +7,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { CiTrash } from 'react-icons/ci';
 import DeleteForm from '../DeleteForm'; // Import your DeleteForm component
 import { useUser } from '../../../../../context/UserContext';
+import DisplayFileNameSelected from '../../DisplayFileNameSelected';
 
 const ProductBanner = () => {
     // Fixed: Change open to object structure from the start
@@ -387,6 +388,8 @@ const ProductBanner = () => {
                                         className='absolute inset-0 opacity-0 cursor-pointer'
                                     />
                                 </div>
+
+                                <DisplayFileNameSelected fileName = {file? file.name : null}/>
                 
                                 <input 
                                     type="text"

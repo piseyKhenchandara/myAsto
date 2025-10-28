@@ -8,8 +8,6 @@ const AuthSetting = ({
   msg,
   setMsg,
   setName,
-  setEmail,
-  setPassword,
   setPhone,
   setAddress,
   setPfp,
@@ -54,8 +52,6 @@ const AuthSetting = ({
   // Check if any field has been changed
   const hasChanges = previewImage !== null || 
                      document.querySelector('input[type="text"]')?.value ||
-                     document.querySelector('input[type="email"]')?.value ||
-                     document.querySelector('input[type="password"]')?.value ||
                      document.querySelector('input[type="tel"]')?.value ||
                      selectedLocation !== user?.address;
 
@@ -149,32 +145,6 @@ const AuthSetting = ({
                     type='text'
                     placeholder={user?.name || 'Enter your name'}
                     onChange={(e) => setName(e.target.value)}
-                    className='w-full px-4 py-3 border-1 border-gray-200 rounded-xl focus:ring-2 transition-all outline-none hover:border-gray-300'
-                  />
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label className='block text-sm font-semibold text-gray-700 mb-2'>
-                    Email Address
-                  </label>
-                  <input
-                    type='email'
-                    placeholder={user?.email || 'Enter your email'}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className='w-full px-4 py-3 border-1 border-gray-200 rounded-xl focus:ring-2 transition-all outline-none hover:border-gray-300'
-                  />
-                </div>
-
-                {/* Password */}
-                <div>
-                  <label className='block text-sm font-semibold text-gray-700 mb-2'>
-                    New Password
-                  </label>
-                  <input
-                    type='password'
-                    placeholder='Leave blank to keep current'
-                    onChange={(e) => setPassword(e.target.value)}
                     className='w-full px-4 py-3 border-1 border-gray-200 rounded-xl focus:ring-2 transition-all outline-none hover:border-gray-300'
                   />
                 </div>

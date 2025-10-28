@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { getAllProduct } from "../../../api/Product.api";
-import { getAllBrandsAPI } from "../../../api/BrandProduct.api";
-import { getCategoriesAPI } from "../../../api/CategoryProduct.api";
+
 import { useNavigate, useParams } from "react-router-dom";
 
 const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
@@ -13,7 +12,7 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
   const [msg, setMsg] = useState({ type: '', text: "" });
   
   const navigate = useNavigate();
-  const { category_slug, brand_slug } = useParams();
+
   const searchRef = useRef(null);
 
   // Fetch products when popup opens
@@ -77,12 +76,21 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
     return filteredProducts;
   };
 
-  // Handle clicking on a specific product
   const handleProductClick = (product) => {
-    navigate(`/category/${category_slug}/brand/${brand_slug}/product/detail/${product.id}`);
-    toggleSearchPopup();
-  };
-
+  // ✅ Use the product's own category and brand slugs
+  const productCategorySlug = product.Category?.slug;
+  const productBrandSlug = product.Brand?.slug;
+  
+  if (productCategorySlug && productBrandSlug) {
+    navigate(`/category/${productCategorySlug}/brand/${productBrandSlug}/product/detail/${product.id}`);
+  } else {
+    // Fallback: if product doesn't have category/brand info
+    console.error('Product missing category or brand information:', product);
+    navigate(`/product/${product.id}`); // Alternative route if you have one
+  }
+  
+  toggleSearchPopup();
+};
   // Handle pressing Enter or clicking "View all results"
   const handleSearchSubmit = () => {
     if (searchTerm.trim()) {
@@ -98,12 +106,12 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
 
   return (
     <>
-      <button onClick={toggleSearchPopup} aria-label="Open search" ref={searchRef}>
+      <button onClick={toggleSearchPopup} aria-label="Open search">
         <IoIosSearch className="cursor-pointer md:text-2xl" />
       </button>
 
       {searchPopup && (
-        <div className="fixed left-0 right-0 top-12 md:top-15 flex justify-center z-10">
+        <div className="fixed left-0 right-0 top-12 md:top-15 flex justify-center z-10" ref={searchRef}>
           <div className="bg-white shadow-lg rounded-b-md p-4 w-full md:max-w-[1920px]">
             {/* Search Input */}
             <div className="flex flex-row items-center gap-2 border-b pb-2">

@@ -216,7 +216,7 @@ const ProductForm = ({
             <div className="flex flex-row justify-between items-center">
               <p>Features</p>
               <button 
-                className="bg-green-600 px-2 py-2 text-xs text-white rounded-[10px] shadow-sm shadow-green-400 hover: hover:scale-105 transition-transform" 
+                className="bg-green-600 px-2 py-2 text-xs text-white rounded-[10px] shadow-sm shadow-green-400 hover: hover:scale-105 transition-transform hover:cursor-pointer" 
                 onClick={addNewRowFeature}
                 disabled={isProcessing}
                 type="button"
@@ -253,7 +253,7 @@ const ProductForm = ({
                     type="button"
                     aria-label="Remove feature"
                   >
-                    <CiTrash className="text-xl"/>
+                    <CiTrash className="text-xl cursor-pointer"/>
                   </button>
                 </div>
               ))}

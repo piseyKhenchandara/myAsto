@@ -82,17 +82,13 @@ export const getUserByIdAPI = async (userId) => {
     return data.user;
 }
 
-export const updateAuthAPI = async ({name, email, password, phone, address, profile_picture}) => {
+export const updateAuthAPI = async ({name, phone, address, profile_picture}) => {
     const fd = new FormData();
 
-
     if (name && name.trim()) fd.append('name', name.trim());
-    if (email) fd.append('email', email);
-    if (password) fd.append('password', password);
     if (phone) fd.append('phone', phone);
     if (address) fd.append('address', address);
     
-
     if (profile_picture && profile_picture instanceof File) {
         fd.append('image', profile_picture);
     }

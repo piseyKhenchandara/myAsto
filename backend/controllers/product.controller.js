@@ -106,7 +106,7 @@ export const getProductsByBrandNCategory = async( req,res) => {
 
     try{
         const { rows: products, count: total } = await db.Product.findAndCountAll({
-            attributes: ['id', 'name', 'price', 'stock', 'createdAt'],
+            attributes: ['id', 'name', 'price', 'stock', 'createdAt','warranty'],
             include: [
                 {
                     model: db.Category,

@@ -60,7 +60,7 @@ export const uploadBrand = async (req, res) => {
 export const getAllBrands = async (req, res) => {
   try {
     const brands = await db.Brand.findAll({
-      attributes: ['id', 'name', 'image_url'], // ✅ Changed from logo_url to image_url
+      attributes: ['id', 'name', 'image_url', 'slug'], // ✅ Changed from logo_url to image_url
     });
 
     return res.status(200).json({ success: true, brands });

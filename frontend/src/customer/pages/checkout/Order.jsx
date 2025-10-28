@@ -89,7 +89,7 @@ const Order = () => {
   if (!whoami) {
     return (
       <div className='w-full'>
-        <div className='max-w-[1920px] mx-auto px-4 sm:px-6 py-6 sm:py-8'>
+        <div className='max-w-[1920px] mx-auto px-4 sm:px-6 py-6 sm:py-8 '>
           <div className="text-center mb-6 sm:mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Sign in to continue</h2>
             <p className="text-sm sm:text-base text-gray-600">You need to be signed in to view your cart and Order</p>
@@ -103,13 +103,13 @@ const Order = () => {
 
 
   return (
-    <div className='w-full min-h-screen bg-gray-50'>
+    <div className='w-full min-h-full bg-gray-50'>
       <div className='max-w-[1300px] mx-auto px-4 sm:px-6 py-6 sm:py-8'>
         
         
         {cart && cart.length > 0 ? (
           <form className="grid grid-cols-1 lg:grid-cols-7 gap-4 sm:gap-6">
-            <div className='lg:col-span-3'>
+            <div className='lg:col-span-3 '>
               <CartItems
                 cart={cart}
                 getCartCount={getCartCount}

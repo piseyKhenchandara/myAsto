@@ -275,6 +275,7 @@ const CategoryManagement = ({ category_slug }) => {
           msg={msg}
           uploadCategories={uploadCategories}
           name={name}
+          file = {file}
           setName={setName}
           setFile={setFile}
         />

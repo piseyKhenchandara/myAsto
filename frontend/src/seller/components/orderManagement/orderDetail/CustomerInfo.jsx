@@ -41,7 +41,7 @@ const CustomerInfo = ({ user, shippingAddress, phoneNumber }) => {
         <div className='space-y-2 text-sm sm:text-base text-gray-600 text-center sm:text-left'>
           <div className='flex justify-center sm:justify-start items-center gap-2'>
             <CiMail className='text-lg' />
-            <span>{user?.email || 'N/A'}</span>
+            <span className='truncate'>{user?.email || 'N/A'}</span>
           </div>
           <div className='flex justify-center sm:justify-start items-center gap-2'>
             <LuPhone className='text-lg' />

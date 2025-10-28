@@ -12,8 +12,6 @@ const UserProfile = () => {
   const [msg, setMsg] = useState({ type: '', text: "" })
 
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
   const [pfp, setPfp] = useState('')
@@ -40,8 +38,6 @@ const UserProfile = () => {
       setLoading(true)
       const updatedUserData = await updateAuthAPI({
         name: name || user.name,
-        email: email || user.email,
-        password: password || '',
         phone: phone || user.phone,
         address: address || user.address,
         profile_picture: pfp || user.profile_picture,
@@ -57,8 +53,6 @@ const UserProfile = () => {
       
  
       setName('')
-      setEmail('')
-      setPassword('')
       setPhone('')
       setAddress('')
       setPfp('')
@@ -81,8 +75,6 @@ const UserProfile = () => {
 
   const handleCloseModal = () => {
     setName('')
-    setEmail('')
-    setPassword('')
     setPhone('')
     setAddress('')
     setPfp('')
@@ -161,8 +153,6 @@ const UserProfile = () => {
             msg={msg}
             setMsg={setMsg}
             setName={setName}
-            setEmail={setEmail}
-            setPassword={setPassword}
             setPhone={setPhone}
             setAddress={setAddress}
             setPfp={setPfp}      
