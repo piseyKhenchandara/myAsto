@@ -18,16 +18,9 @@ const RootSellerLayout = () => {
 
     
     return (
-        <div className="w-full min-h-screen flex flex-col  bg-gray-50">
-
+        <>
             <Header setVisible = {setVisible} asto_logo={asto_logo}/>
-            {/* <div className='w-full background_rgb'>
-                <div className='max-w-[1920px] mx-auto'>
 
-                     <h4 className=' px-3 sticky top-0'>Admin</h4>
-                </div>
-
-            </div> */}
 
             <div className="w-full ">
                 <div className=' mx-auto ' >
@@ -51,33 +44,17 @@ const RootSellerLayout = () => {
                                     ? "hidden md:w-[70%] md:inline-flex md:flex-col "
                                     : "w-full flex flex-col "
                                 }`}
-                            >
-                                
-                            
+                            >                      
                                 <MainContent visible={visible} asto_logo = {asto_logo}/>         
-                           
-                            
-                                
-
-                            
-                            
                         </main>
                     </div>
                         
                 </div>
                             
             </div>
-           {/*  <Footer 
-                    facebook_logo = {facebook_logo}
-                    ig_logo = {ig_logo}
-                    tiktok_logo = {tiktok_logo}
-                    telegram_logo = {telegram_logo}
-                  /> */}
-        
-        
-        </div>
+=
+        </>
     )
 }
 
 export default RootSellerLayout
-  

@@ -16,9 +16,9 @@ const ProductCard = ({
   const checkUserRole = whoami?.role === 'admin' || whoami?.role === 'seller';
 
   return (
-    <div className="md:border shadow hover:shadow-md flex flex-col py-2 justify-between w-full max-w-xs hover:scale-105 transition duration-100 ease-in-out cursor-pointer hover:shadow-green-300 rounded-[15px] h-auto">
+    <article className="md:border shadow hover:shadow-md flex flex-col py-2 justify-between w-full max-w-xs hover:scale-105 transition duration-100 ease-in-out cursor-pointer hover:shadow-green-300 rounded-[15px] h-auto">
       {/* Image Section */}
-      <div className="w-full flex flex-col items-center gap-2 px-[2px]">
+      <figure className="w-full flex flex-col items-center gap-2 px-[2px]">
         {product.ProductImages?.[0] && (
           <Link 
             to={checkUserRole 
@@ -34,7 +34,7 @@ const ProductCard = ({
             />
           </Link>
         )}
-      </div>
+      </figure>
       
       {/* Product Info Section */}
       <div className="flex flex-col px-3">
@@ -81,7 +81,7 @@ const ProductCard = ({
           </div>
         )}
       </div>
-    </div>
+    </article>
   );
 };
 

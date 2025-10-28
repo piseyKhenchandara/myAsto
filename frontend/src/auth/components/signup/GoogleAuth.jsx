@@ -55,12 +55,12 @@ const GoogleAuth = ({
     };
 
     return (
-        <div>
-            <div className="flex items-center my-4">
-                <div className="flex-1 border-t border-gray-600"></div>
+        <section>
+            <figure className="flex items-center my-4">
+                <hr className="flex-1 border-t border-gray-600" />
                 <span className="px-3 text-sm">OR</span>
-                <div className="flex-1 border-t border-gray-600"></div>
-            </div>
+                <hr className="flex-1 border-t border-gray-600" />
+            </figure>
             
             <button
                 type="button"
@@ -76,7 +76,7 @@ const GoogleAuth = ({
             </button>
 
             
-        </div>
+        </section>
     );
 };
 

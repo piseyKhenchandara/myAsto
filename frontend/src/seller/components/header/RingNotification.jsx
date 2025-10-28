@@ -62,9 +62,9 @@ const RingNotification = () => {
           ></div>
           
           {/* Dropdown Panel */}
-          <div className="fixed right-2 left-2 mt-2 sm:absolute sm:right-0 sm:left-auto sm:w-80 md:w-96 bg-white rounded-lg sm:rounded-xl shadow-2xl z-50 border border-gray-200 max-w-sm sm:max-w-none mx-auto sm:mx-0">
+          <aside className="fixed right-2 left-2 mt-2 sm:absolute sm:right-0 sm:left-auto sm:w-80 md:w-96 bg-white rounded-lg sm:rounded-xl shadow-2xl z-50 border border-gray-200 max-w-sm sm:max-w-none mx-auto sm:mx-0">
             {/* Header */}
-            <div className="p-3 sm:p-4 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-lg sm:rounded-t-xl">
+            <header className="p-3 sm:p-4 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-lg sm:rounded-t-xl">
               <p className="text-sm sm:text-base font-semibold text-gray-900">
                 Notifications
                 {unreadCount > 0 && (
@@ -79,10 +79,10 @@ const RingNotification = () => {
               >
                 Mark all read
               </button>
-            </div>
+            </header>
 
             {/* Notification List */}
-            <div className="max-h-[60vh] xs:max-h-[65vh] sm:max-h-96 overflow-y-auto">
+            <section className="max-h-[60vh] xs:max-h-[65vh] sm:max-h-96 overflow-y-auto">
               {notification.length === 0 ? (
                 <div className="p-8 sm:p-12 text-center">
                   <svg 
@@ -102,7 +102,7 @@ const RingNotification = () => {
                 </div>
               ) : (
                 notification.map((notif) => (
-                  <div
+                  <article
                     key={notif.id}
                     onClick={() => markAsRead(notif.id)}
                     className={`p-3 sm:p-4 border-b border-gray-100 last:border-b-0 cursor-pointer transition-all duration-200 active:scale-[0.98] ${
@@ -116,24 +116,24 @@ const RingNotification = () => {
                         <p className="text-xs sm:text-sm text-gray-800 leading-relaxed break-words">
                           {notif.message}
                         </p>
-                        <p className="text-[10px] xs:text-xs text-gray-500 mt-1 sm:mt-1.5">
+                        <time className="text-[10px] xs:text-xs text-gray-500 mt-1 sm:mt-1.5 block">
                           {new Date(notif.createdAt).toLocaleString('en-US', {
                             month: 'short',
                             day: 'numeric',
                             hour: '2-digit',
                             minute: '2-digit'
                           })}
-                        </p>
+                        </time>
                       </div>
                       {!notif.read && (
                         <span className="w-2 h-2 bg-green-600 rounded-full flex-shrink-0 mt-1"></span>
                       )}
                     </div>
-                  </div>
+                  </article>
                 ))
               )}
-            </div>
-          </div>
+            </section>
+          </aside>
         </>
       )}
     </div>

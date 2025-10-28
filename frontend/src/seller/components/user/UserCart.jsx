@@ -21,9 +21,9 @@ const UserCart = ({ user }) => {
   };
 
   return (
-    <div>
+    <article>
       <Link to={`/dashboard/User-profile/${user.id}/receipts`}>
-        <div className="flex items-center gap-4 mb-4">
+        <header className="flex items-center gap-4 mb-4">
           <img
             src={user.profile_picture || '/default-avatar.png'}
             alt={user.name}
@@ -37,36 +37,36 @@ const UserCart = ({ user }) => {
               {user.email}
             </p>
           </div>
-        </div>
+        </header>
 
       
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 pt-3 border-t-2 border-green-600">
+        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 pt-3 border-t-2 border-green-600">
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-700 text-xs sm:text-sm">Role:</span>
-            <span className="text-gray-600 text-xs sm:text-sm capitalize">{user.role}</span>
+            <dt className="font-medium text-gray-700 text-xs sm:text-sm">Role:</dt>
+            <dd className="text-gray-600 text-xs sm:text-sm capitalize">{user.role}</dd>
           </div>
           
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-700 text-xs sm:text-sm">Phone:</span>
-            <span className="text-gray-600 text-xs sm:text-sm">{user.phone || 'N/A'}</span>
+            <dt className="font-medium text-gray-700 text-xs sm:text-sm">Phone:</dt>
+            <dd className="text-gray-600 text-xs sm:text-sm">{user.phone || 'N/A'}</dd>
           </div>
           
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-700 text-xs sm:text-sm">Created:</span>
-            <span className="text-gray-600 text-xs sm:text-sm truncate">
-              {formatDateTime(user.created_at)}
-            </span>
+            <dt className="font-medium text-gray-700 text-xs sm:text-sm">Created:</dt>
+            <dd className="text-gray-600 text-xs sm:text-sm truncate">
+              <time>{formatDateTime(user.created_at)}</time>
+            </dd>
           </div>
           
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-700 text-xs sm:text-sm">Last Login:</span>
-            <span className="text-gray-600 text-xs sm:text-sm truncate">
-              {formatDateTime(user.last_login)}
-            </span>
+            <dt className="font-medium text-gray-700 text-xs sm:text-sm">Last Login:</dt>
+            <dd className="text-gray-600 text-xs sm:text-sm truncate">
+              <time>{formatDateTime(user.last_login)}</time>
+            </dd>
           </div>
-        </div>
+        </dl>
       </Link>
-      </div>
+      </article>
  
       
   )

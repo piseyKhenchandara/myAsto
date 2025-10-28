@@ -3,7 +3,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
 
  
  export const Overview_Analytics = () => (
-      <div>
+      <section>
 
         <ul className="space-y-2">
           <li> Total Products</li>
@@ -13,11 +13,11 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
           <li> Sales Chart (Daily/Monthly)</li>
           <li> Low Stock Alerts</li>
         </ul>
-      </div>
+      </section>
     );
 
     export const Product_Management = () => ( 
-      <div>
+      <section>
     
         <ul className="space-y-2">
           <li> View / Search / Filter Products</li>
@@ -34,12 +34,12 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
           <li><NavLink to= "/seller-dashboard/products/bulk" className={({isActive}) => `${isActive? "text-green-600" : ""}`}>Bulk Upload via CSV</NavLink> </li>
           <li> Organize by Categories/Brands</li>
         </ul>
-      </div>
+      </section>
     );
 
 
     export const Category_Management = () => (
-      <div>
+      <section>
         <ul className="space-y-2">
           <li>
              <NavLink to="/dashboard/categories" className={({isActive}) => isActive ? "text-green-600" : ""}>
@@ -48,11 +48,11 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
           </li>
           <li>Bulk Upload Categories</li>
         </ul>
-      </div>
+      </section>
     );
 
     export const Brand_Management = () => (
-      <div>
+      <section>
         <ul className="space-y-2">
           <li>Bulk Upload Brands</li>
           <li>
@@ -61,11 +61,11 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
           </NavLink> 
           </li>
         </ul>
-      </div>
+      </section>
     );
 
     export const Customer_Management = () => (
-      <div>
+      <section>
       
         <ul className="space-y-2">
           
@@ -79,10 +79,10 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
           <li> Ban / Block Accounts</li>
           <li> Contact or send notification</li>
         </ul>
-      </div>
+      </section>
     );
     export const Order_Management = () => (
-      <div>
+      <section>
         <ul className="space-y-2">
           <li>
             <NavLink to="/dashboard/view-all-orders" className={({isActive}) => isActive ? "text-green-600" : ""}>
@@ -95,12 +95,12 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
           <li> Invoice Download or View</li>
           <li> Return / Cancel Handling</li>
         </ul>
-      </div>
+      </section>
     );
 
 
     export const Category_Brand_Management = () => (
-      <div>
+      <section>
       
         <ul className="space-y-2">
           <li>
@@ -111,62 +111,59 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
           <li> Associate Brands with Categories</li>
           <li> Slug URL Management</li>
         </ul>
-      </div>
+      </section>
     );
 
     export const Reviews_Ratings = () => (
-      <div>
+      <section>
       
         <ul className="space-y-2">
           <li> Moderate Reviews</li>
           <li> Average Rating per Product</li>
         </ul>
-      </div>
+      </section>
     );
 
     export const Media_Manager = () => (
-      <div>
+      <section>
       
         <ul className="space-y-2">
           <li> View Uploaded Images</li>
           <li> Organize by folder/tag</li>
           <li> Delete unused media</li>
         </ul>
-      </div>
+      </section>
     );
 
     export const Reports_Analytics = () => (
-      <div>
+      <section>
       
         <ul className="space-y-2">
           <li> Downloadable CSV Reports</li>
           <li> Revenue Trends</li>
           <li> Time-based filtering</li>
         </ul>
-      </div>
+      </section>
     );
 
     export const Security_Setting = () => (
-      <div>
+      <section>
         
         <ul className="space-y-2">
           <li> JWT Auth / Token Expiry</li>
           <li> Seller Profile Settings</li>
           <li> 2FA / Password Reset</li>
         </ul>
-      </div>
+      </section>
   );
 
     export const Notifications = () => (
-      <div>
+      <section>
         
         <ul className="space-y-2">
           <li> Order Alerts</li>
           <li> Product Issue Alerts</li>
           <li> Email Notification Logs</li>
         </ul>
-      </div>
+      </section>
     );
-
-    
-

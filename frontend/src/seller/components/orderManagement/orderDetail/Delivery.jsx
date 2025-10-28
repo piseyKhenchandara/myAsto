@@ -29,7 +29,7 @@ const Delivery = ({ deliveryCompany }) => {
   };
 
   return (
-    <div className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>
+    <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>
       <h5 className='font-bold text-gray-800 mb-4 text-base sm:text-lg text-center sm:text-left'>
         Delivery
       </h5>
@@ -37,7 +37,7 @@ const Delivery = ({ deliveryCompany }) => {
       <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
         {/* Left side - Logo & Info */}
         <div className='flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left'>
-          <div className={`w-16 h-16 sm:w-12 sm:h-12 ${info.bgColor} rounded-lg flex items-center justify-center p-2`}>
+          <figure className={`w-16 h-16 sm:w-12 sm:h-12 ${info.bgColor} rounded-lg flex items-center justify-center p-2`}>
             {info.logo ? (
               <img 
                 src={info.logo} 
@@ -47,7 +47,7 @@ const Delivery = ({ deliveryCompany }) => {
             ) : (
               <span className='text-gray-600 font-bold text-xs'>SD</span>
             )}
-          </div>
+          </figure>
 
           <div>
             <p className='font-semibold text-gray-800 text-base sm:text-lg'>
@@ -62,7 +62,7 @@ const Delivery = ({ deliveryCompany }) => {
           <p className='font-semibold text-gray-800 text-sm sm:text-base'>$2.00</p>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

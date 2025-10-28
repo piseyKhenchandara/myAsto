@@ -35,33 +35,30 @@ const PhoneInput = ({phoneNumber, setPhoneNumber}) => {
       }
   return (
     <div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-          <input 
-            type="text"
-            placeholder="012-345-678 or +855 12-345-678"
-            value={phoneNumber}
-            onChange={handlePhoneChange}
-            required
-            className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent ${
-              phoneError 
-                ? 'border-red-300 focus:ring-red-500' 
-                : 'border-gray-300 focus:ring-green-500'
-            }`}
-          />
-          {phoneError && (
-            <p className="mt-1 text-sm text-red-600">{phoneError}</p>
-          )}
-          {phoneNumber && !phoneError && (
-            <p className="mt-1 text-sm text-green-600 flex items-center" >
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Valid phone number
-            </p>
-          )}
-        </div>
-      
+        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+        <input 
+          type="text"
+          placeholder="012-345-678 or +855 12-345-678"
+          value={phoneNumber}
+          onChange={handlePhoneChange}
+          required
+          className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent ${
+            phoneError 
+              ? 'border-red-300 focus:ring-red-500' 
+              : 'border-gray-300 focus:ring-green-500'
+          }`}
+        />
+        {phoneError && (
+          <p className="mt-1 text-sm text-red-600">{phoneError}</p>
+        )}
+        {phoneNumber && !phoneError && (
+          <p className="mt-1 text-sm text-green-600 flex items-center" >
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            Valid phone number
+          </p>
+        )}
     </div>
   )
 }

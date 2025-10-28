@@ -22,7 +22,7 @@ export const NotificationProvider = ({children}) => {
     useEffect(() => {
         if(user && (user.role === 'admin' || user.role === 'seller')) {
             
-            // ✅ STEP 1: Fetch existing notifications from database using API
+       
             const fetchNotifications = async () => {
                 try {
                     const data = await getNotificationsAPI();
@@ -35,10 +35,9 @@ export const NotificationProvider = ({children}) => {
 
             fetchNotifications();
 
-            // ✅ STEP 2: Join socket room for real-time updates
             socket.emit('join', { role: user.role });
             
-            // ✅ STEP 3: Listen for new real-time notifications
+
             const onNewOrder = (order) => addNotification({
                 id: order.id,
                 type: 'order',

@@ -75,13 +75,13 @@ const ProductDetail = () => {
     }
 
     return (
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+        <article className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12'>
                 
                 {/* Image Section */}
-                <div className='space-y-4'>
+                <section className='space-y-4'>
                     {/* Main Image */}
-                    <div className='overflow-hidden'>
+                    <figure className='overflow-hidden'>
                         {selectedImage ? (
                             <img 
                                 src={selectedImage.image_url} 
@@ -101,7 +101,7 @@ const ProductDetail = () => {
                                 </div>
                             )
                         )}
-                    </div>
+                    </figure>
 
                     {/* Thumbnail Grid */}
                     {productDetail.ProductImages?.length > 1 && (
@@ -130,7 +130,7 @@ const ProductDetail = () => {
 
                     {/* Videos */}
                     {productDetail.ProductVideos?.length > 0 && (
-                        <div className="space-y-4">
+                        <section className="space-y-4">
                             <h3 className="text-lg font-medium text-gray-900">Product Videos</h3>
                             <div className="space-y-3">
                                 {productDetail.ProductVideos.map((video, index) => (
@@ -145,18 +145,18 @@ const ProductDetail = () => {
                                     </video>
                                 ))}
                             </div>
-                        </div>
+                        </section>
                     )}
-                </div>
+                </section>
 
                 {/* Product Info */}
-                <div className='space-y-6'>
+                <section className='space-y-6'>
                     {/* Basic Info */}
-                    <div className='space-y-2 border-b-1'>
+                    <header className='space-y-2 border-b-1'>
                         <h3 className='text-2xl sm:text-3xl font-bold text-gray-900'>
                             {productDetail.name}
                         </h3>
-                    </div>
+                    </header>
 
                     {/* Description */}
                     {productDetail.description && (
@@ -169,21 +169,21 @@ const ProductDetail = () => {
 
                     {/* Features */}
                     {productDetail.ProductFeatures?.length > 0 && (
-                        <div className='space-y-3'>
+                        <section className='space-y-3'>
                             <h4 className=' text-gray-900 '>Specifications</h4>
-                            <div className=''>
+                            <dl className=''>
                                 {productDetail.ProductFeatures.map((feature, index) => (
                                     <div key={index} className='px-4 py-3 flex justify-between border-b-1'>
-                                        <span className='text-sm font-medium text-gray-900'>
+                                        <dt className='text-sm font-medium text-gray-900'>
                                             {feature.feature_name}
-                                        </span>
-                                        <span className='text-sm text-gray-600'>
+                                        </dt>
+                                        <dd className='text-sm text-gray-600'>
                                             {feature.feature_value}
-                                        </span>
+                                        </dd>
                                     </div>
                                 ))}
-                            </div>
-                        </div>
+                            </dl>
+                        </section>
                     )}
                 
                     {/* Price and Warranty */}
@@ -228,7 +228,7 @@ const ProductDetail = () => {
                     
 
                     {/* Additional Info */}
-                    <div className='space-y-3 pt-4 border-gray-200'>
+                    <footer className='space-y-3 pt-4 border-gray-200'>
                         <div className='flex items-center text-sm text-gray-600'>
                             <svg className='w-4 h-4 mr-2' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                                 <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' />
@@ -236,10 +236,10 @@ const ProductDetail = () => {
                             Thanks you for supporting  
                         </div>
                        
-                    </div>
-                </div>
+                    </footer>
+                </section>
             </div>
-        </div>
+        </article>
     );
 }
 

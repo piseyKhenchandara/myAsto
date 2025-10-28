@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import asto_logo from '../../../assets/logoes/asto_logo.png'
-import ReciptHeader from '../../components/recipt/reciptHeader';
+import ReciptHeader from '../../components/recipt/ReciptHeader';
 import ReciptBody from '../../components/recipt/ReciptBody';
 
 const OrderSummary = ({ 
@@ -53,7 +53,7 @@ const OrderSummary = ({
   
   return (
     <section> 
-      <div className="bg-white rounded-lg shadow-md py-5 px-4 md:px-8 space-y-5 animation_form_popup ">
+      <article className="bg-white rounded-lg shadow-md py-5 px-4 md:px-8 space-y-5 animation_form_popup ">
       
         <ReciptHeader asto_logo={asto_logo}/>
 
@@ -83,12 +83,12 @@ const OrderSummary = ({
           {isProcessing ? 'Processing...' : 'Proceed to Order'}
         </button>
 
-        <div className="mt-4 text-center">
+        <footer className="mt-4 text-center">
           <p className="text-sm text-gray-500">
             Secure Order powered by SSL encryption
           </p>
-        </div>
-      </div>
+        </footer>
+      </article>
     </section>
   );
 };

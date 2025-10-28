@@ -56,14 +56,14 @@ const CategoryScroll = () => {
   const visibleItems = getVisibleItems();
 
   return (
-    <div className='flex justify-center items-center'>
-      <div onClick={preC} className='cursor-pointer p-2'>
-        <h4>&lt;</h4>
-      </div>
+    <nav className='flex justify-center items-center'>
+      <button onClick={preC} className='cursor-pointer p-2'>
+        <span>&lt;</span>
+      </button>
 
       <div className='flex items-center'>
         {visibleItems.map((cat, displayIndex) => (
-          <div key={cat.originalIndex} onClick={() => C(cat.originalIndex)}>
+          <button key={cat.originalIndex} onClick={() => C(cat.originalIndex)}>
             <img 
               src={cat.image_url} 
               alt={cat.name || ""} 
@@ -73,14 +73,14 @@ const CategoryScroll = () => {
                   : 'border-gray-400 opacity-60'
               }`}
             />
-          </div>
+          </button>
         ))}
       </div>
       
-      <div onClick={nextC} className='cursor-pointer p-2'>
-        <h4>&gt;</h4>
-      </div>
-    </div>
+      <button onClick={nextC} className='cursor-pointer p-2'>
+        <span>&gt;</span>
+      </button>
+    </nav>
   )
 }
 

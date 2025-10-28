@@ -43,12 +43,12 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
 
   if (!resFromKHQR) {
     return (
-      <div className='bg-white rounded-lg p-8 max-w-md w-full mx-4'>
+      <article className='bg-white rounded-lg p-8 max-w-md w-full mx-4'>
         <div className='flex flex-col items-center'>
           <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mb-4'></div>
           <p className='text-gray-600'>Generating KHQR code...</p>
         </div>
-      </div>
+      </article>
     );
   }
 
@@ -91,12 +91,13 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
   const isExpired = timeLeft?.expired;
 
   return (
-    <div className='rounded-lg p-6 sm:p-8 max-w-md mx-4 relative'>
+    <article className='rounded-lg p-6 sm:p-8 max-w-md mx-4 relative'>
       {/* Close button */}
       {onClose && (
         <button
           onClick={onClose}
           className='absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors'
+          aria-label="Close QR code"
         >
           <svg className='w-6 h-6 text-white cursor-pointer hover:scale-120 transform transition bg-red-600 rounded-full' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
@@ -105,15 +106,15 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
       )}
 
       {/* Header */}
-      <div className='text-center mb-6'>
+      <header className='text-center mb-6'>
         {message.type === 'error'? <p className='text-red-600'>{message.text}</p> : <p className='text-green-600'>{message.text}</p>}
         
         
         
-      </div>
+      </header>
     
             {/* QR Code */}
-      <div className='bg-white rounded-3xl animation_form_popup' style={{ boxShadow: '0 0 16px rgba(0, 0, 0, 0.1)' }}>
+      <section className='bg-white rounded-3xl animation_form_popup' style={{ boxShadow: '0 0 16px rgba(0, 0, 0, 0.1)' }}>
         {isExpired ? (
           <div className='flex flex-col items-center justify-center h-64'>
             <svg className='w-16 h-16 text-red-500 mb-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -144,7 +145,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
                 </span>
               </div>
 
-              <div className='relative pt-5 px-10'>
+              <figure className='relative pt-5 px-10'>
                 <QRCode
                   value={resFromKHQR.data.qr_code}
                   size={256}
@@ -154,24 +155,24 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
                 <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-12 h-12 flex items-center justify-center'>
                   <span className='text-white rounded-full text-xl font-bold bg-black px-[14px] py-[6px]'>$</span>
                 </div>
-              </div>
+              </figure>
 
               {/* MD5 Hash (for verification) */}
-              <div className='mt-5 text-center'>
+              <footer className='mt-5 text-center'>
                 <p className='text-xs text-gray-500'>
                   MD5: {resFromKHQR.data.qr_md5?.substring(0, 16)}...
                 </p>
-              </div>
+              </footer>
             </div>
           
           </div>
         )}
-      </div>
+      </section>
 
 
       {/* Timer */}
       {timeLeft && !isExpired && (
-        <div className='bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6'>
+        <aside className='bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6'>
           <div className='flex items-center justify-between'>
             <div className='flex items-center'>
               <svg className='w-5 h-5 text-yellow-600 mr-2' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -179,17 +180,17 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
               </svg>
               <span className='text-yellow-800 font-medium'>Time remaining:</span>
             </div>
-            <span className='text-yellow-900 font-bold text-lg'>
+            <time className='text-yellow-900 font-bold text-lg'>
               {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
-            </span>
+            </time>
           </div>
-        </div>
+        </aside>
       )}
 
     
 
       
-    </div>
+    </article>
   );
 };
 

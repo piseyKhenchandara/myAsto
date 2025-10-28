@@ -10,14 +10,6 @@ const LocationSelector = ({
 }) => {
   return (
     <div>
-      {/* Inline CSS inside component */}
-      <style>{`
-        select option:hover {
-          background-color: #4ade80; /* Tailwind green-400 */
-          color: white;
-        }
-      `}</style>
-
       <label className="block text-sm font-medium text-gray-700 mb-2">
         {label}
       </label>

@@ -59,7 +59,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
         case "Notifications":
         return <Notifications />;
         default:
-        return <div>Select a section</div>;
+        return <p>Select a section</p>;
     }
     };
 
@@ -67,26 +67,28 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
 
   return (
  
-            <ul className="min-h-full">
+            <nav className="min-h-full">
               {menu.map((eachChoice, index) => (
-                <li
+                <details
                   key={index}
-                  onClick={() => setActive(eachChoice.choice)}
-                  className={`flex flex-col gap-2 py-4 cursor-pointer ${
+                  open={active === eachChoice.choice}
+                  className={`py-4 cursor-pointer ${
                     active === eachChoice.choice ? "bg-gray-200" : ""
                   } transition duration-300 border-b-1 border-gray-300`}
                 >
-                  <div className="flex bg-white px-4 justify-between">
+                  <summary 
+                    className="flex bg-white px-4 justify-between list-none"
+                    onClick={() => setActive(eachChoice.choice)}
+                  >
                     <span className="hover:text-green-800">{eachChoice.choice}</span>
                     <span>{eachChoice.icon}</span>
-                  </div>
+                  </summary>
                   <div className="flex justify-end px-2">
                     {active === eachChoice.choice && renderContent(eachChoice.choice)}
-                    
                   </div>
-                </li>
+                </details>
               ))}
-            </ul>
+            </nav>
      
   )
 }

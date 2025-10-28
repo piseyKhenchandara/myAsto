@@ -61,9 +61,9 @@ const ProductImageSection = ({
     };
 
     return (
-        <div className='flex flex-col md:flex-row gap-4 lg:gap-6 w-full lg:w-[45%]'>
+        <section className='flex flex-col md:flex-row gap-4 lg:gap-6 w-full lg:w-[45%]'>
             <div className="w-full space-y-6">
-                <div className="flex justify-between items-center">
+                <header className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold text-gray-700">Product Images</h3>
                     <button
                         onClick={() => navigate(-1)}
@@ -71,14 +71,14 @@ const ProductImageSection = ({
                     >
                         ← Back
                     </button>
-                </div>
+                </header>
                 
                 {existingImages.length > 0 ? (
                     <div className="space-y-4">
                         {/* Current Images Grid */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {existingImages.map((img, idx) => (
-                                <div key={idx} className="relative group border rounded-lg p-2 bg-white shadow-sm">
+                                <figure key={idx} className="relative group border rounded-lg p-2 bg-white shadow-sm">
                                     <div className="aspect-square bg-gray-100 rounded overflow-hidden">
                                         <img 
                                             src={img.image_url} 
@@ -125,13 +125,13 @@ const ProductImageSection = ({
                                             New
                                         </span>
                                     )}
-                                </div>
+                                </figure>
                             ))}
                         </div>
 
                         {/* Replacement Summary */}
                         {Object.keys(finalImages).length > 0 && (
-                            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <aside className="bg-green-50 border border-green-200 rounded-lg p-4">
                                 <h4 className="text-md font-medium text-green-800 mb-2">Images to be replaced:</h4>
                                 <ul className="text-sm text-green-700">
                                     {Object.keys(finalImages).map(idx => (
@@ -140,14 +140,14 @@ const ProductImageSection = ({
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
+                            </aside>
                         )}
 
                         {/* Selected Image Preview */}
                         {selectedImage && (
-                            <div className="mt-6">
+                            <aside className="mt-6">
                                 <h4 className="text-md font-medium text-gray-600 mb-3">Image Preview</h4>
-                                <div className="bg-gray-50 rounded-lg p-4 text-center">
+                                <figure className="bg-gray-50 rounded-lg p-4 text-center">
                                     <img 
                                         src={selectedImage.image_url} 
                                         alt="Preview"
@@ -159,8 +159,8 @@ const ProductImageSection = ({
                                     >
                                         Close Preview
                                     </button>
-                                </div>
-                            </div>
+                                </figure>
+                            </aside>
                         )}
                     </div>
                 ) : (
@@ -169,7 +169,7 @@ const ProductImageSection = ({
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     );
 };
 

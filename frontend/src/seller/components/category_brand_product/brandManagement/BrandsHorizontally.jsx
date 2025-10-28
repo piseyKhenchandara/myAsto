@@ -42,7 +42,7 @@ const BrandsHorizontally = () => {
   const duplicatedBrands = [...brands, ...brands];
 
   return (
-    <div className="overflow-hidden w-full py-2 mb-5">
+    <section className="overflow-hidden w-full py-2 mb-5">
       <div className="flex animate-scroll items-center brands-carousel-track">
         {duplicatedBrands.map((b, idx) => (
           <div className="brand-item flex-shrink-0 px-4" key={idx}>
@@ -54,7 +54,7 @@ const BrandsHorizontally = () => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

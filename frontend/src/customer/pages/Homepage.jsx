@@ -2,10 +2,11 @@ import React from 'react'
 import CategoryNew from '../../seller/components/category_brand_product/categoryManagement/CategoryNew'
 const Homepage = () => {
   return (
-    <div>
+    <main>
       <CategoryNew/>
-    </div>
+    </main>
   )
 }
 
 export default Homepage
+ 

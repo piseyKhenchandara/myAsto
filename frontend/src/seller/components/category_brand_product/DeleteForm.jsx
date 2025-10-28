@@ -3,11 +3,11 @@ import { CiTrash } from 'react-icons/ci'
 
 const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
   return (
-    <div className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4 ">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto animate-in zoom-in duration-200">
+    <aside className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4 ">
+      <article className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto animate-in zoom-in duration-200">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <header className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
               <CiTrash className="text-red-500 text-xl" />
@@ -28,10 +28,10 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
           >
             ×
           </button>
-        </div>
+        </header>
 
         {/* Content */}
-        <div className="p-6">
+        <section className="p-6">
           {/* Message Display */}
           {msg?.text && (
             <div className={`mb-4 p-3 rounded-lg border ${
@@ -45,7 +45,7 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
 
           {/* Image Preview */}
           {typeData?.image_url ? (
-            <div className="mb-6">
+            <figure className="mb-6">
               <p className="text-sm font-medium text-gray-700 mb-3">Preview:</p>
               <div className="w-full h-40 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden">
                 <img 
@@ -56,11 +56,11 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
                 />
               </div>
               {typeData.name && (
-                <p className="text-sm text-gray-600 mt-2 text-center font-medium">
+                <figcaption className="text-sm text-gray-600 mt-2 text-center font-medium">
                   {typeData.name}
-                </p>
+                </figcaption>
               )}
-            </div>
+            </figure>
           ) : (
             <div className="mb-6">
               <div className="w-full h-32 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center">
@@ -73,7 +73,7 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
           )}
 
           {/* Warning Message */}
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+          <aside className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
             <div className="flex items-start gap-3">
               <div className="w-5 h-5 text-amber-500 mt-0.5">
                 <svg fill="currentColor" viewBox="0 0 20 20">
@@ -87,11 +87,11 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
+          </aside>
+        </section>
 
         {/* Footer Actions */}
-        <div className="flex gap-3 p-6 pt-0">
+        <footer className="flex gap-3 p-6 pt-0">
           <button
             type="button"
             onClick={() => setOpen(false)}
@@ -127,9 +127,9 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
               `Delete ${name}`
             )}
           </button>
-        </div>
-      </div>
-    </div>
+        </footer>
+      </article>
+    </aside>
   )
 }
 

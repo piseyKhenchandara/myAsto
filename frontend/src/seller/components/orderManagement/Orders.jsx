@@ -59,7 +59,7 @@ const Orders = () => {
   };
 
   return (
-    <div className="w-full">
+    <section className="w-full">
       <div className='text-xs py-5'>
         <OrdersTable
           orders={orders}
@@ -71,9 +71,9 @@ const Orders = () => {
           handleDeliveryToggle={handleDeliveryToggle} 
         />
         {open && 
-          <div className='inset-0 fixed flex items-center justify-center bg-black/50 z-50'>
+          <aside className='inset-0 fixed flex items-center justify-center bg-black/50 z-50'>
             <OrderDetail theReceipt={theReceipt} setOpen={setOpen} />
-          </div>
+          </aside>
         }
       </div>
 
@@ -86,7 +86,7 @@ const Orders = () => {
         }}
         handlePageChange={handlePageChange}
       />
-    </div>
+    </section>
   );
 };
 

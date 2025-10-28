@@ -33,7 +33,7 @@ const RedirectToFirstBrand = () => {
     redirectToFirstBrand();
   }, [category_slug, navigate]);
   
-  return <div>Loading...</div>;
+  return <p>Loading...</p>;
 };
 
 export default RedirectToFirstBrand;

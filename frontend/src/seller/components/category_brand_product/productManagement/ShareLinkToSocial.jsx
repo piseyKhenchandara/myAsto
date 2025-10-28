@@ -4,7 +4,7 @@ import { FaFacebookMessenger, FaXTwitter } from 'react-icons/fa6';
 const ShareLinkToSocial = ({productDetail}) => {
   return (
    
-    <div className="flex items-center gap-3 pt-4">
+    <nav className="flex items-center gap-3 pt-4">
         <span className="text-gray-700 font-medium">Share:</span>
 
         {/* Messenger (opens chat with the link in Messenger app) */}
@@ -39,7 +39,7 @@ const ShareLinkToSocial = ({productDetail}) => {
         >
             <FaWhatsapp size={20} />
         </a>
-    </div>
+    </nav>
 
   )
 }

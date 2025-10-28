@@ -3,7 +3,7 @@ import UserCart from './UserCart'
 
 const UsersList = ({visible,users}) => {
   return (
-    <div>
+    <section>
     
         <div className={`grid  ${visible ? 'grid-cols-1  ': 'grid-cols-1 lg:grid-cols-2' } gap-6`}>
             {users.length > 0 ? (
@@ -26,7 +26,7 @@ const UsersList = ({visible,users}) => {
 
   
         
-    </div>
+    </section>
   )
 }
 

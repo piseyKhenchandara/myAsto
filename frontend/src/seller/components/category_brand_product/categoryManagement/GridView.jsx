@@ -27,14 +27,14 @@ const GridView = ({
     }
 
     return (
-        <div className="px-6 py-4 w-full flex flex-col items-center">
+        <section className="px-6 py-4 w-full flex flex-col items-center">
             <div className={`grid justify-items-center ${
                 visible 
                 ? 'grid-cols-3 md:grid-cols-4 lg:grid-cols-6' 
                 : "grid-cols-3 md:grid-cols-5 lg:grid-cols-7"
             } gap-3 md:gap-6`}>
                 {categories.map((cat) => (
-                    <div 
+                    <article 
                         className="rounded-[15px] flex flex-col items-center transition-all cursor-pointer hover:scale-110 transform duration-300 p-2 border min-w-[80px] md:min-w-[120px]" 
                         key={cat.id}
                     >
@@ -75,10 +75,10 @@ const GridView = ({
                                 </button>
                             </div>
                         )}
-                    </div>
+                    </article>
                 ))}
             </div>
-        </div>
+        </section>
     );
 };
 

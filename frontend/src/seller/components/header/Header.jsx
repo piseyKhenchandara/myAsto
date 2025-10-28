@@ -23,17 +23,20 @@ const Header = ({setVisible, asto_logo}) => {
   };
 
   return (
-    <nav className="w-full border-b border-green-600 shadow-md bg-white sticky top-0 z-50">
-      <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-3 max-w-[1920px] mx-auto">
+    <header className="w-full border-b border-green-600 shadow-md bg-white sticky top-0 z-50">
+      <nav className="flex items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-3 max-w-[1920px] mx-auto">
         
         {/* Left Section - Menu & Logo */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-shrink">
           {/* Hamburger Menu - Only show for dashboard users */}
           {checkUserRole && location.pathname.includes('/dashboard') && (
-            <FaBars 
+            <button 
               className="text-xl sm:text-xl md:text-2xl lg:text-2xl cursor-pointer flex-shrink-0 hover:text-green-600 transition-colors"
               onClick={() => setVisible((prev) => !prev)}
-            />
+              aria-label="Toggle menu"
+            >
+              <FaBars />
+            </button>
           )}
           
           {/* Logo */}
@@ -86,11 +89,11 @@ const Header = ({setVisible, asto_logo}) => {
             <LanguageChoice />
           </div>
         </div>
-      </div>
+      </nav>
       
       {/* Hidden Google Translate Element */}
       <div id="google_translate_element" className="hidden"></div>
-    </nav>
+    </header>
   );
 };
 

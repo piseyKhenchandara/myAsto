@@ -34,10 +34,10 @@ const Address = ({
   const isProvince = selectedLocation && selectedLocation !== 'Phnom Penh'
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+    <section className="bg-white rounded-lg shadow-md p-6 mb-6">
       <h2 className="text-xl font-semibold text-gray-800 mb-6 border-b pb-3">Delivery Address</h2>
 
-      <div className="space-y-4">
+      <form className="space-y-4">
         
         <CustomerInfo whoami = {whoami}/>
 
@@ -62,8 +62,8 @@ const Address = ({
           setAddress={setAddress}
           setOrderNotes = {setOrderNotes}
         />
-      </div>
-    </div>
+      </form>
+    </section>
   )
 }
 

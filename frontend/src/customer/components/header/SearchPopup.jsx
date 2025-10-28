@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { getAllProduct } from "../../../api/Product.api";
 
-
-
 const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [allProducts, setAllProducts] = useState([]);
@@ -30,12 +28,7 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
       }
     })
 
-    
-    
   }
-
-
-
 
   return (
     <>
@@ -44,10 +37,10 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
       </button>
 
       {searchPopup && (
-        <div className="fixed left-0 right-0 top-12 flex justify-center z-10">
-          <div className="bg-white shadow-lg rounded-b-md p-4 w-full md:max-w-[1920px]">
+        <aside className="fixed left-0 right-0 top-12 flex justify-center z-10">
+          <section className="bg-white shadow-lg rounded-b-md p-4 w-full md:max-w-[1920px]">
             {/* 🔎 Input */}
-            <div className="flex flex-row items-center gap-2 border-b pb-2">
+            <form className="flex flex-row items-center gap-2 border-b pb-2">
               <IoIosSearch
                 className="text-gray-400 text-base cursor-pointer"
                 onClick={handleSearchSubmit}
@@ -61,14 +54,14 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
               />
-            </div>
+            </form>
 
             {/* 🔽 Result List */}
             <div className="overflow-y-auto max-h-80 mt-2">
               
             </div>
-          </div>
-        </div>
+          </section>
+        </aside>
       )}
     </>
   );

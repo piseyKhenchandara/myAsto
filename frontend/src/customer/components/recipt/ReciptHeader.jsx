@@ -7,7 +7,7 @@ const ReciptHeader = ({asto_logo = false}) => {
     const shape = "w-20 h-20 md:w-25 md:h-25 object-contain";
 
   return (
-    <div className="w-full border-b-1">
+    <header className="w-full border-b-1">
       <div className="flex justify-between items-center gap-2 sm:gap-4">
         {/* Logo Section */}
         <div className="flex-shrink-0">
@@ -36,7 +36,7 @@ const ReciptHeader = ({asto_logo = false}) => {
         </div>
       </div>
 
-    </div>
+    </header>
   )
 }
 

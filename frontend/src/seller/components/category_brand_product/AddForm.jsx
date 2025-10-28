@@ -4,9 +4,9 @@ import DisplayFileNameSelected from '../DisplayFileNameSelected'
 const AddForm = ({type_name, setOpen, submit, progress, msg, uploadCategories, name, setName, file, setFile}) => {
     
   return (
-    <div className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">
-        <div className="bg-white rounded-[20px] p-4 sm:p-6 w-full mx-4 max-w-[400px] shadow-lg shadow-green-600">
-        <div className="flex justify-between items-center mb-4">
+    <aside className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">
+        <article className="bg-white rounded-[20px] p-4 sm:p-6 w-full mx-4 max-w-[400px] shadow-lg shadow-green-600">
+        <header className="flex justify-between items-center mb-4">
             <h4 className="text-lg font-semibold">{type_name}</h4>
             <button 
             onClick={() => setOpen({formData : "", open : false})}
@@ -14,7 +14,7 @@ const AddForm = ({type_name, setOpen, submit, progress, msg, uploadCategories, n
             >
             ×
             </button>
-        </div>
+        </header>
         {submit.process && 
             <div className="w-full mb-3">
             <div className="w-full h-2 bg-gray-200 rounded">
@@ -63,7 +63,7 @@ const AddForm = ({type_name, setOpen, submit, progress, msg, uploadCategories, n
             <DisplayFileNameSelected fileName = {file? file.name : null}/>
             </div>
             
-            <div className="flex gap-2 mt-2">
+            <footer className="flex gap-2 mt-2">
             <button
                 type="button"
                 onClick={() => setOpen({formName : "", open : false})}
@@ -87,10 +87,10 @@ const AddForm = ({type_name, setOpen, submit, progress, msg, uploadCategories, n
             >
                 {type_name.includes('Edit') ? 'Update' : 'Add'}
             </button>
-            </div>
+            </footer>
         </form>
-        </div>
-    </div>
+        </article>
+    </aside>
   )
 }
 export default AddForm

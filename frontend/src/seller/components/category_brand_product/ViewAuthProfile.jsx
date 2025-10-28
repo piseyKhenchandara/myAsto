@@ -26,20 +26,20 @@ const ViewAuthProfile = () => {
     }
   }, [user_id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (!targetUser) return <div>User not found</div>;
+  if (loading) return <p>Loading...</p>;
+  if (!targetUser) return <p>User not found</p>;
 
   return (
-    <div>
-      <div className="bg-white shadow p-4 mb-4 border-b-2 border-green-600">
+    <section>
+      <header className="bg-white shadow p-4 mb-4 border-b-2 border-green-600">
         <h4 className="text-xl font-bold">
           Viewing Receipts for: {targetUser.name}
         </h4>
         <p className="text-gray-600">{targetUser.email}</p>
-      </div>
+      </header>
       
       <Recipts whoami={targetUser} />
-    </div>
+    </section>
   )
 }
 

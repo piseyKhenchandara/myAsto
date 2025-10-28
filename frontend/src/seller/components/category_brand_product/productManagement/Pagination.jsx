@@ -9,7 +9,7 @@ const Pagination = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex justify-center gap-2">
+    <nav className="flex justify-center gap-2">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -29,7 +29,7 @@ const Pagination = ({
       >
         <GrLinkNext />
       </button>
-    </div>
+    </nav>
   );
 };
 

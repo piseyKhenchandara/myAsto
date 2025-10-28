@@ -16,20 +16,20 @@ const CartItems = ({
   };
 
   return (
-    <div className="w-full md:top-20  md:sticky">
-      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+    <aside className="w-full md:top-20  md:sticky">
+      <section className="bg-white rounded-lg shadow-md p-4 sm:p-6">
         <h4 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">
           Cart Items ({getCartCount()})
         </h4>
         
         <div className="space-y-3 sm:space-y-4">
           {cart.map((item) => (
-            <div 
+            <article 
               key={item.id} 
               className="flex gap-3 sm:gap-4 p-3 sm:p-4 border-b-2 border-green-500"
             >
               {/* Product Image */}
-              <div className="flex-shrink-0">
+              <figure className="flex-shrink-0">
                 {item.ProductImages && item.ProductImages.length > 0 ? (
                   <img 
                     src={item.ProductImages[0].image_url} 
@@ -41,14 +41,14 @@ const CartItems = ({
                     <span className="text-gray-500 text-xs sm:text-sm">No Image</span>
                   </div>
                 )}
-              </div>
+              </figure>
 
               {/* Product Details - Full Width */}
               <div className="flex-grow min-w-0 flex flex-col gap-2">
                 {/* Product Name */}
-                <h4 className="font-semibold text-sm sm:text-base text-gray-800 truncate">
+                <h5 className="font-semibold text-sm sm:text-base text-gray-800 truncate">
                   {item.name || "Unknown Product"}
-                </h4>
+                </h5>
                 
                 {/* Price and Quantity Controls Row */}
                 <div className="flex items-center justify-between gap-3">
@@ -62,6 +62,7 @@ const CartItems = ({
                       onClick={() => decreaseFromCart(item.id)}
                       className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-md transition-colors disabled:opacity-50"
                       disabled={item.quantity <= 1}
+                      aria-label="Decrease quantity"
                     >
                       <FaMinus className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                     </button>
@@ -73,6 +74,7 @@ const CartItems = ({
                     <button
                       onClick={() => increaseFromCart(item.id)}
                       className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-md transition-colors"
+                      aria-label="Increase quantity"
                     >
                       <FaPlus className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                     </button>
@@ -80,7 +82,7 @@ const CartItems = ({
                 </div>
 
                 {/* Total and Remove Button Row */}
-                <div className="flex items-center justify-between">
+                <footer className="flex items-center justify-between">
                   <p className="font-semibold text-base sm:text-lg text-gray-800">
                     Total: ${calculateItemTotal(item.price, item.quantity)}
                   </p>
@@ -88,16 +90,17 @@ const CartItems = ({
                     onClick={() => removeFromCart(item.id)}
                     className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
                     title="Remove item"
+                    aria-label="Remove item from cart"
                   >
                     <CiTrash className="w-5 h-5" />
                   </button>
-                </div>
+                </footer>
               </div>
-            </div>
+            </article>
           ))}
         </div>
-      </div>
-    </div>
+      </section>
+    </aside>
   );
 };
 

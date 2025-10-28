@@ -4,19 +4,19 @@ const Items = ({ items }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>
+    <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>
       <div className='space-y-4'>
         {items.map((item, index) => {
           const mainImage = item.Product?.ProductImages?.find(img => img.is_main);
           const imageUrl = mainImage?.image_url || item.Product?.ProductImages?.[0]?.image_url;
 
           return (
-            <div 
+            <article 
               key={index} 
               className='flex flex-col sm:flex-row sm:items-center gap-4 pb-4 border-b last:border-b-0'
             >
               {/* Product Image */}
-              <div className='w-24 h-24 sm:w-20 sm:h-20 bg-gray-100 rounded-lg flex-shrink-0 mx-auto sm:mx-0'>
+              <figure className='w-24 h-24 sm:w-20 sm:h-20 bg-gray-100 rounded-lg flex-shrink-0 mx-auto sm:mx-0'>
                 {imageUrl ? (
                   <img 
                     src={imageUrl} 
@@ -31,7 +31,7 @@ const Items = ({ items }) => {
                     No Image
                   </div>
                 )}
-              </div>
+              </figure>
 
               {/* Product Details */}
               <div className='flex-1 text-center sm:text-left'>
@@ -61,11 +61,11 @@ const Items = ({ items }) => {
               </div>
 
               
-            </div>
+            </article>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -19,8 +19,8 @@ const CarouselView = ({
 
 
   return (
-    <div>
-        <div className="flex items-center justify-center py-4 px-1 md:px-5">
+    <section>
+        <nav className="flex items-center justify-center py-4 px-1 md:px-5">
             <button
                 onClick={goToPrevious}
                 disabled={!canGoPrevious}
@@ -40,7 +40,7 @@ const CarouselView = ({
                 )}
                 
                 {visibleCategories.map((cat) => (
-                <div 
+                <article 
                     className={`rounded-[15px] flex flex-col items-center transition-all cursor-pointer ${
                     category_slug === cat.slug 
                         ? "opacity-100" 
@@ -58,7 +58,7 @@ const CarouselView = ({
                     <span className="font-medium text-center text-xs sm:text-sm truncate max-w-[80px]">
                     {cat.name}
                     </span>
-                </div>
+                </article>
                 ))}
           
             </div>
@@ -74,10 +74,10 @@ const CarouselView = ({
                 >
                 <MdChevronRight className="text-2xl" />
             </button>
-        </div>
+        </nav>
 
         {categories.length > itemsPerView && (
-        <div className="flex justify-center gap-2 pb-4">
+        <nav className="flex justify-center gap-2 pb-4">
         {Array.from({ 
             length: Math.ceil(categories.length / itemsPerView) 
         }).map((_, index) => {
@@ -95,10 +95,10 @@ const CarouselView = ({
             />
             );
         })}
-        </div>
+        </nav>
         )}      
      
-    </div>
+    </section>
   );
 };
 

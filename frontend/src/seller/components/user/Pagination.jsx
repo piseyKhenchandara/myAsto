@@ -3,12 +3,13 @@ import { GrLinkPrevious, GrLinkNext } from 'react-icons/gr';
 
 const Pagination = ({pagination, handlePageChange}) => {
   return (
-    <div>
+    <nav aria-label="Pagination">
         <div className="flex justify-center items-center gap-4 mt-8">
             <button
             onClick={() => handlePageChange(pagination.page - 1)}
             disabled={pagination.page === 1}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            aria-label="Previous page"
             >
             <GrLinkPrevious />
             </button>
@@ -21,6 +22,7 @@ const Pagination = ({pagination, handlePageChange}) => {
             onClick={() => handlePageChange(pagination.page + 1)}
             disabled={pagination.page >= pagination.totalPages}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            aria-label="Next page"
             >
             <GrLinkNext/>
             </button>
@@ -30,7 +32,7 @@ const Pagination = ({pagination, handlePageChange}) => {
         <div className="text-center mt-4 text-gray-600">
             Total Users: <span className="font-medium text-gray-800">{pagination.total}</span>
         </div>
-    </div>
+    </nav>
   )
 }
 

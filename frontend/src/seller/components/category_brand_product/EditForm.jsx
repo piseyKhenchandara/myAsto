@@ -6,9 +6,9 @@ const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,
 console.log('Submit state:', submit);
 console.log('Should show progress:', submit.formName && submit.process);
   return (
-    <div className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">
-        <div className="bg-white rounded-[20px] p-4 sm:p-6 w-full mx-4 max-w-[400px] shadow-lg shadow-green-600">
-        <div className="flex justify-between items-center mb-4">
+    <aside className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">
+        <article className="bg-white rounded-[20px] p-4 sm:p-6 w-full mx-4 max-w-[400px] shadow-lg shadow-green-600">
+        <header className="flex justify-between items-center mb-4">
             <h4 className="text-lg font-semibold">{type_name}</h4>
             
             <button 
@@ -17,7 +17,7 @@ console.log('Should show progress:', submit.formName && submit.process);
             >
             ×
             </button>
-        </div>
+        </header>
         
         { submit.process && 
             <div className="w-full mb-3">
@@ -69,7 +69,7 @@ console.log('Should show progress:', submit.formName && submit.process);
             )}
             </div>
             
-            <div className="flex gap-2 mt-2">
+            <footer className="flex gap-2 mt-2">
             <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -96,10 +96,10 @@ console.log('Should show progress:', submit.formName && submit.process);
             <DisplayFileNameSelected fileName={file? file.name : null}/>
 
             
-            </div>
+            </footer>
         </form>
-        </div>
-    </div>
+        </article>
+    </aside>
   )
 }
 

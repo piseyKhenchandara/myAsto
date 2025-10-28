@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { reciptsAPI } from '../../../api/Recipt.api';
 import { useUser } from '../../../../context/UserContext';
 import ReciptBody from '../../components/recipt/ReciptBody';
-import ReciptHeader from '../../components/recipt/reciptHeader';
+import ReciptHeader from '../../components/recipt/ReciptHeader';
 import asto_logo from '../../../assets/logoes/asto_logo.png'
 import { useOutletContext } from 'react-router-dom';
 
@@ -64,43 +64,43 @@ const Recipts = ({whoami}) => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="text-lg font-semibold">Loading receipts...</div>
-            </div>
+            <section className="flex justify-center items-center min-h-screen">
+                <p className="text-lg font-semibold">Loading receipts...</p>
+            </section>
         );
     }
 
     if (message.type === 'error') {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <section className="flex justify-center items-center min-h-screen">
+                <aside className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                     {message.text}
-                </div>
-            </div>
+                </aside>
+            </section>
         );
     }
 
     if (!receipts || receipts.length === 0) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="text-lg text-gray-600">No receipts found</div>
-            </div>
+            <section className="flex justify-center items-center min-h-screen">
+                <p className="text-lg text-gray-600">No receipts found</p>
+            </section>
         );
     }
 
     return (
         
-        <div className="mx-auto p-4 max-w-[1920px]">
+        <section className="mx-auto p-4 max-w-[1920px]">
             <div className={`grid ${visible ? "md:grid-cols-1 xl:grid-cols-2" : "min-[840px]:grid-cols-2 xl:grid-cols-3"} gap-6`}>
                 
                 {receipts.map((payment, index) => (
-                    <div key={payment.id || index} className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 p-5 relative">
+                    <article key={payment.id || index} className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 p-5 relative">
                         
                         {/* NEW Badge - Shows if receipt is less than 24 hours old */}
                         {isNewReceipt(payment.createdAt) && (
-                            <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                            <span className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
                                 NEW
-                            </div>
+                            </span>
                         
                         )}
 
@@ -119,11 +119,11 @@ const Recipts = ({whoami}) => {
                             selectedLocation={payment.Order?.shipping_address}
                             selectedDeliveryCompany={payment.Order?.delivery_company}
                         />
-                    </div>
+                    </article>
                 ))}
                 
             </div>
-        </div>
+        </section>
     );
 }
 

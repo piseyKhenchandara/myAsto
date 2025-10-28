@@ -14,12 +14,10 @@ const ReciptBody = (
         selectedDeliveryCompany,
     }
 ) => {
-
-
   return (
-    <div className='flex flex-col font-bold p-4 max-w-full overflow-x-auto'>
+    <article className='flex flex-col font-bold p-4 max-w-full overflow-x-auto'>
       {/* Invoice Header */}
-      <div className='self-end mb-4 text-xs text-gray-500'>
+      <header className='self-end mb-4 text-xs text-gray-500'>
         {invoiceNumber === 0 ? "" : <p>INVOICE NO: <span className='font-normal'>{invoiceNumber}</span></p>}
         <p>Date :  
           <span>
@@ -34,21 +32,17 @@ const ReciptBody = (
           </span>
         </p>
         
-      </div>
+      </header>
 
       {/* Client Information */}
-      <div className='mb-6 text-xs'>
+      <section className='mb-6 text-xs'>
         <p>Client Name: <span className='font-normal'>{whoami?.name || 'N/A'}</span></p>
         <p>Client Phone: <span className='font-normal'>{phoneNumber || 'N/A'}</span></p>
         <p>Address: <span>{selectedLocation || 'N/A'}</span></p>
         
-       
-      </div>
-
-
-
+      </section>
       {/* Items Table */}
-      <div className='overflow-x-auto mb-4'>
+      <section className='overflow-x-auto mb-4'>
         <table className='w-full border-collapse border border-gray-300 text-xs sm:text-sm'>
           <thead>
             <tr className='bg-gray-100'>
@@ -94,11 +88,11 @@ const ReciptBody = (
             )}
           </tbody>
         </table>
-      </div>
+      </section>
 
             {/* Summary Section */}
       {cart && cart.length > 0 && (
-        <div className='self-end w-full sm:w-80 text-xs'>
+        <section className='self-end w-full sm:w-80 text-xs'>
           
           <div className='flex justify-between mb-2 '>
             <span>Subtotal:</span>
@@ -129,11 +123,11 @@ const ReciptBody = (
             </span>
           </div>
         
-        </div>
+        </section>
       )}
 
       {/* Footer/Notes Section */}
-      <div className='mt-6 text-xs sm:text-sm'>
+      <footer className='mt-6 text-xs sm:text-sm'>
         <p className='font-normal text-gray-500'>
           Thank you for supporting us!
         </p>
@@ -142,8 +136,8 @@ const ReciptBody = (
             Delivery will be handled by: {selectedDeliveryCompany}
           </p>
         )}
-      </div>
-    </div>
+      </footer>
+    </article>
   )
 }
 

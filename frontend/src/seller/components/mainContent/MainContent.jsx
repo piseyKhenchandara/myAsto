@@ -11,16 +11,16 @@ const MainContent = ({ visible, asto_logo }) => {
     const location = useLocation();
     
     return (
-        <div>
+        <main>
             {location.pathname === '/dashboard' && (
-                <div>
+                <section>
                     <h1>Dashboard Home</h1>
                 
-                </div>
+                </section>
           
         )}
         <Outlet context={{ visible }} />
-        </div>
+        </main>
     );
 };
 

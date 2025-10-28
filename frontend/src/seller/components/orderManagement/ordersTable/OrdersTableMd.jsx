@@ -9,7 +9,7 @@ const OrdersTableMd = ({
   createdAt 
 }) => {
   return (
-    <div className="hidden lg:block bg-white shadow-xl rounded-xl border border-gray-100 overflow-hidden w-full">
+    <section className="hidden lg:block bg-white shadow-xl rounded-xl border border-gray-100 overflow-hidden w-full">
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>
@@ -51,23 +51,23 @@ const OrdersTableMd = ({
                   className="hover:bg-gray-50 transition-colors duration-150"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
+                    <time className="text-sm text-gray-900 block">
                       {createdAt(order.Payment.paid_at)}
-                    </div>
+                    </time>
                   </td>
-                  <td 
-                    className="px-6 py-4 whitespace-nowrap cursor-pointer group" 
-                    onClick={() => {
-                      setOpen(true)
-                      fetchTheReceipt(order.user_id, order.order_number)
-                    }}
-                  >
-                    <span className="inline-flex items-center gap-1 text-sm font-medium text-green-600 group-hover:text-green-700 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      onClick={() => {
+                        setOpen(true)
+                        fetchTheReceipt(order.user_id, order.order_number)
+                      }}
+                      className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700 transition-colors group"
+                    >
                       #{order.order_number}
                       <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
-                    </span>
+                    </button>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="text-sm font-semibold text-gray-900">
@@ -122,7 +122,7 @@ const OrdersTableMd = ({
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   )
 }
 

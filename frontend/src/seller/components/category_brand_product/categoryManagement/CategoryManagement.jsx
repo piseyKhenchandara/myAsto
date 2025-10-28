@@ -224,12 +224,12 @@ const CategoryManagement = ({ category_slug }) => {
   };
 
   return (
-    <div className="w-full">
+    <section className="w-full">
       {loadingUserRole ? <p className="text-center text-green-300">loading....permission</p> : 
       
         (whoami?.role === 'seller' || whoami?.role === 'admin') && 
 
-          <div className="px-6 bg-gray-200 mx-auto">
+          <header className="px-6 bg-gray-200 mx-auto">
           <div className="flex justify-between items-center md:w-[50%] py-1">
             <h4 className="text-lg font-semibold text-gray-700">
               Categories Section
@@ -243,7 +243,7 @@ const CategoryManagement = ({ category_slug }) => {
               <IoIosAddCircleOutline className="text-2xl sm:text-3xl" />
             </button>
           </div>
-        </div>
+        </header>
         }
      
       
@@ -305,7 +305,7 @@ const CategoryManagement = ({ category_slug }) => {
           typeData={selectedCategory}
         />
       )}
-    </div>
+    </section>
   );
 };
 

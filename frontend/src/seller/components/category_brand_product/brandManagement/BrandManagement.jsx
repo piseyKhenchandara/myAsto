@@ -212,7 +212,7 @@ const BrandManagement = ({ brand_slug, visible }) => {
 
 
   return (
-    <div className='w-full '>
+    <section className='w-full '>
         
       {loadingUserRole ? <p className='text-gray-300 text-center'>loading permisson...</p> : 
       
@@ -221,7 +221,7 @@ const BrandManagement = ({ brand_slug, visible }) => {
           <CategoryManagement category_slug={category_slug} />
           
           
-          {checkUserRole && <div className='bg-gray-200 px-6'>
+          {checkUserRole && <header className='bg-gray-200 px-6'>
             <div className="flex justify-between items-center md:w-[50%] py-1">
               <h4>Brands-section</h4>
               <button 
@@ -232,10 +232,10 @@ const BrandManagement = ({ brand_slug, visible }) => {
                 <IoIosAddCircleOutline className="text-2xl sm:text-3xl" />
               </button>
             </div>
-          </div>}
+          </header>}
 
           {/* Brands Display Section */}
-          <div className="relative p-6 bg-gradient-to-br from-green-100 via-lime-50 to-emerald-100 overflow-hidden">
+          <section className="relative p-6 bg-gradient-to-br from-green-100 via-lime-50 to-emerald-100 overflow-hidden">
             {/* Background Animation */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-10 left-10 w-32 h-32 bg-green-300 rounded-full blur-xl animate-pulse"></div>
@@ -258,7 +258,7 @@ const BrandManagement = ({ brand_slug, visible }) => {
                 
                 <div className='flex flex-wrap gap-3 md:gap-5 w-[80%] py-4 overflow-visible justify-center'>
                   {brands.map((eachBrand, index) => (
-                    <div 
+                    <article 
                       className={`relative flex flex-col items-center p-2 border rounded-[20px] border-green-500 hover:scale-110 hover:shadow-green-400 cursor-pointer transition-transform group ${
                         brand_slug === eachBrand.slug ? 'shadow-inner border-3 shadow-green-500/50' : ""
                       } hover:z-25`} 
@@ -294,10 +294,10 @@ const BrandManagement = ({ brand_slug, visible }) => {
 
                         </div>
                       }
-                      <div className="absolute top-full mt-1 bg-gray-800 text-white text-xs rounded-[10px] px-2 py-1 opacity-0   group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
+                      <span className="absolute top-full mt-1 bg-gray-800 text-white text-xs rounded-[10px] px-2 py-1 opacity-0   group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
                         {eachBrand.name}
-                      </div>
-                    </div>
+                      </span>
+                    </article>
                   ))}
                 </div>  
                 
@@ -307,7 +307,7 @@ const BrandManagement = ({ brand_slug, visible }) => {
                 </p>
               </div>
             )}
-          </div>
+          </section>
 
           {/* Add Brand Form Modal - Using AddForm Component */}
           {open.open && open.formName === 'add'&& (
@@ -352,20 +352,8 @@ const BrandManagement = ({ brand_slug, visible }) => {
           )}
         </>
       }
-    </div>
+    </section>
   )
 }
 
 export default BrandManagement
-
-
-
-
-
-
-
-
-
-
-
-

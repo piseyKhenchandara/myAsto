@@ -38,7 +38,7 @@ const RootCustomerLayout = () => {
   return (
     <div className='w-full min-h-screen flex flex-col  bg-gray-50'>
       <Header asto_logo = {asto_logo} />
-      <div className="w-full min-h-screen">
+      <main className="w-full min-h-screen">
         <div className='mx-auto'>
 
 
@@ -46,7 +46,7 @@ const RootCustomerLayout = () => {
           <Outlet />
           
           {!whoami && popup && (
-            <div className='inset-0 flex justify-center items-center fixed bg-black/50 z-50'>
+            <aside className='inset-0 flex justify-center items-center fixed bg-black/50 z-50'>
               <div className='text-center bg-black text-white px-8 max-w-[400px] rounded-[30px] py-8 space-y-6 shadow-lg shadow-white animation_form_popup'>
                 <h4>Welcome</h4>
                 <p className='text-wrap'>
@@ -68,11 +68,11 @@ const RootCustomerLayout = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </aside>
           )}
 
         </div>              
-      </div>
+      </main>
       
       {location.pathname=== '/' && <Footer 
         facebook_logo = {facebook_logo}
@@ -85,4 +85,3 @@ const RootCustomerLayout = () => {
 }
 
 export default RootCustomerLayout
-  

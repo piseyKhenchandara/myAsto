@@ -79,10 +79,11 @@ export default function LanguageChoice() {
   const currentFlag = flagMap[currentLang] || england_flag;
 
   return (
-    <div className="relative notranslate" translate='no' data-gt-ignore="true">
+    <nav className="relative notranslate" translate='no' data-gt-ignore="true">
       <button
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer"
+        aria-label="Select language"
       >
         <img src={currentFlag} alt="Current Language" className="h-8 w-9 object-cover rounded-sm" />
         <svg className={`w-4 h-4 text-gray-500 transition-transform ${open ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -92,21 +93,22 @@ export default function LanguageChoice() {
 
       {open && (
         <>
-          <div className="absolute right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[150px] z-50">
+          <menu className="absolute right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[150px] z-50">
             {langs.map(l => (
-              <button
-                key={l.code}
-                onClick={() => handleSelect(l.code)}
-                className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg text-gray-700 cursor-pointer"
-              >
-                <img src={l.flag} alt={l.alt} className="h-5 w-7 object-cover rounded-sm " />
-                <span className="text-sm font-medium">{l.name}</span>
-              </button>
+              <li key={l.code}>
+                <button
+                  onClick={() => handleSelect(l.code)}
+                  className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg text-gray-700 cursor-pointer"
+                >
+                  <img src={l.flag} alt={l.alt} className="h-5 w-7 object-cover rounded-sm " />
+                  <span className="text-sm font-medium">{l.name}</span>
+                </button>
+              </li>
             ))}
-          </div>
+          </menu>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
         </>
       )}
-    </div>
+    </nav>
   );
 }
