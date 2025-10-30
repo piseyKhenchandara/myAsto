@@ -54,44 +54,21 @@ const SearchResults = () => {
     }
   };
 
-  const handleProductClick = (product) => {
-    navigate(`/product/detail/${product.id}`);
-  };
 
   const handleBackToSearch = () => {
     navigate(-1);
   };
 
   return (
-    <div className="min-h-screen py-20">
-      {/* Header */}
-      {/* <div className="px-6 py-4">
-        <div className="max-w-4xl mx-auto">
-          <button 
-            onClick={handleBackToSearch}
-            className="mb-2 flex items-center gap-2 transition-colors text-sm"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-          </button>
-          
-          {searchTerm && (
-            <div className="text-sm">
-              About {filteredProducts.length} results for "{searchTerm}"
-            </div>
-          )}
-        </div>
-      </div> */}
+    <main className="min-h-screen py-20">
 
-      <div className="max-w-4xl mx-auto px-6 py-4">
+      <section className="max-w-4xl mx-auto px-6 py-4">
         {/* Error Message */}
         {msg.type === 'error' && (
-          <div className="bg-green-100 border border-green-300 px-4 py-3 rounded mb-6">
+          <aside className="bg-green-100 border border-green-300 px-4 py-3 rounded mb-6">
             <p className="font-medium">Error:</p>
             <p>{msg.text}</p>
-          </div>
+          </aside>
         )}
 
         {/* Loading State */}
@@ -104,48 +81,51 @@ const SearchResults = () => {
           <div className="space-y-4">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
-                <Link 
-                  to={checkUserRole 
-                    ? `/dashboard/category/${product.Category?.slug}/brand/${product.Brand?.slug}/product/detail/${product.id}` 
-                    : `/category/${product.Category?.slug}/brand/${product.Brand?.slug}/product/detail/${product.id}`
-                  }
+                <article 
                   key={product.id}
-      
-                  className="flex gap-4 cursor-pointer hover:bg-green-100 p-2 rounded-lg transition-colors"
+                  className="hover:bg-green-100 p-2 rounded-lg transition-colors"
                 >
-                  {/* Thumbnail */}
-                  <div className="flex-shrink-0">
-                    <div className="w-40 h-24 bg-green-100 overflow-hidden relative">
-                      {product.ProductImages ? (
-                        <img 
-                          src={product.ProductImages[0].image_url} 
-                          alt={product.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : null}
-                     
-                    </div>
-                  </div>
+                  <Link 
+                    to={checkUserRole 
+                      ? `/dashboard/category/${product.Category?.slug}/brand/${product.Brand?.slug}/product/detail/${product.id}` 
+                      : `/category/${product.Category?.slug}/brand/${product.Brand?.slug}/product/detail/${product.id}`
+                    }
+                    className="flex gap-4"
+                  >
+                    {/* Thumbnail */}
+                    <figure className="flex-shrink-0">
+                      <div className="w-40 h-24 bg-green-100 overflow-hidden relative">
+                        {product.ProductImages ? (
+                          <img 
+                            src={product.ProductImages[0].image_url} 
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : null}
+                       
+                      </div>
+                    </figure>
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <h5 className="font-medium text-sm leading-tight mb-1 line-clamp-2 transition-colors">
-                      {product.name}
-                    </h5>
-                    
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <h5 className="font-medium text-sm leading-tight mb-1 line-clamp-2 transition-colors">
+                        {product.name}
+                      </h5>
+                      
 
-                    <div className="text-xs ">
-                     
-                        <p className='pb-2'> ${parseFloat(product.price).toFixed(2)}</p>
-                         <p className={`${product.stock.toLowerCase() === 'available' ? 'bg-green-200 text-black/50' : 'bg-red-400 text-white'} p-1 rounded-xl inline-block`}>{product.stock}</p>
-                         <div className='overflow-hidden max-w-60'>
-                          <span className='text-gray-500 line-clamp-1'>{product.description}</span>
-                         </div>
-                        
-                     
+                      <div className="text-xs ">
+                       
+                          <p className='pb-2'> ${parseFloat(product.price).toFixed(2)}</p>
+                           <p className={`${product.stock.toLowerCase() === 'available' ? 'bg-green-200 text-black/50' : 'bg-red-400 text-white'} p-1 rounded-xl inline-block`}>{product.stock}</p>
+                           <div className='overflow-hidden max-w-60'>
+                            <span className='text-gray-500 line-clamp-1'>{product.description}</span>
+                           </div>
+                          
+                       
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </article>
               ))
             ) : (
               !loading && searchTerm && (
@@ -177,8 +157,8 @@ const SearchResults = () => {
             )}
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

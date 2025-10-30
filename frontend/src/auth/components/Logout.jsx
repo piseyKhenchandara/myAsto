@@ -51,7 +51,7 @@ const Logout = () => {
       </button>
 
       {open && 
-        <dialog className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center bg-gradient-to-br  px-4" 
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center bg-gradient-to-br  px-4" 
         aria-labelledby="logout-title"
         aria-describedby="logout-description"
         >
@@ -125,7 +125,7 @@ const Logout = () => {
             </footer>
 
           </article>
-        </dialog>
+        </div>
       }
       
     </>

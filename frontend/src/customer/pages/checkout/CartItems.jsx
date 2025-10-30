@@ -28,7 +28,7 @@ const CartItems = ({
               key={item.id} 
               className="flex gap-3 sm:gap-4 p-3 sm:p-4 border-b-2 border-green-500"
             >
-              {/* Product Image */}
+
               <figure className="flex-shrink-0">
                 {item.ProductImages && item.ProductImages.length > 0 ? (
                   <img 
@@ -43,20 +43,15 @@ const CartItems = ({
                 )}
               </figure>
 
-              {/* Product Details - Full Width */}
               <div className="flex-grow min-w-0 flex flex-col gap-2">
-                {/* Product Name */}
                 <h5 className="font-semibold text-sm sm:text-base text-gray-800 truncate">
                   {item.name || "Unknown Product"}
                 </h5>
                 
-                {/* Price and Quantity Controls Row */}
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-sm sm:text-base text-gray-600">
                     ${item.price || "0.00"}
                   </p>
-                  
-                  {/* Quantity Controls - Right Side */}
                   <div className="flex items-center gap-2 sm:gap-3">
                     <button
                       onClick={() => decreaseFromCart(item.id)}
@@ -80,8 +75,6 @@ const CartItems = ({
                     </button>
                   </div>
                 </div>
-
-                {/* Total and Remove Button Row */}
                 <footer className="flex items-center justify-between">
                   <p className="font-semibold text-base sm:text-lg text-gray-800">
                     Total: ${calculateItemTotal(item.price, item.quantity)}

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import SearchPopup from './SearchPopup';
 import { FaBars } from "react-icons/fa6";
 import { Link, useLocation } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
@@ -8,6 +7,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useCart } from '../../../customer/context/CartContext';
 import LanguageChoice from './LanguageChoice';
 import RingNotification from './RingNotification';
+import SearchPopup from './searchPopup/SearchPopup';
 
 
 const Header = ({setVisible, asto_logo}) => {

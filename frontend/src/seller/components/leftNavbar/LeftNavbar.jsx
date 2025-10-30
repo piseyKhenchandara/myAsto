@@ -69,7 +69,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
  
             <nav className="min-h-full">
               {menu.map((eachChoice, index) => (
-                <details
+                <div
                   key={index}
                   open={active === eachChoice.choice}
                   className={`py-4 cursor-pointer ${
@@ -86,7 +86,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
                   <div className="flex justify-end px-2">
                     {active === eachChoice.choice && renderContent(eachChoice.choice)}
                   </div>
-                </details>
+                </div>
               ))}
             </nav>
      

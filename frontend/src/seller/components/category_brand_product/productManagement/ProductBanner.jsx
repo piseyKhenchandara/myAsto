@@ -241,7 +241,8 @@ const ProductBanner = () => {
                                     <img 
                                         src={b.image_url} 
                                         alt={b.Product?.name} 
-                                        className='w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-300'
+                                        className='w-full h-full object-contain group-hover:scale-105 transition-transform duration-300'
+                                    
                                         loading='lazy'
                                     />
                                     
