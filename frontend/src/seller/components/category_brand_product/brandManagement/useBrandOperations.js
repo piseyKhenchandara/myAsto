@@ -7,6 +7,7 @@ import {
 } from '../../../../api/BrandProduct.api';
 
 export const useBrandOperations = (category_slug) => {
+    
   const [brands, setBrands] = useState([]);
   const [msg, setMsg] = useState({ type: '', text: '' });
   const [submit, setSubmit] = useState({ formName: '', process: false });

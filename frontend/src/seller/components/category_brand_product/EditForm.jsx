@@ -93,8 +93,7 @@ console.log('Should show progress:', submit.formName && submit.process);
             >
                 Submit
             </button>
-            <DisplayFileNameSelected fileName={file? file.name : null}/>
-
+          
             
             </footer>
         </form>
