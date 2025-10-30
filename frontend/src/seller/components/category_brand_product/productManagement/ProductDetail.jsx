@@ -220,13 +220,6 @@ const ProductDetail = () => {
                         </button>
                     )}
                     <ShareLinkToSocial productDetail={productDetail}/>
-                    
-                    
-
-                    
-
-                    
-
                     {/* Additional Info */}
                     <footer className='space-y-3 pt-4 border-gray-200'>
                         <div className='flex items-center text-sm text-gray-600'>

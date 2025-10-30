@@ -12,47 +12,38 @@ const ProductImageSection = ({
     const [selectedImage, setSelectedImage] = useState(null);
     const navigate = useNavigate();
 
-    // Image replacement handler
     const handleImageReplacement = (e, idx) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Validate file type
         if (!file.type.startsWith('image/')) {
             alert('Please select a valid image file');
             return;
         }
 
-        // Validate file size (5MB limit)
         if (file.size > 5 * 1024 * 1024) {
             alert('Image size should be less than 5MB');
             return;
         }
-
-        // Create preview URL
         const previewUrl = URL.createObjectURL(file);
-        
-        // Store the replacement
+
         setFinalImages(prev => ({
             ...prev,
             [idx]: { file, previewUrl }
         }));
 
-        // Update the display
         setExistingImages(prev => prev.map((img, index) => 
             index === idx ? { ...img, image_url: previewUrl, isReplaced: true } : img
         ));
     };
 
     const cancelImageReplacement = (idx) => {
-        // Remove from replacements
         setFinalImages(prev => {
             const updated = { ...prev };
             delete updated[idx];
             return updated;
         });
 
-        // Restore original image
         if (productDetail?.ProductImages?.[idx]) {
             setExistingImages(prev => prev.map((img, index) => 
                 index === idx ? { ...productDetail.ProductImages[idx], isReplaced: false } : img

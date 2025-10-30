@@ -8,7 +8,7 @@ import { getCategoriesAPI } from "../../../../api/CategoryProduct.api";
 import ProductList from "./ProductList";
 import ProductForm from "./ProductForm";
 import Pagination from "./Pagination";
-import ProductBanner from "./ProductBanner";
+import ProductBanner from "./productBanner/ProductBanner";
 import BrandManagement from "../brandManagement/BrandManagement";
 import DeleteForm from "../DeleteForm";
 import { useUser } from "../../../../../context/UserContext";
