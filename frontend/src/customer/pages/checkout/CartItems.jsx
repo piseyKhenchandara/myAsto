@@ -55,6 +55,7 @@ const CartItems = ({
                   <div className="flex items-center gap-2 sm:gap-3">
                     <button
                       onClick={() => decreaseFromCart(item.id)}
+                      type='button'
                       className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-md transition-colors disabled:opacity-50"
                       disabled={item.quantity <= 1}
                       aria-label="Decrease quantity"
@@ -68,6 +69,7 @@ const CartItems = ({
                     
                     <button
                       onClick={() => increaseFromCart(item.id)}
+                      type='button'
                       className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-md transition-colors"
                       aria-label="Increase quantity"
                     >
@@ -81,6 +83,7 @@ const CartItems = ({
                   </p>
                   <button
                     onClick={() => removeFromCart(item.id)}
+                    type='button'
                     className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
                     title="Remove item"
                     aria-label="Remove item from cart"

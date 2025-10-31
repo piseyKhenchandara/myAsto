@@ -15,11 +15,12 @@ const SummarySection = ({
   setOrderNotes,
   cart,
   getCartCount,
-  calculateTotal,
+  productTotalPrice,
   handleOrder,
   submit,
   isProcessing,
   whoami,
+  totalPrice = {totalPrice}
 }) => (
   <div className="lg:col-span-4 space-y-4 sm:space-y-6">
     <Address
@@ -38,7 +39,7 @@ const SummarySection = ({
     <OrderSummary
       cart={cart}
       getCartCount={getCartCount}
-      calculateTotal={calculateTotal}
+      productTotalPrice={productTotalPrice}
       handleOrder={handleOrder}
       submit={submit}
       isProcessing={isProcessing}
@@ -46,7 +47,7 @@ const SummarySection = ({
       phoneNumber={phoneNumber}
       selectedLocation={selectedLocation}
       selectedDeliveryCompany={selectedDeliveryCompany}
-      setOrderNotes={setOrderNotes}
+      totalPrice = {totalPrice}
     />
   </div>
 );

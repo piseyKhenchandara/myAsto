@@ -140,6 +140,25 @@ export const checkPaymentStatus = async (req,res) => {
         
         console.log(data);
         if(data.responseCode === 0 && data.data?.hash) {
+
+            const generateOrderNumber = async () => {
+                const year = new Date().getFullYear();
+                
+                const count = await db.Order.count({
+                    where: {
+                        order_number: { [Op.not]: null }, // Only count orders with order_number
+                        createdAt: {
+                            [Op.gte]: new Date(`${year}-01-01`),
+                            [Op.lt]: new Date(`${year + 1}-01-01`)
+                        }
+                    }
+                });
+                
+                return `ORD-${year}-${String(count + 1).padStart(6, '0')}`;
+            };
+
+            const orderNumber = await generateOrderNumber();
+
             await payment.update(
                 {
                     bakongHash: data.data.hash,
@@ -160,15 +179,16 @@ export const checkPaymentStatus = async (req,res) => {
             );
 
             await order.update({
-                status: 'paid', // or 'completed', 'confirmed' - whatever your Order model uses
-                paid_at: new Date()
+                status: 'paid', 
+                paid_at: new Date(),
+                order_number: orderNumber
             });
 
             // Create notifications for both admin and seller
             const notifications = await Promise.all([
                 db.Notification.create({
                     type: 'payment',
-                    message: `Payment confirmed for order: ${order.order_number}`,
+                    message: `Payment confirmed for order: ${orderNumber}`,
                     target_role: 'admin', // ✅ Single value
                     order_id: order.id,
                     user_id: order.user_id,
@@ -176,7 +196,7 @@ export const checkPaymentStatus = async (req,res) => {
                 }),
                 db.Notification.create({
                     type: 'payment',
-                    message: `Payment confirmed for order: ${order.order_number}`,
+                    message: `Payment confirmed for order: ${orderNumber}`,
                     target_role: 'seller', // ✅ Single value
                     order_id: order.id,
                     user_id: order.user_id,
@@ -190,14 +210,14 @@ export const checkPaymentStatus = async (req,res) => {
                 type: notifications[0].type,
                 message: notifications[0].message,
                 order_id: order.id,
-                order_number: order.order_number,
+                order_number: orderNumber,
                 amount: payment.amount,
                 paid_at: payment.paid_at,
                 bakongHash: data.data.hash,
                 createdAt: notifications[0].createdAt,
                 read: false
             });
-
+            
             return res.status(200).json({success : true, message : "Payment confirmed!✅", 
                 data : {
                     order_id : order.id,

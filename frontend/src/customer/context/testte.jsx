@@ -10,7 +10,7 @@ const Checkout = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Calculate total price
-  const calculateTotal = () => {
+  const productTotalPrice = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
   };
 
@@ -140,7 +140,7 @@ const Checkout = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-gray-600">
                     <span>Items ({getCartCount()})</span>
-                    <span>${calculateTotal()}</span>
+                    <span>${productTotalPrice()}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span>Shipping</span>
@@ -153,7 +153,7 @@ const Checkout = () => {
                   <hr className="my-4" />
                   <div className="flex justify-between text-xl font-bold text-gray-800">
                     <span>Total</span>
-                    <span>${calculateTotal()}</span>
+                    <span>${productTotalPrice()}</span>
                   </div>
                 </div>
 

@@ -43,13 +43,13 @@ const BrandsHorizontally = () => {
 
   return (
     <section className="overflow-hidden w-full py-2 mb-5">
-      <div className="flex animate-scroll items-center brands-carousel-track">
+      <div className="flex animate-scroll items-center ">
         {duplicatedBrands.map((b, idx) => (
           <div className="brand-item flex-shrink-0 px-4" key={idx}>
             <img
               src={b.image_url}
               alt={b.name || 'Brand'}
-              className="brand-logo w-10 md:w-20"
+              className="brand-logo w-10 md:w-15"
             />
           </div>
         ))}

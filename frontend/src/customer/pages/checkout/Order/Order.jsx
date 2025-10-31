@@ -23,8 +23,12 @@ const Order = () => {
   const [qrPopup, setQrPopup] = useState(false);
   const [resFromKHQR, setResFromKHQR] = useState(null);
 
-  const calculateTotal = () => cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  const productTotalPrice = () => (cart.reduce((total, item) => total + item.price * item.quantity, 0));
   const finalAddress = orderNotes ? selectedLocation + '(' + orderNotes + ')' : selectedLocation;
+
+  const totalPrice = (productTotalPrice() + 2).toFixed(2);
+
+
 
   const handleOrder = async () => {
     setIsProcessing(true);
@@ -37,7 +41,7 @@ const Order = () => {
         phone_number: phoneNumber,
         shipping_address: finalAddress,
         delivery_company: selectedDeliveryCompany,
-        amount: calculateTotal(),
+        amount: totalPrice,
         cart: cart,
         discount_amount: 0,
       };
@@ -50,16 +54,14 @@ const Order = () => {
         const khqrResponse = await createKHQRPaymentAPI(response.data.order_id);
         setResFromKHQR(khqrResponse);
         setQrPopup(true);
+        setSubmit(false);
       }
 
-      setTimeout(() => {
-        setSubmit(false);
-        setQrPopup(true);
-      }, 2000);
     } catch (error) {
       alert(error.response?.data.message || 'Error processing order. Please try again.');
     } finally {
       setIsProcessing(false);
+      setSubmit(false);
     }
   };
 
@@ -101,11 +103,12 @@ const Order = () => {
               setOrderNotes={setOrderNotes}
               cart={cart}
               getCartCount={getCartCount}
-              calculateTotal={calculateTotal}
+              productTotalPrice={productTotalPrice}
               handleOrder={handleOrder}
               submit={submit}
               isProcessing={isProcessing}
               whoami={whoami}
+              totalPrice = {totalPrice}
             />
           </form>
         ) : (

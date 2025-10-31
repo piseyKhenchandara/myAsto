@@ -49,7 +49,7 @@ const Recipts = ({whoami}) => {
     }, [whoami?.id]);
 
     // Helper function to calculate total from order items
-    const calculateTotal = (orderItems) => {
+    const productTotalPrice = (orderItems) => {
         if (!orderItems || orderItems.length === 0) return 0;
         return orderItems.reduce((sum, item) => {
             return sum + (Number(item.price) * Number(item.quantity));
@@ -113,7 +113,7 @@ const Recipts = ({whoami}) => {
                             invoiceNumber={payment.Order?.order_number}
                             date = {payment?.createdAt}
                             getCartCount={() => getCartCount(payment.Order?.OrderItems)}
-                            calculateTotal={() => calculateTotal(payment.Order?.OrderItems)}
+                            productTotalPrice={() => productTotalPrice(payment.Order?.OrderItems)}
                             whoami={{ name: payment.Order?.customer_name }}
                             phoneNumber={payment.Order?.phone_number}
                             selectedLocation={payment.Order?.shipping_address}

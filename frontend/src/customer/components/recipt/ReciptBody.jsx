@@ -3,15 +3,18 @@ import React from 'react'
 const ReciptBody = (
     {
         cart, 
-        invoiceNumber = 0,
         date = null,
         getCartCount, 
-        calculateTotal,
-        
+        //isProcessing
         whoami,
         phoneNumber,
         selectedLocation,
         selectedDeliveryCompany,
+        productTotalPrice,
+        totalPrice,
+
+        invoiceNumber = 0,
+        
     }
 ) => {
   return (
@@ -75,7 +78,7 @@ const ReciptBody = (
                     {item.quantity || 1}
                   </td>
                   <td className='border border-gray-300 p-2 text-right font-normal'>
-                    ${((Number(item.price) || 0) * (Number(item.quantity) || 1)).toFixed(2)}
+                    ${totalPrice}
                   </td>
                 </tr>
               ))
@@ -95,18 +98,18 @@ const ReciptBody = (
         <section className='self-end w-full sm:w-80 text-xs'>
           
           <div className='flex justify-between mb-2 '>
-            <span>Subtotal:</span>
-            <span className='font-normal'>
-              ${calculateTotal ? Number(calculateTotal()).toFixed(2) : '0.00'}
-            </span>
-          </div>
-          
-          <div className='flex justify-between mb-2 '>
             <span>Items Count:</span>
             <span className='font-normal'>
               {getCartCount ? getCartCount() : cart.length}
             </span>
           </div>
+          <div className='flex justify-between mb-2 '>
+            <span>Subtotal:</span>
+            <span className='font-normal'>
+              ${productTotalPrice ? Number(productTotalPrice()).toFixed(2) : '0.00'}
+            </span>
+          </div>
+          
           
           {/* Delivery Fee */}
           <div className='flex justify-between mb-2 '>
@@ -119,7 +122,7 @@ const ReciptBody = (
           <div className='flex justify-between border-t pt-2 border-gray-300 text-base sm:text-lg'>
             <span>TOTAL:</span>
             <span>
-              ${calculateTotal ? (Number(calculateTotal()) + 2).toFixed(2) : '2.00'}
+              ${productTotalPrice ? (Number(productTotalPrice()) + 2).toFixed(2) : '2.00'}
             </span>
           </div>
         

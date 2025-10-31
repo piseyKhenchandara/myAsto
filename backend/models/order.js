@@ -43,7 +43,7 @@ export default (sequelize) => {
         order_number: {
             type: DataTypes.STRING(50),
             unique: true,
-            allowNull: false
+            allowNull: true
         },
         currency: {
             type: DataTypes.STRING(3),

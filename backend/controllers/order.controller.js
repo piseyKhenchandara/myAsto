@@ -5,7 +5,6 @@ import notification from "../models/notification.js";
 
 
 
-
 export const orders = async (req, res) => {
     
     const { 
@@ -55,23 +54,6 @@ export const orders = async (req, res) => {
                 user_id : checkUser.id,
             }, {transaction});
 
-            const generateOrderNumber = async () => {
-                const year = new Date().getFullYear();
-                
-                const count = await db.Order.count({
-                    where: {
-                        createdAt: {
-                            [Op.gte]: new Date(`${year}-01-01`),
-                            [Op.lt]: new Date(`${year + 1}-01-01`)
-                        }
-                    },
-                    transaction 
-                });
-                
-                const orderNumber = `ORD-${year}-${String(count + 1).padStart(6, '0')}`;
-                return orderNumber;
-            };
-
             const order = await db.Order.create({
                 user_id : checkUser.id,
                 amount,
@@ -80,7 +62,7 @@ export const orders = async (req, res) => {
                 phone_number,
                 shipping_address,
                 discount_amount : discount_amount || 0,
-                order_number: await generateOrderNumber(),  
+                order_number: null,  
                 currency :"USD",
                 delivery_company,
             }, {transaction});

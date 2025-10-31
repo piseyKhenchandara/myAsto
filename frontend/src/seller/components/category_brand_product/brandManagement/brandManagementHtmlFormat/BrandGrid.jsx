@@ -14,7 +14,7 @@ const BrandGrid = ({
   handleOpenDelete 
 }) => {
   return (
-    <section className="relative p-6 bg-gradient-to-br from-green-100 via-lime-50 to-emerald-100 overflow-hidden">
+    <section className="relative px-4 py-8 bg-gradient-to-br from-green-100 via-lime-50 to-emerald-100 overflow-hidden">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-10 left-10 w-32 h-32 bg-green-300 rounded-full blur-xl animate-pulse"></div>
         <div className="absolute bottom-10 right-10 w-24 h-24 bg-lime-300 rounded-full blur-xl animate-pulse"></div>
@@ -29,9 +29,11 @@ const BrandGrid = ({
 
       {!loading && brands.length > 0 && (
         <div className='flex items-center w-full flex-col'>
-          <h4 className='text-center text-green-600'>Choose your brand</h4>
+          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 bg-gradient-to-r from-green-600 to-emerald-700 bg-clip-text text-transparent">
+          Choose Your Brand
+        </h2>
           
-          <div className='flex flex-wrap gap-3 md:gap-5 w-[80%] py-4 overflow-visible justify-center'>
+          <div className='flex flex-row md:gap-8 gap-4 justify-center flex-wrap items-center max-w-6xl mx-auto'>
             {brands.map((eachBrand, index) => (
               <BrandCard
                 key={eachBrand.id || index}
@@ -46,10 +48,14 @@ const BrandGrid = ({
             ))}
           </div>  
           
-          <p className='text-green-600 text-center border px-2 rounded-[15px]'>
-            <span><FaCircle className='text-[12px] inline pr-2' /></span> 
-            selected: {showname}
-          </p>
+          <div className="text-center mt-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/40 backdrop-blur-sm rounded-full border border-green-300">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-green-800 text-sm md:text-base font-medium">
+                Selected: {showname}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </section>

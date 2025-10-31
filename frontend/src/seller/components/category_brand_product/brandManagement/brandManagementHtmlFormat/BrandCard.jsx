@@ -14,9 +14,12 @@ const BrandCard = ({
   return (
     <article 
       className={`relative flex flex-col items-center p-2 border rounded-[20px] border-green-500 hover:scale-110 hover:shadow-green-400 cursor-pointer transition-transform group ${
-        isSelected ? 'shadow-inner border-3 shadow-green-500/50' : ""
-      } hover:z-25`}
+        isSelected ? 'shadow-green-500 scale-110 shadow-2xl' : ""
+      } hover:z-25 `}
+
+      
     >
+
       <NavLink 
         to={brandPath} 
         onClick={onNameClick}

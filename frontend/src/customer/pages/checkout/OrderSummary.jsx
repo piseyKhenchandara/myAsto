@@ -6,7 +6,7 @@ import ReciptBody from '../../components/recipt/ReciptBody';
 const OrderSummary = ({ 
   cart, 
   getCartCount, 
-  calculateTotal,
+  productTotalPrice,
   handleOrder,
   submit,
   isProcessing,
@@ -14,7 +14,7 @@ const OrderSummary = ({
   phoneNumber,
   selectedLocation,
   selectedDeliveryCompany,
-  setQrPopup
+  totalPrice
 }) => {
   
   const [isTyping, setIsTyping] = useState(false);
@@ -61,13 +61,13 @@ const OrderSummary = ({
           cart={cart}
           date = {new Date()}
           getCartCount={getCartCount}
-          handleOrder={handleOrder}
           isProcessing={isProcessing}
           whoami={whoami}
           phoneNumber={debouncedPhoneNumber}
           selectedLocation={selectedLocation}
           selectedDeliveryCompany={selectedDeliveryCompany}
-          calculateTotal={calculateTotal}
+          productTotalPrice={productTotalPrice}
+          totalPrice = {totalPrice}
         />
 
         <button
