@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import db from "../models/index.js";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -108,22 +109,57 @@ export const updateBrand = async (req, res) => {
             return res.status(400).json({ message: "Nothing to update." });
         }
 
+        // ✅ Generate new slug if brand name is being updated
+        const newSlug = brand_name 
+            ? brand_name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+            : brand.slug;
+
+        // ✅ Check if new brand name already exists in the same category (excluding current brand)
+        if (brand_name && brand_name !== brand.name) {
+            const duplicateBrand = await db.Brand.findOne({
+                where: { 
+                    name: brand_name,
+                    category_id: brand.category_id,
+                    id: { [Op.ne]: id } // ✅ CHANGED: db.Sequelize.Op.ne → Op.ne
+                }
+            });
+
+            if (duplicateBrand) {
+                return res.status(409).json({ 
+                    success: false, 
+                    message: "Brand with this name already exists in this category!" 
+                });
+            }
+        }
+
         // If there's a new file and the brand has an old image, delete the old one
         if (file && brand.public_id) {
             try {
                 await cloudinary.uploader.destroy(brand.public_id);
+                console.log('Old image deleted from Cloudinary ✅');
             } catch (error) {
                 console.log('Error deleting old image:', error);
             }
         }
 
+        // ✅ Update brand with new slug
         await brand.update({
             name: brand_name || brand.name,
+            slug: newSlug,
             image_url: file ? file.path : brand.image_url, 
             public_id: file ? file.filename : brand.public_id, 
         });
 
-        res.status(200).json({ message: 'Brand updated successfully! ✅' });
+        res.status(200).json({ 
+            success: true,
+            message: 'Brand updated successfully! ✅',
+            data: {
+                id: brand.id,
+                name: brand.name,
+                slug: brand.slug,
+                image_url: brand.image_url
+            }
+        });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }

@@ -84,7 +84,7 @@ export const useBrandOperations = (category_slug) => {
 
   const updateBrand = async (e, selectedBrandId) => {
     e.preventDefault();
-
+    setSubmit({formName : '', process : false});
     try {
       setSubmit({ formName: 'edit', process: true });
 

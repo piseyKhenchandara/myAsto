@@ -26,7 +26,7 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300 cursor-pointer"
             }`}
             aria-label="Close"
-            disabled={submit}
+            disabled={submit.process }
           >
             <span className="text-2xl leading-none">×</span>
           </button>
@@ -116,6 +116,7 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
             }`}
             onClick={deleteCate}
             disabled={submit}
+            style={{ pointerEvents: submit ? 'none' : 'auto' }} // ✅ Extra safety
           >
             {submit ? (
               <span className="flex items-center justify-center gap-2">

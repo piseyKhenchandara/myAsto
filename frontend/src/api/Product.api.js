@@ -83,7 +83,7 @@ const {
     });
 
     const {data} = await http.post('/products/single_product', fd, {
-        headers: {'Content-Type': 'multipart/form-data'},
+       
         onUploadProgress,
     });
 
