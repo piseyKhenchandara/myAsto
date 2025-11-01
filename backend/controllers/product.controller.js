@@ -148,7 +148,7 @@ export const getProductsByBrandNCategory = async( req,res) => {
 }
 
 
-/* export const uploadProduct = async(req, res) => {
+export const uploadProduct = async(req, res) => {
     const {name, description, price, stock, brand_slug, category_slug, features, warranty} = req.body;
 
     if(!name || !price || !description || !stock || !brand_slug || !category_slug || !features){
@@ -253,189 +253,8 @@ export const getProductsByBrandNCategory = async( req,res) => {
     catch(error){
         res.status(500).json({message : error.message})
     }
-} */
-export const uploadProduct = async(req, res) => {
-    console.log('🚀 === UPLOAD PRODUCT CONTROLLER STARTED ===');
-    console.log('📝 Body:', req.body);
-    console.log('📎 Files:', req.files?.length || 0);
-    
-    // Log file details
-    if (req.files && req.files.length > 0) {
-        console.log('📸 File details:');
-        req.files.forEach((file, i) => {
-            console.log(`  File ${i + 1}:`, {
-                originalname: file.originalname,
-                mimetype: file.mimetype,
-                size: file.size,
-                path: file.path,
-                filename: file.filename,
-                allKeys: Object.keys(file) // See ALL available properties
-            });
-        });
-    }
-
-    const {name, description, price, stock, brand_slug, category_slug, features, warranty} = req.body;
-
-    console.log('🔍 Extracted fields:', {
-        name, 
-        description: description?.substring(0, 50), 
-        price, 
-        stock, 
-        brand_slug, 
-        category_slug, 
-        features: typeof features,
-        warranty
-    });
-
-    if(!name || !price || !description || !stock || !brand_slug || !category_slug || !features){
-        console.log('❌ Validation failed - missing required fields');
-        return res.status(400).json({message : "All fields are required!"});
-    }
-
-    try{
-        console.log('🔎 Checking for existing product, brand, category...');
-        
-        const [existingProduct, brand, category ] = await Promise.all([
-            db.Product.findOne({where : {name}}),
-            db.Brand.findOne({where : {slug : brand_slug}}),
-            db.Category.findOne({where : {slug : category_slug}})
-        ]);
-        
-        console.log('📊 Database check results:', {
-            existingProduct: existingProduct ? 'Found' : 'Not found',
-            brand: brand ? `Found (ID: ${brand.id})` : 'Not found',
-            category: category ? `Found (ID: ${category.id})` : 'Not found'
-        });
-        
-        if (existingProduct) {
-            console.log('❌ Product already exists');
-            return res.status(409).json({ success: false, message: "Product already exists!" });
-        }
-        if (!brand) {
-            console.log('❌ Brand not found');
-            return res.status(404).json({ message: "Brand not found!" });
-        }
-        if (!category) {
-            console.log('❌ Category not found');
-            return res.status(404).json({ message: "Category not found!" });
-        }
-
-        let parsedFeatures = [];
-
-        try{
-            console.log('🔧 Parsing features...');
-            parsedFeatures = typeof features === 'string' ? JSON.parse(features) : features;
-            console.log('✅ Features parsed:', parsedFeatures.length, 'features');
-        }
-        catch(error) {
-            console.error('❌ Features parse error:', error.message);
-            return res.status(500).json({message : "Invalid features format (must be JSON) "})
-        }
-        
-        console.log('💾 Starting transaction...');
-        
-        await db.sequelize.transaction(async(transaction) => {
-            
-            console.log('📦 Creating product...');
-            const product = await db.Product.create({
-                name,
-                description,
-                price,
-                stock,
-                brand_id : brand.id,
-                category_id : category.id,
-                warranty : warranty || 'none',
-            }, {transaction});
-            
-            console.log('✅ Product created with ID:', product.id);
-            
-            const promises = [];
-    
-            if(parsedFeatures.length > 0) {
-                console.log('🔧 Preparing features data...');
-                const featureData = parsedFeatures.map(f => ({
-                    product_id : product.id,
-                    feature_name : f.feature_name,
-                    feature_value : f.feature_value,
-                }));
-                
-                console.log('💾 Bulk creating', featureData.length, 'features');
-                promises.push(db.ProductFeature.bulkCreate(featureData, {transaction}));
-            }
-    
-            if (req.files && req.files.length > 0) {
-                const imageFiles = [];
-                const videoFiles = [];
-    
-                req.files.forEach(file => {
-                    if(file.mimetype.startsWith('image/')){
-                        imageFiles.push(file);
-                    }
-                    else if(file.mimetype.startsWith('video/')){
-                        videoFiles.push(file);
-                    }
-                });
-                
-                console.log('📸 Processing files:', {
-                    images: imageFiles.length,
-                    videos: videoFiles.length
-                });
-    
-                if(imageFiles.length > 0){
-                    console.log('🖼️ Preparing image data...');
-                    const imageData = imageFiles.map((file, index) => ({
-                        image_url: file.path,
-                        public_id: file.filename,
-                        is_main: index === 0,
-                        product_id: product.id
-                    }));
-                    
-                    console.log('💾 Bulk creating', imageData.length, 'images');
-                    promises.push(db.ProductImage.bulkCreate(imageData, {transaction}));
-                }
-    
-                if(videoFiles.length > 0){
-                    console.log('🎥 Preparing video data...');
-                    const videoData = videoFiles.map((file, index) => ({
-                        video_url : file.path,
-                        public_id : file.filename,
-                        format : file.format || null,
-                        duration_sec : file.duration || null,
-                        bytes : file.bytes || null,
-                        is_main : index === 0,
-                        product_id : product.id,
-                    }));
-                    
-                    console.log('💾 Bulk creating', videoData.length, 'videos');
-                    promises.push(db.ProductVideo.bulkCreate(videoData, {transaction}));   
-                }
-            }
-    
-            console.log('⏳ Waiting for all promises...', promises.length, 'operations');
-            await Promise.all(promises);
-            console.log('✅ All promises resolved');
-            
-            return product;
-        });
-        
-        console.log('✅✅✅ TRANSACTION COMPLETED SUCCESSFULLY!');
-        res.status(201).json({ success : true, message : "Product uploaded successfully✅"});
-    }
-    catch(error){
-        console.error('❌❌❌ ERROR CAUGHT:');
-        console.error('Error name:', error.name);
-        console.error('Error message:', error.message);
-        console.error('Error stack:', error.stack);
-        
-        // Log full error object
-        console.error('Full error object:', JSON.stringify(error, null, 2));
-        
-        res.status(500).json({
-            message: error.message,
-            error: error.toString()
-        });
-    }
 }
+
 
 
 
@@ -582,134 +401,63 @@ export const updateProduct = async (req,res) => {
     }
 }
  
-export const deleteProduct = async(req, res) => {
-    try {
-        console.log('🗑️ === DELETE PRODUCT START ===');
-        console.log('Product ID:', req.params.id);
-        console.log('Time:', new Date().toISOString());
-        
+
+
+export const deleteProduct = async(req,res) => {
+    try{
         const product = await db.Product.findByPk(req.params.id, {
-            include: [
-                {model: db.ProductImage, attributes: ['id', 'public_id']},
+            include : [
+                {model : db.ProductImage, attributes : ['id', 'public_id']},
                 {model: db.ProductVideo, attributes: ['id', 'public_id']}
             ]
         });
 
-        if (!product) {
-            console.log('❌ Product not found');
-            return res.status(404).json({message: "Product not found or already deleted!"});
-        }
+        if(!product) return res.status(404).json({message : "Product not found or already deleted!"});
 
-        console.log('✅ Product found:', product.name);
-        console.log('📸 Images:', product.ProductImages?.length || 0);
-        console.log('🎥 Videos:', product.ProductVideos?.length || 0);
-
-        // Delete Images
         const imagesPublicId = [];
 
-        if (product.ProductImages?.length) {
-            for (const img of product.ProductImages) {
-                if (img.public_id) {
-                    imagesPublicId.push(img.public_id);
-                }
+        if(product.ProductImages?.length) {
+            for(const img of product.ProductImages){
+                if(img.public_id) imagesPublicId.push(img.public_id);
             }
         }
 
-        console.log('🗑️ Images to delete:', imagesPublicId);
-
-        if (imagesPublicId.length > 0) {
-            console.log('☁️ Deleting images from Cloudinary...');
-            
-            for (const pid of imagesPublicId) {
-                try {
-                    console.log(`  🔄 Deleting image: ${pid}`);
-                    const result = await cloudinary.uploader.destroy(pid);
-                    
-                    console.log(`  ✅ Result:`, result.result); // 'ok', 'not found', etc.
-                    
-                    if (result.result === 'ok') {
-                        console.log(`  ✅ Image deleted from Cloudinary: ${pid}`);
-                    } else {
-                        console.log(`  ⚠️ Image not found in Cloudinary: ${pid} (${result.result})`);
-                    }
-                } catch (e) {
-                    console.error(`  ❌ Cloudinary destroy failed for ${pid}:`, e.message);
-                }
+        for(const pid of imagesPublicId) {
+            try {
+                await cloudinary.uploader.destroy(pid);
+                console.log('Image deleted successfully from cloudinary✅!')
+            } 
+            catch (e) {
+                console.warn("Cloudinary destroy failed:", pid, e.message);
             }
-        } else {
-            console.log('ℹ️ No images to delete');
         }
 
-        // Delete Videos
         const videosPublicId = [];
-        
-        if (product.ProductVideos?.length > 0) {
-            for (const video of product.ProductVideos) {
-                if (video.public_id) {
+        if(product.ProductVideos?.length > 0){
+            for(const video of product.ProductVideos){
+                if(video.public_id) {
                     videosPublicId.push(video.public_id);
                 }
             }
         }
 
-        console.log('🗑️ Videos to delete:', videosPublicId);
-
-        if (videosPublicId.length > 0) {
-            console.log('☁️ Deleting videos from Cloudinary...');
-            
-            for (const vdo of videosPublicId) {
-                try {
-                    console.log(`  🔄 Deleting video: ${vdo}`);
-                    const result = await cloudinary.uploader.destroy(vdo, {resource_type: "video"});
-                    
-                    console.log(`  ✅ Result:`, result.result);
-                    
-                    if (result.result === 'ok') {
-                        console.log(`  ✅ Video deleted from Cloudinary: ${vdo}`);
-                    } else {
-                        console.log(`  ⚠️ Video not found in Cloudinary: ${vdo} (${result.result})`);
-                    }
-                } catch (e) {
-                    console.error(`  ❌ Cloudinary video destroy failed for ${vdo}:`, e.message);
-                }
+        for(const vdo of videosPublicId) {
+            try{
+                await cloudinary.uploader.destroy(vdo, {resource_type: "video"});
+                console.log('Video deleted successfully from cloudinary✅!')
             }
-        } else {
-            console.log('ℹ️ No videos to delete');
+            catch (e) {
+                console.warn("Cloudinary video destroy failed:", vdo, e.message);
+            }
         }
 
-        // Delete from database
-        console.log('💾 Deleting product from database...');
         await product.destroy();
-        console.log('✅ Product deleted from database');
-
-        console.log('🗑️ === DELETE PRODUCT COMPLETE ===');
-        console.log('Summary:', {
-            product_id: req.params.id,
-            product_name: product.name,
-            images_deleted: imagesPublicId.length,
-            videos_deleted: videosPublicId.length,
-        });
-
-        res.status(200).json({
-            success: true,
-            message: 'Product deleted successfully✅',
-            deleted: {
-                images: imagesPublicId.length,
-                videos: videosPublicId.length,
-            }
-        });
-        
-    } catch (error) {
-        console.error('❌❌❌ DELETE PRODUCT ERROR:');
-        console.error('Message:', error.message);
-        console.error('Stack:', error.stack);
-        
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
+        res.status(200).json({message : 'Product deleted successfully✅'});
+    }
+    catch(error){
+        return res.status(500).json({message : error.message});
     }
 }
-
 
 /*                // 🚀 OPTIMIZATION 4: Return the product we already have instead of fetching again
         // We know what we just created, so we can construct the response without another query
