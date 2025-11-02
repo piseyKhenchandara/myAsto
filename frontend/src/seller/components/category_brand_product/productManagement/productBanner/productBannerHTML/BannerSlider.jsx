@@ -17,7 +17,8 @@ const BannerSlider = ({
   handleOpenDelete
 }) => {
   return (
-    <div className='relative w-full h-48 sm:h-56 md:h-72 lg:h-80 xl:h-96 overflow-hidden bg-gray-100'>
+    // ✅ Increased heights across all breakpoints
+    <div className='relative w-full h-64 sm:h-80 overflow-hidden bg-gray-100'>
       {/* Banner Container */}
       <div
         className='flex transition-transform duration-1000 ease-in-out h-full'
@@ -37,14 +38,15 @@ const BannerSlider = ({
                 : `/category/${category_slug}/brand/${brand_slug}/product/detail/${b.Product?.id}`
               }
             >
+              {/* ✅ Changed from object-contain to object-cover */}
               <img
                 src={b.image_url}
                 alt={b.Product?.name}
-                className='w-full h-full object-contain group-hover:scale-105 transition-transform duration-300'
+                className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
                 loading='lazy'
               />
 
-              {/* Banner info overlay */}
+              {/* Rest of your code remains the same... */}
               {checkUserRole && (
                 <div>
                   <div className='absolute top-0 left-0 right-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent text-white p-3 sm:p-4'>
@@ -59,7 +61,6 @@ const BannerSlider = ({
                     )}
                   </div>
 
-                  {/* Delete button */}
                   <button
                     className="absolute bottom-3 left-3 flex items-center cursor-pointer transition-all duration-200 py-1 px-2 text-xl sm:text-2xl text-red-400 z-30 bg-black/80"
                     onClick={(e) => {
@@ -71,7 +72,6 @@ const BannerSlider = ({
                     <CiTrash />
                   </button>
 
-                  {/* Hover effect overlay */}
                   <div className='absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center'>
                     <div className='opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 text-gray-800 px-4 py-2 rounded-full text-sm font-medium'>
                       View Product
@@ -84,7 +84,7 @@ const BannerSlider = ({
         ))}
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation and other elements remain the same... */}
       {banners.length > 1 && (
         <>
           <button
@@ -102,7 +102,6 @@ const BannerSlider = ({
         </>
       )}
 
-      {/* Dot Indicators */}
       {banners.length > 1 && (
         <div className='absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 md:hidden'>
           {banners.map((_, index) => (
@@ -119,14 +118,12 @@ const BannerSlider = ({
         </div>
       )}
 
-      {/* Auto-play indicator */}
       <div className='absolute top-2 sm:top-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-1 rounded-full text-xs backdrop-blur-sm'>
         <span className='md:hidden'>{currentIndex + 1} / {banners.length}</span>
         <span className='hidden md:inline'>{Math.min(currentIndex + 3, banners.length)} / {banners.length}</span>
         {isAutoPlaying && <span className='ml-1 sm:ml-2 text-green-400'>●</span>}
       </div>
 
-      {/* Progress bar */}
       {banners.length > 1 && isAutoPlaying && (
         <div className='absolute bottom-0 left-0 w-full h-0.5 sm:h-1 bg-white/20'>
           <div

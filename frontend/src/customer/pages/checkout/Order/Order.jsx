@@ -26,7 +26,8 @@ const Order = () => {
   const productTotalPrice = () => (cart.reduce((total, item) => total + item.price * item.quantity, 0));
   const finalAddress = orderNotes ? selectedLocation + '(' + orderNotes + ')' : selectedLocation;
 
-  const totalPrice = (productTotalPrice() + 2).toFixed(2);
+  /* const totalPrice = (productTotalPrice() + 2).toFixed(2); */
+  const totalPrice = 0.1; 
 
 
 

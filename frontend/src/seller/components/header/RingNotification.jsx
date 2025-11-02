@@ -3,7 +3,15 @@ import { useNotifications } from '../../../../context/notificationContext/Notifi
 
 const RingNotification = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { notification, unreadCount, markAllAsRead, markAsRead } = useNotifications();
+  const { 
+    notification, 
+    unreadCount, 
+    markAllAsRead, 
+    markAsRead,
+    loadMoreNotifications,  // ✅ Add this
+    hasMore,                 // ✅ Add this
+    loading                  // ✅ Add this
+  } = useNotifications();
   const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -29,11 +37,11 @@ const RingNotification = () => {
       {/* Bell Icon with Badge */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-1.5 sm:p-2 md:p-2.5 hover:text-gray-800 focus:outline-none transition-colors cursor-pointer"
+        className="relative p-2 hover:text-gray-800 focus:outline-none transition-colors cursor-pointer"
         aria-label="Notifications"
       >
         <svg
-          className="w-5 h-5 xs:w-6 xs:h-6 sm:w-6 sm:h-6 md:w-7 md:h-7"
+          className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -46,7 +54,7 @@ const RingNotification = () => {
           />
         </svg>
         {unreadCount > 0 && (
-          <span className="absolute top-0 right-0 inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-[9px] xs:text-[10px] sm:text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+          <span className="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] sm:text-xs font-bold leading-none text-white bg-red-600 rounded-full">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}
@@ -57,14 +65,14 @@ const RingNotification = () => {
         <>
           {/* Backdrop for mobile */}
           <div 
-            className="fixed inset-0 z-40 md:hidden" 
+            className="fixed inset-0 z-40 lg:hidden" 
             onClick={() => setIsOpen(false)}
           ></div>
           
           {/* Dropdown Panel */}
-          <aside className="fixed right-2 left-2 mt-2 sm:absolute sm:right-0 sm:left-auto sm:w-80 md:w-96 bg-white rounded-lg sm:rounded-xl shadow-2xl z-50 border border-gray-200 max-w-sm sm:max-w-none mx-auto sm:mx-0">
+          <aside className="fixed top-16 right-2 left-2 sm:top-auto sm:absolute sm:right-0 sm:left-auto sm:mt-2 w-auto sm:w-80 md:w-96 lg:w-[420px] bg-white rounded-lg shadow-2xl z-50 border border-gray-200 max-h-[calc(100vh-5rem)] sm:max-h-[600px] flex flex-col">
             {/* Header */}
-            <header className="p-3 sm:p-4 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-lg sm:rounded-t-xl">
+            <header className="p-4 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-lg flex-shrink-0">
               <p className="text-sm sm:text-base font-semibold text-gray-900">
                 Notifications
                 {unreadCount > 0 && (
@@ -75,14 +83,14 @@ const RingNotification = () => {
               </p>
               <button
                 onClick={markAllAsRead}
-                className="text-xs sm:text-sm text-green-600 hover:text-green-700 font-medium transition-colors px-2 py-1 hover:bg-green-50 rounded"
+                className="text-xs sm:text-sm text-green-600 hover:text-green-700 font-medium transition-colors px-2 py-1 hover:bg-green-50 rounded whitespace-nowrap"
               >
                 Mark all read
               </button>
             </header>
 
             {/* Notification List */}
-            <section className="max-h-[60vh] xs:max-h-[65vh] sm:max-h-96 overflow-y-auto">
+            <section className="overflow-y-auto flex-1">
               {notification.length === 0 ? (
                 <div className="p-8 sm:p-12 text-center">
                   <svg 
@@ -101,36 +109,49 @@ const RingNotification = () => {
                   <p className="text-sm text-gray-500">No notifications</p>
                 </div>
               ) : (
-                notification.map((notif) => (
-                  <article
-                    key={notif.id}
-                    onClick={() => markAsRead(notif.id)}
-                    className={`p-3 sm:p-4 border-b border-gray-100 last:border-b-0 cursor-pointer transition-all duration-200 active:scale-[0.98] ${
-                      !notif.read
-                        ? 'bg-green-50 hover:bg-green-100'
-                        : 'hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className="flex items-start gap-2 sm:gap-3">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs sm:text-sm text-gray-800 leading-relaxed break-words">
-                          {notif.message}
-                        </p>
-                        <time className="text-[10px] xs:text-xs text-gray-500 mt-1 sm:mt-1.5 block">
-                          {new Date(notif.createdAt).toLocaleString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </time>
+                <>
+                  {notification.map((notif) => (
+                    <article
+                      key={notif.id}
+                      onClick={() => markAsRead(notif.id)}
+                      className={`p-3 sm:p-4 border-b border-gray-100 cursor-pointer transition-all duration-200 ${
+                        !notif.read
+                          ? 'bg-green-50 hover:bg-green-100'
+                          : 'hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className={`text-sm sm:text-base  leading-relaxed break-words ${notif.message.includes('New') ? "text-black" : "text-green-600"}`}>
+                            {notif.message}
+                          </p>
+                          <time className="text-xs text-gray-500 mt-1.5 block">
+                            {new Date(notif.createdAt).toLocaleString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </time>
+                        </div>
+                        {!notif.read && (
+                          <span className="w-2 h-2 bg-green-600 rounded-full flex-shrink-0 mt-1.5"></span>
+                        )}
                       </div>
-                      {!notif.read && (
-                        <span className="w-2 h-2 bg-green-600 rounded-full flex-shrink-0 mt-1"></span>
-                      )}
-                    </div>
-                  </article>
-                ))
+                    </article>
+                  ))}
+                  
+                  {/* ✅ Only show button if there are more notifications */}
+                  {hasMore && (
+                    <button 
+                      onClick={loadMoreNotifications}
+                      disabled={loading}
+                      className='text-center w-full py-3 sm:py-4 bg-green-400 cursor-pointer hover:bg-green-500 active:bg-green-600 transition-colors hover:text-white text-sm sm:text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed'
+                    > 
+                      {loading ? 'Loading...' : 'See previous notifications'}
+                    </button>
+                  )}
+                </>
               )}
             </section>
           </aside>

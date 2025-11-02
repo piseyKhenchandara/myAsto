@@ -20,19 +20,18 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
       <section>
     
         <ul className="space-y-2">
-          <li> View / Search / Filter Products</li>
-          <li > 
+          <li> 
             <NavLink
-              to="/seller-dashboard/products/new"
+              to="/dashboard/categories"
               className={({ isActive }) =>
                 ` ${isActive ? 'text-green-600' : ''}`
               }
               >
-              📦 Add new product
+              View / Search / Filter Products
             </NavLink>
           </li>
-          <li><NavLink to= "/seller-dashboard/products/bulk" className={({isActive}) => `${isActive? "text-green-600" : ""}`}>Bulk Upload via CSV</NavLink> </li>
-          <li> Organize by Categories/Brands</li>
+          {/* <li><NavLink to= "/seller-dashboard/products/bulk" className={({isActive}) => `${isActive? "text-green-600" : ""}`}>Bulk Upload via CSV</NavLink> </li>
+          <li> Organize by Categories/Brands</li> */}
         </ul>
       </section>
     );
@@ -46,7 +45,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
               Add New Category
             </NavLink> 
           </li>
-          <li>Bulk Upload Categories</li>
+          {/* <li>Bulk Upload Categories</li> */}
         </ul>
       </section>
     );
@@ -75,9 +74,9 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
                 View All Users
             </NavLink> 
           </li>
-          <li> Purchase History</li>
+          {/* <li> Purchase History</li>
           <li> Ban / Block Accounts</li>
-          <li> Contact or send notification</li>
+          <li> Contact or send notification</li> */}
         </ul>
       </section>
     );
@@ -91,9 +90,9 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
             </NavLink> 
           </li>
           
-          <li> Update Order Status</li>
+         {/*  <li> Update Order Status</li>
           <li> Invoice Download or View</li>
-          <li> Return / Cancel Handling</li>
+          <li> Return / Cancel Handling</li> */}
         </ul>
       </section>
     );

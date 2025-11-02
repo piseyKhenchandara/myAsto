@@ -2,7 +2,7 @@ import db from "../models/index.js";
 import {BakongKHQR, khqrData, IndividualInfo} from 'bakong-khqr';
 import axios from 'axios';
 import { io } from "../server.js";
-
+import { Op } from "sequelize";
 
 export const createKHQRPayment = async (req, res) => {
     try {

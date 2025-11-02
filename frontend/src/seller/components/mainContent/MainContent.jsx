@@ -14,7 +14,7 @@ const MainContent = ({ visible, asto_logo }) => {
         <main>
             {location.pathname === '/dashboard' && (
                 <section>
-                    <h1>Dashboard Home</h1>
+                    <img src={asto_logo} alt="asto logo" className='opacity-25 min-w-[50px] mx-auto' />
                 
                 </section>
           

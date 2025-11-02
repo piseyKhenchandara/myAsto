@@ -426,6 +426,10 @@ export const login = async(req,res) => {
             return res.status(403).json({ message: "Please verify your email first." });
         }
 
+        await findUser.update({
+            last_login : new Date(),
+        })
+
         //here also
         generateTokenAndSetCookie(res,findUser.id);
 

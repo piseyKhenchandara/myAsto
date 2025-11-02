@@ -2,8 +2,15 @@
 import http from "./http";
 
 
-export const getNotificationsAPI = async () => {
-    const { data } = await http.get('/notifications');
+export const getNotificationsAPI = async (params = {}) => {
+
+    const {page = 1 , limit = 15} = params;
+
+    const { data } = await http.get('/notifications',
+        {params : {
+            page,limit
+        }}
+    );
     return data; 
 }
 

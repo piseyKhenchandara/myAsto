@@ -79,7 +79,7 @@ const ProductDetail = () => {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12'>
                 
                 {/* Image Section */}
-                <section className='space-y-4'>
+                <section className='space-y-4 md:sticky md:top-12'>
                     {/* Main Image */}
                     <figure className='overflow-hidden'>
                         {selectedImage ? (
@@ -105,7 +105,7 @@ const ProductDetail = () => {
 
                     {/* Thumbnail Grid */}
                     {productDetail.ProductImages?.length > 1 && (
-                        <div className='grid grid-cols-4 gap-2'>
+                        <div className='grid grid-cols-4 gap-2 '>
                             {productDetail.ProductImages.map((img, index) => (
                                 <button
                                     key={index}

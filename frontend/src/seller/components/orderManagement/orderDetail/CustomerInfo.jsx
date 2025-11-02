@@ -56,9 +56,9 @@ const CustomerInfo = ({ user, shippingAddress, phoneNumber }) => {
           Shipping Address
         </h6>
         <address className='text-sm sm:text-base text-gray-600 space-y-1 text-center sm:text-left not-italic'>
-          <p className='font-medium text-gray-800'>name : {user?.name || 'N/A'}</p>
-          <p>name : {phoneNumber || 'N/A'}</p>
-          <p>address : {shippingAddress || 'N/A'}</p>
+          <p className='font-medium text-gray-800'>Name : {user?.name || 'N/A'}</p>
+          <p>Phone number : {phoneNumber || 'N/A'}</p>
+          <p>Address : {shippingAddress || 'N/A'}</p>
         </address>
       </section>
     </article>

@@ -93,9 +93,9 @@ export default function LanguageChoice() {
 
       {open && (
         <>
-          <menu className="absolute right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[150px] z-50">
+          <menu className="absolute right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[150px] z-50 list-none">
             {langs.map(l => (
-              <li key={l.code}>
+              <div key={l.code}>
                 <button
                   onClick={() => handleSelect(l.code)}
                   className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg text-gray-700 cursor-pointer"
@@ -103,7 +103,7 @@ export default function LanguageChoice() {
                   <img src={l.flag} alt={l.alt} className="h-5 w-7 object-cover rounded-sm " />
                   <span className="text-sm font-medium">{l.name}</span>
                 </button>
-              </li>
+              </div>
             ))}
           </menu>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />

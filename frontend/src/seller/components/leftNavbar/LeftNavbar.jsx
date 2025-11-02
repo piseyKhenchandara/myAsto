@@ -20,16 +20,16 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
     const LeftNavbar = ({visible}) => {
 
         const menu = [
-    { choice: "Overview / Analytics", icon: "📊" },
+    /* { choice: "Overview / Analytics", icon: "📊" }, */
     { choice: "Product Management", icon: "📦" },
     { choice: "Category Management", icon: "🏷️" },
     { choice: "Customer Management", icon: "👥" },
     { choice: "Order Management", icon: "📬" },
-    { choice: "Reviews & Ratings", icon: "⭐" },
+    /* { choice: "Reviews & Ratings", icon: "⭐" },
     { choice: "Media / Cloudinary Manager", icon: "🖼️" },
     { choice: "Reports & Analytics", icon: "📊" },
     { choice: "Security & Setting", icon: "🔐" },
-    { choice: "Notifications", icon: "🔔" }
+    { choice: "Notifications", icon: "🔔" } */
     ];
 
     const [active, setActive] = useState("Overview / Analytics");

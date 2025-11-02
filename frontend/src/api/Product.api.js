@@ -54,7 +54,7 @@ const {
         brand_slug,
         category_slug, // CHANGED: was category_slug
         features,
-        warranty,  
+        warranty,      
         files
     } = payload;
 
