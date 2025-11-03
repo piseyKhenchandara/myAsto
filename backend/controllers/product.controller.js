@@ -1,8 +1,37 @@
+import { Op } from "sequelize";
 import db from "../models/index.js";
 import { v2 as cloudinary } from "cloudinary";
 
 
+const generateSlug = (name) => {
+    return name
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+};
 
+const generateUniqueSlug = async (name, excludeId = null) => {
+    let slug = generateSlug(name);  
+    let counter = 1;             
+
+    while(true) {
+        const where = {slug};  
+        if(excludeId) {
+            where.id = {[Op.ne]: excludeId}
+        }
+        
+        const existing = await db.Product.findOne({ where });
+        
+        if (!existing) {
+            return slug; 
+        }
+        
+        slug = `${generateSlug(name)}-${counter}`;
+        counter++;
+    }
+}
 export const getAllProduct = async (req,res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12;
@@ -13,7 +42,7 @@ export const getAllProduct = async (req,res) => {
             limit,
             offset,
             order : [["createdAt", "DESC"]],
-            attributes : ["id", "name", "stock", "price",'createdAt','description', 'warranty'],
+            attributes : ["id", "name", "stock", "price",'createdAt','description', 'warranty', 'slug'],
             include : [
                 {
                     model : db.ProductImage,
@@ -32,8 +61,6 @@ export const getAllProduct = async (req,res) => {
             ]
         });
 
-        // Debug logging
-        console.log('Total products found:', products.length);
         if (products.length > 0) {
             console.log('First product structure:', JSON.stringify(products[0], null, 2));
             console.log('First product Category:', products[0].Category);
@@ -60,7 +87,7 @@ export const getAllProduct = async (req,res) => {
 export const getProductById = async (req, res) => {
   try {
     const product = await db.Product.findByPk(req.params.id, {
-      attributes: ['description', 'stock', 'price', 'name','id', 'warranty', 'createdAt', 'updatedAt'],
+      attributes: ['description', 'stock', 'price', 'name','id', 'warranty', 'createdAt', 'updatedAt', 'slug'],
       include: [
         {
           model: db.ProductFeature,
@@ -106,7 +133,7 @@ export const getProductsByBrandNCategory = async( req,res) => {
 
     try{
         const { rows: products, count: total } = await db.Product.findAndCountAll({
-            attributes: ['id', 'name', 'price', 'stock', 'createdAt','warranty'],
+            attributes: ['id', 'name', 'price', 'stock', 'createdAt','warranty', 'slug'],
             include: [
                 {
                     model: db.Category,
@@ -182,6 +209,7 @@ export const uploadProduct = async(req, res) => {
             return res.status(500).json({message : "Invalid features format (must be JSON) "})
         }
         
+        const slug = await generateUniqueSlug(name);
         await db.sequelize.transaction(async(transaction) => {
             
             const product = await db.Product.create({
@@ -192,6 +220,7 @@ export const uploadProduct = async(req, res) => {
                 brand_id : brand.id,
                 category_id : category.id,
                 warranty : warranty || 'none',
+                slug,
             }, {transaction});
             
             const promises = [];
@@ -262,7 +291,7 @@ export const uploadProduct = async(req, res) => {
 export const getProductDetail = async (req, res) => {
     try {
         const product = await db.Product.findByPk(req.params.id, {
-            attributes: ['description', 'stock', 'price', 'name', 'id', 'warranty'],
+            attributes: ['description', 'stock', 'price', 'name', 'id', 'warranty', 'slug'],
             include: [
                 {
                     model: db.ProductFeature,
@@ -309,6 +338,8 @@ export const getProductDetail = async (req, res) => {
 
 export const updateProduct = async (req,res) => {
     let {name, price, stock, description, features, warranty} = req.body;
+
+
     console.log(req.body);
 
     try{
@@ -320,6 +351,11 @@ export const updateProduct = async (req,res) => {
         
         if(!product) return res.status(404).json({message : "Product not found !"});
 
+        let slug = product.slug;
+        if(name && name!== product.name) {
+            slug = await generateUniqueSlug(name,req.params.id);
+        }
+
         let brand_id = product.brand_id;
         let category_id = product.category_id;
 
@@ -330,7 +366,8 @@ export const updateProduct = async (req,res) => {
             description : description || product.description,
             brand_id,
             category_id, 
-            warranty : warranty || product.warranty
+            warranty : warranty || product.warranty,
+            slug
         })
 
         if(features) {

@@ -18,6 +18,11 @@ export default (sequelize) => {
             type : DataTypes.DECIMAL(10,2),
             allowNull : false,
         },
+        slug: {
+            type: DataTypes.STRING,
+            allowNull: true,   // Can be null initially
+            unique: true       // Must be unique
+        },
         stock : {
             type : DataTypes.ENUM('Available', 'Low Stock', 'Out of Stock'),
             defaultValue : "Available",
