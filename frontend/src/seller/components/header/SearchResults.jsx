@@ -87,8 +87,8 @@ const SearchResults = () => {
                 >
                   <Link 
                     to={checkUserRole 
-                      ? `/dashboard/category/${product.Category?.slug}/brand/${product.Brand?.slug}/product/detail/${product.id}` 
-                      : `/category/${product.Category?.slug}/brand/${product.Brand?.slug}/product/detail/${product.id}`
+                      ? `/dashboard/category/${product.Category?.slug}/brand/${product.Brand?.slug}/product/detail/${product.id}/${product.slug}` 
+                      : `/category/${product.Category?.slug}/brand/${product.Brand?.slug}/product/detail/${product.id}/${product.slug}`
                     }
                     className="flex gap-4"
                   >

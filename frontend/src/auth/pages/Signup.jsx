@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { googleAuthAPI, signupAPI } from '../../api/auth.api'
+import { useState } from 'react'
+import { googleAuthAPI, signupAPI } from '../../api/Auth.api'
 import '../../index.css'
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';
@@ -32,9 +32,12 @@ const Signup = () => {
       return setMsg({ type: 'error', text: 'Name must be at least 3 characters!' })
     }
 
-    if (password.length < 6) {
-      return setMsg({ type: 'error', text: 'Password must be at least 6 characters!' })
-    }
+    if (password.length < 8) {
+          return res.status(400).json({
+              success: false,
+              message: "Password must be at least 8 characters long"
+          });
+      }
 
     if (password !== confirmPassword) {
       return setMsg({ type: 'error', text: 'Passwords do not match!' })
@@ -121,9 +124,9 @@ const Signup = () => {
               placeholder="Password"
               required
             />
-            {password && password.length < 6 && (
+            {password && password.length < 8 && (
               <span className='text-red-500 p-2 text-xs rounded mt-1 block'>
-                Password must be at least 6 characters
+                Password must be at least 8 characters
               </span>
             )}
           </div>
@@ -140,16 +143,16 @@ const Signup = () => {
               required
               />
           </div>
-          {confirmPassword && confirmPassword.length < 6 && (
+          {confirmPassword && confirmPassword.length < 8 && (
             <span className='text-red-500 p-2 text-xs rounded mt-1 block'>
-              Password must be at least 6 characters
+              Password must be at least 8 characters
             </span>
           )}
 
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={submit.process || name.length<3 || !email.includes('@gmail.com') || password.length<6 || confirmPassword.length<6 }
+            disabled={submit.process || name.length<3 || !email.includes('@gmail.com') || password.length<8 || confirmPassword.length<8 }
             className="font-semibold py-2 px-5 border-2 border-green-200 
                        transition-transform duration-300 hover: hover:scale-105
                        disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-green-500 text-white rounded-[10px] cursor-pointer"

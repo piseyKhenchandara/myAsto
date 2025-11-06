@@ -18,6 +18,8 @@ import {
 import { authenticate } from "../middleware/autheticate.js";
 import {authorizeRoles} from '../middleware/authorizeRoles.js'
 import { uploadSingle } from "../middleware/uploadImage.js";
+
+console.log(Router())
 const router = Router();
 // Add debugging middleware to see all requests
 /* router.use((req, res, next) => {

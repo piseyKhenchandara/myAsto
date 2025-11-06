@@ -4,17 +4,11 @@ import LeftNavbar from './components/leftNavbar/LeftNavbar'
 import MainContent from './components/mainContent/MainContent'
 import { useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import Footer from '../seller/components/footer/Footer'
-import facebook_logo from '../assets/logoes/facebook_logo.png'
-import ig_logo from '../assets/logoes/ig_logo.png'
-import tiktok_logo from '../assets/logoes/tiktok_logo.png'
-import telegram_logo from '../assets/logoes/telegram_logo.png'
 import asto_logo from '../assets/logoes/asto_logo.png'
 
 const RootSellerLayout = () => {
     const [visible, setVisible] = useState(false);
-    const [active, setActive] = useState('');
-    const location = useLocation();
+
 
     
     return (

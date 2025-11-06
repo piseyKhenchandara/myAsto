@@ -12,7 +12,6 @@ const EmailEntry = () => {
   const [msg, setMsg] = useState({ type: '', text: '' });
   const [loading, setLoading] = useState(false);
   
-  // Added state for GoogleAuth props
   const [submit, setSubmit] = useState({ formName: '', process: false });
   const [progress, setProgress] = useState(0);
   
@@ -32,7 +31,6 @@ const EmailEntry = () => {
       return setMsg({ type: 'error', text: 'Email is required!' });
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return setMsg({ type: 'error', text: 'Please enter a valid email address!' });
@@ -43,22 +41,20 @@ const EmailEntry = () => {
       setMsg({ type: '', text: '' });
 
       const response = await checkEmailAPI({ email });
-      console.log(response)
 
       if (response.action === 'login') {
-        // Navigate to login page with email
         setTimeout(() => {
           setLoading(false);
-           navigate('/auth/login', {
-          state: {
-            email: email,
-            message: response.message,
-            userData: response.user
-          }
-        });
+            navigate('/auth/login', {
+              state: {
+                email: email,
+                message: response.message,
+                userData: response.user
+              }
+            });
         },1500);
-      } else if (response.action === 'signup') {
-        // Navigate to signup page with email
+      }
+       else if (response.action === 'signup') {
 
         setTimeout(() => {
           setLoading(false);
@@ -74,14 +70,18 @@ const EmailEntry = () => {
 
       }
 
-
     } catch (error) {
-      console.error('Email check error:', error);
       setMsg({
         type: 'error',
         text: error.response?.data?.message || 'Something went wrong. Please try again.'
       });
     } 
+    finally{
+      setLoading(false);
+      
+    }
+
+
   };
 
   return (

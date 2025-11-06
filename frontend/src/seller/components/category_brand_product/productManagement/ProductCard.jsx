@@ -16,14 +16,14 @@ const ProductCard = ({
   const checkUserRole = whoami?.role === 'admin' || whoami?.role === 'seller';
 
   return (
-    <article className="md:border shadow hover:shadow-md flex flex-col py-2 justify-between w-full max-w-xs hover:scale-105 transition duration-100 ease-in-out cursor-pointer hover:shadow-green-300 rounded-[15px] h-auto">
+    <article className="flex flex-col py-2 justify-between w-full max-w-xs hover:scale-105 transition duration-100 ease-in-out cursor-pointer hover:shadow-green-300 rounded-[15px] h-auto">
       {/* Image Section */}
       <figure className="w-full flex flex-col items-center gap-2 px-[2px]">
         {product.ProductImages?.[0] && (
           <Link 
             to={checkUserRole 
-              ? `/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/${product.id}` 
-              : `/category/${category_slug}/brand/${brand_slug}/product/detail/${product.id}`}
+              ? `/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/${product.id}/${product.slug}` 
+              : `/category/${category_slug}/brand/${brand_slug}/product/detail/${product.id}/${product.slug}`}
             className="w-full"
           >
             <img 
@@ -68,7 +68,7 @@ const ProductCard = ({
           <div className="flex gap-3 mt-3 text-2xl justify-center md:justify-start"> 
             <Link 
               className="text-green-600 shadow-lg p-2 rounded cursor-pointer hover:scale-110 transition-transform hover:text-white hover:bg-green-500" 
-              to={`/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/edit/${product.id}`}
+              to={`/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/edit/${product.id}/${product.slug}`}
             >
               <CiEdit />
             </Link>

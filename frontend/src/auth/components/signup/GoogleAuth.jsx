@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { googleAuthAPI } from "../../../api/auth.api";
+import { googleAuthAPI } from "../../../api/Auth.api";
 import { auth } from "../../firebase/config";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';

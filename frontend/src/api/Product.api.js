@@ -32,19 +32,6 @@ export const getProductDetail = async (id) => {
     return data.product;
 }
 
-/** 
- * UPDATED: Changed category_category_slug to category_slug to match backend
- * @param {Object} payload
- * @param {string} payload.name
- * @param {string} payload.description
- * @param {number|string} payload.price
- * @param {number|string} payload.stock
- * @param {string} payload.brand_slug
- * @param {string} payload.category_slug - CHANGED: was category_slug
- * @param {Array<{feature_name : string, feature_value: string}>|string} payload.features
- * @param {File[]|File} payload.files
- * @param {(ProgressEvent : ProgressEvent) => void} [onUploadProgress]
- */
 export const createProduct = async(payload, onUploadProgress) => {
 const {
         name,
@@ -94,8 +81,6 @@ export const updateProduct = async (payload) => {
     const {id, name, description, price, stock, features, warranty, files} = payload;
 
     const fd = new FormData();
-
-    // Add basic fields with proper null/undefined checks
     fd.append('name', name ? name.trim() : '');
     fd.append('description', description ? description.trim() : '');
     fd.append('price', price || 0);
@@ -119,8 +104,6 @@ export const updateProduct = async (payload) => {
         });
     }
 
-    // Debug logging
-    console.log('FormData contents:');
     for (let [key, value] of fd.entries()) {
         console.log(key, ':', value);
     }

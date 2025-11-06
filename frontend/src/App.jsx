@@ -65,7 +65,7 @@ const router = createBrowserRouter(
         <Route path='category/:category_slug/brands' element = {<BrandManagement/>}/>
         <Route path='category/:category_slug/brand/first/products' element={<RedirectToFirstBrand/>}/>
         <Route path='category/:category_slug/brand/:brand_slug/products' element={<Products/>}/>
-        <Route path='category/:category_slug/brand/:brand_slug/product/detail/:id' element= {<ProductDetail/>}/>
+        <Route path='category/:category_slug/brand/:brand_slug/product/detail/:id/:product_slug' element= {<ProductDetail/>}/>
         <Route path='checkout-page' element = {<Order/>} loader = {requireAuth}/>
         <Route path='user-profile' element = {<Auth/>} loader = {requireAuth}/>
       </Route>
@@ -76,8 +76,8 @@ const router = createBrowserRouter(
         <Route path='category/:category_slug/brands' element = {<BrandManagement/>}/>
         <Route path='category/:category_slug/brand/first/products' element={<RedirectToFirstBrand/>}/>
         <Route path='category/:category_slug/brand/:brand_slug/products' element={<Products/>}/>
-        <Route path='category/:category_slug/brand/:brand_slug/product/detail/:id' element= {<ProductDetail/>}/>
-        <Route path='category/:category_slug/brand/:brand_slug/product/detail/edit/:id' element= {<ProductEdit/>}/>
+        <Route path='category/:category_slug/brand/:brand_slug/product/detail/:id/:product_slug' element= {<ProductDetail/>}/>
+        <Route path='category/:category_slug/brand/:brand_slug/product/detail/edit/:id/:product_slug' element= {<ProductEdit/>}/>
         <Route path= 'view-all-users' element = {<Users/>}/>
 
         <Route path='User-profile/:user_id/receipts' element = {<ViewAuthProfile/>}/>

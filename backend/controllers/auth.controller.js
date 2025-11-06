@@ -9,27 +9,28 @@ import { sendResetSuccessEmail } from '../mail/mailService/sendResetSuccessEmail
 import cloudinary from '../config/cloudinary.js';
 import { io } from '../server.js';
 
+const validationEmail = (email,res) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({
+            success: false,
+            message: "Please enter a valid email address!"
+        });
+    }
 
+    return true;
+}
 
 export const checkEmail = async (req,res) => {
-
     const {email} = req.body;
-
-    
+     
     if(!email) return res.status(400).json({success : false, message : "email is required!"});
     
     try{
-
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({
-                success: false,
-                message: "Please enter a valid email address!"
-            });
-        }
+        validationEmail(email,res);
 
         const user = await db.User.findOne({where : {email}, attributes : ['name', 'is_verified']});
+
         if(!user) return res.status(200).json({
             success : true,
             message : "Please, signup !",
@@ -61,23 +62,17 @@ export const googleAuth = async (req, res) => {
 
 
     if (!email || !name || !provider_id) {
-        console.log('❌ Missing required fields');
+       
         return res.status(400).json({
             success: false,
             message: "Email, name, and provider ID are required",
-            received: { email, name, provider_id }
+          
         });
     }
 
     try {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            console.log('❌ Invalid email format');
-            return res.status(400).json({
-                success: false,
-                message: "Please enter a valid email address!"
-            });
-        }
+
+        validationEmail(email,res);
 
         const user = await db.User.findOne({
             where: { email }, 
@@ -85,9 +80,8 @@ export const googleAuth = async (req, res) => {
         });
 
         if (user) {
-            console.log('✅ Existing user found:', user.email);
-            generateTokenAndSetCookie(res, user.id);
 
+            generateTokenAndSetCookie(res, user.id);
             return res.status(200).json({
                 success: true, 
                 message: "Welcome back!",
@@ -100,10 +94,10 @@ export const googleAuth = async (req, res) => {
                 }
             });
 
-        } else {
-            console.log('🆕 Creating new user...');
-
-              let cloudinaryUrl = null;
+        } 
+        else {
+        
+            let cloudinaryUrl = null;
             let publicId = null;
             
             if (photoUrl) {
@@ -123,7 +117,7 @@ export const googleAuth = async (req, res) => {
                     console.log('✅ Photo uploaded to Cloudinary:', cloudinaryUrl);
                 } catch (uploadError) {
                     console.error('⚠️ Failed to upload photo:', uploadError);
-                    // Continue without profile picture
+                    
                 }
             }
 
@@ -133,8 +127,8 @@ export const googleAuth = async (req, res) => {
                 password: null,                    
                 auth_provider: 'google',           
                 provider_id,                       
-                profile_picture: cloudinaryUrl,  // ✅ Use Cloudinary URL
-                public_id: publicId,             // ✅ Use Cloudinary public_id
+                profile_picture: cloudinaryUrl,  
+                public_id: publicId,
                 is_verified: 1,                    
             });
 
@@ -142,19 +136,18 @@ export const googleAuth = async (req, res) => {
 
             console.log('✅ New user created:', newUser.id);
             generateTokenAndSetCookie(res, newUser.id);
-
             await sendWelcomeEmail(newUser.email, newUser.name);
 
 
             const notification = await db.Notification.create({ 
                 type: 'user',
                 message: `New user registered: ${newUser.name}`,
-                target_role: 'admin', // ✅ Add this
+                target_role: 'admin', 
                 user_id: newUser.id,
                 read: false
             });
 
-            // ✅ Emit socket event
+          
             io.to('room').emit('newUser', {
                 id: notification.id,
                 type: notification.type,
@@ -199,9 +192,20 @@ export const signup = async(req,res) => {
             return res.status(400).json({message : "All fields are required"});
         }
 
+        validationEmail(email,res);
+
         const existingUsers = await db.User.findOne({
             where : {email}
         })
+
+
+        if (password.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 8 characters long"
+            });
+        }
+
         if(existingUsers){
             return res.status(409).json({success : false, message : "User already exist!"});
         }
@@ -216,9 +220,9 @@ export const signup = async(req,res) => {
             password : hashedPassword,
             verification_token : verificationToken,
             verification_token_expires_at,
-            auth_provider: 'email',  // Add this
-            provider_id: null,       // Add this  
-            profile_picture: null,   // Add this
+            auth_provider: 'email',  
+            provider_id: null,       
+            profile_picture: null,
         });
 
         generateTokenAndSetCookie(res,newUser.id);
@@ -227,12 +231,11 @@ export const signup = async(req,res) => {
         const notification = await db.Notification.create({
             type: 'user',
             message: `New user registered: ${newUser.name}`,
-            target_role: 'admin', // ✅ Add this
+            target_role: 'admin',
             user_id: newUser.id,
             read: false
         });
 
-        // ✅ Emit socket event
         io.to('room').emit('newUser', {
             id: notification.id,
             type: notification.type,
@@ -253,7 +256,7 @@ export const signup = async(req,res) => {
                 email : newUser.email,
                 role : newUser.role,
                 is_verified : newUser.is_verified,
-                verification_token : verificationToken,
+
               
             
             }
@@ -283,7 +286,7 @@ export const verificationCode = async (req, res) => {
         const findUser = await db.User.findByPk(req.user.id );
 
 
-        if(!findUser) return res.status(409).json({success : false, message : "User not found!"});
+        if(!findUser) return res.status(404).json({success : false, message : "User not found!"});
 
         if (findUser.is_verified) {
             return res.status(409).json({ 
@@ -410,17 +413,21 @@ export const login = async(req,res) => {
         if(!email || !password) 
         return res.status(400).json({message : "Both fields are required!"});
 
+
+
+        validationEmail(email, res);
+
         const findUser = await db.User.findOne({
         where : {email}
         });
 
 
-
+ 
         if(!findUser) return res.status(404).json({message : "User not found!"});
         
 
         const isMatch = await bcrypt.compare(password, findUser.password);
-        if(!isMatch) return res.status(401).json({message : "Invalid password!"})
+        if(!isMatch) return res.status(400).json({message : "Invalid password!"});
 
         if (!findUser.is_verified) {
             return res.status(403).json({ message: "Please verify your email first." });
@@ -433,15 +440,13 @@ export const login = async(req,res) => {
         //here also
         generateTokenAndSetCookie(res,findUser.id);
 
-        res.status(200).json({message : "User login successfully✅", user : {
-            email : findUser.email,
-            role : findUser.role,
-            is_verified : 1,
-        
-        }});
-
-        
-
+        res.status(200).json({message : "User login successfully✅", 
+            user : {
+                email : findUser.email,
+                role : findUser.role,
+                is_verified : 1,
+            }
+        });
     }catch(error){
         res.status(500).json({message : error.message})
     }
@@ -453,11 +458,11 @@ export const login = async(req,res) => {
 export const forgotPassword = async (req,res) => {
 
     const {email} = req.body ;
-    console.log(email);
     
     if(!email) return res.status(400).json({success : false, message : "invalid email!"});
 
     try{
+        validationEmail(email,res);
 
         const findUser = await db.User.findOne({where : {email}});
 
@@ -500,10 +505,10 @@ export const resetPassword = async (req,res) => {
 
    try{
        
-       if(newPassword.length<6) {
+       if(newPassword.length<8) {
            return res.status(400).json({
                success : false, 
-               message : "Password moust be at least 6 characters long!"
+               message : "Password moust be at least 8 characters long!"
             })
         }
         
@@ -528,10 +533,7 @@ export const resetPassword = async (req,res) => {
          sendResetSuccessEmail(findUser.email, findUser.name)
             .then(() => console.log('✅ Success email sent'))
             .catch(err => console.error('⚠️ Email failed but password updated:', err.message));
-
-
-        
-
+            
         res.status(200).json({
             success: true,
             message: "Password updated successfullly!✅"
@@ -549,12 +551,12 @@ export const resetPassword = async (req,res) => {
 
 
 export const resendPasswordToken = async (req,res) => {
+
     const {email} = req.body;
 
     if(!email) return res.status(400).json({success : false, message : "email are required!"});
 
     try{
-
         const findUser = await db.User.findOne({where: {email}});
         if(!findUser) return res.status(404).json({success : false, message : "User not found!"})
         const reset_password_expires_at = new Date(Date.now() + 30 * 60 * 1000);

@@ -30,9 +30,16 @@ router.get("/category/:category_slug/brand/:brand_slug", getProductsByBrandNCate
 router.get("/detail/:id", validateNumericId, getProductDetail);
 router.get("/:id", validateNumericId, getProductById);
 
-router.put('/edit/:id',authenticate,authorizeRoles("admin", "seller"),uploadAnyMedia, updateProduct)
+router.put(
+  '/edit/:id',
+  authenticate,
+  authorizeRoles("admin", "seller"),
+  validateNumericId,
+  uploadAnyMedia,   
+  updateProduct
+);
 
-// ---------- Banner (protected) ----------
+
 router.post(
   "/category/:slug/upload/product-banner",
   authenticate,
@@ -66,13 +73,7 @@ router.post(
   uploadProduct
 );
 
-router.patch(
-  "/update/:id",
-  authenticate,
-  authorizeRoles("admin", "seller"),
-  validateNumericId,
-  updateProduct
-);
+
 
 router.delete(
   "/delete/:id",

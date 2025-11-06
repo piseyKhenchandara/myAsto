@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { resetPasswordAPI } from '../../api/auth.api';
+import { resetPasswordAPI } from '../../api/Auth.api';
 
 const ResetPassword = () => {
+  //6 digit verification
   const [token, setToken] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState({ type: '', text: '' });
   const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,8 +23,8 @@ const ResetPassword = () => {
       return;
     }
 
-    if (newPassword.length < 6) {
-      setMessage({ type: 'error', text: 'Password must be at least 6 characters long' });
+    if (newPassword.length < 8) {
+      setMessage({ type: 'error', text: 'Password must be at least 8 characters long' });
       return;
     }
 
@@ -36,35 +36,16 @@ const ResetPassword = () => {
     try {
       setMessage({ type: '', text: '' });
       setLoading(true);
-      setProgress(0);
-
-      // Simulate progress since reset password API might be too fast
-      const progressInterval = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 90) return prev;
-          return prev + 15;
-        });
-      }, 100);
-
+      
       await resetPasswordAPI(token, newPassword);
-
-      clearInterval(progressInterval);
-      setProgress(100);
-
       setMessage({ 
         type: 'success', 
         text: 'Password updated successfully! Redirecting to login...' 
       });
-      
-      // Clear form after successful reset
-      setToken('');
-      setNewPassword('');
-      setConfirmPassword('');
 
-      // Redirect to login after delay
       setTimeout(() => {
         window.location.href = '/auth/login';
-        setLoading(false);
+        
       }, 3000);
 
     } catch (error) {
@@ -73,6 +54,12 @@ const ResetPassword = () => {
         text: error.response?.data?.message || 'Failed to reset password. Please try again.'
       });
     } 
+    finally{
+      setToken('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setLoading(false);
+    }
   };
 
   return (
@@ -124,7 +111,7 @@ const ResetPassword = () => {
           </div>
             {newPassword && newPassword.length < 6 && (
             <span className='text-red-500 text-xs block'>
-              Password must be at least 6 characters
+              Password must be at least 8 characters
             </span>
           )}
 
@@ -144,7 +131,7 @@ const ResetPassword = () => {
           </div>
             {confirmPassword && confirmPassword.length < 6 && (
             <span className='text-red-500 text-xs block'>
-              Password must be at least 6 characters
+              Password must be at least 8 characters
             </span>
           )}
 

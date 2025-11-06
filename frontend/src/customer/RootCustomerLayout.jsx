@@ -28,10 +28,10 @@ const RootCustomerLayout = () => {
     !location.pathname.startsWith('/auth') &&
     !location.pathname.startsWith('/dashboard')
   ) {
-    const timer = setInterval(() => {
+   /*  const timer = setInterval(() => {
       setPopup(true);
-    }, 10000000);
-    return () => clearInterval(timer);        
+    }, 15000);
+    return () => clearInterval(timer);         */
   }
 }, [location.pathname]);
 
