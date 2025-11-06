@@ -2,17 +2,18 @@ import http from "./http";
 
 
 
+
+export const checkEmailAPI = async ({email}) => {
+    const {data} = await http.post('/auth/check-email', {email});
+    return data;
+}
+
 export const googleAuthAPI = async (email,name,photoUrl,provider_id) => {
     const payload = {email, name, photoUrl, provider_id};
     const {data} = await http.post("/auth/google", payload);
     return data.user;
 }
 
-
-export const checkEmailAPI = async ({email}) => {
-    const {data} = await http.post('/auth/check-email', {email});
-    return data;
-}
 
 export const signupAPI = async (name, email, password) => {
 

@@ -8,12 +8,11 @@ import GoogleAuth from '../components/signup/GoogleAuth';
 const Signup = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [userInfo, setUserInfo] = useState(null);
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [msg, setMsg] = useState({ type: '', text: '' })
   const [submit, setSubmit] = useState({ formName: '', process: false })
-  const [progress, setProgress] = useState(0);
+
   const {user : whoami} = useUser();
 
   const navigate = useNavigate();
@@ -46,12 +45,8 @@ const Signup = () => {
     try {
       setSubmit({ process: true, formName: 'signup' })
 
-      
-      const user = await signupAPI(name, email, password)
+      await signupAPI(name, email, password)
 
-      
-      
-      setUserInfo(user);
       setMsg({ type: 'success', text: 'User signed up successfully! ✅' })
       setTimeout(() => setMsg({ type: '', text: '' }), 3000)
       navigate('/auth/verify-email');
@@ -165,7 +160,6 @@ const Signup = () => {
         <GoogleAuth 
           submit={submit} 
           setSubmit={setSubmit}
-          setProgress={setProgress}
           setMsg={setMsg}
         />
 
