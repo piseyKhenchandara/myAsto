@@ -28,6 +28,7 @@ const User = UserModel(sequelize);
 const ProductVideo = ProductVideoModel(sequelize);
 const ProductBanner = ProductBannerModel(sequelize);
 const Notification = NotificationModel(sequelize);
+
 const db = {
   sequelize,
   Address,

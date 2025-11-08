@@ -18,41 +18,86 @@ import {
 import { authenticate } from "../middleware/autheticate.js";
 import {authorizeRoles} from '../middleware/authorizeRoles.js'
 import { uploadSingle } from "../middleware/uploadImage.js";
+import { validateAddress, validateCode, validateEmail, validateId, validateName, validatePassword, validatePhone, validateUrl, validateString} from "../middleware/validator.js";
 
-console.log(Router())
+
 const router = Router();
-// Add debugging middleware to see all requests
-/* router.use((req, res, next) => {
-    console.log(`🔍 Auth route hit: ${req.method} ${req.path}`);
-    console.log('📝 Headers:', req.headers);
-    console.log('🍪 Cookies:', req.cookies);
-    next();
-});
- */
-router.post("/check-email",checkEmail);
-router.post('/google',googleAuth);
 
+router.post("/check-email",
+    validateEmail("email"), 
+    checkEmail);
+
+router.post('/google',
+    validateEmail('email'), 
+    validateName('name'),
+    validateUrl('photoUrl', false), 
+    validateString('provider_id', 1, 100, true),
+    googleAuth
+);
 // Public routes (no authentication required)
-router.post('/signup', signup);
-router.post('/login', login);
-router.post('/forgot-password', forgotPassword);
-router.post('/reset-password', resetPassword);
+router.post('/signup',
+    validateEmail('email'),
+    validateName('name'),
+    validatePassword('password',8),
+    signup);
+//done
 
+router.post('/login', 
+    validateEmail('email'),
+    validatePassword('password'),
+    login);
+//done
+router.post('/forgot-password', 
+    validateEmail('email'),
+    forgotPassword);
+//done
+
+router.post('/reset-password', 
+    validateCode('token'),
+    validatePassword("newPassword"),
+    resetPassword);
+//done
 
 // Protected routes (require authentication)  
-router.post('/verify-email', authenticate, verificationCode);
-router.post('/resend-verification', authenticate, resendVerificationCode);
-router.post('/logout', logout);
+router.post('/verify-email',
+     authenticate, 
+     validateCode('code'),
+     verificationCode);
+//done
+
+router.post('/resend-verification', 
+    authenticate,
+    resendVerificationCode);
+//done
+
+router.post('/logout',
+    authenticate, 
+    logout);
 
 
-router.patch('/profile/update',authenticate,uploadSingle, updateAuth);
+router.patch('/profile/update',
+    authenticate,
+    uploadSingle, 
+    validateName('name', false),
+    validatePhone('phone',false),
+    validateAddress('address',false),
+    updateAuth);
+
+
 // Add debugging specifically for whoami
-router.get('/whoami',authenticate, whoami);
-router.get('/users/:id', authenticate,authorizeRoles('admin'),getUserById);
+router.get('/whoami',
+    authenticate, 
+    whoami);
+
+router.get('/users/:id', 
+    authenticate,
+    authorizeRoles('admin'),
+    validateId('id'),
+    getUserById);
 
 // Add a test route to verify auth routes are working
-router.get('/test', (req, res) => {
+/* router.get('/test', (req, res) => {
     res.json({ message: 'Auth routes are working!', timestamp: new Date().toISOString() });
-});
+}); */
 
 export default router;

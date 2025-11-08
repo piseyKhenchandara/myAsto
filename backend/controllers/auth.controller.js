@@ -8,26 +8,15 @@ import { sendWelcomeEmail } from '../mail/mailService/sendWelcomEmail.js';
 import { sendResetSuccessEmail } from '../mail/mailService/sendResetSuccessEmail.js';
 import cloudinary from '../config/cloudinary.js';
 import { io } from '../server.js';
+import { validateEmail } from '../middleware/validator.js';
 
-const validationEmail = (email,res) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        return res.status(400).json({
-            success: false,
-            message: "Please enter a valid email address!"
-        });
-    }
 
-    return true;
-}
 
 export const checkEmail = async (req,res) => {
     const {email} = req.body;
      
-    if(!email) return res.status(400).json({success : false, message : "email is required!"});
     
     try{
-        validationEmail(email,res);
 
         const user = await db.User.findOne({where : {email}, attributes : ['name', 'is_verified']});
 
@@ -59,20 +48,8 @@ export const checkEmail = async (req,res) => {
 export const googleAuth = async (req, res) => {
 
     const { email, name, photoUrl, provider_id } = req.body;
-
-
-    if (!email || !name || !provider_id) {
-       
-        return res.status(400).json({
-            success: false,
-            message: "Email, name, and provider ID are required",
-          
-        });
-    }
-
     try {
 
-        validationEmail(email,res);
 
         const user = await db.User.findOne({
             where: { email }, 
@@ -188,23 +165,11 @@ export const signup = async(req,res) => {
 
     try{
 
-        if(!email || !name || !password){
-            return res.status(400).json({message : "All fields are required"});
-        }
 
-        validationEmail(email,res);
 
         const existingUsers = await db.User.findOne({
             where : {email}
         })
-
-
-        if (password.length < 8) {
-            return res.status(400).json({
-                success: false,
-                message: "Password must be at least 8 characters long"
-            });
-        }
 
         if(existingUsers){
             return res.status(409).json({success : false, message : "User already exist!"});
@@ -275,12 +240,6 @@ export const verificationCode = async (req, res) => {
 
     const {code} = req.body;
     
-    if (!code) {
-        return res.status(400).json({ 
-            success: false, 
-            message: "Verification code is required!" 
-        });
-    }
 
     try{
         const findUser = await db.User.findByPk(req.user.id );
@@ -410,12 +369,7 @@ export const resendVerificationCode = async (req, res) => {
 export const login = async(req,res) => {
     try{
         const {email, password} = req.body;
-        if(!email || !password) 
-        return res.status(400).json({message : "Both fields are required!"});
-
-
-
-        validationEmail(email, res);
+      
 
         const findUser = await db.User.findOne({
         where : {email}
@@ -459,10 +413,8 @@ export const forgotPassword = async (req,res) => {
 
     const {email} = req.body ;
     
-    if(!email) return res.status(400).json({success : false, message : "invalid email!"});
-
+    
     try{
-        validationEmail(email,res);
 
         const findUser = await db.User.findOne({where : {email}});
 
@@ -496,23 +448,11 @@ export const forgotPassword = async (req,res) => {
 
 export const resetPassword = async (req,res) => {
 
-        // 6 digit verification code
     const {token,newPassword} = req.body;
-
-
-
-    if(!token || !newPassword) return res.status(400).json({success : false, message : "password is required!"});
-
    try{
-       
-       if(newPassword.length<8) {
-           return res.status(400).json({
-               success : false, 
-               message : "Password moust be at least 8 characters long!"
-            })
-        }
-        
+
         const findUser = await db.User.findOne({where : {reset_password_token : token}})
+
         if(!findUser) return res.status(404).json({success : false, message : "token required!"})
 
         if (new Date() > findUser.reset_password_expires_at) {
@@ -554,8 +494,7 @@ export const resendPasswordToken = async (req,res) => {
 
     const {email} = req.body;
 
-    if(!email) return res.status(400).json({success : false, message : "email are required!"});
-
+   
     try{
         const findUser = await db.User.findOne({where: {email}});
         if(!findUser) return res.status(404).json({success : false, message : "User not found!"})

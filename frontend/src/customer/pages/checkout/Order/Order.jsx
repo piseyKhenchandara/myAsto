@@ -83,7 +83,7 @@ const Order = () => {
     <div className="w-full min-h-full bg-gray-50">
       <div className="max-w-[1300px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {cart && cart.length > 0 ? (
-          <form className="grid grid-cols-1 lg:grid-cols-7 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 sm:gap-6">
             <CartSection
               cart={cart}
               getCartCount={getCartCount}
@@ -111,7 +111,7 @@ const Order = () => {
               whoami={whoami}
               totalPrice = {totalPrice}
             />
-          </form>
+          </div>
         ) : (
           <EmptyCart />
         )}

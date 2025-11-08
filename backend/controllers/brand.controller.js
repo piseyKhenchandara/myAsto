@@ -47,7 +47,7 @@ export const uploadBrand = async (req, res) => {
           category_id: existingCategory.id,
           name: brand_name,
           slug: slug,
-          image_url: file.path, // ✅ Changed from logo_url to image_url
+          image_url: file.path, 
           public_id: file.filename,
       });
 
@@ -61,7 +61,7 @@ export const uploadBrand = async (req, res) => {
 export const getAllBrands = async (req, res) => {
   try {
     const brands = await db.Brand.findAll({
-      attributes: ['id', 'name', 'image_url', 'slug'], // ✅ Changed from logo_url to image_url
+      attributes: ['id', 'name', 'image_url', 'slug'], 
     });
 
     return res.status(200).json({ success: true, brands });
@@ -105,22 +105,16 @@ export const updateBrand = async (req, res) => {
 
         if (!brand) return res.status(404).json({ message: "Brand not found or already deleted!" });
 
-        if (!brand_name && !file) {
-            return res.status(400).json({ message: "Nothing to update." });
-        }
-
-        // ✅ Generate new slug if brand name is being updated
         const newSlug = brand_name 
             ? brand_name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
             : brand.slug;
 
-        // ✅ Check if new brand name already exists in the same category (excluding current brand)
         if (brand_name && brand_name !== brand.name) {
             const duplicateBrand = await db.Brand.findOne({
                 where: { 
                     name: brand_name,
                     category_id: brand.category_id,
-                    id: { [Op.ne]: id } // ✅ CHANGED: db.Sequelize.Op.ne → Op.ne
+                    id: { [Op.ne]: id } 
                 }
             });
 
@@ -132,7 +126,6 @@ export const updateBrand = async (req, res) => {
             }
         }
 
-        // If there's a new file and the brand has an old image, delete the old one
         if (file && brand.public_id) {
             try {
                 await cloudinary.uploader.destroy(brand.public_id);
@@ -142,7 +135,6 @@ export const updateBrand = async (req, res) => {
             }
         }
 
-        // ✅ Update brand with new slug
         await brand.update({
             name: brand_name || brand.name,
             slug: newSlug,
@@ -170,7 +162,7 @@ export const deleteBrand = async (req, res) => {
         const brand = await db.Brand.findByPk(req.params.id);
 
         if (!brand) {
-            return res.status(404).json({ message: "Brand not found or already deleted!" });
+            return res.status(404).json({ message: "Brand not found" });
         }
 
         if (brand.public_id) {

@@ -32,7 +32,7 @@ export default (sequelize) => {
     }, {
         tableName: "brands",
         timestamps: true,
-    createdAt: "created_at",
+        createdAt: "created_at",
         updatedAt: false
     });
 

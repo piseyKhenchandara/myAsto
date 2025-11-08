@@ -5,7 +5,7 @@ import { updateProduct } from '../../../../../api/Product.api';
 
 export const useProductUpdate = (id, category_slug, brand_slug) => {
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [msg, setMsg] = useState({ type: '', text: '' });
+const [msg, setMsg] = useState({ type: '', text: '' });
   const navigate = useNavigate();
 
   const prepareFiles = async (existingImages, finalImages) => {
