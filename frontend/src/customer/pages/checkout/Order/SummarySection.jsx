@@ -22,7 +22,7 @@ const SummarySection = ({
   whoami,
   totalPrice = {totalPrice}
 }) => (
-  <div className="lg:col-span-4 space-y-4 sm:space-y-6">
+  <div className=" space-y-4 sm:space-y-6">
     <Address
       setPhoneNumber={setPhoneNumber}
       setAddress={setAddress}

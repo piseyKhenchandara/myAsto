@@ -53,7 +53,7 @@ const OrderSummary = ({
   
   return (
     <section> 
-      <article className="bg-white rounded-lg shadow-md py-5 px-4 md:px-8 space-y-5 animation_form_popup ">
+      <article className="bg-white rounded-lg shadow-md py-5 px-4 md:px-8 space-y-5  ">
       
         <ReciptHeader asto_logo={asto_logo}/>
 

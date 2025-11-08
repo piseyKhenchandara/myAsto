@@ -40,35 +40,35 @@ router.post('/signup',
     validateName('name'),
     validatePassword('password',8),
     signup);
-//done
+
 
 router.post('/login', 
     validateEmail('email'),
     validatePassword('password'),
     login);
-//done
+
 router.post('/forgot-password', 
     validateEmail('email'),
     forgotPassword);
-//done
+
 
 router.post('/reset-password', 
     validateCode('token'),
     validatePassword("newPassword"),
     resetPassword);
-//done
+
 
 // Protected routes (require authentication)  
 router.post('/verify-email',
      authenticate, 
      validateCode('code'),
      verificationCode);
-//done
+
 
 router.post('/resend-verification', 
     authenticate,
     resendVerificationCode);
-//done
+
 
 router.post('/logout',
     authenticate, 

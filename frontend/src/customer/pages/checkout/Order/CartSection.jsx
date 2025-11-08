@@ -2,7 +2,7 @@ import CartItems from "../CartItems";
 
 
 const CartSection = ({ cart, getCartCount, removeFromCart, decreaseFromCart, increaseFromCart }) => (
-  <div className="lg:col-span-3">
+  <div className="w-full md:top-20  md:sticky">
     <CartItems
       cart={cart}
       getCartCount={getCartCount}

@@ -50,20 +50,20 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
 
             {/* Phnom Penh Delivery Option */}
             {isPhnomPenh && (
-            <section className="space-y-4">
-                <p className="text-sm text-gray-600 mb-3">Available for Phnom Penh delivery:</p>
-                <label 
-                onClick={() => handleDeliveryCompanySelect('Phnom Penh delivery')}
-                className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md max-w-xs ${
+            <section className={`border-2 rounded-lg p-4 transition-all hover:shadow-md max-w-xs ${
                     selectedDeliveryCompany === 'Phnom Penh delivery'
                     ? 'border-green-500 bg-green-50' 
                     : 'border-gray-200 hover:border-gray-300'
-                }`}
+                } space-y-4` }>
+                <p className="text-sm text-gray-600 mb-3">Available for Phnom Penh delivery:</p>
+                <label 
+                onClick={() => handleDeliveryCompanySelect('Phnom Penh delivery')}
+                className='cursor-pointer'
                 >
                 <span className="flex flex-col items-center text-center">
                     <img src={grab_logo} alt="Grab Express" className="h-12 w-auto mb-2" />
                     <span className="text-sm font-medium text-gray-700">Grab Express</span>
-                    <span className="text-xs text-gray-500 mt-1">Same day delivery</span>
+                    <span className="text-xs text-gray-500 mt-1">fast as possible</span>
                 </span>
                 </label>
             </section>

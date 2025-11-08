@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import asto_logo from '../assets/logoes/asto_logo.png'
+import ScrollToTop from '../../utils/ScrollToTheTop'
 
 const RootAuthLayout = () => {
   return (
    
     <div className="w-full min-h-screen flex flex-col  bg-gray-50">
+        <ScrollToTop/>
         <header className='w-full border-green-500 border-b-1 px-5 py-2'>
           <Link to='/'>
             <img src={asto_logo} alt="asto_logo" className='w-20 md:w-30' />

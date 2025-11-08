@@ -80,37 +80,44 @@ const Order = () => {
     );
 
   return (
-    <div className="w-full min-h-full bg-gray-50">
-      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <div className="w-full h-auto">
+      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 py-6 sm:py-8 h-auto">
         {cart && cart.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 sm:gap-6">
-            <CartSection
+          <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 sm:gap-6 h-auto">
+            <div className="lg:col-span-3 h-full p-2 ">
+              <CartSection
               cart={cart}
               getCartCount={getCartCount}
               removeFromCart={removeFromCart}
               decreaseFromCart={decreaseFromCart}
               increaseFromCart={increaseFromCart}
             />
-            <SummarySection
-              address={address}
-              setAddress={setAddress}
-              phoneNumber={phoneNumber}
-              setPhoneNumber={setPhoneNumber}
-              selectedLocation={selectedLocation}
-              setSelectedLocation={setSelectedLocation}
-              selectedDeliveryCompany={selectedDeliveryCompany}
-              setSelectedDeliveryCompany={setSelectedDeliveryCompany}
-              orderNotes={orderNotes}
-              setOrderNotes={setOrderNotes}
-              cart={cart}
-              getCartCount={getCartCount}
-              productTotalPrice={productTotalPrice}
-              handleOrder={handleOrder}
-              submit={submit}
-              isProcessing={isProcessing}
-              whoami={whoami}
-              totalPrice = {totalPrice}
-            />
+            </div>
+
+            <div className='lg:col-span-4'>
+              <SummarySection
+                address={address}
+                setAddress={setAddress}
+                phoneNumber={phoneNumber}
+                setPhoneNumber={setPhoneNumber}
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+                selectedDeliveryCompany={selectedDeliveryCompany}
+                setSelectedDeliveryCompany={setSelectedDeliveryCompany}
+                orderNotes={orderNotes}
+                setOrderNotes={setOrderNotes}
+                cart={cart}
+                getCartCount={getCartCount}
+                productTotalPrice={productTotalPrice}
+                handleOrder={handleOrder}
+                submit={submit}
+                isProcessing={isProcessing}
+                whoami={whoami}
+                totalPrice = {totalPrice}
+              />
+            </div>
+            
+            
           </div>
         ) : (
           <EmptyCart />

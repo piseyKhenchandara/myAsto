@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import asto_logo from '../assets/logoes/asto_logo.png'
 import { useUser } from '../../context/UserContext'
-import Footer from '../seller/components/footer/Footer'
 import facebook_logo from '../assets/logoes/facebook_logo.png'
 import ig_logo from '../assets/logoes/ig_logo.png'
 import tiktok_logo from '../assets/logoes/tiktok_logo.png'
 import telegram_logo from '../assets/logoes/telegram_logo.png'
 import Header from '../seller/components/header/Header'
+import ScrollToTop from '../../utils/ScrollToTheTop'
+import Footer from '../../utils/Footer'
 
 
 const RootCustomerLayout = () => {
@@ -37,6 +38,8 @@ const RootCustomerLayout = () => {
 
   return (
     <div className='w-full min-h-screen flex flex-col  bg-gray-50'>
+
+      <ScrollToTop/>
       <Header asto_logo = {asto_logo} />
       <main className="w-full min-h-screen">
         <div className='mx-auto'>
@@ -74,12 +77,12 @@ const RootCustomerLayout = () => {
         </div>              
       </main>
       
-      {location.pathname=== '/' && <Footer 
-        facebook_logo = {facebook_logo}
-        ig_logo = {ig_logo}
-        tiktok_logo = {tiktok_logo}
-        telegram_logo = {telegram_logo}
-      />}
+      <Footer
+        facebook_logo={facebook_logo}
+        ig_logo={ig_logo}
+        tiktok_logo={tiktok_logo}
+        telegram_logo={telegram_logo}
+      />
     </div>
   )
 }

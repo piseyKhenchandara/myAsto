@@ -1,12 +1,8 @@
-// In MainContent.jsx
+
 import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
-import CategoryScroll from '../category_brand_product/CategoryScroll'
 
-
-
-// In MainContent.jsx
 const MainContent = ({ visible, asto_logo }) => {
     const location = useLocation();
     

@@ -3,8 +3,8 @@ import Header from './components/header/Header'
 import LeftNavbar from './components/leftNavbar/LeftNavbar'
 import MainContent from './components/mainContent/MainContent'
 import { useState } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
 import asto_logo from '../assets/logoes/asto_logo.png'
+import ScrollToTop from '../../utils/ScrollToTheTop'
 
 const RootSellerLayout = () => {
     const [visible, setVisible] = useState(false);
@@ -13,6 +13,7 @@ const RootSellerLayout = () => {
     
     return (
         <>
+            <ScrollToTop/>
             <Header setVisible = {setVisible} asto_logo={asto_logo}/>
 
 
@@ -44,9 +45,11 @@ const RootSellerLayout = () => {
                     </div>
                         
                 </div>
+
                             
             </div>
-=
+        
+
         </>
     )
 }
