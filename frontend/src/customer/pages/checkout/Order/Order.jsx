@@ -84,7 +84,7 @@ const Order = () => {
       <div className="max-w-[1300px] mx-auto px-4 sm:px-6 py-6 sm:py-8 h-auto">
         {cart && cart.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 sm:gap-6 h-auto">
-            <div className="lg:col-span-3 h-full p-2 ">
+            <div className="lg:col-span-3 h-full ">
               <CartSection
               cart={cart}
               getCartCount={getCartCount}

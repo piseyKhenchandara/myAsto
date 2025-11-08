@@ -15,13 +15,15 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
 
   // Countdown timer
   useEffect(() => {
-    if (!resFromKHQR?.qr_expiration) return;
+    if (!resFromKHQR?.data.qr_expiration) return;
 
     const calculateTimeLeft = () => {
-      const expirationTime = new Date(resFromKHQR.qr_expiration).getTime();
+      const expirationTime = new Date(resFromKHQR.data.qr_expiration).getTime();
       const now = Date.now();
       const diff = expirationTime - now;
-      if (diff <= 0) return { expired: true };
+      
+
+      if (diff <= 0) return { expired: true, minutes: 0, seconds: 0 };
 
       const minutes = Math.floor((diff / 1000 / 60) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
@@ -33,7 +35,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
     return () => clearInterval(timer);
   }, [resFromKHQR]);
 
-  // Poll payment status
+
   useEffect(() => {
     const pollPayment = async () => {
       try {
@@ -43,7 +45,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
         if (res.success) {
           setMessage({ type: 'success', text: 'Payment successful! ✅' });
           clearInterval(pollInterval);
-          setTimeout(() => navigate('/User-profile'), 3000);
+          setTimeout(() => navigate('/User-profile'), 300000);
         }
       } catch (err) {
         setMessage({
@@ -94,9 +96,11 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
         </button>
       )}
 
-      <header className="text-center mb-6">
-        <MessageBox message={message} />
-      </header>
+      {message.type === 'success' && 
+        <header className="text-center mb-6 bg-white rounded-2xl py-5">
+          <MessageBox message={message} />
+        </header>
+      }
 
       <section className="bg-white rounded-3xl animation_form_popup" style={{ boxShadow: '0 0 16px rgba(0, 0, 0, 0.1)' }}>
         {isExpired ? <QRExpired /> : <QRDisplay resFromKHQR={resFromKHQR} />}

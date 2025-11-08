@@ -35,7 +35,7 @@ const PhoneInput = ({phoneNumber, setPhoneNumber}) => {
       }
   return (
     <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+        <label className="block text-sm font-medpium text-gray-700 mb-2">Phone Number</label>
         <input 
           type="text"
           placeholder="012-345-678 or +855 12-345-678"
