@@ -13,9 +13,9 @@ const Address = ({
   setSelectedLocation: setParentSelectedLocation,
   whoami,
   orderNotes,
+  setOrderNotes,
   selectedDeliveryCompany,
   setSelectedDeliveryCompany,
-  setOrderNotes,
 }) => {
 
   // ===== Phone number persistence =====

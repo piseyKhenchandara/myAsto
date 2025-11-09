@@ -5,14 +5,11 @@ const ReciptBody = (
         cart, 
         date = null,
         getCartCount, 
-        //isProcessing
         whoami,
         phoneNumber,
         selectedLocation,
         selectedDeliveryCompany,
         productTotalPrice,
-        totalPrice,
-
         invoiceNumber
         
     }

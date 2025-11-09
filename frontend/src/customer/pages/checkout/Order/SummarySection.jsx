@@ -20,7 +20,7 @@ const SummarySection = ({
   submit,
   isProcessing,
   whoami,
-  totalPrice = {totalPrice}
+  totalPrice
 }) => (
   <div className=" space-y-4 sm:space-y-6">
     <Address
@@ -29,8 +29,6 @@ const SummarySection = ({
       setSelectedLocation={setSelectedLocation}
       whoami={whoami}
       phoneNumber={phoneNumber}
-      address={address}
-      selectedLocation={selectedLocation}
       setSelectedDeliveryCompany={setSelectedDeliveryCompany}
       selectedDeliveryCompany={selectedDeliveryCompany}
       orderNotes={orderNotes}

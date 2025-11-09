@@ -67,7 +67,6 @@ const OrderSummary = ({
           selectedLocation={selectedLocation}
           selectedDeliveryCompany={selectedDeliveryCompany}
           productTotalPrice={productTotalPrice}
-          totalPrice = {totalPrice}
         />
 
         <button
