@@ -37,6 +37,7 @@ import Users from './seller/components/user/Users'
 import ViewAuthProfile from './seller/components/category_brand_product/ViewAuthProfile'
 import Orders from './seller/components/orderManagement/Orders'
 import { NotificationProvider } from '../context/notificationContext/NotificationContext'
+import AboutUs from '../utils/AboutUs'
 
 
 const router = createBrowserRouter(
@@ -57,18 +58,21 @@ const router = createBrowserRouter(
         <Route path='logout' element = {<Logout/>}/>
       </Route>
 
+
+
       <Route path='/' element = {<RootCustomerLayout/>}>
         <Route index element = {<Homepage/>}/>
         <Route path='asto-homepage' element = {<Homepage/>}/>
-
-
         <Route path='category/:category_slug/brands' element = {<BrandManagement/>}/>
         <Route path='category/:category_slug/brand/first/products' element={<RedirectToFirstBrand/>}/>
         <Route path='category/:category_slug/brand/:brand_slug/products' element={<Products/>}/>
         <Route path='category/:category_slug/brand/:brand_slug/product/detail/:id/:product_slug' element= {<ProductDetail/>}/>
         <Route path='checkout-page' element = {<Order/>} loader = {requireAuth}/>
         <Route path='user-profile' element = {<Auth/>} loader = {requireAuth}/>
+        <Route path='about-us' element= {<AboutUs/>}/>
       </Route>
+
+
 
       <Route path='/dashboard' element = {<RootSellerLayout/>}>
         <Route path="results" element={<SearchResults />} />
@@ -82,6 +86,7 @@ const router = createBrowserRouter(
 
         <Route path='User-profile/:user_id/receipts' element = {<ViewAuthProfile/>}/>
         <Route path='view-all-orders' element = {<Orders/>}/>
+        <Route path='about-us' element= {<AboutUs/>}/>
       </Route>
         
     </>

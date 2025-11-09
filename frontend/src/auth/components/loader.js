@@ -1,6 +1,6 @@
 // src/auth/requireSellerNAdmin.js
 import { redirect } from "react-router-dom";
-import { whoamiAPI } from "../../api/auth.api";
+import { whoamiAPI } from "../../api/Auth.api";
 
 
 

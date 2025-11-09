@@ -1,12 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useUser } from '../context/UserContext'
+
 
 const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
 
 
-    const handleImageError = (e) => {
-  console.log('Image failed to load:', e.target.src);
-}
+  const handleImageError = (e) => {
+    console.log('Image failed to load:', e.target.src);
+
+    
+  }
+
+  const {whoami} = useUser();
+  const checkUserRole = whoami?.role === "admin" || whoami?.role === "seller";
+
   return (
     <footer className="bg-black/95 text-white mt-auto">
       {/* Main Footer Content */}
@@ -70,20 +78,20 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
               </li>
               <li>
                 <Link 
-                  to="/about" 
+                  to={`${checkUserRole ? "/dashboard/about-us" : "/about-us"}`} 
                   className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm"
                 >
                   About Us
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link 
                   to="/contact" 
                   className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm"
                 >
                   Contact
                 </Link>
-              </li>
+              </li> */}
               {/* <li>
                 <Link 
                   to="/faq" 

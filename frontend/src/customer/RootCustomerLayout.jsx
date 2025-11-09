@@ -39,7 +39,7 @@ const RootCustomerLayout = () => {
   return (
     <div className='w-full min-h-screen flex flex-col  bg-gray-50'>
 
-      <ScrollToTop/>
+      {!location.pathname.includes('products') && <ScrollToTop/>}
       <Header asto_logo = {asto_logo} />
       <main className="w-full min-h-screen">
         <div className='mx-auto'>

@@ -13,7 +13,7 @@ const ReciptBody = (
         productTotalPrice,
         totalPrice,
 
-        invoiceNumber = 0,
+        invoiceNumber
         
     }
 ) => {

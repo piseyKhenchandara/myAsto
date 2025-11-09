@@ -10,15 +10,17 @@ import { useState } from 'react'
 import asto_logo from '../assets/logoes/asto_logo.png'
 import ScrollToTop from '../../utils/ScrollToTheTop'
 import Footer from '../../utils/Footer'
+import { useLocation } from 'react-router-dom'
 
 const RootSellerLayout = () => {
     const [visible, setVisible] = useState(false);
+    const location = useLocation();
 
 
     
     return (
         <>
-            <ScrollToTop/>
+            {!location.pathname.includes('products') && <ScrollToTop/>}
             <Header setVisible = {setVisible} asto_logo={asto_logo}/>
 
 

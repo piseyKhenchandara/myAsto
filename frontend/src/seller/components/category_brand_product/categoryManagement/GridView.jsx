@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CiEdit, CiTrash } from 'react-icons/ci';
 import asto_logo from '../../../../assets/logoes/asto_logo.png'
@@ -9,15 +9,44 @@ const GridView = ({
     handleOpenEdit, 
     handleOpenDelete,
     whoami,
-    loadingUserRole   // 👈 Accept loadingUserRole prop
+    loadingUserRole
 }) => {
+    const [visibleCards, setVisibleCards] = useState(new Set());
+    const cardRefs = useRef([]);
 
-    // ✅ Only show loader while context is loadingUserRole
+    useEffect(() => {
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const cardId = entry.target.dataset.cardId;
+                
+                if (entry.isIntersecting) {
+                    setVisibleCards(prev => new Set([...prev, cardId]));
+                } else {
+                    setVisibleCards(prev => {
+                        const newSet = new Set(prev);
+                        newSet.delete(cardId);
+                        return newSet;
+                    });
+                }
+            });
+        }, observerOptions);
+
+        cardRefs.current.forEach(ref => {
+            if (ref) observer.observe(ref);
+        });
+
+        return () => observer.disconnect();
+    }, [categories]);
+
     if (loadingUserRole) {
         return <div className="p-4 text-center">Loading permissions...</div>;
     }
 
-    // ✅ Now render grid even for guests (whoami === null)
     if (categories.length === 0) {
         return (
             <div className="px-6 py-4 w-full flex justify-center">
@@ -27,54 +56,203 @@ const GridView = ({
     }
 
     return (
-        <section className="px-6 py-4 w-full flex flex-col items-center">
-            <div className={`grid justify-items-center ${
-                visible 
-                ? 'grid-cols-3 md:grid-cols-4 lg:grid-cols-6' 
-                : "grid-cols-3 md:grid-cols-5 lg:grid-cols-7"
-            } gap-3 md:gap-6`}>
-                {categories.map((cat) => (
+        <section className="px-6 py-4 w-full flex flex-col items-center relative overflow-hidden">
+            <style>
+                {`
+                    @keyframes gradientShift {
+                        0% {
+                            background-position: 0% 50%;
+                        }
+                        50% {
+                            background-position: 100% 50%;
+                        }
+                        100% {
+                            background-position: 0% 50%;
+                        }
+                    }
+
+                    @keyframes float {
+                        0%, 100% {
+                            transform: translateY(0) rotate(0deg);
+                        }
+                        50% {
+                            transform: translateY(-20px) rotate(5deg);
+                        }
+                    }
+
+                    .animated-background {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(
+                            135deg,
+                            #ffffff 0%,
+                            #e8f5e9 25%,
+                            #c8e6c9 50%,
+                            #a5d6a7 75%,
+                            #81c784 100%
+                        );
+                        background-size: 400% 400%;
+                        animation: gradientShift 15s ease infinite;
+                        z-index: -2;
+                    }
+
+                    .floating-shapes {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        overflow: hidden;
+                        z-index: -1;
+                    }
+
+                    .shape {
+                        position: absolute;
+                        opacity: 0.1;
+                        animation: float 6s ease-in-out infinite;
+                    }
+
+                    .shape:nth-child(1) {
+                        top: 10%;
+                        left: 10%;
+                        width: 80px;
+                        height: 80px;
+                        background: #4caf50;
+                        border-radius: 50%;
+                        animation-delay: 0s;
+                    }
+
+                    .shape:nth-child(2) {
+                        top: 60%;
+                        left: 80%;
+                        width: 120px;
+                        height: 120px;
+                        background: #66bb6a;
+                        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                        animation-delay: 2s;
+                    }
+
+                    .shape:nth-child(3) {
+                        top: 30%;
+                        left: 70%;
+                        width: 100px;
+                        height: 100px;
+                        background: #81c784;
+                        border-radius: 50%;
+                        animation-delay: 4s;
+                    }
+
+                    .shape:nth-child(4) {
+                        top: 70%;
+                        left: 20%;
+                        width: 90px;
+                        height: 90px;
+                        background: #a5d6a7;
+                        border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+                        animation-delay: 1s;
+                    }
+
+                    .shape:nth-child(5) {
+                        top: 20%;
+                        left: 40%;
+                        width: 110px;
+                        height: 110px;
+                        background: #4caf50;
+                        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+                        animation-delay: 3s;
+                    }
+
+                    .category-card {
+                        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .category-card.hidden-left {
+                        opacity: 0;
+                        transform: translateX(-150px);
+                    }
+
+                    .category-card.visible {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+
+                    .category-card.hidden-right {
+                        opacity: 0;
+                        transform: translateX(150px);
+                    }
+                `}
+            </style>
+
+            {/* Animated Background */}
+            <div className="animated-background"></div>
+            
+            {/* Floating Shapes */}
+            <div className="floating-shapes">
+                <div className="shape"></div>
+                <div className="shape"></div>
+                <div className="shape"></div>
+                <div className="shape"></div>
+                <div className="shape"></div>
+            </div>
+
+            <div className="w-full max-w-6xl relative z-10">
+                {categories.map((cat, index) => (
                     <article 
-                        className="rounded-[15px] flex flex-col items-center transition-all cursor-pointer hover:scale-110 transform duration-300 p-2 border min-w-[80px] md:min-w-[120px]" 
+                        ref={el => cardRefs.current[index] = el}
+                        data-card-id={cat.id}
+                        className={`category-card backdrop-blur-sm transition-all duration-300 overflow-hidden ${
+                            visibleCards.has(cat.id.toString()) ? 'visible' : 'hidden-left'
+                        }`}
                         key={cat.id}
                     >
-                        <NavLink 
-                            to={
-                                (whoami?.role === 'admin' || whoami?.role === 'seller')  // ✅ SAFE optional chaining
-                                ? `/dashboard/category/${cat.slug}/brand/first/products`
-                                : `/category/${cat.slug}/brand/first/products`
-                            }
-                            className="flex flex-col items-center w-full"
-                        >
-                            <img
-                                src={cat.image_url || asto_logo}
-                                alt={cat.name}
-                                className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-cover mb-3 rounded-lg"
-                            />
-                        </NavLink>
-                        
-                        <span className="font-medium text-center text-xs sm:text-sm md:text-base text-gray-700 hover:text-green-600 transition-colors duration-200 truncate max-w-full">
-                            {cat.name}
-                        </span>
+                        <div className="flex items-center p-4 md:p-6 relative">
+                            {/* Image and Text Section */}
+                            <NavLink 
+                                to={
+                                    (whoami?.role === 'admin' || whoami?.role === 'seller')
+                                    ? `/dashboard/category/${cat.slug}/brand/first/products`
+                                    : `/category/${cat.slug}/brand/first/products`
+                                }
+                                className="flex items-center flex-1 bg-white shadow-lg p-6 rounded-e-2xl "
+                            >
+                                <img
+                                    src={cat.image_url || asto_logo}
+                                    alt={cat.name}
+                                    className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-cover rounded-xl hover:scale-105 transition-transform duration-300 flex-shrink-0"
+                                />
 
-                        {/* ✅ Safe check — won't crash if whoami is null */}
-                        {(whoami?.role === 'admin' || whoami?.role === 'seller') && (
-                            <div className="flex justify-between w-full">
-                                <button 
-                                    className="rounded-[10px] flex items-center cursor-pointer transition duration-200 py-1 text-xl sm:text-2xl text-green-500" 
-                                    onClick={() => handleOpenEdit(cat)}
-                                >
-                                    <CiEdit/>
-                                </button>
+                                {/* Category Name - Positioned vertically centered and to the right */}
+                                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 hover:text-green-600 transition-colors duration-200 ml-6 md:ml-10">
+                                    {cat.name}
+                                </h3>
+                            </NavLink>
 
-                                <button 
-                                    className="rounded-[10px] flex items-center cursor-pointer transition duration-200 py-1 text-xl sm:text-2xl text-red-500" 
-                                    onClick={() => handleOpenDelete(cat)}
-                                >
-                                    <CiTrash/>
-                                </button>
-                            </div>
-                        )}
+                            {/* Action Buttons - Positioned on the far right */}
+                            {(whoami?.role === 'admin' || whoami?.role === 'seller') && (
+                                <div className="flex gap-2 ml-4">
+                                    <button 
+                                        className="p-2 rounded-lg hover:bg-green-50 transition duration-200 text-2xl md:text-3xl text-green-500 hover:scale-110 transform" 
+                                        onClick={() => handleOpenEdit(cat)}
+                                        aria-label="Edit category"
+                                    >
+                                        <CiEdit/>
+                                    </button>
+
+                                    <button 
+                                        className="p-2 rounded-lg hover:bg-red-50 transition duration-200 text-2xl md:text-3xl text-red-500 hover:scale-110 transform" 
+                                        onClick={() => handleOpenDelete(cat)}
+                                        aria-label="Delete category"
+                                    >
+                                        <CiTrash/>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </article>
                 ))}
             </div>

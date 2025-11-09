@@ -24,7 +24,7 @@ export default (sequelize) =>{
             allowNull : false,
         },
         name : {
-            type : DataTypes.STRING(255),
+        type : DataTypes.STRING(255),
             allowNull : false 
         },
         warranty : {  // ADD THIS

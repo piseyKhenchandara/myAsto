@@ -21,7 +21,7 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
           <button
             onClick={() => setOpen(false)}
             className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 ${
-              submit 
+              submit.process 
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300 cursor-pointer"
             }`}
@@ -98,11 +98,11 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
             type="button"
             onClick={() => setOpen(false)}
             className={`flex-1 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
-              submit 
+              submit.process 
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300 cursor-pointer hover:shadow-sm"
             }`}
-            disabled={submit}
+            disabled={submit.process}
           >
             Cancel
           </button>
@@ -110,15 +110,15 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
           <button
             type="button"
             className={`flex-1 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
-              submit 
+              submit.process 
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed" 
                 : "bg-red-500 text-white hover:bg-red-600 active:bg-red-700 cursor-pointer hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
             }`}
             onClick={deleteCate}
-            disabled={submit}
-            style={{ pointerEvents: submit ? 'none' : 'auto' }} // ✅ Extra safety
+            disabled={submit.process}
+            style={{ pointerEvents: submit.process ? 'none' : 'auto' }} // ✅ Extra safety
           >
-            {submit ? (
+            {submit.process ? (
               <span className="flex items-center justify-center gap-2">
                 <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />

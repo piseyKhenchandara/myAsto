@@ -24,7 +24,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
                     <span className="flex flex-col items-center text-center">
                     <img src={vet_logo} alt="VET Express" className="h-12 w-auto mb-2" />
                     <span className="text-sm font-medium text-gray-700">VET Express</span>
-                    <span className="text-xs text-gray-500 mt-1">2-3 days delivery</span>
+                    <span className="text-xs text-gray-500 mt-1">Fast as possible</span>
                     </span>
                 </label>
 
@@ -41,7 +41,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
                     <span className="flex flex-col items-center text-center">
                     <img src={jnt_logo} alt="J&T Express" className="h-12 w-auto mb-2" />
                     <span className="text-sm font-medium text-gray-700">J&T Express</span>
-                    <span className="text-xs text-gray-500 mt-1">2-3 days delivery</span>
+                    <span className="text-xs text-gray-500 mt-1">Fast as possible</span>
                     </span>
                 </label>
                 </div>
