@@ -48,7 +48,7 @@ export const recipts = async (req, res) => {
                     include: [
                         {
                             model: db.OrderItem,
-                            attributes: ['id', 'quantity', 'price', 'name'],
+                            attributes: ['id', 'quantity', 'price', 'name','warranty'],
                             include : [{
                                 model : db.Product,
                                 attributes : ['warranty']

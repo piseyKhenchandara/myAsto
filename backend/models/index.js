@@ -81,7 +81,7 @@ OrderItem.belongsTo(Order, {
 // 📦 Product ↔ OrderItem
 Product.hasMany(OrderItem, {
     foreignKey: "product_id",
-    onDelete: "CASCADE"
+    onDelete: "SET NULL"
 });
 OrderItem.belongsTo(Product, {
     foreignKey: "product_id"

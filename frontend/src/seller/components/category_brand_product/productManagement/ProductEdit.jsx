@@ -144,14 +144,14 @@ const ProductEdit = () => {
             
             setMsg({type: 'success', text: 'Product updated successfully!'});
             
-            // Optionally navigate back after success
+           /*  // Optionally navigate back after success
             setTimeout(() => {
                 if (category_slug && brand_slug) {
-                    navigate(`/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/${id}`);
+                    navigate(`/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/${product.id}/${product.slug}`);
                 } else {
                     navigate(-1);
                 }
-            }, 1500);
+            }, 1500); */
 
         } catch (error) {
             console.error('Update error:', error);

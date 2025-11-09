@@ -13,7 +13,7 @@ export default (sequelize) =>{
         },
         product_id : {
             type : DataTypes.INTEGER,
-            allowNull : false,
+            allowNull : true,
         },
         quantity : {
             type : DataTypes.INTEGER,
@@ -27,6 +27,11 @@ export default (sequelize) =>{
             type : DataTypes.STRING(255),
             allowNull : false 
         },
+        warranty : {  // ADD THIS
+            type : DataTypes.STRING(100),
+            allowNull : true,
+            defaultValue : 'none'
+        }
 
 
 

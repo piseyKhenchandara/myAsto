@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { updateAuthAPI, whoamiAPI } from '../../../api/auth.api'
-import Recipts from '../checkout/Recipts'
+import { updateAuthAPI, whoamiAPI } from '../../../api/Auth.api'
+
 import { VscSettingsGear } from "react-icons/vsc"
 import AuthSetting from './AuthSetting'
+import Recipts from '../checkout/Recipts'
 
 const UserProfile = () => {
   const [user, setUser] = useState(null)

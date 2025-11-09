@@ -77,7 +77,8 @@ export const orders = async (req, res) => {
                     product_id : p.id,
                     quantity : p.quantity,
                     price : p.price,
-                    name : p.name
+                    name : p.name,
+                    warranty : p.warranty,
                 }));
 
                 promises.push(db.OrderItem.bulkCreate(cartData, {transaction}));
@@ -244,6 +245,7 @@ export const getTheReceipt = async (req, res) => {
                         attributes: ['id', 'quantity', 'price', 'name', 'product_id'],
                         include : [{
                             model:db.Product,
+                            required: false,
                             include : [{
                                 model : db.ProductImage,
                                 attributes : ['is_main', 'image_url','product_id']

@@ -10,7 +10,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
   return (
     <footer className="bg-black/95 text-white mt-auto">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
           {/* Company Info Section */}
@@ -22,7 +22,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
             </p>
             <div className="flex space-x-4 pt-2">
               <a 
-                href="https://facebook.com" 
+                href="https://www.facebook.com/profile.php?id=100064940353465" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform duration-200"
@@ -30,7 +30,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
                 <img onError={handleImageError} src={facebook_logo} alt="Facebook" className="w-8 h-8 rounded" />
               </a>
               <a 
-                href="https://instagram.com" 
+                href="https://www.instagram.com/asto_kh/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform duration-200"
@@ -38,7 +38,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
                 <img onError={handleImageError} src={ig_logo} alt="Instagram" className="w-8 h-8 rounded" />
               </a>
               <a 
-                href="https://tiktok.com" 
+                href="https://www.tiktok.com/@asto_store" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform duration-200"
@@ -46,7 +46,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
                 <img onError={handleImageError} src={tiktok_logo} alt="TikTok" className="w-8 h-8 rounded" />
               </a>
               <a 
-                href="https://telegram.org" 
+                href="https://t.me/astogear" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform duration-200"
@@ -84,19 +84,19 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
                   Contact
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link 
                   to="/faq" 
                   className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm"
                 >
                   FAQ
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
           {/* Customer Service */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h4 className="text-lg font-semibold text-white">Customer Service</h4>
             <ul className="space-y-2">
               <li>
@@ -132,7 +132,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Contact Info */}
           <div className="space-y-4">
@@ -144,7 +144,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <p className="text-gray-300 text-sm">
-                  123 Business Street<br />
+                  Online Store<br />
                   Phnom Penh, Cambodia
                 </p>
               </div>
@@ -154,7 +154,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <a 
-                  href="mailto:support@asto.com" 
+                  href="mailto:astostore25@gmail.com" 
                   className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm"
                 >
                   support@asto.com

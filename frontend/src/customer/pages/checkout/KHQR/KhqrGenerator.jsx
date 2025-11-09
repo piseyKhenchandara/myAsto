@@ -45,7 +45,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
         if (res.success) {
           setMessage({ type: 'success', text: 'Payment successful! ✅' });
           clearInterval(pollInterval);
-          setTimeout(() => navigate('/User-profile'), 300000);
+          setTimeout(() => navigate('/User-profile'), 3000);
         }
       } catch (err) {
         setMessage({
@@ -96,11 +96,9 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
         </button>
       )}
 
-      {message.type === 'success' && 
-        <header className="text-center mb-6 bg-white rounded-2xl py-5">
-          <MessageBox message={message} />
-        </header>
-      }
+      <header className="text-center mb-6">
+        <MessageBox message={message} />
+      </header>
 
       <section className="bg-white rounded-3xl animation_form_popup" style={{ boxShadow: '0 0 16px rgba(0, 0, 0, 0.1)' }}>
         {isExpired ? <QRExpired /> : <QRDisplay resFromKHQR={resFromKHQR} />}

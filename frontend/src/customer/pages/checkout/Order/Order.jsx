@@ -21,13 +21,15 @@ const Order = () => {
   const [selectedLocation, setSelectedLocation] = useState(whoami?.address || '');
   const [selectedDeliveryCompany, setSelectedDeliveryCompany] = useState('');
   const [qrPopup, setQrPopup] = useState(false);
+  
   const [resFromKHQR, setResFromKHQR] = useState(null);
 
   const productTotalPrice = () => (cart.reduce((total, item) => total + item.price * item.quantity, 0));
   const finalAddress = orderNotes ? selectedLocation + '(' + orderNotes + ')' : selectedLocation;
 
-  /* const totalPrice = (productTotalPrice() + 2).toFixed(2); */
-  const totalPrice = 0.1; 
+  const deliveryFee = 0;
+  const totalPrice = (productTotalPrice() + deliveryFee).toFixed(2);
+  /* const totalPrice = 0.1;  */
 
 
 

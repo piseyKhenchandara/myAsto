@@ -2,7 +2,7 @@ import React from 'react';
 
 const PaymentSummary = ({ orderItems, deliveryCompany, discountAmount }) => {
   const subtotal = orderItems?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
-  const delivery = 2.0;
+  const delivery = 0;
   const discount = parseFloat(discountAmount) || 0;
   const total = subtotal + delivery - discount; // ✅ Removed tax
 
@@ -26,7 +26,7 @@ const PaymentSummary = ({ orderItems, deliveryCompany, discountAmount }) => {
         {/* Delivery */}
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
           <dt className='text-gray-600'>Delivery</dt>
-          <dd className='font-medium text-gray-800'>${delivery.toFixed(2)}</dd>
+          <dd className='font-medium text-gray-800'>{delivery === 0? <span className='text-green-600'>Free</span> : '$2'}</dd>
         </div>
 
         {/* Discount */}

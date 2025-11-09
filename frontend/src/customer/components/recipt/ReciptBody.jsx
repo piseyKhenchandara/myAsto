@@ -78,7 +78,7 @@ const ReciptBody = (
                     {item.quantity || 1}
                   </td>
                   <td className='border border-gray-300 p-2 text-right font-normal'>
-                    ${totalPrice}
+                    ${((Number(item.price) || 0) * (Number(item.quantity) || 1)).toFixed(2)}
                   </td>
                 </tr>
               ))
@@ -113,16 +113,21 @@ const ReciptBody = (
           
           {/* Delivery Fee */}
           <div className='flex justify-between mb-2 '>
-            <span>Delivery Fee:</span>
+            {/* <span>Delivery Fee:</span>
             <span className='font-normal'>
               $2.00
+            </span> */}
+            <span>Delivery Fee:</span>
+            <span className='font-normal text-green-600'>
+              FREE
             </span>
           </div>
           
           <div className='flex justify-between border-t pt-2 border-gray-300 text-base sm:text-lg'>
             <span>TOTAL:</span>
             <span>
-              ${productTotalPrice ? (Number(productTotalPrice()) + 2).toFixed(2) : '2.00'}
+              {/* ${productTotalPrice ? (Number(productTotalPrice()) + 2).toFixed(2) : '2.00'} */}
+              ${productTotalPrice && (Number(productTotalPrice())).toFixed(2)}
             </span>
           </div>
         

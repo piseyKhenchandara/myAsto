@@ -2,9 +2,14 @@ import React from 'react'
 import Header from './components/header/Header'
 import LeftNavbar from './components/leftNavbar/LeftNavbar'
 import MainContent from './components/mainContent/MainContent'
+import facebook_logo from '../assets/logoes/facebook_logo.png'
+import ig_logo from '../assets/logoes/ig_logo.png'
+import tiktok_logo from '../assets/logoes/tiktok_logo.png'
+import telegram_logo from '../assets/logoes/telegram_logo.png'
 import { useState } from 'react'
 import asto_logo from '../assets/logoes/asto_logo.png'
 import ScrollToTop from '../../utils/ScrollToTheTop'
+import Footer from '../../utils/Footer'
 
 const RootSellerLayout = () => {
     const [visible, setVisible] = useState(false);
@@ -48,6 +53,12 @@ const RootSellerLayout = () => {
 
                             
             </div>
+            <Footer
+                facebook_logo={facebook_logo}
+                ig_logo={ig_logo}
+                tiktok_logo={tiktok_logo}
+                telegram_logo={telegram_logo}
+            />
         
 
         </>

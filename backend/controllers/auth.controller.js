@@ -223,7 +223,6 @@ export const signup = async(req,res) => {
                 is_verified : newUser.is_verified,
 
               
-            
             }
         });
         
