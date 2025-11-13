@@ -99,7 +99,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
         </button>
       )}
 
-      {message.text ? 
+      {message.type === 'success' ? 
         <header className="text-center mb-6 p-5 bg-white rounded-3xl">
           <MessageBox message={message} />
         </header>

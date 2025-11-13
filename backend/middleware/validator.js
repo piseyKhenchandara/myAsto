@@ -1,73 +1,7 @@
 import validator from 'validator';
-
-// ============================================
-// HELPER FUNCTIONS (NOT MIDDLEWARE)
-// ============================================
-
-const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) && validator.isEmail(email);
-};
-
-const isStrongPassword = (password) => {
-    return password.length >= 8;
-};
-
-const isValidName = (name) => {
-    const nameRegex = /^[a-zA-Z\s'-]{2,50}$/;
-    return nameRegex.test(name);
-};
-
-const isValidPhone = (phone) => {
-    const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
-    return phoneRegex.test(phone);
-};
-
-const isValidCode = (code) => {
-    const codeRegex = /^\d{6}$/;
-    return codeRegex.test(code);
-};
-
-const sanitizeInput = (input) => {
-    if (typeof input !== 'string') return input;
-    return validator.escape(validator.trim(input));
-};
+import db from "../models/index.js";
 
 
-// ============================================
-// REUSABLE VALIDATION MIDDLEWARES
-// ============================================
-
-/**
- * Validate required fields
- * Usage: validateRequired(['email', 'password', 'name'])
- */
-export const validateRequired = (fields) => {
-    return (req, res, next) => {
-        const missingFields = [];
-        
-        fields.forEach(field => {
-            if (!req.body[field]) {
-                missingFields.push(field);
-            }
-        });
-
-        if (missingFields.length > 0) {
-            return res.status(400).json({
-                success: false,
-                message: `Missing required fields: ${missingFields.join(', ')}`
-            });
-        }
-
-        next();
-    };
-};
-
-
-/**
- * Validate email field
- * Usage: validateEmail('email')
- */
 export const validateEmail = (fieldName = 'email') => {
     return (req, res, next) => {
         const email = req.body[fieldName];
@@ -79,25 +13,20 @@ export const validateEmail = (fieldName = 'email') => {
             });
         }
 
-        if (!isValidEmail(email)) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email) || !validator.isEmail(email)) {
             return res.status(400).json({
                 success: false,
                 message: "Please enter a valid email address!"
             });
         }
 
-        // Sanitize and normalize email
         req.body[fieldName] = validator.normalizeEmail(email);
-        
         next();
     };
 };
 
 
-/**
- * Validate password field
- * Usage: validatePassword('password', 8)
- */
 export const validatePassword = (fieldName = 'password', minLength = 8) => {
     return (req, res, next) => {
         const password = req.body[fieldName];
@@ -120,11 +49,6 @@ export const validatePassword = (fieldName = 'password', minLength = 8) => {
     };
 };
 
-
-/**
- * Validate name field
- * Usage: validateName('name')
- */
 export const validateName = (fieldName = 'name', required = true) => {
     return (req, res, next) => {
         const name = req.body[fieldName];
@@ -139,26 +63,20 @@ export const validateName = (fieldName = 'name', required = true) => {
             return next();
         }
 
-        if (!isValidName(name)) {
+        const nameRegex = /^[a-zA-Z\s'-]{2,50}$/;
+        if (!nameRegex.test(name)) {
             return res.status(400).json({
                 success: false,
                 message: "Name must be 2-50 characters and contain only letters, spaces, hyphens, or apostrophes"
             });
         }
 
-        // Sanitize name
-        req.body[fieldName] = sanitizeInput(name);
-
+        req.body[fieldName] = validator.escape(validator.trim(name));
         next();
     };
 };
 
 
-/**
- * Validate phone field (optional)
- * Usage: validatePhone('phone', false) // not required
- * Usage: validatePhone('phone', true)  // required
- */
 export const validatePhone = (fieldName = 'phone', required = false) => {
     return (req, res, next) => {
         const phone = req.body[fieldName];
@@ -170,27 +88,24 @@ export const validatePhone = (fieldName = 'phone', required = false) => {
                     message: `${fieldName} is required!`
                 });
             }
-            return next(); // Optional, skip validation
+            return next();
         }
 
-        if (!isValidPhone(phone)) {
+        const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
+        if (!phoneRegex.test(phone)) {
             return res.status(400).json({
                 success: false,
                 message: "Please enter a valid phone number"
             });
         }
 
-        // Sanitize phone
-        req.body[fieldName] = sanitizeInput(phone);
-
+        req.body[fieldName] = validator.escape(validator.trim(phone));
         next();
     };
 };
 
-
 /**
  * Validate verification code
- * Usage: validateCode('code')
  */
 export const validateCode = (fieldName = 'code') => {
     return (req, res, next) => {
@@ -203,7 +118,8 @@ export const validateCode = (fieldName = 'code') => {
             });
         }
 
-        if (!isValidCode(code)) {
+        const codeRegex = /^\d{6}$/;
+        if (!codeRegex.test(code)) {
             return res.status(400).json({
                 success: false,
                 message: "Verification code must be 6 digits"
@@ -214,10 +130,8 @@ export const validateCode = (fieldName = 'code') => {
     };
 };
 
-
 /**
  * Validate address field
- * Usage: validateAddress('address', 5, 200, false)
  */
 export const validateAddress = (fieldName = 'address', minLength = 5, maxLength = 200, required = false) => {
     return (req, res, next) => {
@@ -230,7 +144,7 @@ export const validateAddress = (fieldName = 'address', minLength = 5, maxLength 
                     message: `${fieldName} is required!`
                 });
             }
-            return next(); // Optional, skip validation
+            return next();
         }
 
         if (address.length < minLength || address.length > maxLength) {
@@ -240,17 +154,13 @@ export const validateAddress = (fieldName = 'address', minLength = 5, maxLength 
             });
         }
 
-        // Sanitize address
-        req.body[fieldName] = sanitizeInput(address);
-
+        req.body[fieldName] = validator.escape(validator.trim(address));
         next();
     };
 };
 
-
 /**
  * Validate URL field
- * Usage: validateUrl('photoUrl', false)
  */
 export const validateUrl = (fieldName, required = false) => {
     return (req, res, next) => {
@@ -263,7 +173,7 @@ export const validateUrl = (fieldName, required = false) => {
                     message: `${fieldName} is required!`
                 });
             }
-            return next(); // Optional, skip validation
+            return next();
         }
 
         if (!validator.isURL(url, { protocols: ['http', 'https'] })) {
@@ -277,15 +187,13 @@ export const validateUrl = (fieldName, required = false) => {
     };
 };
 
-
 /**
- * Validate file upload (images)
- * Usage: validateImageUpload(['image/jpeg', 'image/png'], 5 * 1024 * 1024)
+ * Validate image upload
  */
 export const validateImageUpload = (allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'], maxSize = 5 * 1024 * 1024) => {
     return (req, res, next) => {
         if (!req.file) {
-            return next(); // No file uploaded, skip validation
+            return next();
         }
 
         if (!allowedTypes.includes(req.file.mimetype)) {
@@ -307,30 +215,39 @@ export const validateImageUpload = (allowedTypes = ['image/jpeg', 'image/jpg', '
 };
 
 
-/**
- * Validate ID parameter
- * Usage: validateId('id') or validateId('userId')
- */
 export const validateId = (paramName = 'id') => {
     return (req, res, next) => {
-        const id = req.params[paramName];
-
-        if (!id || isNaN(id) || parseInt(id) <= 0) {
+        const id = req.params[paramName]
+        if (!id) {
             return res.status(400).json({
                 success: false,
-                message: `Invalid ${paramName}`
+                message: `${paramName} is required!`
             });
         }
+
+        if (!/^\d+$/.test(id)) {
+            return res.status(400).json({
+                success: false,
+                message: `Invalid ${paramName} format!`
+            });
+        }
+
+        const parsedId = parseInt(id, 10);
+        
+        // MySQL INT max value: 2147483647
+        if (parsedId <= 0 || parsedId > 2147483647) {
+            return res.status(400).json({
+                success: false,
+                message: `${paramName} out of valid range!`
+            });
+        }
+        req.params[paramName] = parsedId;
 
         next();
     };
 };
 
 
-/**
- * Validate string field with custom rules
- * Usage: validateString('username', 3, 20, true)
- */
 export const validateString = (fieldName, minLength, maxLength, required = true) => {
     return (req, res, next) => {
         const value = req.body[fieldName];
@@ -342,7 +259,7 @@ export const validateString = (fieldName, minLength, maxLength, required = true)
                     message: `${fieldName} is required!`
                 });
             }
-            return next(); // Optional, skip validation
+            return next();
         }
 
         if (value.length < minLength || value.length > maxLength) {
@@ -352,63 +269,201 @@ export const validateString = (fieldName, minLength, maxLength, required = true)
             });
         }
 
-        // Sanitize input
-        req.body[fieldName] = sanitizeInput(value);
-
+        req.body[fieldName] = validator.escape(validator.trim(value));
         next();
     };
 };
 
 
-/**
- * Validate number field
- * Usage: validateNumber('price', 0, 10000, true)
- */
-export const validateNumber = (fieldName, min = 0, max = Infinity, required = true) => {
-    return (req, res, next) => {
-        const value = req.body[fieldName];
+//ORDER VALIDATOR
 
-        if (value === undefined || value === null || value === '') {
-            if (required) {
+
+export const validateOrderCreation = () => {
+    return (req, res, next) => {
+        const { 
+            amount,
+            customer_name,
+            phone_number, 
+            shipping_address,
+            delivery_company ,
+            discount_amount = 0,
+            cart,
+            payment_method = "khqr"
+        } = req.body;
+
+        if (!customer_name || !phone_number || !delivery_company || !shipping_address || !amount) {
+            return res.status(400).json({
+                success: false,
+                message: "All required fields must be provided!"
+            });
+        }
+
+        const amountNum = parseFloat(amount);
+        if (isNaN(amountNum) || amountNum <= 0 || amountNum > 999999.99) {
+            return res.status(400).json({
+                success: false,
+                message: "Amount must be between 0.01 and 999999.99!"
+            });
+        }
+
+
+        
+        
+        const validCompanies = ["Vireak Buntham", "J&T", 'Phnom Penh delivery'];
+        console.log(validCompanies.includes(delivery_company) ? "Yes" : "No");
+
+        if (!validCompanies.includes(delivery_company)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid delivery company!❌"
+            });
+        }
+
+        if (discount_amount !== undefined && discount_amount !== null && discount_amount !== '') {
+            const discountNum = parseFloat(discount_amount);
+            if (isNaN(discountNum) || discountNum < 0 || discountNum > 99999.99) {
                 return res.status(400).json({
                     success: false,
-                    message: `${fieldName} is required!`
+                    message: "Discount amount must be between 0 and 99999.99!"
                 });
             }
-            return next(); // Optional, skip validation
         }
 
-        const numValue = Number(value);
 
-        if (isNaN(numValue)) {
+
+        
+      
+        if (!cart) {
             return res.status(400).json({
                 success: false,
-                message: `${fieldName} must be a valid number`
+                message: "Cart is required!"
             });
         }
 
-        if (numValue < min || numValue > max) {
+        let parsedCart = [];
+        try {
+            parsedCart = typeof cart === 'string' ? JSON.parse(cart) : cart;
+        } catch (error) {
             return res.status(400).json({
                 success: false,
-                message: `${fieldName} must be between ${min} and ${max}`
+                message: "Invalid cart format!"
             });
         }
+
+        if (!Array.isArray(parsedCart) || parsedCart.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Cart cannot be empty!"
+            });
+        }
+
+        for (let i = 0; i < parsedCart.length; i++) {
+
+            const item = parsedCart[i];
+
+            if (!item.id || !item.quantity || !item.price || !item.name ) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Cart item ${i + 1} is missing required fields!`
+                });
+            }
+            
+
+            if (!/^\d+$/.test(String(item.id)) || parseInt(item.id) <= 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Cart item ${i + 1} has invalid product ID!`
+                });
+            }
+            
+            // Validate quantity (1-1000)
+            const qty = parseInt(item.quantity);
+            if (isNaN(qty) || qty < 1 || qty > 1000) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Cart item ${i + 1} quantity must be 1-1000!`
+                });
+            }
+            
+            // Validate price
+            const price = parseFloat(item.price);
+            if (isNaN(price) || price <= 0 || price > 999999.99) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Cart item ${i + 1} has invalid price!`
+                });
+            }
+        }
+
+       
+
+        const addressTrimmed = shipping_address.trim();
+
+        if (addressTrimmed.length < 10 || addressTrimmed.length > 500) {
+            return res.status(400).json({
+                success: false,
+                message: "Shipping address must be between 10 and 500 characters!"
+            });
+        }
+
+        const suspiciousPatterns = /<script|javascript:|onerror=|onclick=|<iframe|eval\(|DROP TABLE|INSERT INTO|DELETE FROM/i;
+        if (suspiciousPatterns.test(addressTrimmed)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid characters in shipping address!"
+            });
+        }
+
+        // 3. Allow only safe characters (letters, numbers, common punctuation, Khmer characters)
+        const addressPattern = /^[\p{L}\p{N}\s,.\-#/()\u1780-\u17FF]+$/u;
+        if (!addressPattern.test(addressTrimmed)) {
+            return res.status(400).json({
+                success: false,
+                message: "Shipping address contains invalid characters!"
+            });
+        }
+
+        const validMethods = ["cod", "paypal", "credit_card", "khqr"];
+
+        if (!validMethods.includes(payment_method)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid payment method!❌"
+            });
+        }
+
+
+        req.body.shipping_address = addressTrimmed;
+
+        // 8. Store sanitized values
+        req.body.shipping_address = addressTrimmed;
+        req.body.discount_amount = discount_amount;
+        req.body.payment_method = payment_method;
+        req.body.amount = amountNum;
+        req.body.delivery_company = delivery_company;
+        req.body.cart = parsedCart;
+        
+        console.log('📦 Full Request Body:', req.body);
+
 
         next();
     };
 };
 
 
+
+
+
+
 /**
- * Sanitize all query parameters
- * Usage: sanitizeQuery()
+ * Sanitize query parameters
  */
 export const sanitizeQuery = () => {
     return (req, res, next) => {
         if (req.query) {
             Object.keys(req.query).forEach(key => {
                 if (typeof req.query[key] === 'string') {
-                    req.query[key] = sanitizeInput(req.query[key]);
+                    req.query[key] = validator.escape(validator.trim(req.query[key]));
                 }
             });
         }
@@ -416,17 +471,15 @@ export const sanitizeQuery = () => {
     };
 };
 
-
 /**
- * Sanitize all body parameters
- * Usage: sanitizeBody()
+ * Sanitize body parameters
  */
 export const sanitizeBody = () => {
     return (req, res, next) => {
         if (req.body) {
             Object.keys(req.body).forEach(key => {
                 if (typeof req.body[key] === 'string') {
-                    req.body[key] = sanitizeInput(req.body[key]);
+                    req.body[key] = validator.escape(validator.trim(req.body[key]));
                 }
             });
         }

@@ -33,8 +33,10 @@ const Order = () => {
 
 
 
+
   const handleOrder = async () => {
     setIsProcessing(true);
+    
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
 

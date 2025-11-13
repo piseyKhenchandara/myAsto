@@ -7,41 +7,24 @@ import { io } from "../server.js";
 export const orders = async (req, res) => {
     
     const { 
+            discount_amount,
+            payment_method,           
             amount,
+            delivery_company, 
+            cart,
             customer_name,
             phone_number, 
             shipping_address,
-            discount_amount,
-            delivery_company, 
-            //payment model
-            payment_method,           
-            cart,
         } = req.body;
 
-    // ✅ Fixed validation
-    if(!customer_name || !phone_number || !delivery_company || !shipping_address || !amount) {
-        return res.status(400).json({message : "All fields are required!"});
-    }
-        
+
     try{
         const checkUser = await db.User.findByPk(req.user.id);
         
         if(!checkUser) return res.status(404).json({message :"User not found!"});
 
 
-        let parsedCart = [];
-        
-        try{
-            parsedCart = typeof cart === 'string' ? JSON.parse(cart) : cart;
-        }
-        catch(error) {
-            return res.status(400).json({message : "Invalid cart format (must be JSON)"});
-        }
 
-
-        if(!parsedCart || parsedCart.length === 0) {
-            return res.status(400).json({message : "Cart cannot be empty"});
-        }
 
         const result = await db.sequelize.transaction(async(transaction) => {
 
@@ -70,8 +53,8 @@ export const orders = async (req, res) => {
             const promises = [];
 
             // Add order items
-            if(parsedCart.length > 0) {
-                const cartData = parsedCart.map((p) => ({
+            if(cart.length > 0) {
+                const cartData = cart.map((p) => ({
                     order_id : order.id,
                     product_id : p.id,
                     quantity : p.quantity,
@@ -99,7 +82,7 @@ export const orders = async (req, res) => {
             return order;
         });
 
-        // Create notifications for both admin and seller
+      
         const notifications = await Promise.all([
             db.Notification.create({
                 type: 'order',
@@ -119,7 +102,6 @@ export const orders = async (req, res) => {
             })
         ]);
 
-        // Emit socket event (will notify both roles listening to 'room')
         io.to('room').emit('newOrder', {
             id: notifications[0].id,
             type: notifications[0].type,
@@ -132,7 +114,7 @@ export const orders = async (req, res) => {
             createdAt: notifications[0].createdAt,
             read: false
         });
-                // ✅ Fixed success response
+               
         res.status(201).json({success: true, message : "Order created successfully!✅", 
             data : {
                 order_id : result.id,

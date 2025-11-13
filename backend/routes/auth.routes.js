@@ -95,9 +95,5 @@ router.get('/users/:id',
     validateId('id'),
     getUserById);
 
-// Add a test route to verify auth routes are working
-/* router.get('/test', (req, res) => {
-    res.json({ message: 'Auth routes are working!', timestamp: new Date().toISOString() });
-}); */
 
 export default router;

@@ -1,40 +1,76 @@
 import React, { useEffect } from 'react'
 import pisey from '../src/assets/ceo/Pisey.png'
 import endy from '../src/assets/ceo/endyong.png'
-import panha from '../src/assets/ceo/panha.png'
+import panha from '../src/assets/ceo/panhaPlaceholder.png'
 import facebookIcon from '../src/assets/logoes/facebook_logo.png'
 import instagramIcon from '../src/assets/logoes/ig_logo.png'
 import telegramIcon from '../src/assets/logoes/telegram_logo.png'
 import githubIcon from '../src/assets/logoes/github_logo.png'
 
 const SocialLinks = ({ links }) => (
-  <div className="flex items-center gap-2.5 mt-4">
+  <div className="flex items-center gap-2 mt-3">
     {links.github && (
       <a href={links.github} target="_blank" rel="noopener noreferrer" 
-         className="bg-gray-900 hover:bg-gray-700 p-2.5 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 shadow-sm hover:shadow-md">
-        <img src={githubIcon} alt="GitHub" className="h-4 w-4 object-contain" />
+         className="bg-gray-900 hover:bg-gray-700 p-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 shadow-sm hover:shadow-md">
+        <img src={githubIcon} alt="GitHub" className="h-3.5 w-3.5 object-contain" />
       </a>
     )}
     {links.facebook && (
       <a href={links.facebook} target="_blank" rel="noopener noreferrer"
-         className="bg-blue-600 hover:bg-blue-500 p-2.5 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 shadow-sm hover:shadow-md">
-        <img src={facebookIcon} alt="Facebook" className="h-4 w-4 object-contain" />
+         className="bg-blue-600 hover:bg-blue-500 p-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 shadow-sm hover:shadow-md">
+        <img src={facebookIcon} alt="Facebook" className="h-3.5 w-3.5 object-contain" />
       </a>
     )}
     {links.instagram && (
       <a href={links.instagram} target="_blank" rel="noopener noreferrer"
-         className="bg-gradient-to-br from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 p-2.5 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 shadow-sm hover:shadow-md">
-        <img src={instagramIcon} alt="Instagram" className="h-4 w-4 object-contain" />
+         className="bg-gradient-to-br from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 p-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 shadow-sm hover:shadow-md">
+        <img src={instagramIcon} alt="Instagram" className="h-3.5 w-3.5 object-contain" />
       </a>
     )}
     {links.telegram && (
       <a href={links.telegram} target="_blank" rel="noopener noreferrer"
-         className="bg-sky-500 hover:bg-sky-400 p-2.5 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 shadow-sm hover:shadow-md">
-        <img src={telegramIcon} alt="Telegram" className="h-4 w-4 object-contain" />
+         className="bg-sky-500 hover:bg-sky-400 p-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 shadow-sm hover:shadow-md">
+        <img src={telegramIcon} alt="Telegram" className="h-3.5 w-3.5 object-contain" />
       </a>
     )}
   </div>
 );
+
+const teamMembers = [
+  {
+    name: 'Khen Chandarapisey',
+    role: 'Software Engineer',
+    description: 'Developer & Designer',
+    image: pisey,
+    links: {
+      github: 'https://github.com/SeYz-GHB',
+      facebook: 'https://www.facebook.com/pisey.khenchandara',
+      telegram: 'https://t.me/Reajasey',
+    }
+  },
+  {
+    name: 'Ong Endy',
+    role: 'Software Engineer',
+    description: 'Developer',
+    image: endy,
+    links: {
+      github: 'https://github.com/Endy0611',
+      facebook: 'https://www.facebook.com/ong.endy',
+      telegram: 'https://t.me/endyong96',
+    }
+  },
+  {
+    name: 'Hak Titpanha',
+    role: 'Marketing Specialist',
+    description: 'Marketing Specialist',
+    image: panha,
+    links: {
+      github: 'https://github.com/Endy0611',
+      facebook: 'https://www.facebook.com/ong.endy',
+      telegram: 'https://t.me/endyong96',
+    }
+  }
+];
 
 const AboutUs = () => {
   useEffect(() => {
@@ -104,8 +140,6 @@ const AboutUs = () => {
           transform: scale(1);
         }
 
-
-
         .gradient-text {
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           -webkit-background-clip: text;
@@ -113,15 +147,24 @@ const AboutUs = () => {
           background-clip: text;
         }
 
-        .team-card-image {
-          height: 300px;
-          object-fit: cover;
+        .team-card {
+          height: 500px;
         }
 
-        @media (min-width: 768px) {
-          .team-card-image {
-            height: 100%;
-          }
+        .team-card-image-container {
+          height: 300px;
+          width: 100%;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #f9fafb;
+        }
+
+        .team-card-image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
         }
       `}</style>
 
@@ -188,111 +231,30 @@ const AboutUs = () => {
             </div>
 
             {/* Team Members */}
-            <div className="space-y-6 max-w-4xl mx-auto">
-              {/* Pisey */}
-              <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-green-500 transition-all duration-300 shadow-md hover:shadow-2xl scale-in fade-in">
-                <div className="grid grid-cols-5">
-                  <div className="col-span-2 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-6 max-w-6xl mx-auto">
+              {teamMembers.map((member, index) => (
+                <div key={index} className="group bg-white rounded-xl overflow-hidden border border-gray-200 hover:border-green-500 transition-all duration-300 shadow-sm hover:shadow-lg scale-in fade-in w-full sm:w-80 team-card flex flex-col">
+                  <div className="team-card-image-container">
                     <img 
-                      src={pisey}
-                      alt="Khen Chandarapisey" 
-                      className="w-full team-card-image group-hover:scale-110 transition-transform duration-700"
+                      src={member.image}
+                      alt={member.name}
+                      className="team-card-image group-hover:scale-105 transition-transform duration-700 "
                     />
                   </div>
-                  
-                  <div className="col-span-3 p-4 sm:p-6 md:p-8 flex flex-col justify-center">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors duration-300">
-                      Khen Chandarapisey
-                    </h3>
-                    <div className="inline-flex items-center gap-2 mb-1">
-                      <span className="px-2 sm:px-3 py-1 bg-gradient-to-r from-green-100 to-green-200 text-green-700 rounded-full text-xs sm:text-sm font-semibold shadow-sm">
-                        Software Engineer
+                  <div className="p-4 flex flex-col items-center text-center flex-grow justify-between">
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1 group-hover:text-green-600 transition-colors duration-300">
+                        {member.name}
+                      </h3>
+                      <span className="px-2 py-0.5 bg-gradient-to-r from-green-100 to-green-200 text-green-700 rounded-full text-xs font-semibold shadow-sm mb-1">
+                        {member.role}
                       </span>
+                      <p className="text-gray-500 text-xs mb-2">{member.description}</p>
                     </div>
-                    <p className="text-gray-500 text-sm mb-4">Developer & Designer</p>
-                    
-                    <div className="pt-3 sm:pt-4 border-t border-gray-100">
-                      <SocialLinks
-                        links={{
-                          github: 'https://github.com/SeYz-GHB',
-                          facebook: 'https://www.facebook.com/pisey.khenchandara',
-                          telegram: 'https://t.me/Reajasey',
-                        }}
-                      />
-                    </div>
+                    <SocialLinks links={member.links} />
                   </div>
                 </div>
-              </div>
-
-              {/* Endy */}
-              <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-green-500 transition-all duration-300 shadow-md hover:shadow-2xl scale-in fade-in">
-                <div className="grid grid-cols-5">
-                  <div className="col-span-2 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                    <img 
-                      src={endy}
-                      alt="Ong Endy" 
-                      className="w-full team-card-image group-hover:scale-110 transition-transform duration-700"
-                    />
-                  </div>
-                  
-                  <div className="col-span-3 p-4 sm:p-6 md:p-8 flex flex-col justify-center">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors duration-300">
-                      Ong Endy
-                    </h3>
-                    <div className="inline-flex items-center gap-2 mb-1">
-                      <span className="px-2 sm:px-3 py-1 bg-gradient-to-r from-green-100 to-green-200 text-green-700 rounded-full text-xs sm:text-sm font-semibold shadow-sm">
-                        Software Engineer
-                      </span>
-                    </div>
-                    <p className="text-gray-500 text-sm mb-4">Developer</p>
-                    
-                    <div className="pt-3 sm:pt-4 border-t border-gray-100">
-                      <SocialLinks
-                        links={{
-                          github: 'https://github.com/Endy0611',
-                          facebook: 'https://www.facebook.com/ong.endy',
-                          telegram: 'https://t.me/endyong96',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Panha */}
-              <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-green-500 transition-all duration-300 shadow-md hover:shadow-2xl scale-in fade-in">
-                <div className="grid grid-cols-5">
-                  <div className="col-span-2 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                    <img 
-                      src={panha}
-                      alt="Hak titpanha" 
-                      className="w-full team-card-image group-hover:scale-110 transition-transform duration-700"
-                    />
-                  </div>
-                  
-                  <div className="col-span-3 p-4 sm:p-6 md:p-8 flex flex-col justify-center">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors duration-300">
-                      Hak Titpanha
-                    </h3>
-                    <div className="inline-flex items-center gap-2 mb-1">
-                      <span className="px-2 sm:px-3 py-1 bg-gradient-to-r from-green-100 to-green-200 text-green-700 rounded-full text-xs sm:text-sm font-semibold shadow-sm">
-                        Marketing Specialist
-                      </span>
-                    </div>
-                    <p className="text-gray-500 text-sm mb-4">Marketing Specialist</p>
-                    
-                    <div className="pt-3 sm:pt-4 border-t border-gray-100">
-                      <SocialLinks
-                        links={{
-                          github: 'https://github.com/Endy0611',
-                          facebook: 'https://www.facebook.com/ong.endy',
-                          telegram: 'https://t.me/endyong96',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
