@@ -67,58 +67,61 @@ export const orders = async (req, res) => {
             }
 
            
-
-
-           promises.push(db.Payment.create({
+           promises.push(
+            db.Payment.create({
                 order_id: order.id,
                 amount: amount,
                 payment_method: payment_method || 'khqr',
                 status: 'pending'
             }, {transaction}));
 
+            const notificationsPromise = await Promise.all([
+                db.Notification.create({
+                    type: 'order',
+                    message: `New order placed: ${order.order_number}`,
+                    target_role: 'admin',
+                    order_id: order.id,
+                    user_id: order.user_id,
+                    read: false
+                }),
+                db.Notification.create({
+                    type: 'order',
+                    message: `New order placed: ${order.order_number}`,
+                    target_role: 'seller',
+                    order_id: order.id,
+                    user_id: order.user_id,
+                    read: false
+                })
+            ]);
+
+            promises.push(notificationsPromise);
             // ✅ Wait for all promises (same pattern as uploadProduct)
-            await Promise.all(promises);
+            const results = await Promise.all(promises);
             
-            return order;
+            // Get notifications from results (last item in array)
+            const notifications = results[results.length - 1];
+            return {order, notifications};
         });
 
-      
-        const notifications = await Promise.all([
-            db.Notification.create({
-                type: 'order',
-                message: `New order placed: ${result.order_number}`,
-                target_role: 'admin',
-                order_id: result.id,
-                user_id: result.user_id,
-                read: false
-            }),
-            db.Notification.create({
-                type: 'order',
-                message: `New order placed: ${result.order_number}`,
-                target_role: 'seller',
-                order_id: result.id,
-                user_id: result.user_id,
-                read: false
-            })
-        ]);
+        
 
         io.to('room').emit('newOrder', {
-            id: notifications[0].id,
-            type: notifications[0].type,
-            message: notifications[0].message,
+            id: result.notifications[0].id,
+            type: result.notifications[0].type,
+            message: result.notifications[0].message,
             order_id: result.id,
-            order_number: result.order_number,
-            customer_name: result.customer_name,
-            amount: result.amount,
-            status: result.status,
-            createdAt: notifications[0].createdAt,
+            order_number: result.order.order_number,
+            customer_name: result.order.customer_name,
+            amount: result.order.amount,
+            status: result.order.status,
+            createdAt: result.notifications[0].createdAt,
             read: false
         });
                
         res.status(201).json({success: true, message : "Order created successfully!✅", 
             data : {
-                order_id : result.id,
-                order_number : result.order_number,
+                order_id : result.order.id,
+                order_number : result.order.order_number,
 
             }
         });
