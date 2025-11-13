@@ -213,6 +213,7 @@ const CategoryNew = ({ category_slug, visible}) => {
           name={name}
           setName={setName}
           setFile={setFile}
+          file = {file}
         />
       )}
       

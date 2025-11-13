@@ -131,7 +131,23 @@ export const checkPaymentStatus = async (req,res) => {
             where : {qr_md5},   
         })
 
-        if(!payment) return res.status(404).json({success : false, message : "User haven't paid yet!"});
+        if(!payment) {
+            console.log('❌ Payment not found'); // ADD THIS
+            return res.status(404).json({success: false, message: "User haven't paid yet!"});
+        }
+
+        if(payment.paid && payment.status === 'paid') {
+            return res.status(200).json({
+                success: true, 
+                message: "Payment already confirmed!✅", 
+                data: {
+                    order_id: order.id,
+                    bakongHash: payment.bakongHash,
+                }
+            });
+        }
+
+        
 
         const response = await axios.post(
             `${process.env.BAKONG_PROD_BASE_API_URL}/check_transaction_by_md5`,{md5 :payment.qr_md5},{headers :{Authorization : `Bearer ${process.env.BAKONG_ACCESS_TOKEN}`}}
@@ -143,53 +159,78 @@ export const checkPaymentStatus = async (req,res) => {
 
             const generateOrderNumber = async () => {
                 const year = new Date().getFullYear();
+                let orderNumber;
+                let attempts = 0;
+                const maxAttempts = 100;
                 
-                const count = await db.Order.count({
-                    where: {
-                        order_number: { [Op.not]: null }, // Only count orders with order_number
-                        createdAt: {
-                            [Op.gte]: new Date(`${year}-01-01`),
-                            [Op.lt]: new Date(`${year + 1}-01-01`)
+                while (attempts < maxAttempts) {
+                    const count = await db.Order.count({
+                        where: {
+                            order_number: { [Op.not]: null },
+                            createdAt: {
+                                [Op.gte]: new Date(`${year}-01-01`),
+                                [Op.lt]: new Date(`${year + 1}-01-01`)
+                            }
                         }
-                    }
-                });
+                    });
+                    
+                    orderNumber = `ORD-${year}-${String(count + 1 + attempts).padStart(6, '0')}`;
+                    
+                    // Check if this order number already exists
+                    const existing = await db.Order.findOne({
+                        where: { order_number: orderNumber }
+                    });
+                    
+                    if (!existing) {
+                        return orderNumber; 
+                    } 
+                    attempts++;
+                }
                 
-                return `ORD-${year}-${String(count + 1).padStart(6, '0')}`;
+                throw new Error('Could not generate unique order number');
             };
 
-            const orderNumber = await generateOrderNumber();
+            let orderNumber = order.order_number;
+            
+            if (!orderNumber) {
+                orderNumber = await generateOrderNumber();
+               
+            }
 
-            await payment.update(
-                {
-                    bakongHash: data.data.hash,
-                    fromAccountId : data.data.fromAccountId,
-                    toAccountId : data.data.toAccountId,
-                    currency : data.data.currency,
-                    amount : data.data.amount,
-                    description : data.data.description,
-                    createdDateMs : data.data.createdDateMs,
-                    acknowledgeDateMs : data.data.acknowledgeDateMs,
-                    trackingStatus : data.data.trackingStatus,
-                    receiverBank : data.data.receiverBank,
-                    receiverBankAccount : data.data.receiverBankAccount,
-                    paid : true,
-                    paid_at : new Date(),
-                    status : 'paid'
-                }
-            );
-
-            await order.update({
-                status: 'paid', 
+            
+            await payment.update({
+                bakongHash: data.data.hash,
+                fromAccountId: data.data.fromAccountId,
+                toAccountId: data.data.toAccountId,
+                currency: data.data.currency,
+                amount: data.data.amount,
+                description: data.data.description,
+                createdDateMs: data.data.createdDateMs,
+                acknowledgeDateMs: data.data.acknowledgedDateMs,
+                trackingStatus: data.data.trackingStatus,
+                receiverBank: data.data.receiverBank,
+                receiverBankAccount: data.data.receiverBankAccount,
+                paid: true,
                 paid_at: new Date(),
-                order_number: orderNumber
+                status: 'paid'
             });
+            
+            const updateData = {
+                status: 'paid', 
+                paid_at: new Date()
+            };
+            
+            if (!order.order_number) {
+                updateData.order_number = orderNumber;
+            }
+            
+            await order.update(updateData);
 
-            // Create notifications for both admin and seller
             const notifications = await Promise.all([
                 db.Notification.create({
                     type: 'payment',
                     message: `Payment confirmed for order: ${orderNumber}`,
-                    target_role: 'admin', // ✅ Single value
+                    target_role: 'admin',
                     order_id: order.id,
                     user_id: order.user_id,
                     read: false
@@ -197,14 +238,13 @@ export const checkPaymentStatus = async (req,res) => {
                 db.Notification.create({
                     type: 'payment',
                     message: `Payment confirmed for order: ${orderNumber}`,
-                    target_role: 'seller', // ✅ Single value
+                    target_role: 'seller',
                     order_id: order.id,
                     user_id: order.user_id,
                     read: false
                 })
             ]);
 
-            // ✅ Emit socket event
             io.to('room').emit('paymentConfirmed', {
                 id: notifications[0].id,
                 type: notifications[0].type,
@@ -218,14 +258,15 @@ export const checkPaymentStatus = async (req,res) => {
                 read: false
             });
             
-            return res.status(200).json({success : true, message : "Payment confirmed!✅", 
-                data : {
-                    order_id : order.id,
-                    bakongHash : data.data.hash,
-                    
+            return res.status(200).json({
+                success: true, 
+                message: "Payment confirmed!✅", 
+                data: {
+                    order_id: order.id,
+                    order_number: orderNumber,
+                    bakongHash: data.data.hash,
                 }
             });
-        
         }
         else {
             return res.status(400).json({success : false, message : "Payment not found not!"});

@@ -9,7 +9,6 @@ import { checkPaymentStatus } from '../../../../api/payment.api';
 
 const KhqrGenerator = ({ resFromKHQR, onClose }) => {
   const [timeLeft, setTimeLeft] = useState(null);
-  const [pollPayment, setPollPayment] = useState(null);
   const [message, setMessage] = useState({ type: '', text: '' });
   const navigate = useNavigate();
 
@@ -37,32 +36,36 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
 
 
   useEffect(() => {
+    
     const pollPayment = async () => {
-      try {
-        const res = await checkPaymentStatus(resFromKHQR.data.qr_md5, resFromKHQR.data.order_id);
-        setPollPayment(res);
 
-        if (res.success) {
-          setMessage({ type: 'success', text: 'Payment successful! ✅' });
-          clearInterval(pollInterval);
-          setTimeout(() => navigate('/User-profile'), 3000);
-        }
-      } catch (err) {
-        setMessage({
-          type: 'error',
-          text: err.response?.data.message || 'Failed to check payment transaction',
-        });
+      if (!resFromKHQR?.data?.qr_md5 || !resFromKHQR?.data?.order_id) {
+          return; 
       }
+      
+      try {
+            const res = await checkPaymentStatus(resFromKHQR.data.qr_md5, resFromKHQR.data.order_id);
+
+            if (res.success) {
+                setMessage({ type: 'success', text: 'Payment successful!' });
+                clearInterval(pollInterval);
+                setTimeout(() => navigate('/User-profile'), 3000);
+            }
+        } catch (error) {
+            setMessage({type : 'error', text : "payment not fund!"});
+            console.log('Polling... waiting for payment');
+        }
     };
 
     const pollInterval = setInterval(pollPayment, 3000);
     const timeout = setTimeout(() => clearInterval(pollInterval), 5 * 60 * 1000);
 
     return () => {
-      clearInterval(pollInterval);
-      clearTimeout(timeout);
+        clearInterval(pollInterval);
+        clearTimeout(timeout);
     };
-  }, [resFromKHQR?.data?.qr_md5, resFromKHQR?.data?.order_id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [resFromKHQR?.data?.qr_md5, resFromKHQR?.data?.order_id]);
 
   const isExpired = timeLeft?.expired;
 
@@ -96,9 +99,12 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
         </button>
       )}
 
-      <header className="text-center mb-6">
-        <MessageBox message={message} />
-      </header>
+      {message.text ? 
+        <header className="text-center mb-6 p-5 bg-white rounded-3xl">
+          <MessageBox message={message} />
+        </header>
+       : ""
+      }
 
       <section className="bg-white rounded-3xl animation_form_popup" style={{ boxShadow: '0 0 16px rgba(0, 0, 0, 0.1)' }}>
         {isExpired ? <QRExpired /> : <QRDisplay resFromKHQR={resFromKHQR} />}

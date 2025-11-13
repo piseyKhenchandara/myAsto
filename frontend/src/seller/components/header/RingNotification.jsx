@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNotifications } from '../../../../context/notificationContext/NotificationContext';
+import { useNavigate } from 'react-router-dom';
 
 const RingNotification = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
   const { 
     notification, 
     unreadCount, 
@@ -113,7 +116,12 @@ const RingNotification = () => {
                   {notification.map((notif) => (
                     <article
                       key={notif.id}
-                      onClick={() => markAsRead(notif.id)}
+                      onClick={() => {
+                        markAsRead(notif.id);
+                        if (notif.message.includes('Payment confirmed for order:')) {
+                          navigate("/dashboard/view-all-orders");
+                        }
+                      }}
                       className={`p-3 sm:p-4 border-b border-gray-100 cursor-pointer transition-all duration-200 ${
                         !notif.read
                           ? 'bg-green-50 hover:bg-green-100'
@@ -122,7 +130,7 @@ const RingNotification = () => {
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex-1 min-w-0">
-                          <p className={`text-sm sm:text-base  leading-relaxed break-words ${notif.message.includes('New') ? "text-black" : "text-green-600"}`}>
+                          <p className={`text-sm sm:text-base leading-relaxed break-words ${notif.message.includes('New') ? "text-black" : "text-green-600"}`}>
                             {notif.message}
                           </p>
                           <time className="text-xs text-gray-500 mt-1.5 block">
@@ -139,6 +147,7 @@ const RingNotification = () => {
                         )}
                       </div>
                     </article>
+
                   ))}
                   
                   {/* ✅ Only show button if there are more notifications */}
