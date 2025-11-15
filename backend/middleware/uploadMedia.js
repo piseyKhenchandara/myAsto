@@ -3,16 +3,14 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
 
-// ========================================
-// 1. PROFILE PICTURE UPLOAD (Single)
-// ========================================
+
 const profileStorage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => ({
-    folder: "profile_pictures",  // ← Different folder!
+    folder: "profile_pictures", 
     resource_type: "image",
     format: undefined,
-    transformation: [{ width: 512, height: 512, crop: "limit" }]  // Smaller for profiles
+    transformation: [{ width: 512, height: 512, crop: "limit" }]  
   })
 });
 
@@ -23,21 +21,19 @@ const profileFileFilter = (req, file, cb) => {
 
 export const uploadProfilePicture = multer({
   storage: profileStorage,
-  limits: { fileSize: 2 * 1024 * 1024 },  // 2MB limit
+  limits: { fileSize: 2 * 1024 * 1024 }, 
   fileFilter: profileFileFilter
-}).single("image");  // ← Still uses req.file (easier!)
+}).single("image"); 
 
 
 
 
 
-// ========================================
-// 2. CATEGORY IMAGE UPLOAD (Single)
-// ========================================
+
 const categoryStorage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => ({
-    folder: "category_images",  // ← Separate folder for categories
+    folder: "category_images",  
     resource_type: "image",
     format: undefined,
     transformation: [{ width: 512, height: 512, crop: "limit" }]
