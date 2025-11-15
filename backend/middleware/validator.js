@@ -243,6 +243,7 @@ export const validateId = (paramName = 'id') => {
         }
         req.params[paramName] = parsedId;
 
+
         next();
     };
 };
@@ -449,6 +450,77 @@ export const validateOrderCreation = () => {
         next();
     };
 };
+
+
+export const validateQrMd5 = (fieldName = 'qr_md5') => {
+    return (req, res, next) => {
+        const qrMd5 = req.body[fieldName];
+
+        if (!qrMd5) {
+            return res.status(400).json({
+                success: false,
+                message: `${fieldName} is required!`
+            });
+        }
+
+        // MD5 hash is 32 hexadecimal characters
+        const md5Regex = /^[a-f0-9]{32}$/i;
+        if (!md5Regex.test(qrMd5)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid QR MD5 format!"
+            });
+        }
+
+        req.body[fieldName] = qrMd5.toLowerCase();
+        next();
+    };
+};
+
+
+export const validateAmount = (fieldName = 'amount', minAmount = 0.01, maxAmount = 999999.99, required = true) => {
+    return (req, res, next) => {
+        const amount = req.body[fieldName];
+
+        if (!amount && amount !== 0) {
+            if (required) {
+                return res.status(400).json({
+                    success: false,
+                    message: `${fieldName} is required!`
+                });
+            }
+            return next();
+        }
+
+        const amountNum = parseFloat(amount);
+        
+        if (isNaN(amountNum)) {
+            return res.status(400).json({
+                success: false,
+                message: `${fieldName} must be a valid number!`
+            });
+        }
+
+        if (amountNum < minAmount || amountNum > maxAmount) {
+            return res.status(400).json({
+                success: false,
+                message: `${fieldName} must be between ${minAmount} and ${maxAmount}!`
+            });
+        }
+
+        // Check for maximum 2 decimal places
+        if (!/^\d+(\.\d{1,2})?$/.test(amount.toString())) {
+            return res.status(400).json({
+                success: false,
+                message: `${fieldName} can have maximum 2 decimal places!`
+            });
+        }
+
+        req.body[fieldName] = amountNum;
+        next();
+    };
+};
+
 
 
 

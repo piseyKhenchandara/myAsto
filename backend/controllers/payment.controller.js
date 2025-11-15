@@ -5,8 +5,8 @@ import { io } from "../server.js";
 import { Op } from "sequelize";
 
 export const createKHQRPayment = async (req, res) => {
+    const {order_id} = req.params;
     try {
-        const {order_id} = req.params;
         
         const user = await db.User.findByPk(req.user.id);
 
@@ -27,6 +27,13 @@ export const createKHQRPayment = async (req, res) => {
             })
         }
 
+        if (order.user_id !== user.id) {
+            return res.status(403).json({
+                success: false,
+                message: "Unauthorized: This order does not belong to you!"
+            });
+        }
+
         const payment = await db.Payment.findOne({where: {order_id: order_id}})
 
         if(!payment) {
@@ -35,6 +42,8 @@ export const createKHQRPayment = async (req, res) => {
                 message: "Payment not found for this order" 
             });
         }
+
+        
 
         // Check environment variables
         if (!process.env.BAKONG_ACCOUNT_USERNAME) {
@@ -50,13 +59,6 @@ export const createKHQRPayment = async (req, res) => {
             expirationTimestamp,
         };
 
-        console.log('Creating IndividualInfo with:', {
-            username: process.env.BAKONG_ACCOUNT_USERNAME,
-            name: process.env.BAKONG_ACCOUNT_NAME || "ASTO",
-            location: "PHNOM PENH",
-            amount: optionalData.amount
-        });
-
         const customerInfo = new IndividualInfo(
             process.env.BAKONG_ACCOUNT_USERNAME,
             process.env.BAKONG_ACCOUNT_NAME || "ASTO",
@@ -67,21 +69,21 @@ export const createKHQRPayment = async (req, res) => {
         const khqr = new BakongKHQR();
         const qrData = khqr.generateIndividual(customerInfo);
 
-        console.log('KHQR generated:', qrData);
+
 
         // Check if qrData is valid
         if (!qrData || !qrData.data || !qrData.data.qr) { // ✅ Changed from qrData.data.qr
             throw new Error('KHQR generation failed - no QR code returned');
         }
 
-        await payment.update({
-            currency: "USD",
-            qr_code: qrData.data.qr,      
-            qr_md5: qrData.data.md5,       
-            qr_expiration: expirationTimestamp,
+        await db.sequelize.transaction(async(transaction) => {
+            await payment.update({
+                currency: "USD",
+                qr_code: qrData.data.qr,      
+                qr_md5: qrData.data.md5,       
+                qr_expiration: expirationTimestamp,
+            }, {transaction})
         })
-
-        console.log(qrData);
 
         return res.status(201).json({
             success: true,
@@ -111,28 +113,35 @@ export const createKHQRPayment = async (req, res) => {
 
 
 export const checkPaymentStatus = async (req,res) => {
-    try {
-        const {qr_md5} = req.body;
-        const {order_id} = req.params;
 
-        if (!qr_md5) {
-            return res.status(400).json({ 
+    const {qr_md5} = req.body;
+    const {order_id} = req.params;
+
+    try {
+
+        const order = await db.Order.findByPk(order_id);
+
+        if (!order) {
+            return res.status(404).json({
                 success: false, 
-                message: "qr_md5 is required" 
+                message: "Order not found!"
             });
         }
 
-        const order = await db.Order.findByPk(order_id);
-        if(!order) {
-            return res.status(404).json({success : false, message : "order not found!"});
+        if (req.user && order.user_id !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                message: "Unauthorized: This order does not belong to you!"
+            });
         }
 
         const payment = await db.Payment.findOne({
-            where : {qr_md5},   
+            where : {qr_md5, order_id : order_id},   
         })
 
+
         if(!payment) {
-            console.log('❌ Payment not found'); // ADD THIS
+            console.log('❌ Payment not found'); 
             return res.status(404).json({success: false, message: "User haven't paid yet!"});
         }
 
@@ -142,11 +151,11 @@ export const checkPaymentStatus = async (req,res) => {
                 message: "Payment already confirmed!✅", 
                 data: {
                     order_id: order.id,
-                    bakongHash: payment.bakongHash,
+              
                 }
             });
         }
-
+P
         
 
         const response = await axios.post(
@@ -154,109 +163,112 @@ export const checkPaymentStatus = async (req,res) => {
         )
         const data = response.data;
         
-        console.log(data);
         if(data.responseCode === 0 && data.data?.hash) {
-
-            const generateOrderNumber = async () => {
-                const year = new Date().getFullYear();
-                let orderNumber;
-                let attempts = 0;
-                const maxAttempts = 100;
+            
+            await db.sequelize.transaction(async(transaction) => {
                 
-                while (attempts < maxAttempts) {
-                    const count = await db.Order.count({
-                        where: {
-                            order_number: { [Op.not]: null },
-                            createdAt: {
-                                [Op.gte]: new Date(`${year}-01-01`),
-                                [Op.lt]: new Date(`${year + 1}-01-01`)
-                            }
-                        }
-                    });
+                const generateOrderNumber = async () => {
+                    const year = new Date().getFullYear();
+                    let orderNumber;
+                    let attempts = 0;
+                    const maxAttempts = 100;
                     
-                    orderNumber = `ORD-${year}-${String(count + 1 + attempts).padStart(6, '0')}`;
+                    while (attempts < maxAttempts) {
+                        const count = await db.Order.count({
+                            where: {
+                                order_number: { [Op.not]: null },
+                                createdAt: {
+                                    [Op.gte]: new Date(`${year}-01-01`),
+                                    [Op.lt]: new Date(`${year + 1}-01-01`)
+                                }
+                            },
+                            transaction
+                        });
+                        
+                        orderNumber = `ORD-${year}-${String(count + 1 + attempts).padStart(6, '0')}`;
+                        
+                        // Check if this order number already exists
+                        const existing = await db.Order.findOne({
+                            where: { order_number: orderNumber },transaction
+                        });
+                        
+                        if (!existing) {
+                            return orderNumber; 
+                        } 
+                        attempts++;
+                    }
                     
-                    // Check if this order number already exists
-                    const existing = await db.Order.findOne({
-                        where: { order_number: orderNumber }
-                    });
-                    
-                    if (!existing) {
-                        return orderNumber; 
-                    } 
-                    attempts++;
+                    throw new Error('Could not generate unique order number');
+                };
+    
+                let orderNumber = order.order_number;
+                
+                if (!orderNumber) {
+                    orderNumber = await generateOrderNumber();
+                   
+                }
+    
+                
+                await payment.update({
+                    bakongHash: data.data.hash,
+                    fromAccountId: data.data.fromAccountId,
+                    toAccountId: data.data.toAccountId,
+                    currency: data.data.currency,
+                    amount: data.data.amount,
+                    description: data.data.description,
+                    createdDateMs: data.data.createdDateMs,
+                    acknowledgeDateMs: data.data.acknowledgedDateMs,
+                    trackingStatus: data.data.trackingStatus,
+                    receiverBank: data.data.receiverBank,
+                    receiverBankAccount: data.data.receiverBankAccount,
+                    paid: true,
+                    paid_at: new Date(),
+                    status: 'paid'
+                },{transaction});
+                
+                const updateData = {
+                    status: 'paid', 
+                    paid_at: new Date()
+                };
+                
+                if (!order.order_number) {
+                    updateData.order_number = orderNumber;
                 }
                 
-                throw new Error('Could not generate unique order number');
-            };
-
-            let orderNumber = order.order_number;
-            
-            if (!orderNumber) {
-                orderNumber = await generateOrderNumber();
-               
-            }
-
-            
-            await payment.update({
-                bakongHash: data.data.hash,
-                fromAccountId: data.data.fromAccountId,
-                toAccountId: data.data.toAccountId,
-                currency: data.data.currency,
-                amount: data.data.amount,
-                description: data.data.description,
-                createdDateMs: data.data.createdDateMs,
-                acknowledgeDateMs: data.data.acknowledgedDateMs,
-                trackingStatus: data.data.trackingStatus,
-                receiverBank: data.data.receiverBank,
-                receiverBankAccount: data.data.receiverBankAccount,
-                paid: true,
-                paid_at: new Date(),
-                status: 'paid'
-            });
-            
-            const updateData = {
-                status: 'paid', 
-                paid_at: new Date()
-            };
-            
-            if (!order.order_number) {
-                updateData.order_number = orderNumber;
-            }
-            
-            await order.update(updateData);
-
-            const notifications = await Promise.all([
-                db.Notification.create({
-                    type: 'payment',
-                    message: `Payment confirmed for order: ${orderNumber}`,
-                    target_role: 'admin',
+                await order.update((updateData),{transaction});
+    
+                const notifications = await Promise.all([
+                    db.Notification.create({
+                        type: 'payment',
+                        message: `Payment confirmed for order: ${orderNumber}`,
+                        target_role: 'admin',
+                        order_id: order.id,
+                        user_id: order.user_id,
+                        read: false
+                    }),
+                    db.Notification.create({
+                        type: 'payment',
+                        message: `Payment confirmed for order: ${orderNumber}`,
+                        target_role: 'seller',
+                        order_id: order.id,
+                        user_id: order.user_id,
+                        read: false
+                    })
+                ]);
+    
+                io.to('room').emit('paymentConfirmed', {
+                    id: notifications[0].id,
+                    type: notifications[0].type,
+                    message: notifications[0].message,
                     order_id: order.id,
-                    user_id: order.user_id,
+                    order_number: orderNumber,
+                    amount: payment.amount,
+                    paid_at: payment.paid_at,
+                    bakongHash: data.data.hash,
+                    createdAt: notifications[0].createdAt,
                     read: false
-                }),
-                db.Notification.create({
-                    type: 'payment',
-                    message: `Payment confirmed for order: ${orderNumber}`,
-                    target_role: 'seller',
-                    order_id: order.id,
-                    user_id: order.user_id,
-                    read: false
-                })
-            ]);
-
-            io.to('room').emit('paymentConfirmed', {
-                id: notifications[0].id,
-                type: notifications[0].type,
-                message: notifications[0].message,
-                order_id: order.id,
-                order_number: orderNumber,
-                amount: payment.amount,
-                paid_at: payment.paid_at,
-                bakongHash: data.data.hash,
-                createdAt: notifications[0].createdAt,
-                read: false
-            });
+                });
+            })
             
             return res.status(200).json({
                 success: true, 

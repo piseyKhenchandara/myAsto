@@ -116,7 +116,7 @@ const SearchResults = () => {
                       <div className="text-xs ">
                        
                           <p className='pb-2'> ${parseFloat(product.price).toFixed(2)}</p>
-                           <p className={`${product.stock.toLowerCase() === 'available' ? 'bg-green-200 text-black/50' : 'bg-red-400 text-white'} p-1 rounded-xl inline-block`}>{product.stock}</p>
+                           <p className={`${product.stock.toLowerCase() === 'available' ? 'bg-green-200 text-black/50' : 'bg-yellow-400 text-white'} p-1 rounded-xl inline-block`}>{product.stock}</p>
                            <div className='overflow-hidden max-w-60'>
                             <span className='text-gray-500 line-clamp-1'>{product.description}</span>
                            </div>

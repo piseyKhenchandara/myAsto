@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CiTrash } from 'react-icons/ci';
 
 const ProductForm = ({ 
@@ -11,6 +11,8 @@ const ProductForm = ({
   progress, 
   message 
 }) => {
+  const STORAGE_KEY = `product_feature_names_${categoryName}_${brandName}`;
+  
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -21,6 +23,39 @@ const ProductForm = ({
   ]);
   const [imageFiles, setImageFiles] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
+
+  // Load feature NAMES ONLY from localStorage when modal opens
+  useEffect(() => {
+    if (open.open) {
+      const savedNames = localStorage.getItem(STORAGE_KEY);
+      if (savedNames) {
+        try {
+          const names = JSON.parse(savedNames);
+          setFeatures(names.map(name => ({
+            feature_name: name,
+            feature_value: ''
+          })));
+        } catch (error) {
+          console.error('Failed to load feature names:', error);
+        }
+      }
+    }
+  }, [open.open, STORAGE_KEY]);
+
+  // Save feature NAMES ONLY to localStorage whenever they change
+  useEffect(() => {
+    const names = features.map(f => f.feature_name).filter(n => n.trim());
+    if (names.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(names));
+    }
+  }, [features, STORAGE_KEY]);
+
+  // Reset values after successful submit
+  useEffect(() => {
+    if (message.type === 'success' && message.text) {
+      resetFormValues();
+    }
+  }, [message]);
 
   const addNewRowFeature = () => {
     setFeatures(prev => [...prev, {feature_name: '', feature_value: ''}]);
@@ -41,7 +76,7 @@ const ProductForm = ({
   const handleImageFiles = (e) => {
     const getFiles = Array.from(e.target.files || []);
     if(getFiles.length > 5) {
-      return; // Let parent handle error message
+      return;
     }
     setImageFiles(getFiles);
   };
@@ -49,7 +84,7 @@ const ProductForm = ({
   const handleVideoFiles = (e) => {
     const getFiles = Array.from(e.target.files || []);
     if(getFiles.length > 3) {
-      return; // Let parent handle error message
+      return;
     }
     setVideoFiles(getFiles);
   };
@@ -70,28 +105,30 @@ const ProductForm = ({
     onSubmit(formData);
   };
 
-  const resetForm = () => {
+  // Reset only VALUES, keep feature NAMES
+  const resetFormValues = () => {
     setName('');
     setDescription('');
     setPrice('');
     setStock('');
     setWarranty('');
-    setFeatures(prev => prev.map(f => ([{
+    setFeatures(prev => prev.map(f => ({
       feature_name: f.feature_name, 
       feature_value: ''
-    }])));
+    })));
     setImageFiles([]);
     setVideoFiles([]);
   };
 
+
   const handleClose = () => {
-    resetForm();
+    
     onClose();
   };
 
   const isProcessing = submit.process && submit.formName === 'add';
 
-  if (!open) return null;
+  if (!open.open) return null;
 
   return (
     <div className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">

@@ -16,12 +16,11 @@ const Header = ({ setVisible, asto_logo }) => {
   const { user: whoami } = useUser();
 
   const checkUserRole = whoami?.role === 'admin' || whoami?.role === 'seller';
-
   const toggleSearchPopup = () => setSearchPopup(!searchPopup);
 
   return (
     <header className="w-full border-b border-green-600 shadow-md bg-white sticky top-0 z-50">
-      <nav className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-3 max-w-[1920px] mx-auto">
+      <nav className="flex flex-wrap items-center justify-between px-3 sm:px-6 md:px-8 py-3 max-w-[1920px] mx-auto">
         
         {/* Left Section - Menu & Logo */}
         <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
@@ -45,8 +44,8 @@ const Header = ({ setVisible, asto_logo }) => {
         </div>
 
         {/* Right Section - Actions */}
-        <div className="flex items-center gap-5 sm:gap-6 md:gap-8 lg:gap-10">
-
+        <div className="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 flex-wrap">
+          
           {/* Search Icon */}
           <div className="flex-shrink-0">
             <SearchPopup toggleSearchPopup={toggleSearchPopup} searchPopup={searchPopup} />

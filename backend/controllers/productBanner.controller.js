@@ -80,7 +80,7 @@ export const getBannerByCategory = async (req, res) => {
             attributes: ['id', 'image_url', 'is_main', 'category_id', 'product_id'],
             include: [{
                 model: db.Product,
-                attributes: ['id','name']
+                attributes: ['id','name','slug']
             }, {
                 model: db.Category,  // ADD THIS
                 attributes: ['id', 'name', 'slug']

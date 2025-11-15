@@ -29,7 +29,7 @@ export const authenticate = async (req,res, next) => {
 }       ; 
         next();
 
-        console.log(req.user);
+
     }  
     catch(error){
         return res.status(500).json({message : error.message});

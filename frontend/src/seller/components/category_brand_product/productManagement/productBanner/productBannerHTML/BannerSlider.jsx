@@ -34,8 +34,8 @@ const BannerSlider = ({
             <Link
               className='block w-full h-full relative'
               to={checkUserRole 
-                ? `/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/${b.Product?.id}` 
-                : `/category/${category_slug}/brand/${brand_slug}/product/detail/${b.Product?.id}`
+                ? `/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/${b.Product?.id}/${b.Product.slug}` 
+                : `/category/${category_slug}/brand/${brand_slug}/product/detail/${b.Product?.id}/${b.Product.slug}`
               }
             >
               {/* ✅ Changed from object-contain to object-cover */}
