@@ -22,7 +22,7 @@ const UserCart = ({ user }) => {
 
   return (
     <article>
-      <Link to={`/dashboard/User-profile/${user.id}/receipts`}>
+      <Link to={`/dashboard/user-profile/${user.id}/receipts`}>
         <header className="flex items-center gap-4 mb-4">
           <img
             src={user.profile_picture || '/default-avatar.png'}

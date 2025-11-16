@@ -3,11 +3,12 @@ import { uploadCategory, getCategory, deleteCategory, updateCategory } from "../
 import { authenticate } from "../middleware/autheticate.js";
 import { authorizeRoles } from "../middleware/authorizeRoles.js";
 import { uploadCategoryImage } from "../middleware/uploadMedia.js";
+import { loadUserData } from "../middleware/loadUserdata.js";
 
 
 const router = Router();
 
-router.post( "/upload-category",authenticate,authorizeRoles('admin', 'seller'), uploadCategoryImage,  uploadCategory);
+router.post( "/upload-category",authenticate,authorizeRoles('admin', 'seller'),  uploadCategoryImage,  uploadCategory);
 
 router.get("/view-all-categories", getCategory);
 

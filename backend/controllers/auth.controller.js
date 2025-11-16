@@ -58,7 +58,7 @@ export const googleAuth = async (req, res) => {
 
         if (user) {
 
-            generateTokenAndSetCookie(res, user.id);
+            generateTokenAndSetCookie(res, user.id,user.role);
             return res.status(200).json({
                 success: true, 
                 message: "Welcome back!",
@@ -112,7 +112,7 @@ export const googleAuth = async (req, res) => {
 
 
             console.log('✅ New user created:', newUser.id);
-            generateTokenAndSetCookie(res, newUser.id);
+            generateTokenAndSetCookie(res, newUser.id, user.role);
             await sendWelcomeEmail(newUser.email, newUser.name);
 
 
@@ -190,7 +190,7 @@ export const signup = async(req,res) => {
             profile_picture: null,
         });
 
-        generateTokenAndSetCookie(res,newUser.id);
+        generateTokenAndSetCookie(res,newUser.id, existingUsers.role);
         await sendVerificationEmail(newUser.email, verificationToken, newUser.name);
 
         const notification = await db.Notification.create({
@@ -392,7 +392,7 @@ export const login = async(req,res) => {
         })
 
         //here also
-        generateTokenAndSetCookie(res,findUser.id);
+        generateTokenAndSetCookie(res,findUser.id, findUser.role);
 
         res.status(200).json({message : "User login successfully✅", 
             user : {
@@ -536,6 +536,7 @@ export const logout = async(req,res) => {
 export const whoami = async(req,res) =>{
     
     try{
+        
         res.status(200).json({
             user : {
                 id : req.user.id,

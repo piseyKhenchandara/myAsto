@@ -67,7 +67,7 @@ const Header = ({ setVisible, asto_logo }) => {
             </div>
           )}
 
-          <Link to="/User-profile" className="flex-shrink-0">
+          <Link to="/user-profile" className="flex-shrink-0">
             {whoami?.profile_picture ? (
               <img 
                 src={whoami.profile_picture} 

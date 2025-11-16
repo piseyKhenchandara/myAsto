@@ -19,6 +19,7 @@ import { authenticate } from "../middleware/autheticate.js";
 import {authorizeRoles} from '../middleware/authorizeRoles.js'
 import { validateAddress, validateCode, validateEmail, validateId, validateName, validatePassword, validatePhone, validateUrl, validateString} from "../middleware/validator.js";
 import { uploadProfilePicture } from "../middleware/uploadMedia.js";
+import { loadUserData } from "../middleware/loadUserdata.js";
 
 
 const router = Router();
@@ -87,6 +88,7 @@ router.patch('/profile/update',
 // Add debugging specifically for whoami
 router.get('/whoami',
     authenticate, 
+    loadUserData,
     whoami);
 
 router.get('/users/:id', 

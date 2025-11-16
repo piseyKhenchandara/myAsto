@@ -49,7 +49,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
             if (res.success) {
                 setMessage({ type: 'success', text: 'Payment successful!' });
                 clearInterval(pollInterval);
-                setTimeout(() => navigate('/User-profile'), 3000);
+                setTimeout(() => navigate('/user-profile'), 3000);
             }
         } catch (error) {
             setMessage({type : 'error', text : "payment not fund!"});
