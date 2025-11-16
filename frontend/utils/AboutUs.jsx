@@ -40,7 +40,7 @@ const teamMembers = [
   {
     name: 'Khen Chandarapisey',
     role: 'Backend-Frontend developer',
-    description: 'Developer & Designer',
+    description: '',
     image: pisey,
     links: {
       github: 'https://github.com/SeYz-GHB',
@@ -51,7 +51,7 @@ const teamMembers = [
   {
     name: 'Ong Endy',
     role: 'Frontend developer',
-    description: 'Developer',
+    description: '',
     image: endy,
     links: {
       github: 'https://github.com/Endy0611',

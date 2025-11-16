@@ -23,7 +23,7 @@ export const sendResetSuccessEmail = async (email, userName) => {
     const mailOptions = {
         from: `ASTO <${process.env.MAIL_USER}>`,
         to: email,
-        subject: "✅ Password Reset Successful",
+        subject: " Password Reset Successful",
         html: `
             <!DOCTYPE html>
             <html>
@@ -41,7 +41,7 @@ export const sendResetSuccessEmail = async (email, userName) => {
             <body>
                 <div class="container">
                     <div class="header">
-                        <h1>✅ Password Reset Successful</h1>
+                        <h1> Password Reset Successful</h1>
                     </div>
                     <div class="content">
                         <div class="success-icon">🎉</div>
@@ -82,7 +82,7 @@ export const sendResetSuccessEmail = async (email, userName) => {
     try {
         console.log('📧 Attempting to send email...');
         const result = await transporter.sendMail(mailOptions);
-        console.log(`✅ Password reset success email sent to ${email}:`, result.messageId);
+        console.log(` Password reset success email sent to ${email}:`, result.messageId);
         return { success: true, messageId: result.messageId };
     } catch (error) {
         console.error("❌ DETAILED EMAIL ERROR:", {

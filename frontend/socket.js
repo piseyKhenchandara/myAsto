@@ -11,9 +11,9 @@ socket.on('connect', () => {
 });
 
 socket.on('disconnect', (reason) => {
-    console.log('❌ Socket DISCONNECTED:', reason);
+    console.log(' Socket DISCONNECTED:', reason);
 });
 
 socket.on('connect_error', (error) => {
-    console.error('❌ Socket CONNECTION ERROR:', error.message, error);
+    console.error(' Socket CONNECTION ERROR:', error.message, error);
 });
