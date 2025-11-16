@@ -10,7 +10,7 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
     console.log('Image failed to load:', e.target.src);
 
     
-  }
+  } 
 
   const {whoami} = useUser();
   const checkUserRole = whoami?.role === "admin" || whoami?.role === "seller";
