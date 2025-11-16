@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../../../../../../context/UserContext';
-import { useFetchBanner } from './useFetchBanner';
-import { useAutoSlide } from './useAutoSlide';
-import { useBannerActions } from './useBannerActions';
+import { useFetchBanner } from './Hook/useFetchBanner';
+import { useAutoSlide } from './Hook/useAutoSlide';
+import { useBannerActions } from './Hook/useBannerActions';
 import BannerHeader from '../productBanner/productBannerHTML/BannerHeader';
 import EmptyState from '../productBanner/productBannerHTML/EmptyState';
 import BannerSlider from '../productBanner/productBannerHTML/BannerSlider';

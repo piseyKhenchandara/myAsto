@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import EditForm from "../EditForm.jsx";
-import DeleteForm from "../DeleteForm";
+import EditForm from "../productManagement/products/EditForm.jsx";
+import DeleteForm from "../productManagement/products/DeleteForm.jsx";
 import CarouselView from './CarouselView';
-import AddREditForm from "../AddForm.jsx";
+import AddREditForm from "../productManagement/products/AddForm.jsx";
 import { useUser } from "../../../../../context/UserContext.jsx";
 import CategoryHeader from "./CategoryHeader.jsx";
-import { useCategoryOperations } from "./useCategoryOperations.js";
-import { useCarouselPagination } from "./useCarouselPagination.js";
+import { useCategoryOperations } from "./Hook/useCategoryOperations.js";
+import { useCarouselPagination } from "./Hook/useCarouselPagination.js";
 
 
 const CategoryManagement = ({ category_slug }) => {

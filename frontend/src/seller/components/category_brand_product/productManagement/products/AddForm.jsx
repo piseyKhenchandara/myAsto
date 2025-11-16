@@ -1,5 +1,5 @@
 import React from 'react'
-import DisplayFileNameSelected from '../DisplayFileNameSelected'
+import DisplayFileNameSelected from '../../../DisplayFileNameSelected'
 
 const AddForm = ({type_name, setOpen, submit, progress, msg, uploadCategories, name, setName, file, setFile}) => {
     

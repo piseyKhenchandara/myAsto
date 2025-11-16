@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { uploadBanner, deleteBannerAPI } from "../../../../../api/ProductBanner.api";
+import { uploadBanner, deleteBannerAPI } from "../../../../../../api/ProductBanner.api";
 
 export const useBannerActions = (category_slug, getBannersByCate) => {
   const [open, setOpen] = useState({ formName: '', open: false });

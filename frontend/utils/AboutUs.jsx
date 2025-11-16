@@ -39,7 +39,7 @@ const SocialLinks = ({ links }) => (
 const teamMembers = [
   {
     name: 'Khen Chandarapisey',
-    role: 'Software Engineer',
+    role: 'Backend-Frontend developer',
     description: 'Developer & Designer',
     image: pisey,
     links: {
@@ -50,7 +50,7 @@ const teamMembers = [
   },
   {
     name: 'Ong Endy',
-    role: 'Software Engineer',
+    role: 'Frontend developer',
     description: 'Developer',
     image: endy,
     links: {
@@ -62,12 +62,12 @@ const teamMembers = [
   {
     name: 'Hak Titpanha',
     role: 'Marketing Specialist',
-    description: 'Marketing Specialist',
+    description: '',
     image: panha,
     links: {
-      github: 'https://github.com/Endy0611',
-      facebook: 'https://www.facebook.com/ong.endy',
-      telegram: 'https://t.me/endyong96',
+      github: '',
+      facebook: 'https://www.facebook.com/hak.tit.panha.2025',
+      telegram: '',
     }
   }
 ];

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { useOutletContext, useParams } from "react-router-dom";
-import { createProduct, getProductsByBrandNCategory, deleteProduct } from "../../../../api/Product.api";
-import { getBrandsByCategoryAPI } from "../../../../api/BrandProduct.api";
-import { getCategoriesAPI } from "../../../../api/CategoryProduct.api";
+import { createProduct, getProductsByBrandNCategory, deleteProduct } from "../../../../../../api/Product.api";
+import { getBrandsByCategoryAPI } from "../../../../../../api/BrandProduct.api";
+import { getCategoriesAPI } from "../../../../../../api/CategoryProduct.api";
 
-import ProductList from "./ProductList";
-import ProductForm from "./ProductForm";
-import Pagination from "./Pagination";
-import ProductBanner from "./productBanner/ProductBanner";
-import BrandManagement from "../brandManagement/BrandManagement";
+import ProductList from "../ProductList";
+import ProductForm from "../ProductForm";
+import Pagination from "../Pagination";
+import ProductBanner from "../../productBanner/ProductBanner";
+import BrandManagement from "../../../brandManagement/main/BrandManagement";
 import DeleteForm from "../DeleteForm";
-import { useUser } from "../../../../../context/UserContext";
-import BrandsHorizontally from "../brandManagement/BrandsHorizontally";
+import { useUser } from "../../../../../../../context/UserContext";
+import BrandsHorizontally from "../../../brandManagement/BrandsHorizontally";
 
 const Products = () => {
   const { visible = false } = useOutletContext() || {};

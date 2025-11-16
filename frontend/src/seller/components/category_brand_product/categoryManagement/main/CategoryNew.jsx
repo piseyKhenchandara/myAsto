@@ -4,14 +4,14 @@ import {
   getCategoriesAPI,
   deleteCategoryAPI,
   editCategoryAPI,
-} from '../../../../api/CategoryProduct.api.js'
+} from '../../../../../api/CategoryProduct.api.js'
 import { IoIosAddCircleOutline } from "react-icons/io";
 
-import AddREditForm from "../AddForm.jsx";
-import EditForm from "../EditForm.jsx";
-import DeleteForm from "../DeleteForm.jsx";
-import GridView from "./GridView.jsx";
-import { useUser } from "../../../../../context/UserContext.jsx";
+import AddREditForm from "../../productManagement/products/AddForm.jsx";
+import EditForm from "../../productManagement/products/EditForm.jsx";
+import DeleteForm from "../../productManagement/products/DeleteForm.jsx";
+import GridView from "../GridView.jsx";
+import { useUser } from "../../../../../../context/UserContext.jsx";
 
 
 const CategoryNew = ({ category_slug, visible}) => {

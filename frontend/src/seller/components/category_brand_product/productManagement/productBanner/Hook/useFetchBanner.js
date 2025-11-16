@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getBannersByCategory } from "../../../../../api/ProductBanner.api";
+import { getBannersByCategory } from "../../../../../../api/ProductBanner.api";
 
 export const useFetchBanner = (category_slug) => {
   const [banners, setBanners] = useState([]);

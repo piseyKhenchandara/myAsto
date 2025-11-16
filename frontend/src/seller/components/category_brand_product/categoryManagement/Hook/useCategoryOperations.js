@@ -4,7 +4,7 @@ import {
   getCategoriesAPI,
   deleteCategoryAPI,
   editCategoryAPI,
-} from '../../../../api/CategoryProduct.api.js';
+} from '../../../../../api/CategoryProduct.api.js';
 
 export const useCategoryOperations = () => {
   const [categories, setCategories] = useState([]);

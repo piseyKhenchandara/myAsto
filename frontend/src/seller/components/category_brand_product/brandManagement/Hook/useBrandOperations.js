@@ -4,7 +4,7 @@ import {
   uploadBrandsAPI, 
   updateBrandAPI, 
   deleteBrandAPI 
-} from '../../../../api/BrandProduct.api';
+} from '../../../../../api/BrandProduct.api';
 
 export const useBrandOperations = (category_slug) => {
     

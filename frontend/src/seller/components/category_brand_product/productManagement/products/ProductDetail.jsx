@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { getProductDetail } from '../../../../api/Product.api';
+import { getProductDetail } from '../../../../../api/Product.api';
 import { useParams } from 'react-router-dom';
-import { useCart } from '../../../../customer/context/CartContext';
-import { useUser } from '../../../../../context/UserContext';
+import { useCart } from '../../../../../customer/context/CartContext';
+import { useUser } from '../../../../../../context/UserContext';
 import { FaCartArrowDown } from 'react-icons/fa6';
 
 import ShareLinkToSocial from './ShareLinkToSocial';

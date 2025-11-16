@@ -1,5 +1,5 @@
 import React from 'react'
-import DisplayFileNameSelected from '../DisplayFileNameSelected';
+import DisplayFileNameSelected from '../../../DisplayFileNameSelected';
 
 
 const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,setName,file, setFile}) => {

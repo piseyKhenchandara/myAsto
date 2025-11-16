@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBrandsByCategoryAPI } from '../../../api/BrandProduct.api';
-import { useUser } from '../../../../context/UserContext';
+import { getBrandsByCategoryAPI } from '../../../../../api/BrandProduct.api';
+import { useUser } from '../../../../../../context/UserContext';
 
 
 const RedirectToFirstBrand = () => {

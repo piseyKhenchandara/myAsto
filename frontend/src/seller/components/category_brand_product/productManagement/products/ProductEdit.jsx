@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getProductDetail, updateProduct } from '../../../../api/Product.api';
+import { getProductDetail, updateProduct } from '../../../../../api/Product.api';
 import { useParams, useNavigate } from 'react-router-dom';
 import { CiTrash } from "react-icons/ci";
 import ProductImageSection from './ProductImageSectoin';

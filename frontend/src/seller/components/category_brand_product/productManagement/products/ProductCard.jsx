@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CiEdit, CiTrash } from 'react-icons/ci';
-import { useUser } from '../../../../../context/UserContext';
+import { useUser } from '../../../../../../context/UserContext';
 import { FaCartArrowDown } from 'react-icons/fa6';
-import { useCart } from '../../../../customer/context/CartContext';
+import { useCart } from '../../../../../customer/context/CartContext';
 
 const ProductCard = ({ 
   product, 

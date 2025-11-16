@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import {useParams } from 'react-router-dom';
-import CategoryManagement from '../categoryManagement/CategoryManagement';
-import AddForm from '../AddForm';
-import EditForm from '../EditForm';
-import DeleteForm from '../DeleteForm';
-import { useUser } from '../../../../../context/UserContext';
-import { useBrandOperations } from './useBrandOperations';
-import { useBrandNavigation } from './useBrandNavigation';
-import BrandHeader from './brandManagementHtmlFormat/Brandheader';
-import BrandGrid from './brandManagementHtmlFormat/BrandGrid';
+import CategoryManagement from '../../categoryManagement/CategoryManagement';
+import AddForm from '../../productManagement/products/AddForm';
+import EditForm from '../../productManagement/products/EditForm';
+import DeleteForm from '../../productManagement/products/DeleteForm';
+import { useUser } from '../../../../../../context/UserContext';
+import { useBrandOperations } from '../Hook/useBrandOperations';
+import { useBrandNavigation } from '../Hook/useBrandNavigation';
+import BrandHeader from '../brandManagementHtmlFormat/Brandheader';
+import BrandGrid from '../brandManagementHtmlFormat/BrandGrid';
 
 const BrandManagement = ({ brand_slug }) => {
   const { user: whoami, loading: loadingUserRole, error: userError } = useUser();

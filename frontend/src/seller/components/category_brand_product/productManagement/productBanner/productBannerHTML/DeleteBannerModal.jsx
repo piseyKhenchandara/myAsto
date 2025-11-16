@@ -1,5 +1,5 @@
 import React from 'react';
-import DeleteForm from '../../../DeleteForm';
+import DeleteForm from '../../products/DeleteForm';
 
 
 const DeleteBannerModal = ({
