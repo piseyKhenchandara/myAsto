@@ -29,7 +29,6 @@ export default (sequelize) => {
         {
             tableName: "product_images",
             timestamps: true,
-            createdAt: "created_at",
             updatedAt: false
         }
     );

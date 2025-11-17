@@ -46,9 +46,6 @@ export default (sequelize) => {
     {
         tableName : "products",
         timestamps : true,
-        // REMOVE these lines - they were causing the mapping issue:
-        // createdAt: 'created_at',  ← Remove this
-        // updatedAt: 'updated_at',  ← Remove this
         indexes : [
             {fields : ['brand_id']},
             {fields : ['category_id']},

@@ -37,8 +37,6 @@ export default (sequelize) => {
         {
             tableName : 'product_banners',
             timestamps : true,
-            createdAt : 'created_at',
-            updateAt : false
         }
     )
     return ProductBanner;

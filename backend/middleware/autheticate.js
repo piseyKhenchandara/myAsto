@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-import jwt from 'jsonwebtoken';
+import jwt, { decode } from 'jsonwebtoken';
 
 
 export const authenticate = async (req,res, next) => {
@@ -13,19 +13,12 @@ export const authenticate = async (req,res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await db.User.findByPk(decoded.id);
-
-        if(!user) return res.status(404).json({message : "User no longer exist!"});
+      
 
         req.user = {   
-            id: user.id, 
-            role: user.role, 
-            name: user.name,
-            email: user.email,
-            is_verified: user.is_verified,
-            phone: user.phone || null,                       
-            address: user.address || null,    
-            profile_picture: user.profile_picture || ''
+            id: decoded.id, 
+            role: decoded.role, 
+           
 }       ; 
         next();
 

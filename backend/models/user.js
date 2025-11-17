@@ -30,13 +30,9 @@ export default (sequelize) => {
         address: {
             type: DataTypes.TEXT,
         },
-        created_at: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-        },
         last_login: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
+            allowNull : true,
         },
         is_verified: {
             type: DataTypes.BOOLEAN,

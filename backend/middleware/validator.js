@@ -1,5 +1,5 @@
 import validator from 'validator';
-import db from "../models/index.js";
+
 
 
 export const validateEmail = (fieldName = 'email') => {

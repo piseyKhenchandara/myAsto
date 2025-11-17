@@ -53,11 +53,14 @@ export const googleAuth = async (req, res) => {
 
         const user = await db.User.findOne({
             where: { email }, 
-            attributes: ["id", "email", "name", "is_verified", "role"]
+            attributes: ["id", "email", "name", "is_verified", "role", "last_login"]
         });
 
         if (user) {
 
+            await user.update({
+                last_login: new Date()
+            });
             generateTokenAndSetCookie(res, user.id,user.role);
             return res.status(200).json({
                 success: true, 
@@ -67,7 +70,8 @@ export const googleAuth = async (req, res) => {
                     email: user.email,
                     name: user.name,
                     role: user.role,
-                    is_verified: user.is_verified
+                    is_verified: user.is_verified,
+                    last_login : user.last_login
                 }
             });
 
@@ -106,13 +110,14 @@ export const googleAuth = async (req, res) => {
                 provider_id,                       
                 profile_picture: cloudinaryUrl,  
                 public_id: publicId,
-                is_verified: 1,                    
+                is_verified: 1,
+                last_login : new Date()                    
             });
 
 
 
             console.log('✅ New user created:', newUser.id);
-            generateTokenAndSetCookie(res, newUser.id, user.role);
+            generateTokenAndSetCookie(res, newUser.id, newUser.role);
             await sendWelcomeEmail(newUser.email, newUser.name);
 
 
@@ -164,9 +169,6 @@ export const signup = async(req,res) => {
     const {email,name,password} = req.body;
 
     try{
-
-
-
         const existingUsers = await db.User.findOne({
             where : {email}
         })
@@ -190,7 +192,7 @@ export const signup = async(req,res) => {
             profile_picture: null,
         });
 
-        generateTokenAndSetCookie(res,newUser.id, existingUsers.role);
+        generateTokenAndSetCookie(res,newUser.id, newUser.role);
         await sendVerificationEmail(newUser.email, verificationToken, newUser.name);
 
         const notification = await db.Notification.create({

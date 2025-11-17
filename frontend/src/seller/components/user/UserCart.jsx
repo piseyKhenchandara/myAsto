@@ -54,7 +54,7 @@ const UserCart = ({ user }) => {
           <div className="flex items-center gap-2">
             <dt className="font-medium text-gray-700 text-xs sm:text-sm">Created:</dt>
             <dd className="text-gray-600 text-xs sm:text-sm truncate">
-              <time>{formatDateTime(user.created_at)}</time>
+              <time>{formatDateTime(user.createdAt)}</time>
             </dd>
           </div>
           

@@ -11,7 +11,7 @@ export const viewAlluser = async (req,res) => {
             limit,
             offset,
             order : [['createdAt', "DESC"]],
-            attributes : ['id','name', 'email', 'role', 'phone', 'created_at', 'last_login', 'profile_picture'],
+            attributes : ['id','name', 'email', 'role', 'phone', 'createdAt', 'last_login', 'profile_picture'],
             
         });
 

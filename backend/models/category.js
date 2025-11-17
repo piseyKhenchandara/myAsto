@@ -30,8 +30,6 @@ export default (sequelize) => {
     {
       tableName: "categories",
       timestamps: true,
-      createdAt: "created_at",
-      updatedAt: false,
     }
   );
 

@@ -76,7 +76,7 @@ export const getBannerByCategory = async (req, res) => {
         // Fix: Filter by category_id and include Product properly
         const banners = await db.ProductBanner.findAll({
             where: { category_id: existingCategory.id },
-            order: [['created_at', 'DESC']],
+            order: [['createdAt', 'DESC']],
             attributes: ['id', 'image_url', 'is_main', 'category_id', 'product_id'],
             include: [{
                 model: db.Product,
