@@ -21,7 +21,8 @@ export default (sequelize) => {
             },
             product_id: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: false,
+                unique : true,
             },
             public_id: {
                 type: DataTypes.STRING(255), // Cloudinary public_id
@@ -37,6 +38,9 @@ export default (sequelize) => {
         {
             tableName : 'product_banners',
             timestamps : true,
+            indexes : [
+                {fields : ['category_id', 'createdAt']},
+            ]
         }
     )
     return ProductBanner;

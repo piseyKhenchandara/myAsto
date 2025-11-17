@@ -30,6 +30,14 @@ export default (sequelize) => {
     {
       tableName: "categories",
       timestamps: true,
+      indexes : [
+        {
+          fields : ['name']
+        },
+        {
+          fields : ['id']
+        }
+      ]
     }
   );
 

@@ -9,7 +9,8 @@ export default (sequelize) => {
         },
         order_id : {
             type : DataTypes.INTEGER,
-            allowNull : false
+            allowNull : false,
+            unique : true
         },
         payment_method : {
             type : DataTypes.ENUM("cod", "paypal", "credit_card", "khqr"),
@@ -29,7 +30,7 @@ export default (sequelize) => {
         },
         amount : {
             type : DataTypes.DECIMAL(10,2),
-            default : 0,
+            defaultValue : 0,
         },
         
         // KHQR specific fields (only for khqr payment method)
@@ -39,11 +40,13 @@ export default (sequelize) => {
         },
         qr_md5 : {
             type : DataTypes.STRING(32),  // ✅ Changed to STRING(32) - MD5 is always 32 chars
-            allowNull : true
+            allowNull : true,
+            unique : true,
         },
         qr_expiration : {
             type : DataTypes.BIGINT,
             allowNull : true,
+
         },
 
         // Payment return from Bakong API
@@ -111,9 +114,12 @@ export default (sequelize) => {
         timestamps : true,
         underscored: false,
         indexes: [
-            { fields: ['order_id'] },
-            { fields: ['qr_md5'], unique: true, where: { qr_md5: { [Op.ne]: null } } },
-            { fields: ['status'] }
+            { fields: ['status'] }, 
+            { 
+                fields: ['paid', 'createdAt'] 
+            }
+
+  
         ]
     })
     

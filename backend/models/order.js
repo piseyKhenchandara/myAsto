@@ -59,17 +59,11 @@ export default (sequelize) => {
             allowNull : true,
       }
        
-
-
-        
-
     }, {tableName : "orders",
         timestamps : true,
         indexes : [
             {fields : ['user_id']},
-            {fields : ["order_number"], unique : true},
             {fields : ['createdAt']},
-            {fields : ['status']}
         ]
 
     });

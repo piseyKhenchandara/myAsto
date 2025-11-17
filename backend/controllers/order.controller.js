@@ -148,7 +148,7 @@ export const getAllUsersWhoOrdered = async (req, res) => {
                 'shipping_address', 'discount_amount', 'amount',
                 'order_number', 'delivery_company','createdAt', 'updatedAt','delivery_check'
                  
-            ],
+                ],
 
                 include: [
                     {

@@ -47,10 +47,9 @@ export default (sequelize) => {
         tableName : "products",
         timestamps : true,
         indexes : [
-            {fields : ['brand_id']},
-            {fields : ['category_id']},
+            {fields : ['name']},
             {fields : ['brand_id', 'category_id']},
-            {fields : ['createdAt']}  // This is correct now
+            {fields : ['createdAt']}
         ]
     });
     return Product;

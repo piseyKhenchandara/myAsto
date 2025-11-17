@@ -16,6 +16,10 @@ export default (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    readAt: {  // ✅ ADD THIS - you use it in markAsRead!
+      type: DataTypes.DATE,
+      allowNull: true
+    },
     data: {
       type: DataTypes.JSON, // Store order_id, order_number, etc.
       allowNull: true
@@ -40,7 +44,17 @@ export default (sequelize) => {
       field: 'user_id'
     }
   }, {
-    timestamps: true
+    timestamps: true,
+    indexes : [
+      {
+        fields : ['target_role', 'createdAt']
+      },
+      {
+        fields : ['target_role', "read"]
+      },
+     
+
+    ]
   });
 
   return Notification;

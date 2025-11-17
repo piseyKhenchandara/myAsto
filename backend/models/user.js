@@ -51,7 +51,7 @@ export default (sequelize) => {
             type: DataTypes.DATE,
         },
         auth_provider: {
-            // 👈 ISSUE 2: Remove duplicate type declaration
+
             type: DataTypes.ENUM('email', 'google', 'facebook', 'apple', 'github'),
             defaultValue: 'email',
         },
@@ -64,21 +64,27 @@ export default (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: true
         },
-        public_id: {  // ✅ Add this field to store Cloudinary public_id
+        public_id: {  
             type: DataTypes.STRING,
             allowNull: true
         }
     }, {
-        // 👈 ISSUE 3: Combine options into single object
+      
         tableName: "users",
         timestamps: true,
         indexes: [
             {
                 unique: true,
-                fields: ["auth_provider", "provider_id"], // 👈 Fixed typo: "fileds" → "fields"
+                fields: ["auth_provider", "provider_id"], 
                 where: {
                     provider_id: { [Op.ne]: null }
                 }
+            }, 
+            {
+                fields : ['email'],
+            },
+            {
+                fields : ['reset_password_token']
             }
         ]
     });

@@ -29,9 +29,21 @@ export default (sequelize) => {
             type: DataTypes.STRING(255), 
             allowNull: true 
         },
-    }, {
+    }, 
+    {
         tableName: "brands",
         timestamps: true,
+        indexes : [
+            {
+                fields : ['slug'],
+            },
+            {
+                fields : ['category_id'],
+            },
+            {
+                fields : ['name', 'category_id']
+            }
+        ]
     });
 
     return Brand;
