@@ -145,6 +145,13 @@ export const checkPaymentStatus = async (req,res) => {
             return res.status(404).json({success: false, message: "User haven't paid yet!"});
         }
 
+        if (payment.qr_expiration && Date.now() > payment.qr_expiration) {
+            return res.status(400).json({
+                success: false,
+                message: "QR code has expired. Please generate a new one."
+            });
+        }
+
         if(payment.paid && payment.status === 'paid') {
             return res.status(200).json({
                 success: true, 

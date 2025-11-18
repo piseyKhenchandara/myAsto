@@ -8,7 +8,7 @@ import { sendWelcomeEmail } from '../mail/mailService/sendWelcomEmail.js';
 import { sendResetSuccessEmail } from '../mail/mailService/sendResetSuccessEmail.js';
 import cloudinary from '../config/cloudinary.js';
 import { io } from '../server.js';
-import { validateEmail } from '../middleware/validator.js';
+
 
 
 
