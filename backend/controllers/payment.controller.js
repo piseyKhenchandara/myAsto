@@ -145,6 +145,17 @@ export const checkPaymentStatus = async (req,res) => {
             return res.status(404).json({success: false, message: "User haven't paid yet!"});
         }
 
+        
+        if(payment.paid && payment.status === 'paid') {
+            return res.status(200).json({
+                success: true, 
+                message: "Payment already confirmed!✅", 
+                data: {
+                    order_id: order.id,
+                    
+                }
+            });
+        }
         if (payment.qr_expiration && Date.now() > payment.qr_expiration) {
             return res.status(400).json({
                 success: false,
@@ -152,17 +163,6 @@ export const checkPaymentStatus = async (req,res) => {
             });
         }
 
-        if(payment.paid && payment.status === 'paid') {
-            return res.status(200).json({
-                success: true, 
-                message: "Payment already confirmed!✅", 
-                data: {
-                    order_id: order.id,
-              
-                }
-            });
-        }
-P
         
 
         const response = await axios.post(
