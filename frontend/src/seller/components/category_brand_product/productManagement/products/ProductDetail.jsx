@@ -81,7 +81,7 @@ const ProductDetail = () => {
                 {/* Image Section */}
                 <section className='space-y-4 md:sticky md:top-12'>
                     {/* Main Image */}
-                    <figure className='overflow-hidden'>
+                    <figure className='overflow-hidden min-h-[200px] md:min-h-[350px]'>
                         {selectedImage ? (
                             <img 
                                 src={selectedImage.image_url} 
