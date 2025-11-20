@@ -112,13 +112,11 @@ export const createKHQRPayment = async (req, res) => {
 };
 
 
-export const checkPaymentStatus = async (req,res) => {
-
+export const checkPaymentStatus = async (req, res) => {
     const {qr_md5} = req.body;
     const {order_id} = req.params;
 
     try {
-
         const order = await db.Order.findByPk(order_id);
 
         if (!order) {
@@ -136,26 +134,26 @@ export const checkPaymentStatus = async (req,res) => {
         }
 
         const payment = await db.Payment.findOne({
-            where : {qr_md5, order_id : order_id},   
-        })
+            where: {qr_md5, order_id: order_id},   
+        });
 
-
-        if(!payment) {
+        if (!payment) {
             console.log('❌ Payment not found'); 
             return res.status(404).json({success: false, message: "User haven't paid yet!"});
         }
 
-        
-        if(payment.paid && payment.status === 'paid') {
+        if (payment.paid && payment.status === 'paid') {
             return res.status(200).json({
                 success: true, 
                 message: "Payment already confirmed!✅", 
                 data: {
                     order_id: order.id,
-                    
+                    order_number: order.order_number,
+                    bakongHash: payment.bakongHash, 
                 }
             });
         }
+
         if (payment.qr_expiration && Date.now() > payment.qr_expiration) {
             return res.status(400).json({
                 success: false,
@@ -163,17 +161,18 @@ export const checkPaymentStatus = async (req,res) => {
             });
         }
 
-        
-
         const response = await axios.post(
-            `${process.env.BAKONG_PROD_BASE_API_URL}/check_transaction_by_md5`,{md5 :payment.qr_md5},{headers :{Authorization : `Bearer ${process.env.BAKONG_ACCESS_TOKEN}`}}
-        )
+            `${process.env.BAKONG_PROD_BASE_API_URL}/check_transaction_by_md5`,
+            {md5: payment.qr_md5},
+            {headers: {Authorization: `Bearer ${process.env.BAKONG_ACCESS_TOKEN}`}}
+        );
+
         const data = response.data;
         
-        if(data.responseCode === 0 && data.data?.hash) {
+        if (data.responseCode === 0 && data.data?.hash) {
+            let orderNumber;
             
             await db.sequelize.transaction(async(transaction) => {
-                
                 const generateOrderNumber = async () => {
                     const year = new Date().getFullYear();
                     let orderNumber;
@@ -194,9 +193,9 @@ export const checkPaymentStatus = async (req,res) => {
                         
                         orderNumber = `ORD-${year}-${String(count + 1 + attempts).padStart(6, '0')}`;
                         
-                        // Check if this order number already exists
                         const existing = await db.Order.findOne({
-                            where: { order_number: orderNumber },transaction
+                            where: { order_number: orderNumber },
+                            transaction
                         });
                         
                         if (!existing) {
@@ -207,15 +206,13 @@ export const checkPaymentStatus = async (req,res) => {
                     
                     throw new Error('Could not generate unique order number');
                 };
-    
-                let orderNumber = order.order_number;
+
+                orderNumber = order.order_number;
                 
                 if (!orderNumber) {
                     orderNumber = await generateOrderNumber();
-                   
                 }
-    
-                
+
                 await payment.update({
                     bakongHash: data.data.hash,
                     fromAccountId: data.data.fromAccountId,
@@ -231,7 +228,7 @@ export const checkPaymentStatus = async (req,res) => {
                     paid: true,
                     paid_at: new Date(),
                     status: 'paid'
-                },{transaction});
+                }, {transaction});
                 
                 const updateData = {
                     status: 'paid', 
@@ -242,8 +239,8 @@ export const checkPaymentStatus = async (req,res) => {
                     updateData.order_number = orderNumber;
                 }
                 
-                await order.update((updateData),{transaction});
-    
+                await order.update(updateData, {transaction});
+
                 const notifications = await Promise.all([
                     db.Notification.create({
                         type: 'payment',
@@ -252,7 +249,7 @@ export const checkPaymentStatus = async (req,res) => {
                         order_id: order.id,
                         user_id: order.user_id,
                         read: false
-                    }),
+                    }, {transaction}),
                     db.Notification.create({
                         type: 'payment',
                         message: `Payment confirmed for order: ${orderNumber}`,
@@ -260,9 +257,9 @@ export const checkPaymentStatus = async (req,res) => {
                         order_id: order.id,
                         user_id: order.user_id,
                         read: false
-                    })
+                    }, {transaction})
                 ]);
-    
+
                 io.to('room').emit('paymentConfirmed', {
                     id: notifications[0].id,
                     type: notifications[0].type,
@@ -275,7 +272,7 @@ export const checkPaymentStatus = async (req,res) => {
                     createdAt: notifications[0].createdAt,
                     read: false
                 });
-            })
+            });
             
             return res.status(200).json({
                 success: true, 
@@ -286,17 +283,15 @@ export const checkPaymentStatus = async (req,res) => {
                     bakongHash: data.data.hash,
                 }
             });
-        }
-        else {
-            return res.status(400).json({success : false, message : "Payment not found not!"});
+        } else {
+            return res.status(400).json({success: false, message: "Payment not found!"});
         }
 
+    } catch(error) {
+        console.error('Payment check error:', error);
+        return res.status(400).json({success: false, message: error.message});
     }
-    catch(error) {
-        return res.status(400).json({success: false, message : error.message})
-    }
-    
-}
+};
 
 
 export const getPaymentByOrderId = async (req, res) => {

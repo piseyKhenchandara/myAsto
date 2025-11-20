@@ -1,9 +1,6 @@
   import db from "../models/index.js";
 import { io } from "../server.js";
 
-
-
-
 export const orders = async (req, res) => {
     
     const { 
@@ -26,7 +23,7 @@ export const orders = async (req, res) => {
 
 
 
-        const result = await db.sequelize.transaction(async(transaction) => {
+        const order = await db.sequelize.transaction(async(transaction) => {
 
       
             await db.Address.create({
@@ -50,7 +47,6 @@ export const orders = async (req, res) => {
             }, {transaction});
 
 
-            const promises = [];
 
             // Add order items
             if(cart.length > 0) {
@@ -63,65 +59,61 @@ export const orders = async (req, res) => {
                     warranty : p.warranty,
                 }));
 
-                promises.push(db.OrderItem.bulkCreate(cartData, {transaction}));
+                await db.OrderItem.bulkCreate(cartData, {transaction});
             }
 
            
-           promises.push(
-            db.Payment.create({
+           
+            await db.Payment.create({
                 order_id: order.id,
                 amount: amount,
                 payment_method: payment_method || 'khqr',
                 status: 'pending'
-            }, {transaction}));
+            }, {transaction});
 
-            const notificationsPromise = await Promise.all([
-                db.Notification.create({
-                    type: 'order',
-                    message: `New order placed: ${order.order_number}`,
-                    target_role: 'admin',
-                    order_id: order.id,
-                    user_id: order.user_id,
-                    read: false
-                }),
-                db.Notification.create({
-                    type: 'order',
-                    message: `New order placed: ${order.order_number}`,
-                    target_role: 'seller',
-                    order_id: order.id,
-                    user_id: order.user_id,
-                    read: false
-                })
-            ]);
-
-            promises.push(notificationsPromise);
-            // ✅ Wait for all promises (same pattern as uploadProduct)
-            const results = await Promise.all(promises);
             
-            // Get notifications from results (last item in array)
-            const notifications = results[results.length - 1];
-            return {order, notifications};
+            
+            return order;
         });
+        
+        
+        const notifications = await Promise.all([
+            db.Notification.create({
+                type: 'newOrder',
+                message: `New order placed: ${order.order_number}`,
+                target_role: 'admin',
+                order_id: order.id,
+                user_id: order.user_id,
+                read: false
+            }),
+            db.Notification.create({
+                type: 'newOrder',
+                message: `New order placed: ${order.order_number}`,
+                target_role: 'seller',
+                order_id: order.id,
+                user_id: order.user_id,
+                read: false
+            })
+        ]);
 
         
-
         io.to('room').emit('newOrder', {
-            id: result.notifications[0].id,
-            type: result.notifications[0].type,
-            message: result.notifications[0].message,
-            order_id: result.id,
-            order_number: result.order.order_number,
-            customer_name: result.order.customer_name,
-            amount: result.order.amount,
-            status: result.order.status,
-            createdAt: result.notifications[0].createdAt,
+            id: notifications[0].id,
+            type: notifications[0].type,
+            message: notifications[0].message,
+            order_id: order.id,
+            order_number: order.order_number,
+            customer_name: order.customer_name,
+            amount: order.amount,
+            status: order.status,
+            createdAt: notifications[0].createdAt,
             read: false
         });
                
         res.status(201).json({success: true, message : "Order created successfully!✅", 
             data : {
-                order_id : result.order.id,
-                order_number : result.order.order_number,
+                order_id : order.id,
+                order_number : order.order_number,
 
             }
         });

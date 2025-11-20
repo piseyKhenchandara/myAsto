@@ -15,7 +15,7 @@ const generateSlug = (name) => {
 const generateUniqueSlug = async (name, excludeId = null) => {
     let slug = generateSlug(name);  
     let counter = 1;             
-
+  
     while(true) {
         const where = {slug};  
         if(excludeId) {
