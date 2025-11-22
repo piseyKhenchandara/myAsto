@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Recipts from '../../../customer/pages/checkout/Recipts'
-import { getUserByIdAPI } from '../../../api/auth.api'
+import { getUserByIdAPI } from '../../../api/Auth.api'
 
 
 const ViewAuthProfile = () => {

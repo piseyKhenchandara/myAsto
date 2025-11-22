@@ -1,6 +1,6 @@
 // src/context/UserContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { whoamiAPI } from '../src/api/auth.api';
+import { whoamiAPI } from '../src/api/Auth.api';
 
 const UserContext = createContext();
 

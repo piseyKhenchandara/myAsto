@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { verificationCodeAPI, resendVerificationCodeAPI } from '../../api/auth.api'
+import { verificationCodeAPI, resendVerificationCodeAPI } from '../../api/Auth.api'
 
 const VerifyEmail = () => {
   const navigate = useNavigate()
