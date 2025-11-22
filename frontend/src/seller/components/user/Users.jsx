@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { viewAlluserAPI } from '../../../api/user.api';
 import { useUser } from '../../../../context/UserContext';
 import { useOutletContext } from 'react-router-dom';
 import Pagination from './Pagination';
 import UsersList from './UsersList';
+import { viewAlluserAPI } from '../../../api/User.api';
 
 const Users = () => {
   const { user: whoami, loading: loadingUserRole } = useUser();
