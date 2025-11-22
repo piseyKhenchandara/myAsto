@@ -21,7 +21,7 @@ const OrdersTableOnMb = ({
             className="bg-white shadow-md rounded-lg border border-gray-200 p-4 hover:shadow-xl transition relative"
           >
             <button 
-              onClick={() => {
+              onClick={() => {s
                 setOpen(true)
                 fetchTheReceipt(order.user_id, order.order_number)
               }}
