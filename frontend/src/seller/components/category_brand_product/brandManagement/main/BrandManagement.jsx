@@ -7,7 +7,7 @@ import DeleteForm from '../../productManagement/products/DeleteForm';
 import { useUser } from '../../../../../../context/UserContext';
 import { useBrandOperations } from '../Hook/useBrandOperations';
 import { useBrandNavigation } from '../Hook/useBrandNavigation';
-import BrandHeader from '../brandManagementHtmlFormat/Brandheader';
+import BrandHeader from '../brandManagementHtmlFormat/BrandHeader'
 import BrandGrid from '../brandManagementHtmlFormat/BrandGrid';
 
 const BrandManagement = ({ brand_slug }) => {
