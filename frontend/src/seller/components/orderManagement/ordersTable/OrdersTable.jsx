@@ -1,5 +1,5 @@
 import React from 'react'
-import OrdersTableOnMb from './ordersTableOnMb'
+import OrdersTableOnMb from './OrdersTableOnMb'
 import OrdersTableMd from './OrdersTableMd'
 
 const OrdersTable = ({ 
