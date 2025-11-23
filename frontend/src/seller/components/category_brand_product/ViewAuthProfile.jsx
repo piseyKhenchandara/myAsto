@@ -13,7 +13,7 @@ const ViewAuthProfile = () => {
     const fetchTargetUser = async () => {
       try {
         setLoading(true);
-        const user = await getUserByIdAPI(user_id); // ✅ Fetch target user
+        const user = await getUserByIdAPI(user_id); //  Fetch target user
         setTargetUser(user);
       } catch (error) {
         console.error('Failed to fetch user:', error);

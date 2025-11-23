@@ -128,7 +128,7 @@ export const deleteBanner = async(req, res) => {
         // Delete from database
         await existingBanner.destroy();
         
-        // ✅ THIS WAS MISSING - Send success response
+        //  THIS WAS MISSING - Send success response
         return res.status(200).json({
             success: true,
             message: "Banner deleted successfully"

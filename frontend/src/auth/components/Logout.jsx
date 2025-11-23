@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { logoutAPI } from '../../api/Auth.api';
-import { useNavigate } from 'react-router-dom'  // ✅ Correct
+import { useNavigate } from 'react-router-dom'  //  Correct
 import { useUser } from '../../../context/UserContext';
 
 
@@ -20,7 +20,7 @@ const Logout = () => {
       await logoutAPI();
       refetchUser();
 
-      setMsg({type : "success", text : "logout successfully!✅"});
+      setMsg({type : "success", text : "logout successfully!"});
 
       setTimeout(() => {
         setMsg({type : "", text : ""});

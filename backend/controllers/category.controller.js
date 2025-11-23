@@ -29,7 +29,7 @@ export const uploadCategory = async (req, res) => {
           
             const newCategory = await db.Category.create({
                 name,
-                slug,                    // ✅ Add the generated slug
+                slug,                    //  Add the generated slug
                 image_url: file.path,
                 public_id: file.filename,
             }, {transaction});
@@ -39,10 +39,10 @@ export const uploadCategory = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: 'Category created successfully!✅',
+            message: 'Category created successfully!',
         });
     } catch (error) {
-        console.error("❌ Error in uploadCategory:", error);
+        console.error(" Error in uploadCategory:", error);
         return res.status(500).json({ message: error.message });
     }
 };
@@ -52,7 +52,7 @@ export const uploadCategory = async (req, res) => {
 export const getCategory = async (req, res) => {
     try {
         const category = await db.Category.findAll({
-        attributes: ["id","name", "image_url","slug"], // ✅ correct key + array
+        attributes: ["id","name", "image_url","slug"], //  correct key + array
         });
 
         res.status(200).json({
@@ -116,7 +116,7 @@ export const updateCategory = async (req,res) => {
             }
         }
 
-        res.status(201).json({success : true, message : "Cateogry update successfully!✅"});
+        res.status(201).json({success : true, message : "Cateogry update successfully!"});
    
     }
     catch(error){
@@ -137,7 +137,7 @@ export const deleteCategory = async(req,res) => {
         if(category.public_id) {
             try{ 
                 await cloudinary.uploader.destroy(category.public_id);
-                console.log('category deleted from cloudinary successfully✅')
+                console.log('category deleted from cloudinary successfully')
             }
             catch(error){
                 return res.status(500).json({message : error.message})

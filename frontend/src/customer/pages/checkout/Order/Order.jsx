@@ -55,7 +55,7 @@ const Order = () => {
       console.log('Response:', response);
 
       if (response.success) {
-        alert('Order placed successfully!✅');
+        alert('Order placed successfully!');
         const khqrResponse = await createKHQRPaymentAPI(response.data.order_id);
         setResFromKHQR(khqrResponse);
         setQrPopup(true);

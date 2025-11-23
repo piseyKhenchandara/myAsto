@@ -16,10 +16,10 @@ export const transporter = nodemailer.createTransport({
 export const verifyConnection = async () => {
   try {
     await transporter.verify();
-    console.log('✅ Email service is ready');
+    console.log(' Email service is ready');
     return true;
   } catch (error) {
-    console.error('❌ Email service connection failed:', error);
+    console.error(' Email service connection failed:', error);
     return false;
   }
 };

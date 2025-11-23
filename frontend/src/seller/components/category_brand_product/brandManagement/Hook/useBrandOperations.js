@@ -64,7 +64,7 @@ export const useBrandOperations = (category_slug) => {
         }
       });
 
-      setMsg({ type: "success", text: "Brand uploaded successfully! ✅" });
+      setMsg({ type: "success", text: "Brand uploaded successfully! " });
       await getBrandsByCategory();
       setTimeout(() => {
         resetForm();
@@ -100,7 +100,7 @@ export const useBrandOperations = (category_slug) => {
         }
       });
 
-      setMsg({ type: 'success', text: "Brand updated successfully! ✅" });
+      setMsg({ type: 'success', text: "Brand updated successfully! " });
       await getBrandsByCategory();
       setTimeout(() => {
         resetForm();
@@ -124,7 +124,7 @@ export const useBrandOperations = (category_slug) => {
 
       await deleteBrandAPI({ id: selectedBrandId });
 
-      setMsg({ type: 'success', text: 'Brand deleted successfully ✅' });
+      setMsg({ type: 'success', text: 'Brand deleted successfully ' });
       await getBrandsByCategory();
       setTimeout(() => {
         resetForm();

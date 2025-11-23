@@ -77,7 +77,7 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
   };
 
   const handleProductClick = (product) => {
-  // ✅ Use the product's own category and brand slugs
+  //  Use the product's own category and brand slugs
   const productCategorySlug = product.Category?.slug;
   const productBrandSlug = product.Brand?.slug;
   

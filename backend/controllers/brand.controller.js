@@ -51,7 +51,7 @@ export const uploadBrand = async (req, res) => {
           public_id: file.filename,
       });
 
-      res.status(201).json({ message: "Brand created successfully!✅" });
+      res.status(201).json({ message: "Brand created successfully!" });
       
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -129,7 +129,7 @@ export const updateBrand = async (req, res) => {
         if (file && brand.public_id) {
             try {
                 await cloudinary.uploader.destroy(brand.public_id);
-                console.log('Old image deleted from Cloudinary ✅');
+                console.log('Old image deleted from Cloudinary ');
             } catch (error) {
                 console.log('Error deleting old image:', error);
             }
@@ -144,7 +144,7 @@ export const updateBrand = async (req, res) => {
 
         res.status(200).json({ 
             success: true,
-            message: 'Brand updated successfully! ✅',
+            message: 'Brand updated successfully! ',
             data: {
                 id: brand.id,
                 name: brand.name,

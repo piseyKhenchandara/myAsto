@@ -316,7 +316,7 @@ export const validateOrderCreation = () => {
         if (!validCompanies.includes(delivery_company)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid delivery company!❌"
+                message: "Invalid delivery company!"
             });
         }
 
@@ -429,7 +429,7 @@ export const validateOrderCreation = () => {
         if (!validMethods.includes(payment_method)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid payment method!❌"
+                message: "Invalid payment method!"
             });
         }
 

@@ -12,7 +12,7 @@ export default (sequelize) => {
             allowNull: false,
      
         },
-        slug: {                           // ✅ Add this
+        slug: {                           //  Add this
             type: DataTypes.STRING(60),
             allowNll: false,
          

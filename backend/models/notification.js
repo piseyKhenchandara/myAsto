@@ -16,7 +16,7 @@ export default (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    readAt: {  // ✅ ADD THIS - you use it in markAsRead!
+    readAt: {  //  ADD THIS - you use it in markAsRead!
       type: DataTypes.DATE,
       allowNull: true
     },

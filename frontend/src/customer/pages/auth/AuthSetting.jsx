@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import { FiUpload } from 'react-icons/fi'
 import Logout from '../../../auth/components/Logout'
-import LocationSelector from '../../components/address/LocationSelector'  // ✅ Import
+import LocationSelector from '../../components/address/LocationSelector'  //  Import
 
 const AuthSetting = ({
   msg,
@@ -19,7 +19,7 @@ const AuthSetting = ({
 
   const [previewImage, setPreviewImage] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [selectedLocation, setSelectedLocation] = useState(user?.address || '')  // ✅ Add state
+  const [selectedLocation, setSelectedLocation] = useState(user?.address || '')  //  Add state
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -29,7 +29,7 @@ const AuthSetting = ({
     }
   };
 
-  // ✅ Handle location change
+  //  Handle location change
   const handleLocationChange = (e) => {
     const location = e.target.value;
     setSelectedLocation(location);
@@ -81,7 +81,7 @@ const AuthSetting = ({
               : 'bg-red-50 text-red-700 border-l-4 border-red-500'
           }`}>
             <div className='flex items-center gap-2'>
-              <span>{msg.type === 'success' ? '✅' : '❌'}</span>
+              <span>{msg.type === 'success' ? '' : ''}</span>
               <span>{msg.text}</span>
             </div>
           </div>
@@ -164,7 +164,7 @@ const AuthSetting = ({
 
               </div>
 
-              {/* ✅ Address - Use LocationSelector Component */}
+              {/*  Address - Use LocationSelector Component */}
               <div>
                 <LocationSelector
                   selectedLocation={selectedLocation}

@@ -110,7 +110,7 @@ export const orders = async (req, res) => {
             read: false
         });
                
-        res.status(201).json({success: true, message : "Order created successfully!✅", 
+        res.status(201).json({success: true, message : "Order created successfully!", 
             data : {
                 order_id : order.id,
                 order_number : order.order_number,

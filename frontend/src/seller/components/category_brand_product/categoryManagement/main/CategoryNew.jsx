@@ -72,7 +72,7 @@ const CategoryNew = ({ category_slug, visible}) => {
 
       setName('');
       setFile(null);
-      setMsg({type : 'success', text : 'Category uploaded successfully✅'});
+      setMsg({type : 'success', text : 'Category uploaded successfully'});
       fetchCategories(); 
 
       setTimeout(() =>{
@@ -107,7 +107,7 @@ const CategoryNew = ({ category_slug, visible}) => {
         }
       );
       
-      setMsg({type: 'success', text: 'Category updated successfully ✅'});
+      setMsg({type: 'success', text: 'Category updated successfully '});
       await fetchCategories();
 
       setTimeout(() => {
@@ -133,7 +133,7 @@ const CategoryNew = ({ category_slug, visible}) => {
         id 
       )
 
-       setMsg({type: 'success', text: 'Category deleted successfully ✅'});
+       setMsg({type: 'success', text: 'Category deleted successfully '});
       await fetchCategories();
 
       setTimeout(() => {

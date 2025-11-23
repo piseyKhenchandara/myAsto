@@ -1,5 +1,5 @@
 import { DataTypes, ENUM } from "sequelize";
-import { Op } from "sequelize";  // ✅ Import Op separately
+import { Op } from "sequelize";  //  Import Op separately
 export default (sequelize) => {
     const Payment = sequelize.define("Payment",{
         id : {
@@ -35,11 +35,11 @@ export default (sequelize) => {
         
         // KHQR specific fields (only for khqr payment method)
         qr_code : {
-            type : DataTypes.TEXT,  // ✅ Keep as TEXT (no index on this)
+            type : DataTypes.TEXT,  //  Keep as TEXT (no index on this)
             allowNull : true,
         },
         qr_md5 : {
-            type : DataTypes.STRING(32),  // ✅ Changed to STRING(32) - MD5 is always 32 chars
+            type : DataTypes.STRING(32),  //  Changed to STRING(32) - MD5 is always 32 chars
             allowNull : true,
             unique : true,
         },
@@ -51,15 +51,15 @@ export default (sequelize) => {
 
         // Payment return from Bakong API
         bakongHash : {
-            type : DataTypes.STRING(255),  // ✅ Changed to STRING (has index potential)
+            type : DataTypes.STRING(255),  //  Changed to STRING (has index potential)
             allowNull : true
         },
         fromAccountId : {
-            type : DataTypes.STRING(100),  // ✅ Changed to STRING
+            type : DataTypes.STRING(100),  //  Changed to STRING
             allowNull : true
         },
         toAccountId : {
-            type : DataTypes.STRING(100),  // ✅ Changed to STRING
+            type : DataTypes.STRING(100),  //  Changed to STRING
             allowNull : true
         },
         currency : {
@@ -67,11 +67,11 @@ export default (sequelize) => {
             defaultValue : 'USD'
         },
         description : {
-            type : DataTypes.TEXT,  // ✅ Keep as TEXT (long content)
+            type : DataTypes.TEXT,  //  Keep as TEXT (long content)
             allowNull : true
         },
         externalRef : {
-            type : DataTypes.STRING(100),  // ✅ Changed to STRING
+            type : DataTypes.STRING(100),  //  Changed to STRING
             allowNull : true
         },
         
@@ -95,7 +95,7 @@ export default (sequelize) => {
             allowNull : true
         },
         instructionRef : {
-            type : DataTypes.STRING(255),  // ✅ Changed to STRING
+            type : DataTypes.STRING(255),  //  Changed to STRING
             allowNull : true
         },
 

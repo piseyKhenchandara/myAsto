@@ -22,7 +22,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "http://REDACTED_SERVER_IP_1"],
   credentials: true,
 }));
 app.use(express.json());
@@ -47,7 +47,7 @@ const server = http.createServer(app);
 
 export const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://REDACTED_SERVER_IP_1"],
     credentials: true
   }
 });
@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
 const startServer = async () => {
   try {
     await sequelize.authenticate();
-    console.log("DB connected successfully✅");
+    console.log("DB connected successfully");
 
     if (process.env.NODE_ENV === 'development') {
       await sequelize.sync();
@@ -88,7 +88,7 @@ const startServer = async () => {
       console.log(`Server is running at http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.log("❌ DB connection error:", error.message);
+    console.log(" DB connection error:", error.message);
     process.exit(1);
   }
 };

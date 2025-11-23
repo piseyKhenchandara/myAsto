@@ -7,7 +7,7 @@ export default (sequelize) => {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true, // ✅ Correct key
+        primaryKey: true, //  Correct key
       },
       user_id: {
         type: DataTypes.INTEGER,

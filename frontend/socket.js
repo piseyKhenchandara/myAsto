@@ -7,7 +7,7 @@ export const socket = io('/', {
 })
 
 socket.on('connect', () => {
-    console.log('✅ Socket CONNECTED:', socket.id);
+    console.log(' Socket CONNECTED:', socket.id);
 });
 
 socket.on('disconnect', (reason) => {

@@ -34,7 +34,7 @@ export const sendWelcomeEmail = async (email, userName) => {
                         <div class="feature-list">
                             <h3>🌟 What you can do now:</h3>
                             <ul>
-                                <li>✅ Access all platform features</li>
+                                <li> Access all platform features</li>
                             </ul>
                         </div>
                         
@@ -53,10 +53,10 @@ export const sendWelcomeEmail = async (email, userName) => {
 
     try {
         const result = await transporter.sendMail(mailOptions);
-        console.log(`✅ Welcome email sent to ${email}:`, result.messageId);
+        console.log(` Welcome email sent to ${email}:`, result.messageId);
         return { success: true, messageId: result.messageId };
     } catch (error) {
-        console.error('❌ Failed to send welcome email:', error);
+        console.error(' Failed to send welcome email:', error);
         throw new Error(`Failed to send welcome email: ${error.message}`);
     }
 };

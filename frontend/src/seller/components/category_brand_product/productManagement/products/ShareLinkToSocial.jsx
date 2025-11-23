@@ -9,10 +9,10 @@ const ShareLinkToSocial = ({productDetail}) => {
 
         {/* Messenger (opens chat with the link in Messenger app) */}
         <a
-            href={`fb-messenger://share?link=${window.location.href}`}
+           href={`https://www.facebook.com/dialog/share?app_id=YOUR_APP_ID&href=${encodeURIComponent(window.location.href)}`}
             target="_blank"
             rel="noopener noreferrer"
-            title="Send via Messenger"
+            title="Share via Facebook"
             className="text-blue-600 hover:text-blue-800"
         >
             <FaFacebookMessenger size={20} />
@@ -20,7 +20,7 @@ const ShareLinkToSocial = ({productDetail}) => {
 
         {/* Telegram (opens chat with pre-filled link) */}
         <a
-            href={`https://t.me/share/url?url=${window.location.href}&text=${productDetail.name}`}
+            href={`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(productDetail.name)}`}
             target="_blank"
             rel="noopener noreferrer"
             title="Send via Telegram"
@@ -31,7 +31,7 @@ const ShareLinkToSocial = ({productDetail}) => {
 
         {/* WhatsApp (opens chat with pre-filled link) */}
         <a
-            href={`https://api.whatsapp.com/send?text=${productDetail.name} ${window.location.href}`}
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(productDetail.name + ' ' + window.location.href)}`}
             target="_blank"
             rel="noopener noreferrer"
             title="Send via WhatsApp"

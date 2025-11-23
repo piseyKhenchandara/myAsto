@@ -7,7 +7,7 @@ export const uploadBanner = async ({ category_slug, productId, file, onProgress 
 
     const { data } = await http.post(`/products/category/${category_slug}/upload/product-banner`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: onProgress,  // ✅ Use the correct parameter name
+        onUploadProgress: onProgress,  //  Use the correct parameter name
     });
     
     return data;

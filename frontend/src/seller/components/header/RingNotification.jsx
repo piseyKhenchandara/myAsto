@@ -11,9 +11,9 @@ const RingNotification = () => {
     unreadCount, 
     markAllAsRead, 
     markAsRead,
-    loadMoreNotifications,  // ✅ Add this
-    hasMore,                 // ✅ Add this
-    loading                  // ✅ Add this
+    loadMoreNotifications,  //  Add this
+    hasMore,                 //  Add this
+    loading                  //  Add this
   } = useNotifications();
   const dropdownRef = useRef(null);
 
@@ -150,7 +150,7 @@ const RingNotification = () => {
 
                   ))}
                   
-                  {/* ✅ Only show button if there are more notifications */}
+                  {/*  Only show button if there are more notifications */}
                   {hasMore && (
                     <button 
                       onClick={loadMoreNotifications}

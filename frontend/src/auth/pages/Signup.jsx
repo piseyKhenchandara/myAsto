@@ -47,7 +47,7 @@ const Signup = () => {
 
       await signupAPI(name, email, password)
 
-      setMsg({ type: 'success', text: 'User signed up successfully! ✅' })
+      setMsg({ type: 'success', text: 'User signed up successfully! ' })
       setTimeout(() => setMsg({ type: '', text: '' }), 3000)
       navigate('/auth/verify-email');
       

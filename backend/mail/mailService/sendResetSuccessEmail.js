@@ -5,13 +5,13 @@ export const sendResetSuccessEmail = async (email, userName) => {
 
     // Validate inputs first
     if (!email) {
-        console.error('❌ No email provided to sendResetSuccessEmail');
+        console.error(' No email provided to sendResetSuccessEmail');
         throw new Error("Email address is required");
     }
 
     // Check transporter
     if (!transporter) {
-        console.error('❌ Transporter is null/undefined');
+        console.error(' Transporter is null/undefined');
         throw new Error("Email transporter not configured");
     }
 
@@ -85,7 +85,7 @@ export const sendResetSuccessEmail = async (email, userName) => {
         console.log(` Password reset success email sent to ${email}:`, result.messageId);
         return { success: true, messageId: result.messageId };
     } catch (error) {
-        console.error("❌ DETAILED EMAIL ERROR:", {
+        console.error(" DETAILED EMAIL ERROR:", {
             message: error.message,
             stack: error.stack,
             name: error.name,

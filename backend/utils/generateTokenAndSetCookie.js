@@ -3,12 +3,12 @@ import jwt from 'jsonwebtoken';
 export const generateTokenAndSetCookie = (res,userId, userRole) => {
 
     if (!process.env.JWT_SECRET) {
-        throw new Error("❌ JWT_SECRET is missing from environment variables (.env)");
+        throw new Error(" JWT_SECRET is missing from environment variables (.env)");
     }
 
-    // ✅ Defensive check for missing userId
+    //  Defensive check for missing userId
     if (!userId) {
-        throw new Error("❌ Cannot generate token: userId is missing or invalid");
+        throw new Error(" Cannot generate token: userId is missing or invalid");
     }
 
     const token = jwt.sign(

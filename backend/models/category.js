@@ -18,7 +18,7 @@ export default (sequelize) => {
         unique: true,
       },
       image_url: {
-        type: DataTypes.STRING(255), // ✅ instead of TEXT
+        type: DataTypes.STRING(255), //  instead of TEXT
         allowNull: false
       },
       public_id : {

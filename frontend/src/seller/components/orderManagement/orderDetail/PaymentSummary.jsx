@@ -4,7 +4,7 @@ const PaymentSummary = ({ orderItems, deliveryCompany, discountAmount }) => {
   const subtotal = orderItems?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
   const delivery = 0;
   const discount = parseFloat(discountAmount) || 0;
-  const total = subtotal + delivery - discount; // ✅ Removed tax
+  const total = subtotal + delivery - discount; //  Removed tax
 
   return (
     <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>

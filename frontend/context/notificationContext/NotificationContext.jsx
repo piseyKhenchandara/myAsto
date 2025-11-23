@@ -39,11 +39,11 @@ export const NotificationProvider = ({children}) => {
         } catch (error) {
             console.error('Failed to fetch notifications:', error);
         } finally {
-            setLoading(false); // ❌ YOU WERE MISSING THIS!
+            setLoading(false); //  YOU WERE MISSING THIS!
         }
     }, []);
 
-    // ✅ Add loadMoreNotifications function
+    //  Add loadMoreNotifications function
     const loadMoreNotifications = useCallback(() => {
         if (!loading && hasMore) {
             fetchNotifications(page + 1, true);
@@ -136,9 +136,9 @@ export const NotificationProvider = ({children}) => {
             unreadCount,
             markAllAsRead,
             markAsRead,
-            loadMoreNotifications, // ❌ YOU WERE MISSING THIS!
-            hasMore,                // ❌ YOU WERE MISSING THIS!
-            loading                 // ❌ YOU WERE MISSING THIS!
+            loadMoreNotifications, //  YOU WERE MISSING THIS!
+            hasMore,                //  YOU WERE MISSING THIS!
+            loading                 //  YOU WERE MISSING THIS!
         }}>
             {children}
         </NotificationContext.Provider>

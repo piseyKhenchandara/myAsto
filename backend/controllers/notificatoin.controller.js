@@ -4,7 +4,7 @@ import db from '../models/index.js';
 const { Notification } = db;
 
 // GET all notifications (for admin/seller to VIEW)
-export const getNotifications = async (req, res) => {  // ✅ Fixed function name
+export const getNotifications = async (req, res) => {  //  Fixed function name
   try {
     const { role } = req.user;
     const page = parseInt(req.query.page) || 1;
@@ -15,7 +15,7 @@ export const getNotifications = async (req, res) => {  // ✅ Fixed function nam
       return res.status(403).json({ message: 'Access denied' });
     }
 
-    // ✅ Use findAndCountAll to get both count and rows
+    //  Use findAndCountAll to get both count and rows
     const { count, rows: notifications } = await Notification.findAndCountAll({
       where: { target_role: role },
       order: [['createdAt', 'DESC']],
@@ -27,14 +27,14 @@ export const getNotifications = async (req, res) => {  // ✅ Fixed function nam
       where: { target_role: role, read: false }
     });
 
-    // ✅ Fixed syntax errors in response object
+    //  Fixed syntax errors in response object
     res.json({ 
       notifications,
       unreadCount, 
       totalCount: count, 
       currentPage: page, 
-      totalPages: Math.ceil(count / limit),  // ✅ Fixed typo: totalPage -> totalPages
-      hasMore: offset + notifications.length < count  // ✅ Fixed typo: lenth -> length, and proper object syntax
+      totalPages: Math.ceil(count / limit),  //  Fixed typo: totalPage -> totalPages
+      hasMore: offset + notifications.length < count  //  Fixed typo: lenth -> length, and proper object syntax
     });
   } catch (error) {
     console.error('Error fetching notifications:', error);

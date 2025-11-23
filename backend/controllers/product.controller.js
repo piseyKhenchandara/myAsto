@@ -169,7 +169,7 @@ export const getProductsByBrandNCategory = async( req,res) => {
         })
     }
     catch (error) {
-        console.error("❌ Error:", error.message);
+        console.error(" Error:", error.message);
         res.status(500).json({ success: false, message: error.message });
     }
 }
@@ -277,7 +277,7 @@ export const uploadProduct = async(req, res) => {
             return product;
         })
         
-        res.status(201).json({ success : true, message : "Product uploaded successfully✅"});
+        res.status(201).json({ success : true, message : "Product uploaded successfully"});
     }
     catch(error){
         res.status(500).json({message : error.message})
@@ -462,7 +462,7 @@ export const deleteProduct = async(req,res) => {
         for(const pid of imagesPublicId) {
             try {
                 await cloudinary.uploader.destroy(pid);
-                console.log('Image deleted successfully from cloudinary✅!')
+                console.log('Image deleted successfully from cloudinary!')
             } 
             catch (e) {
                 console.warn("Cloudinary destroy failed:", pid, e.message);
@@ -481,7 +481,7 @@ export const deleteProduct = async(req,res) => {
         for(const vdo of videosPublicId) {
             try{
                 await cloudinary.uploader.destroy(vdo, {resource_type: "video"});
-                console.log('Video deleted successfully from cloudinary✅!')
+                console.log('Video deleted successfully from cloudinary!')
             }
             catch (e) {
                 console.warn("Cloudinary video destroy failed:", vdo, e.message);
@@ -489,7 +489,7 @@ export const deleteProduct = async(req,res) => {
         }
 
         await product.destroy();
-        res.status(200).json({message : 'Product deleted successfully✅'});
+        res.status(200).json({message : 'Product deleted successfully'});
     }
     catch(error){
         return res.status(500).json({message : error.message});
@@ -509,7 +509,7 @@ export const deleteProduct = async(req,res) => {
         };
 
         res.status(201).json({ 
-            message: "Product uploaded successfully ✅", 
+            message: "Product uploaded successfully ", 
             product: response 
         }); */
 

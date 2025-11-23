@@ -95,7 +95,7 @@ export const googleAuth = async (req, res) => {
                     });
                     cloudinaryUrl = uploadResult.secure_url;
                     publicId = uploadResult.public_id;
-                    console.log('✅ Photo uploaded to Cloudinary:', cloudinaryUrl);
+                    console.log(' Photo uploaded to Cloudinary:', cloudinaryUrl);
                 } catch (uploadError) {
                     console.error('⚠️ Failed to upload photo:', uploadError);
                     
@@ -116,7 +116,7 @@ export const googleAuth = async (req, res) => {
 
 
 
-            console.log('✅ New user created:', newUser.id);
+            console.log(' New user created:', newUser.id);
             generateTokenAndSetCookie(res, newUser.id, newUser.role);
             await sendWelcomeEmail(newUser.email, newUser.name);
 
@@ -154,7 +154,7 @@ export const googleAuth = async (req, res) => {
         }
     
     } catch (error) {
-        console.error('❌ Google auth error:', error);
+        console.error(' Google auth error:', error);
         return res.status(500).json({
             success: false, 
             message: error.message
@@ -282,12 +282,12 @@ export const verificationCode = async (req, res) => {
         const notification = await db.Notification.create({
             type: 'userVerified',
             message: `User verified: ${newUser.name}`,
-            target_role: 'admin', // ✅ Add this
+            target_role: 'admin', //  Add this
             user_id: newUser.id,
             read: false
         });
 
-        // ✅ Emit socket event
+        //  Emit socket event
         io.to('room').emit('userVerified', {
             id: notification.id,
             type: notification.type,
@@ -301,7 +301,7 @@ export const verificationCode = async (req, res) => {
 
         
         
-        res.status(200).json({success : true, message : "verify successfully!✅",
+        res.status(200).json({success : true, message : "verify successfully!",
             user : {
                 is_verified : 1,
                 role : findUser.role,
@@ -396,7 +396,7 @@ export const login = async(req,res) => {
         //here also
         generateTokenAndSetCookie(res,findUser.id, findUser.role);
 
-        res.status(200).json({message : "User login successfully✅", 
+        res.status(200).json({message : "User login successfully", 
             user : {
                 email : findUser.email,
                 role : findUser.role,
@@ -473,12 +473,12 @@ export const resetPassword = async (req,res) => {
         })
 
          sendResetSuccessEmail(findUser.email, findUser.name)
-            .then(() => console.log('✅ Success email sent'))
+            .then(() => console.log(' Success email sent'))
             .catch(err => console.error('⚠️ Email failed but password updated:', err.message));
             
         res.status(200).json({
             success: true,
-            message: "Password updated successfullly!✅"
+            message: "Password updated successfullly!"
         });
 
         

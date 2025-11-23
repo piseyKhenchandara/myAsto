@@ -97,7 +97,7 @@ const UserProfile = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="text-red-500 text-xl mb-4">❌</div>
+          <div className="text-red-500 text-xl mb-4"></div>
           <p className="text-red-600">{error}</p>
           <button 
             onClick={fetchUserProfile}

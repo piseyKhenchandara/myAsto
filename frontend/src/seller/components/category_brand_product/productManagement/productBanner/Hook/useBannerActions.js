@@ -43,7 +43,7 @@ export const useBannerActions = (category_slug, getBannersByCate) => {
         }
       });
 
-      setMsg({ type: "success", text: 'Banner uploaded successfully! ✅' });
+      setMsg({ type: "success", text: 'Banner uploaded successfully! ' });
       await getBannersByCate();
 
       setTimeout(() => {
@@ -69,7 +69,7 @@ export const useBannerActions = (category_slug, getBannersByCate) => {
       setSubmit({ formName: 'delete', process: true });
       await deleteBannerAPI(id);
 
-      setMsg({ type: 'success', text: 'Banner deleted successfully ✅' });
+      setMsg({ type: 'success', text: 'Banner deleted successfully ' });
       await getBannersByCate();
 
       setTimeout(() => {

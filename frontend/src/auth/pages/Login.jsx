@@ -49,7 +49,7 @@ const login = async (e) => {
       await refetchUser();
       
 
-      setMsg({ type: 'success', text: 'Logged in successfully! ✅' })
+      setMsg({ type: 'success', text: 'Logged in successfully! ' })
       setTimeout(() => {
         setMsg({ type: '', text: '' })
         navgiate('/user-profile')

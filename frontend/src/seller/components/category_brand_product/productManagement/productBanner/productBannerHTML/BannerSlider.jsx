@@ -17,7 +17,7 @@ const BannerSlider = ({
   handleOpenDelete
 }) => {
   return (
-    // ✅ Increased heights across all breakpoints
+    //  Increased heights across all breakpoints
     <div className='relative w-full h-64 sm:h-80 overflow-hidden bg-gray-100'>
       {/* Banner Container */}
       <div
@@ -38,7 +38,7 @@ const BannerSlider = ({
                 : `/category/${category_slug}/brand/${brand_slug}/product/detail/${b.Product?.id}/${b.Product.slug}`
               }
             >
-              {/* ✅ Changed from object-contain to object-cover */}
+              {/*  Changed from object-contain to object-cover */}
               <img
                 src={b.image_url}
                 alt={b.Product?.name}

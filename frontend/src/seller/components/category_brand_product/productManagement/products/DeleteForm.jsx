@@ -116,7 +116,7 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
             }`}
             onClick={deleteCate}
             disabled={submit.process}
-            style={{ pointerEvents: submit.process ? 'none' : 'auto' }} // ✅ Extra safety
+            style={{ pointerEvents: submit.process ? 'none' : 'auto' }} //  Extra safety
           >
             {submit.process ? (
               <span className="flex items-center justify-center gap-2">

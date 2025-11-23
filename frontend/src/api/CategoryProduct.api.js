@@ -33,7 +33,7 @@ export const editCategoryAPI = async (name,id, file, onUploadProgress) => {
 // In CategoryProduct.api.js
 export const getCategoriesAPI = async () => {
     const {data} = await http.get('/category/view-all-categories');
-    return data.category; // ✅ Return just the categories array
+    return data.category; //  Return just the categories array
 }
 
 

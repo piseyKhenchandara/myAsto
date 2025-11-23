@@ -48,7 +48,7 @@ export const useCategoryOperations = () => {
         }
       });
       await fetchCategories();
-      setMsg({ type: 'success', text: 'Category uploaded successfully ✅' });
+      setMsg({ type: 'success', text: 'Category uploaded successfully ' });
       setTimeout(() => {
         resetForm();
 
@@ -79,7 +79,7 @@ export const useCategoryOperations = () => {
         setProgress(pct);
         return pct;
       });
-      setMsg({ type: 'success', text: 'Category updated successfully ✅' });
+      setMsg({ type: 'success', text: 'Category updated successfully ' });
        setTimeout(() => {
         resetForm();
 
@@ -102,7 +102,7 @@ export const useCategoryOperations = () => {
     try {
       setSubmit({ formName: 'delete', process: true });
       await deleteCategoryAPI(id);
-      setMsg({ type: 'success', text: 'Category deleted successfully ✅' });
+      setMsg({ type: 'success', text: 'Category deleted successfully ' });
        setTimeout(() => {
         resetForm();
 

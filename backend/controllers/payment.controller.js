@@ -4,7 +4,7 @@ import axios from 'axios';
 import { io } from "../server.js";
 import { Op } from "sequelize";
 
-export const createKHQRPayment = async (req, res) => {
+export const createKHQRPayment = async (req,  res) => {
     const {order_id} = req.params;
     try {
         
@@ -72,7 +72,7 @@ export const createKHQRPayment = async (req, res) => {
 
 
         // Check if qrData is valid
-        if (!qrData || !qrData.data || !qrData.data.qr) { // ✅ Changed from qrData.data.qr
+        if (!qrData || !qrData.data || !qrData.data.qr) { //  Changed from qrData.data.qr
             throw new Error('KHQR generation failed - no QR code returned');
         }
 
@@ -138,14 +138,14 @@ export const checkPaymentStatus = async (req, res) => {
         });
 
         if (!payment) {
-            console.log('❌ Payment not found'); 
+            console.log(' Payment not found'); 
             return res.status(404).json({success: false, message: "User haven't paid yet!"});
         }
 
         if (payment.paid && payment.status === 'paid') {
             return res.status(200).json({
                 success: true, 
-                message: "Payment already confirmed!✅", 
+                message: "Payment already confirmed!", 
                 data: {
                     order_id: order.id,
                     order_number: order.order_number,
@@ -276,7 +276,7 @@ export const checkPaymentStatus = async (req, res) => {
             
             return res.status(200).json({
                 success: true, 
-                message: "Payment confirmed!✅", 
+                message: "Payment confirmed!", 
                 data: {
                     order_id: order.id,
                     order_number: orderNumber,
