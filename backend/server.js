@@ -30,7 +30,7 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
+app.use('/api/products', productRoutes);-
 
 app.use('/api/category', categoryRoutes);
 app.use('/api/brand', brandRoutes);
