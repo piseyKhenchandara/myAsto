@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import pisey from '../src/assets/ceo/Pisey.png'
 import endy from '../src/assets/ceo/endyong.png'
 import panha from '../src/assets/ceo/panhaPlaceholder.png'
@@ -89,35 +89,9 @@ const teamMembers = [
 ]
 
 const AboutUs = () => {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('show')
-        })
-      },
-      { threshold: 0.15 }
-    )
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <>
       <style>{`
-        .fade-in, .fade-left, .fade-right, .scale-in {
-          opacity: 0;
-          transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        .fade-in.show { opacity: 1; transform: translateY(0); }
-        .fade-left { transform: translateX(-40px); }
-        .fade-left.show { opacity: 1; transform: translateX(0); }
-        .fade-right { transform: translateX(40px); }
-        .fade-right.show { opacity: 1; transform: translateX(0); }
-        .scale-in { transform: scale(0.85); }
-        .scale-in.show { opacity: 1; transform: scale(1); }
-
         .gradient-text {
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           -webkit-background-clip: text;
@@ -145,7 +119,7 @@ const AboutUs = () => {
       <div className="bg-gradient-to-b from-white via-gray-50 to-white min-h-screen py-10 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto space-y-16">
           {/* Title */}
-          <div className="text-center space-y-4 pt-8 fade-in">
+          <div className="text-center space-y-4 pt-8">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900">
               About <span className="gradient-text">ASTO</span>
             </h1>
@@ -156,7 +130,7 @@ const AboutUs = () => {
 
           {/* Mission */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-gray-100 hover:border-green-500 fade-left">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-gray-100 hover:border-green-500 transition-colors">
               <h2 className="text-xl sm:text-3xl font-bold">Our Mission</h2>
               <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-green-600 my-3"></div>
               <p className="text-gray-600 text-sm sm:text-base">
@@ -164,7 +138,7 @@ const AboutUs = () => {
               </p>
             </div>
 
-            <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-gray-100 hover:border-green-500 fade-right">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-gray-100 hover:border-green-500 transition-colors">
               <h2 className="text-xl sm:text-3xl font-bold">What We Offer</h2>
               <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-green-600 my-3"></div>
               <ul className="space-y-3 text-gray-600 text-sm sm:text-base">
@@ -178,7 +152,7 @@ const AboutUs = () => {
 
           {/* Team */}
           <div className="space-y-10">
-            <div className="text-center fade-in">
+            <div className="text-center">
               <h2 className="text-2xl sm:text-4xl font-bold">Meet Our Team</h2>
               <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto">
                 Passionate developers working together to bring you the best experience.
@@ -189,7 +163,7 @@ const AboutUs = () => {
               {teamMembers.map((member, i) => (
                 <div
                   key={i}
-                  className="group rounded-xl overflow-hidden w-full sm:w-72 lg:w-80 bg-white shadow hover:shadow-xl scale-in"
+                  className="group rounded-xl overflow-hidden w-full sm:w-72 lg:w-80 bg-white shadow hover:shadow-xl transition-shadow"
                 >
                   <div className="team-card-image-container">
                     <img
@@ -200,10 +174,10 @@ const AboutUs = () => {
                   </div>
 
                   <div className="p-5 text-center">
-                    <h3 className="text-lg sm:text-xl font-bold group-hover:text-green-600">
+                    <h3 className="text-lg sm:text-xl font-bold group-hover:text-green-600 transition-colors">
                       {member.name}
                     </h3>
-                    <span className="bg-green-100 text-green-700 px-2 py-1 text-xs rounded-full block my-1">
+                    <span className="bg-green-100 text-green-700 px-2 py-1 text-xs rounded-full inline-block my-1">
                       {member.role}
                     </span>
                     <SocialLinks links={member.links} />
@@ -214,7 +188,7 @@ const AboutUs = () => {
           </div>
 
           {/* Closing */}
-          <div className="text-center pt-10 border-t border-gray-200 fade-in">
+          <div className="text-center pt-10 border-t border-gray-200">
             <p className="text-gray-600 italic text-sm sm:text-lg">
               "At ASTO, we build trust one order at a time."
             </p>

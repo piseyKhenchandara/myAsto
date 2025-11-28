@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: myasto_db
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      #MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - myasto-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: myasto_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./.env
+    environment:
+      NODE_ENV: production
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: 3306
+      JWT_SECRET: ${JWT_SECRET}
+      CLOUDINARY_CLOUD_NAME: ${CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUD_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUD_API_SECRET}
+      BAKONG_ACCOUNT_NAME: ${BAKONG_ACCOUNT_NAME}
+      BAKONG_ACCOUNT_USERNAME: ${BAKONG_ACCOUNT_USERNAME}
+      BAKONG_PHONE_NUMBER: ${BAKONG_PHONE_NUMBER}
+      BAKONG_ACCESS_TOKEN: ${BAKONG_ACCESS_TOKEN}
+      BAKONG_PROD_BASE_API_URL: ${BAKONG_PROD_BASE_API_URL}
+      BAKONG_DEV_BASE_API_URL: ${BAKONG_DEV_BASE_API_URL}
+      MAIL_USER: ${MAIL_USER}                           # ← Added
+      MAIL_PASS: ${MAIL_PASS}       
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - myasto-network
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: myasto_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - myasto-network
+
+volumes:
+  mysql_data:
+
+networks:
+  myasto-network:
+    driver: bridge

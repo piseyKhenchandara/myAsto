@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@prisma/client": "^7.0.1",
     "bakong-khqr": "^1.0.20",
     "bcrypt": "^6.0.0",
     "cloudinary": "^1.41.3",

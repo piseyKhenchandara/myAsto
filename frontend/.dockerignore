@@ -2,10 +2,14 @@ node_modules
 npm-debug.log
 .env
 .env.local
+.env.development
+.env.production
 .git
 .gitignore
 README.md
 .DS_Store
 *.log
+dist
+build
 coverage
 .vscode

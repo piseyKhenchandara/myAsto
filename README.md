@@ -8,14 +8,14 @@ A full-stack e-commerce platform with seller features, authentication, OAuth, pr
 
 ## Table of Contents
 
-* [Project Overview](#project-overview)
-* [Tech Stack](#tech-stack)
-* [Folder Structure](#folder-structure)
-* [Environment Variables](#environment-variables)
-* [Getting Started](#getting-started)
-* [API Endpoints](#api-endpoints)
-* [Development Timeline](#development-timeline)
-* [TODOs & Roadmap](#todos--roadmap)
+- [Project Overview](#project-overview)
+- [Tech Stack](#tech-stack)
+- [Folder Structure](#folder-structure)
+- [Environment Variables](#environment-variables)
+- [Getting Started](#getting-started)
+- [API Endpoints](#api-endpoints)
+- [Development Timeline](#development-timeline)
+- [TODOs & Roadmap](#todos--roadmap)
 
 ---
 
@@ -23,45 +23,46 @@ A full-stack e-commerce platform with seller features, authentication, OAuth, pr
 
 MYASTO is an e-commerce application allowing sellers to manage products and buyers to browse and purchase items with a complete shopping cart system.
 
-* `backend/` — Node.js + Express API, Sequelize ORM, authentication, OAuth, product management
-* `frontend/` — React + Vite client with Seller and Buyer flows, localization
+- `backend/` — Node.js + Express API, Sequelize ORM, authentication, OAuth, product management
+- `frontend/` — React + Vite client with Seller and Buyer flows, localization
 
 ---
 
 ## Tech Stack
 
-* **Backend:** Node.js, Express, Sequelize, MySQL, JWT, Passport (OAuth)
-* **Frontend:** React + Vite, React Router
-* **Database:** MySQL
-* **Payment:** Demo/sandbox integration
-* **Language:** Google Cloud Translate API
-* **File Upload:** Multer + Cloudinary
+- **Backend:** Node.js, Express, Sequelize, MySQL, JWT, Passport (OAuth)
+- **Frontend:** React + Vite, React Router
+- **Database:** MySQL
+- **Payment:** Demo/sandbox integration
+- **Language:** Google Cloud Translate API
+- **File Upload:** Multer + Cloudinary
 
 ---
 
 ## Folder Structure
+
 myasto/
 ├─ backend/
-│  ├─ config/           # Database & Sequelize config
-│  ├─ controllers/      # Auth, product, payment, category, brand, order controllers
-│  ├─ mail/             # Email templates & services
-│  ├─ middleware/       # authenticate.js, authorizeRoles.js, uploadImage.js, uploadVideo.js
-│  ├─ models/           # Sequelize models (User, Product, Category, Brand, Order)
-│  ├─ repositories/     # Data access layer
-│  ├─ routes/           # auth.routes.js, product.routes.js, category.routes.js, brand.routes.js, order.routes.js
-│  ├─ utils/            # Helper functions
-│  ├─ .env              # Environment variables (DO NOT COMMIT)
-│  ├─ .env.example      # Environment template
-│  ├─ server.js         # Entry point
-│  └─ package.json
+│ ├─ config/ # Database & Sequelize config
+│ ├─ controllers/ # Auth, product, payment, category, brand, order controllers
+│ ├─ mail/ # Email templates & services
+│ ├─ middleware/ # authenticate.js, authorizeRoles.js, uploadImage.js, uploadVideo.js
+│ ├─ models/ # Sequelize models (User, Product, Category, Brand, Order)
+│ ├─ repositories/ # Data access layer
+│ ├─ routes/ # auth.routes.js, product.routes.js, category.routes.js, brand.routes.js, order.routes.js
+│ ├─ utils/ # Helper functions
+│ ├─ .env # Environment variables (DO NOT COMMIT)
+│ ├─ .env.example # Environment template
+│ ├─ server.js # Entry point
+│ └─ package.json
 ├─ frontend/
-│  ├─ context/          # React Context for state management
-│  ├─ public/           # Static assets
-│  ├─ src/              # React components & pages
-│  ├─ utils/            # Frontend utilities
-│  ├─ vite.config.js    # Vite configuration (proxy setup)
-│  └─ package.json
-├─ languages/           # Localization files
+│ ├─ context/ # React Context for state management
+│ ├─ public/ # Static assets
+│ ├─ src/ # React components & pages
+│ ├─ utils/ # Frontend utilities
+│ ├─ vite.config.js # Vite configuration (proxy setup)
+│ └─ package.json
+├─ languages/ # Localization files
 ├─ .gitignore
 └─ README.md
 
@@ -70,11 +71,12 @@ myasto/
 ## Environment Variables
 
 Create `backend/.env`:
+
 ```env
 PORT=5000
 DB_HOST=localhost
 DB_USER=root
-DB_PASS=your_password
+DB_PASSWORD=your_password
 DB_NAME=REDACTED_DB_NAME
 NODE_ENV=development
 JWT_SECRET=your_jwt_secret
@@ -171,3 +173,4 @@ TODOs & Roadmap
 SeYz-GHB
 GitHub: @SeYz-GHB
 
+```

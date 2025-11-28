@@ -40,6 +40,13 @@ app.use('/api/payment', paymentRoute);
 app.use('/api/users', userRoute);
 app.use('/api/recipts', reciptRoute);
 app.use('/api/notifications', notificationRoute);
+
+
+
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
+
+
 const PORT = process.env.PORT || 5000;
 
 // Create HTTP server and attach Socket.IO
@@ -77,12 +84,9 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log("DB connected successfully");
 
-    if (process.env.NODE_ENV === 'development') {
-      await sequelize.sync();
-      console.log("DB schema synchronized (alter: true)");
-    } else {
-      console.log('🚫 Skipping sync in production. Use migrations.');
-    }
+    // Temporarily force sync in Docker
+    await sequelize.sync({ alter: true });
+    console.log("✅ DB schema synchronized (alter: true)");
 
     server.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}`);
@@ -94,5 +98,6 @@ const startServer = async () => {
 };
 
 startServer();
+
 
 

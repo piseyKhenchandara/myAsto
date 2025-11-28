@@ -97,6 +97,7 @@ export const requireAuth = async () => {
     if(!user) throw redirect('/auth');
     if(!user.is_verified) throw redirect('/auth/verify-email');
 
+    return null;
 
   }
   catch(error) {
