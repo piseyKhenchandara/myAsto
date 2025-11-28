@@ -4,6 +4,7 @@ services:
   # MySQL Database
   db:
     image: mysql:8.0
+    platform: linux/amd64
     container_name: myasto_db
     restart: always
     env_file:
