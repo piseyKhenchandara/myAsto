@@ -1,15 +1,12 @@
 #!/bin/sh
-# wait-for-db.sh
-
 set -e
 
 host="$DB_HOST"
-user="$DB_USER"
-password="$DB_PASSWORD"
+port="${DB_PORT:-3306}"
 
-echo "Waiting for database at $host..."
+echo "Waiting for database at $host:$port..."
 
-until mysql -h "$host" -u "$user" -p"$password" -e "SELECT 1" &> /dev/null; do
+until nc -z "$host" "$port"; do
   echo "Database not ready yet, sleeping 2 seconds..."
   sleep 2
 done
