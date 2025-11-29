@@ -3,109 +3,119 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
 
+// ==================================================================
+// Allowed image types for ALL image uploads (flexible for phones)
+// ==================================================================
+const ALLOWED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+  "image/heif",
+  "image/svg+xml"
+];
 
+// ==================================================================
+// UNIVERSAL IMAGE FILTER
+// ==================================================================
+const imageFileFilter = (req, file, cb) => {
+  const isImage = file.mimetype?.startsWith("image/");
+
+  if (!isImage) {
+    return cb(new Error("Only image files are allowed"), false);
+  }
+
+  // Allow flexible formats (JPEG, PNG, WebP, HEIC, HEIF, SVG, etc.)
+  const ok = ALLOWED_IMAGE_TYPES.includes(file.mimetype);
+
+  cb(ok ? null : new Error("Unsupported image format"), ok);
+};
+
+// ==================================================================
+// 1. PROFILE IMAGE UPLOAD
+// ==================================================================
 const profileStorage = new CloudinaryStorage({
   cloudinary,
-  params: async (req, file) => ({
-    folder: "profile_pictures", 
+  params: async () => ({
+    folder: "profile_pictures",
     resource_type: "image",
     format: undefined,
-    transformation: [{ width: 512, height: 512, crop: "limit" }]  
+    transformation: [{ width: 512, height: 512, crop: "limit" }]
   })
 });
-
-const profileFileFilter = (req, file, cb) => {
-  const ok = ["image/jpeg", "image/png", "image/webp"].includes(file.mimetype);
-  cb(ok ? null : new Error("Only JPEG, PNG, or WebP allowed"), ok);
-};
 
 export const uploadProfilePicture = multer({
   storage: profileStorage,
-  limits: { fileSize: 2 * 1024 * 1024 }, 
-  fileFilter: profileFileFilter
-}).single("image"); 
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter: imageFileFilter
+}).single("image");
 
-
-
-
-
-
+// ==================================================================
+// 2. CATEGORY IMAGE UPLOAD
+// ==================================================================
 const categoryStorage = new CloudinaryStorage({
   cloudinary,
-  params: async (req, file) => ({
-    folder: "category_images",  
+  params: async () => ({
+    folder: "category_images",
     resource_type: "image",
-    format: undefined,
     transformation: [{ width: 512, height: 512, crop: "limit" }]
   })
 });
-
-const categoryFileFilter = (req, file, cb) => {
-  const ok = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"].includes(file.mimetype);
-  cb(ok ? null : new Error("Only JPEG, PNG, WebP, or SVG allowed"), ok);
-};
 
 export const uploadCategoryImage = multer({
   storage: categoryStorage,
-  limits: { fileSize: 2 * 1024 * 1024 },  // 2MB
-  fileFilter: categoryFileFilter
-}).single("image");  // ← Uses req.file
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: imageFileFilter
+}).single("image");
 
-
-// ========================================
-// 3. BRAND LOGO UPLOAD (Single Image)
-// ========================================
+// ==================================================================
+// 3. BRAND LOGO UPLOAD
+// ==================================================================
 const brandStorage = new CloudinaryStorage({
   cloudinary,
-  params: async (req, file) => ({
-    folder: "brand_logos",  // ← Separate folder for brands
+  params: async () => ({
+    folder: "brand_logos",
     resource_type: "image",
-    format: undefined,
     transformation: [{ width: 512, height: 512, crop: "limit" }]
   })
 });
 
-const brandFileFilter = (req, file, cb) => {
-  const ok = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"].includes(file.mimetype);
-  cb(ok ? null : new Error("Only JPEG, PNG, WebP, or SVG allowed"), ok);
-};
-
 export const uploadBrandLogo = multer({
   storage: brandStorage,
-  limits: { fileSize: 2 * 1024 * 1024 },  // 2MB
-  fileFilter: brandFileFilter
-}).single("image");  // ← Uses req.file
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: imageFileFilter
+}).single("image");
 
-
-
-
-
-
-// ========================================
-// 4. PRODUCT MEDIA UPLOAD (Multiple)
-// ========================================
+// ==================================================================
+// 4. PRODUCT MEDIA (IMAGE + VIDEO)
+// ==================================================================
 const productStorage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => ({
-    folder: file.mimetype.startsWith("video/") ? "product_videos" : "product_images",
+    folder: file.mimetype.startsWith("video/")
+      ? "product_videos"
+      : "product_images",
     resource_type: file.mimetype.startsWith("video/") ? "video" : "image",
     format: undefined,
     transformation: file.mimetype.startsWith("video/")
       ? [{ quality: "auto", fetch_format: "auto" }]
-      : [{ width: 1024, height: 1024, crop: "limit" }],
-  }),
+      : [{ width: 1024, height: 1024, crop: "limit" }]
+  })
 });
 
 const productFileFilter = (req, file, cb) => {
-  const ok = file.mimetype?.startsWith("image/") || file.mimetype?.startsWith("video/");
-  cb(ok ? null : new Error("Only image/* or video/* allowed"), ok);
+  const ok =
+    file.mimetype.startsWith("image/") ||
+    file.mimetype.startsWith("video/");
+
+  cb(ok ? null : new Error("Only image or video allowed"), ok);
 };
 
 export const uploadProductMedia = multer({
   storage: productStorage,
   fileFilter: productFileFilter,
   limits: {
-    files: 8,
-    fileSize: 100 * 1024 * 1024,  // 100MB for products
-  },
+    files: 10,
+    fileSize: 200 * 1024 * 1024 // 200MB
+  }
 }).any();
