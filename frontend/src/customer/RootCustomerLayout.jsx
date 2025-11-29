@@ -22,7 +22,7 @@ const RootCustomerLayout = () => {
 
 
 
- useEffect(() => {
+/*  useEffect(() => {
 
   if (
     location.pathname.startsWith('/') &&
@@ -34,7 +34,7 @@ const RootCustomerLayout = () => {
     }, 200);
     return () => clearInterval(timer);     
   }
-}, [location.pathname]);
+}, [location.pathname]); */
 
   return (
     <div className='w-full min-h-screen flex flex-col  bg-gray-50'>
@@ -48,7 +48,7 @@ const RootCustomerLayout = () => {
 
           <Outlet />
           
-          {!whoami && popup && (
+          {/* {!whoami && popup && (
             <aside className='inset-0 flex justify-center items-center fixed bg-black/50 z-50'>
               <div className='text-center bg-black text-white px-8 max-w-[400px] rounded-[30px] py-8 space-y-6 shadow-lg shadow-white animation_form_popup'>
                 <h4>Welcome</h4>
@@ -72,7 +72,7 @@ const RootCustomerLayout = () => {
                 </div>
               </div>
             </aside>
-          )}
+          )} */}
 
         </div>              
       </main>
