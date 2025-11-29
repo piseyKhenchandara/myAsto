@@ -210,7 +210,7 @@ const GridView = ({
                         }`}
                         key={cat.id}
                     >
-                        <div className="flex items-center p-4 md:p-6 relative">
+                        <div className="flex items-center p-2 sm:p-4 md:p-6 relative">
                             {/* Image and Text Section */}
                             <NavLink 
                                 to={
@@ -218,25 +218,29 @@ const GridView = ({
                                     ? `/dashboard/category/${cat.slug}/brand/first/products`
                                     : `/category/${cat.slug}/brand/first/products`
                                 }
-                                className="flex items-center flex-1 bg-white shadow-lg p-6 rounded-e-2xl "
+                                className={`flex items-center bg-white shadow-lg p-3 sm:p-4 md:p-6 rounded-e-xl sm:rounded-e-2xl flex-shrink-0 ${
+                                    (whoami?.role === 'admin' || whoami?.role === 'seller')
+                                    ? 'w-[calc(100%-80px)] sm:w-[calc(100%-100px)] md:w-[calc(100%-120px)]'
+                                    : 'w-full'
+                                }`}
                             >
                                 <img
                                     src={cat.image_url || asto_logo}
                                     alt={cat.name}
-                                    className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-cover rounded-xl hover:scale-105 transition-transform duration-300 flex-shrink-0"
+                                    className="w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-cover rounded-lg sm:rounded-xl hover:scale-105 transition-transform duration-300 flex-shrink-0"
                                 />
 
                                 {/* Category Name - Positioned vertically centered and to the right */}
-                                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 hover:text-green-600 transition-colors duration-200 ml-6 md:ml-10">
+                                <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 hover:text-green-600 transition-colors duration-200 ml-3 xs:ml-4 sm:ml-6 md:ml-8 lg:ml-10 leading-tight truncate">
                                     {cat.name}
                                 </h3>
                             </NavLink>
 
                             {/* Action Buttons - Positioned on the far right */}
                             {(whoami?.role === 'admin' || whoami?.role === 'seller') && (
-                                <div className="flex gap-2 ml-4">
+                                <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 ml-2 sm:ml-4 flex-shrink-0">
                                     <button 
-                                        className="p-2 rounded-lg hover:bg-green-50 transition duration-200 text-2xl md:text-3xl text-green-500 hover:scale-110 transform" 
+                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-green-50 transition duration-200 text-xl sm:text-2xl md:text-3xl text-green-500 hover:scale-110 transform flex-shrink-0" 
                                         onClick={() => handleOpenEdit(cat)}
                                         aria-label="Edit category"
                                     >
@@ -244,7 +248,7 @@ const GridView = ({
                                     </button>
 
                                     <button 
-                                        className="p-2 rounded-lg hover:bg-red-50 transition duration-200 text-2xl md:text-3xl text-red-500 hover:scale-110 transform" 
+                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-red-50 transition duration-200 text-xl sm:text-2xl md:text-3xl text-red-500 hover:scale-110 transform flex-shrink-0" 
                                         onClick={() => handleOpenDelete(cat)}
                                         aria-label="Delete category"
                                     >

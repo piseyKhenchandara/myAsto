@@ -399,8 +399,7 @@ export const validateOrderCreation = () => {
        
 
         const addressTrimmed = shipping_address.trim();
-
-        if (addressTrimmed.length < 10 || addressTrimmed.length > 500) {
+        if (addressTrimmed.length > 500) {
             return res.status(400).json({
                 success: false,
                 message: "Shipping address must be between 10 and 500 characters!"

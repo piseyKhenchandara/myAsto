@@ -86,9 +86,9 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
             )}
 
             <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Notes <span className='text-gray-500'>-(optional)</span></label>
+            <label className="block text-sm font-medium text-gray-700 mb-2 mt-5">Notes <span className='text-gray-500'>-(optional)</span></label>
             <textarea 
-                placeholder="Enter your full address (street, building, etc.)"
+                placeholder="Default: Provincial town, or enter your full address (street, building, etc.)"
                 value={orderNotes}
                 onChange={(e) => setOrderNotes(e.target.value)}
                 rows={3}
