@@ -20,6 +20,9 @@ import db from './models/index.js';
 const { sequelize } = db;
 const app = express();
 
+
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
 // Middleware
 app.use(cors({
   origin: ["http://localhost:5173", "https://www.astogear.com"],
@@ -43,8 +46,6 @@ app.use('/api/notifications', notificationRoute);
 
 
 
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
 
 const PORT = process.env.PORT || 5000;
