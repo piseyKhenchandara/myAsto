@@ -227,7 +227,7 @@ const GridView = ({
                                 <img
                                     src={cat.image_url || asto_logo}
                                     alt={cat.name}
-                                    className="w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-cover rounded-lg sm:rounded-xl hover:scale-105 transition-transform duration-300 flex-shrink-0"
+                                    className="w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-contain rounded-lg sm:rounded-xl hover:scale-105 transition-transform duration-300 flex-shrink-0"
                                 />
 
                                 {/* Category Name - Positioned vertically centered and to the right */}
