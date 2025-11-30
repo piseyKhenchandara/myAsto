@@ -24,15 +24,15 @@ export const sendWelcomeEmail = async (email, userName) => {
             <body>
                 <div class="container">
                     <div class="header">
-                        <h1>🎉 Welcome to Our Platform!</h1>
+                        <h1> Welcome to Our Platform!</h1>
                     </div>
                     <div class="content">
                         <div class="welcome-icon">🚀</div>
-                        <h2>Hello ${userName}! 👋</h2>
+                        <h2>Hello ${userName}! </h2>
                         <p>Welcome to our platform! Your email has been successfully verified and your account is ready to use.</p>
                         
                         <div class="feature-list">
-                            <h3>🌟 What you can do now:</h3>
+                            <h3> What you can do now:</h3>
                             <ul>
                                 <li> Access all platform features</li>
                             </ul>

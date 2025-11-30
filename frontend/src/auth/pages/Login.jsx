@@ -25,7 +25,7 @@ const Login = () => {
 
       if(location.state.message) {
         setMsg({type : 'success', text : location.state.message});
-        setTimeout(() => setMsg({type : '', text : ''}),3000);
+        
       }
     }
   },[location.state])

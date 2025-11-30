@@ -8,7 +8,6 @@ import { useUser } from "../../../../context/UserContext";
 const GoogleAuth = ({ 
     submit=false, 
     setSubmit=false, 
-    setProgress=false, 
     setMsg= false, 
 
 }) => {

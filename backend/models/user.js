@@ -81,9 +81,6 @@ export default (sequelize) => {
                 }
             }, 
             {
-                fields : ['email'],
-            },
-            {
                 fields : ['reset_password_token']
             }
         ]

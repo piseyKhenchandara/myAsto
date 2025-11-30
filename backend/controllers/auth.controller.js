@@ -18,7 +18,7 @@ export const checkEmail = async (req,res) => {
     
     try{
 
-        const user = await db.User.findOne({where : {email}, attributes : ['name', 'is_verified']});
+        const user = await db.User.findOne({where : {email}, attributes : ['name', 'is_verified','auth_provider']});
 
         if(!user) return res.status(200).json({
             success : true,
@@ -28,6 +28,14 @@ export const checkEmail = async (req,res) => {
         });
 
         else{
+            if(user.auth_provider === 'google') {
+                return res.status(200).json({
+                success : true,
+                message : "Welcome back!, please login with google button",
+                action : "login",
+                user 
+                })
+            }
             return res.status(200).json({
                 success : true,
                 message : "Welcome back!, please login",

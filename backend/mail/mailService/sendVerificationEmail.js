@@ -6,7 +6,7 @@ export const sendVerificationEmail = async (email, verificationToken, userName) 
     const mailOptions = {
         from : `Asto <${process.env.MAIL_USER}>`,
         to : email ,
-        subject : ' 🔐 Verify Your Email Address',
+        subject : '  Verify Your Email Address',
         html: `
             <!DOCTYPE html>
             <html>
@@ -34,15 +34,15 @@ export const sendVerificationEmail = async (email, verificationToken, userName) 
             <body>
                 <div class="container">
                     <div class="header">
-                        <h1>🔐 Email Verification</h1>
+                        <h1> Email Verification</h1>
                     </div>
                     <div class="content">
-                        <h2>Hello ${userName || 'there'}! 👋</h2>
+                        <h2>Hello ${userName || 'there'}! </h2>
                         <p>Thank you for signing up! Please use the verification code below to complete your registration:</p>
                         
                         <div class="code">${verificationToken}</div>
                         
-                        <p><strong>⏰ This code will expire in 15 minutes.</strong></p>
+                        <p><strong> This code will expire in 15 minutes.</strong></p>
                         
                         <div class="warning">
                             <strong>🛡️ Security Notice:</strong> If you didn't request this verification, please ignore this email.

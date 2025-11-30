@@ -95,20 +95,7 @@ const EmailEntry = () => {
         </div>
 
         <div className="space-y-6">
-          {/* Progress bar for Google Auth */}
-          {submit.process && submit.formName === 'google' && (
-            <div className="w-full mb-3">
-              <div className="w-full h-2 bg-gray-200 rounded">
-                <div
-                  className="h-2 rounded bg-green-600 transition-all"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-              <div className="text-xs text-gray-400 mt-1">
-                Signing in with Google… {progress}%
-              </div>
-            </div>
-          )}
+
 
           {/* Email Form */}
         <form onSubmit={handleEmailSubmit} className="space-y-6">
