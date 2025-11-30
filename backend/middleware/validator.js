@@ -49,53 +49,60 @@ export const validatePassword = (fieldName = 'password', minLength = 8) => {
     };
 };
 
-export const validateName = (fieldName = 'name', required = true) => {
-    return (req, res, next) => {
-        const name = req.body[fieldName];
+import validator from "validator";
 
-        if (!name) {
+export const validateName = (fieldName = "name", required = true) => {
+    return (req, res, next) => {
+        const value = req.body[fieldName];
+
+        // If required but missing
+        if (!value) {
             if (required) {
                 return res.status(400).json({
                     success: false,
-                    message: `${fieldName} is required!`
+                    message: `${fieldName} is required`
                 });
             }
             return next();
         }
 
-        const trimmedName = validator.trim(name);
+        // Trim spaces (safe)
+        const name = validator.trim(value);
 
-        // 🌍 REAL WORLD FLEXIBLE - Accepts almost everything
-        const nameRegex = /^[\p{L}\p{M}\p{N}\s'.,\-()&@#/]+$/u;
-        
-        // Just check length
-        if (trimmedName.length < 2 || trimmedName.length > 100) {
+        // LENGTH CHECK (realistic)
+        if (name.length < 2 || name.length > 100) {
             return res.status(400).json({
                 success: false,
-                message: "Name must be between 2 and 100 characters"
+                message: `${fieldName} must be 2–100 characters`
             });
         }
 
-        if (!nameRegex.test(trimmedName)) {
+        // ALLOWED CHARACTERS (very permissive + real world)
+        // Allows: Letters, numbers, space, common symbols
+        const safeRegex = /^[\p{L}\p{N} 0-9'.,()\-_/&@]+$/u;
+
+        if (!safeRegex.test(name)) {
             return res.status(400).json({
                 success: false,
-                message: "Name contains invalid characters"
+                message: `${fieldName} contains invalid characters`
             });
         }
 
-        // Block obvious malicious patterns only
-        const dangerousPatterns = /<script|<iframe|javascript:|onerror=|onclick=|eval\(|DROP TABLE|DELETE FROM|INSERT INTO/i;
-        if (dangerousPatterns.test(trimmedName)) {
+        // BLOCK ONLY REAL XSS / SQLI
+        const bad = /(script|<|>|javascript:|onerror|onload|DROP TABLE|DELETE FROM|INSERT INTO)/i;
+
+        if (bad.test(name)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid name format"
+                message: `${fieldName} contains unsafe content`
             });
         }
 
-        req.body[fieldName] = trimmedName;
+        req.body[fieldName] = name;
         next();
     };
 };
+
 
 export const validatePhone = (fieldName = 'phone', required = false) => {
     return (req, res, next) => {
