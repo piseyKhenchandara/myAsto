@@ -63,20 +63,35 @@ export const validateName = (fieldName = 'name', required = true) => {
             return next();
         }
 
-        // Trim first
         const trimmedName = validator.trim(name);
 
-        // Validate with Unicode-safe regex
-        const nameRegex = /^[\p{L}\p{M}\s'.-]{2,50}$/u;
+        // 🌍 REAL WORLD FLEXIBLE - Accepts almost everything
+        const nameRegex = /^[\p{L}\p{M}\p{N}\s'.,\-()&@#/]+$/u;
         
-        if (!nameRegex.test(trimmedName)) {
+        // Just check length
+        if (trimmedName.length < 2 || trimmedName.length > 100) {
             return res.status(400).json({
                 success: false,
-                message: "Name must be 2-50 characters"
+                message: "Name must be between 2 and 100 characters"
             });
         }
 
-        // ✅ Don't escape - the regex already ensures safety
+        if (!nameRegex.test(trimmedName)) {
+            return res.status(400).json({
+                success: false,
+                message: "Name contains invalid characters"
+            });
+        }
+
+        // Block obvious malicious patterns only
+        const dangerousPatterns = /<script|<iframe|javascript:|onerror=|onclick=|eval\(|DROP TABLE|DELETE FROM|INSERT INTO/i;
+        if (dangerousPatterns.test(trimmedName)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid name format"
+            });
+        }
+
         req.body[fieldName] = trimmedName;
         next();
     };
