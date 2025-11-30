@@ -14,7 +14,7 @@ const ProductList = ({
   return (
     <section className="flex justify-center w-full">
       <div className={`grid grid-cols-2 sm:grid-cols-3 ${
-        visible ? "lg:grid-cols-4 md:grid-cols-3" : "lg:grid-cols-5 xl:grid-cols-6 md:grid-cols-4"
+        visible ? "lg:grid-cols-4 md:grid-cols-3" : "lg:grid-cols-5 xl:grid-cols-5 md:grid-cols-4"
       } gap-3 justify-items-center px-6 py-6`}>
         
         {/* Message Display */}
