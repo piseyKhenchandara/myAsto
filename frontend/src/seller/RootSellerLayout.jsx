@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from './components/header/Header'
 import LeftNavbar from './components/leftNavbar/LeftNavbar'
 import MainContent from './components/mainContent/MainContent'
@@ -11,10 +11,14 @@ import asto_logo from '../assets/logoes/asto_logo.png'
 import ScrollToTop from '../../utils/ScrollToTheTop'
 import Footer from '../../utils/Footer'
 import { useLocation } from 'react-router-dom'
-
+import { logPageView } from '../../utils/analytics'
 const RootSellerLayout = () => {
     const [visible, setVisible] = useState(false);
     const location = useLocation();
+
+    useEffect(() => {
+        logPageView(location.pathname + location.search)
+    }, [location]);
 
 
     

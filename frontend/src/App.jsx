@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -36,6 +36,7 @@ import ViewAuthProfile from './seller/components/category_brand_product/ViewAuth
 import Orders from './seller/components/orderManagement/Orders'
 import { NotificationProvider } from '../context/notificationContext/NotificationContext'
 import AboutUs from '../utils/AboutUs'
+import { initGA } from '../utils/analytics'
 
 
 const router = createBrowserRouter(
@@ -72,7 +73,7 @@ const router = createBrowserRouter(
 
 
 
-      <Route path='/dashboard' element = {<RootSellerLayout/>}>
+      <Route path='/dashboard' element = {<RootSellerLayout/>} loader = {requireSellerNAdmin}>
         <Route path="results" element={<SearchResults />} />
         <Route path='categories' element= {<CategoryManagement/>} />
         <Route path='category/:category_slug/brands' element = {<BrandManagement/>}/>
@@ -95,7 +96,9 @@ const router = createBrowserRouter(
 
 const App = () => {
 
-  
+  useEffect(()=> {
+    initGA();
+  },[]);
   
 
   return (

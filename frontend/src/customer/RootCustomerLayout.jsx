@@ -10,6 +10,8 @@ import telegram_logo from '../assets/logoes/telegram_logo.png'
 import Header from '../seller/components/header/Header'
 import ScrollToTop from '../../utils/ScrollToTheTop'
 import Footer from '../../utils/Footer'
+import { logPageView } from '../../utils/analytics'
+
 
 
 const RootCustomerLayout = () => {
@@ -19,6 +21,11 @@ const RootCustomerLayout = () => {
   const location = useLocation();
   const [popup, setPopup] = useState(false);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    logPageView(location.pathname + location.search)
+  },[location]);
 
 
 

@@ -1,9 +1,16 @@
-import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import asto_logo from '../assets/logoes/asto_logo.png'
 import ScrollToTop from '../../utils/ScrollToTheTop'
-
+import { logPageView } from '../../utils/analytics'
 const RootAuthLayout = () => {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    logPageView(location.pathname + location.search)
+  },[location]);
+
   return (
    
     <div className="w-full min-h-screen flex flex-col  bg-gray-50">

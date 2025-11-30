@@ -13,6 +13,11 @@ export const guestOnlyLoader = async () => {
 
     if(user) {
       if(user.is_verified) {
+
+        if (!user.is_verified) {
+          throw redirect('/auth/verify-email');
+        }
+
         if(user?.role === 'customer') {
           throw redirect('/');
         }
@@ -38,31 +43,33 @@ export const guestOnlyLoader = async () => {
 
 export async function requireSellerNAdmin({ request }) {
   try {
-    const user = await whoamiAPI(); // calls /auth/whoami via axios
+    const user = await whoamiAPI();
 
-    if(user) {
-      if(user.is_verified) {
-        if (user.role !== "seller" && user.role !== "admin") {
-          throw redirect("/");
-        }
-        else{
-          throw redirect('/auth/verify-email');
-        }
-      }
+    if (!user) {
+      throw redirect("/auth");
     }
 
+    if (!user.is_verified) {
+      throw redirect('/auth/verify-email');
+    }
 
+    if (user.role !== "seller" && user.role !== "admin") {
+      throw redirect("/"); 
+    }
 
-    return user; 
+    return user;
+
   } catch (err) {
-  
+    if (err instanceof Response) {
+      throw err; 
+    }
+
     if (err.response?.status === 401) {
       const url = new URL(request.url);
       const from = encodeURIComponent(url.pathname + url.search);
-      throw redirect(`/auth`);
+      throw redirect(`/auth?from=${from}`);
     }
 
-    // Any other error -> kick to home
     throw redirect("/");
   }
 }
