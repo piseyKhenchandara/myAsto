@@ -52,7 +52,7 @@ const CarouselView = ({
                     <img
                         src={cat.image_url || asto_logo}
                         alt={cat.name}
-                        className="w-10 h-10 sm:w-16 sm:h-16 object-cover mb-2 rounded"
+                        className="w-20 h-20 sm:w-25 sm:h-25 md:w-30 md:h-30 object-contain mb-2 rounded"
                     />
                     </NavLink>
                     <span className="font-medium text-center text-xs sm:text-sm truncate max-w-[80px]">
