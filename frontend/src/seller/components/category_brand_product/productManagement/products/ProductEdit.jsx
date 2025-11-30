@@ -307,7 +307,7 @@ const ProductEdit = () => {
                             
                             <div className="space-y-3">
                                 {features.map((feature, idx) => (
-                                    <div key={idx} className="flex gap-2 items-center">
+                                    <div key={idx} className="flex gap-2 items-center flex-wrap">
                                         <input
                                             type="text"
                                             value={feature.feature_name || ''}
