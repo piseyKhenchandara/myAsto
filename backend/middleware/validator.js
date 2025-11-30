@@ -49,7 +49,6 @@ export const validatePassword = (fieldName = 'password', minLength = 8) => {
     };
 };
 
-import validator from "validator";
 
 export const validateName = (fieldName = "name", required = true) => {
     return (req, res, next) => {
