@@ -63,19 +63,24 @@ export const validateName = (fieldName = 'name', required = true) => {
             return next();
         }
 
-        const nameRegex = /^[a-zA-Z\s'-]{2,50}$/;
-        if (!nameRegex.test(name)) {
+        // Trim first
+        const trimmedName = validator.trim(name);
+
+        // Validate with Unicode-safe regex
+        const nameRegex = /^[\p{L}\p{M}\s'.-]{2,50}$/u;
+        
+        if (!nameRegex.test(trimmedName)) {
             return res.status(400).json({
                 success: false,
-                message: "Name must be 2-50 characters and contain only letters, spaces, hyphens, or apostrophes"
+                message: "Name must be 2-50 characters"
             });
         }
 
-        req.body[fieldName] = validator.escape(validator.trim(name));
+        // ✅ Don't escape - the regex already ensures safety
+        req.body[fieldName] = trimmedName;
         next();
     };
 };
-
 
 export const validatePhone = (fieldName = 'phone', required = false) => {
     return (req, res, next) => {
