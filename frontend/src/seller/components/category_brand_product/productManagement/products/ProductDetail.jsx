@@ -79,7 +79,7 @@ const ProductDetail = () => {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12'>
                 
                 {/* Image Section */}
-                <section className='space-y-4 md:sticky md:top-12'>
+                <section className='space-y-4 md:sticky md:top-20 md:self-start'>
                     {/* Main Image */}
                     <figure className='overflow-hidden h-[200px] md:h-[350px]'>
                         {selectedImage ? (
