@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 const CategoryHeader = ({ loadingUserRole, whoami, handleOpenAdd }) => {

@@ -83,7 +83,7 @@ const SearchResults = () => {
               filteredProducts.map((product) => (
                 <article 
                   key={product.id}
-                  className="hover:bg-green-100 p-2 rounded-lg transition-colors"
+                  className="hover:border-green-500 hover:border-b-2 p-2 transition-colors"
                 >
                   <Link 
                     to={checkUserRole 
@@ -94,12 +94,12 @@ const SearchResults = () => {
                   >
                     {/* Thumbnail */}
                     <figure className="flex-shrink-0">
-                      <div className="w-40 h-24 bg-green-100 overflow-hidden relative">
+                      <div className="w-40 h-24 overflow-hidden relative">
                         {product.ProductImages ? (
                           <img 
                             src={product.ProductImages[0].image_url} 
                             alt={product.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                           />
                         ) : null}
                        

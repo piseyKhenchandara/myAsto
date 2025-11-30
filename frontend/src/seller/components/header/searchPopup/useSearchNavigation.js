@@ -9,7 +9,7 @@ export const useSearchNavigation = (toggleSearchPopup) => {
     const productBrandSlug = product.Brand?.slug;
     
     if (productCategorySlug && productBrandSlug) {
-      navigate(`/category/${productCategorySlug}/brand/${productBrandSlug}/product/detail/${product.id}`);
+      navigate(`/category/${productCategorySlug}/brand/${productBrandSlug}/product/detail/${product.id}/${product.slug}`);
     } else {
       // Fallback: if product doesn't have category/brand info
       console.error('Product missing category or brand information:', product);
