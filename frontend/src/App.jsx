@@ -62,6 +62,7 @@ const router = createBrowserRouter(
       <Route path='/' element = {<RootCustomerLayout/>}>
         <Route index element = {<Homepage/>}/>
         <Route path='asto-homepage' element = {<Homepage/>}/>
+        <Route path="results" element={<SearchResults />} />
         <Route path='category/:category_slug/brands' element = {<BrandManagement/>}/>
         <Route path='category/:category_slug/brand/first/products' element={<RedirectToFirstBrand/>}/>
         <Route path='category/:category_slug/brand/:brand_slug/products' element={<Products/>}/>

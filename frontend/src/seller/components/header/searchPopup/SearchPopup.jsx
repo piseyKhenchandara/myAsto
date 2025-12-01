@@ -1,29 +1,116 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { IoIosSearch } from "react-icons/io";
+import { getAllProduct } from "../../../../api/Product.api";
 
-import { useClickOutside } from './useClickOutside';
-import { useSearchNavigation } from './useSearchNavigation';
-import { useProductSearch } from "./useProductSearch";
+import { useNavigate, useParams } from "react-router-dom";
+import { useUser } from "../../../../../context/UserContext";
 
 const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
-  // Custom hooks
-  const {
-    searchTerm,
-    setSearchTerm,
-    filteredProducts,
-    isLoading,
-    msg,
-  } = useProductSearch(searchPopup);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [msg, setMsg] = useState({ type: '', text: "" });
 
-  const searchRef = useClickOutside(searchPopup, toggleSearchPopup);
+  const { user: whoami, loading: loadingUserRole } = useUser();
+  
+  const navigate = useNavigate();
 
-  const {
-    handleProductClick,
-    handleSearchSubmit,
-  } = useSearchNavigation(toggleSearchPopup);
+  const searchRef = useRef(null);
 
-  const onSearchSubmit = () => {
-    handleSearchSubmit(searchTerm);
+  // Fetch products when popup opens
+  useEffect(() => {
+    if (searchPopup) {
+      getProductsName();
+    }
+  }, [searchPopup]);
+
+  // Close search popup when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        toggleSearchPopup();
+      }
+    };
+
+    if (searchPopup) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchPopup, toggleSearchPopup]);
+
+  useEffect(() => {
+    const filtered = getFilteredItems();
+    setFilteredProducts(filtered);
+  }, [searchTerm, products]);
+
+  const getProductsName = async () => {
+    setIsLoading(true);
+    try {
+      const page = 1;
+      const limit = 100;
+      const data = await getAllProduct({ page, limit });
+      
+      setProducts(data.products || []);
+      setMsg({ type: '', text: '' });
+    } catch (error) {
+      console.error('Fetch error:', error);
+      setMsg({
+        type: 'error',
+        text: error.response?.data?.message || 'Error fetching products for search!'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getFilteredItems = () => {
+    if (!searchTerm.trim()) return [];
+
+    const filteredProducts = products.filter(product => 
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) 
+    );
+
+    return filteredProducts;
+  };
+
+  const handleProductClick = (product) => {
+    // Use the product's own category and brand slugs
+    const productCategorySlug = product.Category?.slug;
+    const productBrandSlug = product.Brand?.slug;
+    
+    if (productCategorySlug && productBrandSlug) {
+      navigate(`/category/${productCategorySlug}/brand/${productBrandSlug}/product/detail/${product.id}/${product.slug}`);
+    } else {
+      // Fallback: if product doesn't have category/brand info
+      console.error('Product missing category or brand information:', product);
+      navigate(`/product/${product.id}`); // Alternative route if you have one
+    }
+    
+    toggleSearchPopup();
+  };
+
+  // Handle pressing Enter or clicking "View all results"
+  const handleSearchSubmit = () => {
+    if (!searchTerm.trim()) return;
+
+    // Check if user is logged in and is a seller/admin
+    if (whoami && whoami.role !== 'customer') {
+      navigate(`/dashboard/results?search_query=${encodeURIComponent(searchTerm.trim())}`, {
+        state: { searchTerm }
+      });
+    } 
+    // For customers OR guest users (not logged in)
+    else {
+      navigate(`/results?search_query=${encodeURIComponent(searchTerm.trim())}`, {
+        state: { searchTerm }
+      });
+    }
+    
+    toggleSearchPopup();
   };
 
   return (
@@ -45,7 +132,7 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
                 autoFocus
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && onSearchSubmit()}
+                onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
               />
               {isLoading && (
                 <span className="text-xs text-gray-500">Loading...</span>
