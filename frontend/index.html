@@ -51,64 +51,20 @@
   <meta name="twitter:description"
     content="Premium gaming accessories including keyboards, mice, controllers, headsets & more. Built for gamers.">
   <meta name="twitter:image" content="https://astogear.com/promotionasto.png">
-  
+
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </head>
 
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
-
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement(
-        { pageLanguage: 'en', autoDisplay: false },
-        'google_translate_element'
-      );
-    }
-  </script>
-
-  <script type="text/javascript"
-    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-  </script>
-
-  <script>
-    function waitForTranslation() {
-      const lang = localStorage.getItem('app_lang') || 'en';
-
-      if (lang === 'en') {
-        document.body.classList.add('translation-ready');
-        return;
-      }
-      
-      // Wait for Google Translate to finish translating
-      let attempts = 0;
-      const maxAttempts = 30; // 3 seconds max
-      
-      const checkInterval = setInterval(() => {
-        attempts++;
-        
-        // Check if Google Translate has added translated elements
-        const hasTranslated = document.querySelector('font[style*="vertical-align"]') || 
-                             document.querySelector('.translated-ltr') ||
-                             document.querySelector('.translated-rtl');
-        
-        // Show page if translated OR timeout
-        if (hasTranslated || attempts >= maxAttempts) {
-          clearInterval(checkInterval);
-          document.body.classList.add('translation-ready');
-        }
-      }, 100);
-    }
-    
-    // Run when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', waitForTranslation);
-    } else {
-      waitForTranslation();
-    }
-  </script>
-  
-  
 </body>
 </html>

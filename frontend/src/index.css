@@ -313,13 +313,3 @@ iframe.goog-te-banner-frame.skiptranslate {
 body > .skiptranslate:first-child {
   display: none !important;
 }
-
-/* ⭐ ADD THIS - Hide content until translation is ready */
-body:not(.translation-ready) {
-  opacity: 0;
-}
-
-body.translation-ready {
-  opacity: 1;
-  transition: opacity 0.3s ease-in;
-}
