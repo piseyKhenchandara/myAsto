@@ -2,14 +2,14 @@ import React from 'react'
 
 const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanySelect,selectedDeliveryCompany,vet_logo,jnt_logo,grab_logo, orderNotes,  setOrderNotes}) => {
   return (
-    <section>
+    <section className="notranslate" translate="no">
       {(isPhnomPenh || isProvince) && (
         <div className="mt-6">
             <h4 className="text-lg font-medium text-gray-800 mb-4">Choose Delivery Company</h4>
             
             {/* Province Delivery Options */}
             {isProvince && (
-            <section className="space-y-4">
+            <section className="space-y-4 notranslate" translate="no">
                 <p className="text-sm text-gray-600 mb-3">Available for province delivery:</p>
                 <div className="grid grid-cols-2 gap-4">
                 <label 
@@ -50,11 +50,11 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
 
             {/* Phnom Penh Delivery Option */}
             {isPhnomPenh && (
-            <section className={`border-2 rounded-lg p-4 transition-all shadow-xl max-w-xs  ${
+            <section className={`border-2 rounded-lg p-4 transition-all shadow-xl max-w-xs notranslate ${
                     selectedDeliveryCompany === 'Phnom Penh delivery'
                     ? 'border-green-500 bg-green-50' 
                     : 'border-gray-200 hover:border-gray-300'
-                } space-y-4` }>
+                } space-y-4` } translate="no">
                 <p className="text-sm text-gray-600 mb-3">Available for Phnom Penh delivery:</p>
                 <label 
                 onClick={() => handleDeliveryCompanySelect('Phnom Penh delivery')}
@@ -71,7 +71,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
 
             {/* Selected Company Confirmation */}
             {selectedDeliveryCompany && (
-            <aside className="mt-4 p-3 bg-green-100 border border-green-300 rounded-md">
+            <aside className="mt-4 p-3 bg-green-100 border border-green-300 rounded-md notranslate" translate="no">
                 <p className="flex items-center">
                 <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -85,7 +85,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
             </aside>
             )}
 
-            <div>
+            <div className="notranslate" translate="no">
             <label className="block text-sm font-medium text-gray-700 mb-2 mt-5">Notes <span className='text-gray-500'>-(optional)</span></label>
             <textarea 
                 placeholder="Default: Provincial town, or enter your full address (street, building, etc.)"

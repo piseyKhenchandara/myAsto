@@ -13,48 +13,44 @@ const Header = ({ setVisible, asto_logo }) => {
   const location = useLocation();
   const { getCartCount } = useCart();
   const [searchPopup, setSearchPopup] = useState(false);
-  const { user: whoami} = useUser();
+  const { user: whoami } = useUser();
 
   const checkUserRole = whoami?.role === 'admin' || whoami?.role === 'seller';
   const toggleSearchPopup = () => setSearchPopup(!searchPopup);
 
-  const iconSizeClass = "text-3xl"; // same size for all icons
+  const iconSizeClass = "text-2xl"; // smaller icons = shorter header
 
   return (
-    <header className="w-full border-b border-green-600 shadow-md bg-white sticky top-0 z-50">
-      <nav className="flex flex-wrap items-center justify-between px-3 sm:px-6 md:px-8 py-3 max-w-[1920px] mx-auto">
+    <header className="w-full border-b border-green-600 bg-white sticky top-0 z-50 shadow-sm">
+      <nav className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-2 max-w-[1920px] mx-auto">
         
-        <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
           {checkUserRole && location.pathname.includes('/dashboard') && (
             <button 
-              className={`${iconSizeClass} cursor-pointer hover:text-green-600 transition-colors`}
+              className={`${iconSizeClass} hover:text-green-600`} 
               onClick={() => setVisible((prev) => !prev)}
-              aria-label="Toggle menu"
             >
               <FaBars />
             </button>
           )}
-          
-          <Link to={checkUserRole ? "/dashboard" : "/"} className="flex-shrink-0">
+
+          <Link to={checkUserRole ? "/dashboard" : "/"}>
             <img
               src={asto_logo}
               alt="asto_logo"
-              className="h-8 sm:h-10 md:h-12 w-auto object-contain cursor-pointer transition-transform hover:scale-105"
+              className="h-7 sm:h-8 md:h-9 w-auto object-contain hover:scale-105 transition-transform"
             />
           </Link>
         </div>
 
-        <div className="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 flex-wrap">
-          
-          <div className="flex-shrink-0">
-            <SearchPopup toggleSearchPopup={toggleSearchPopup} searchPopup={searchPopup} />
-          </div>
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+          <SearchPopup toggleSearchPopup={toggleSearchPopup} searchPopup={searchPopup} />
 
           {!checkUserRole && (
-            <Link to="/checkout-page" className="relative flex items-center flex-shrink-0 hover:opacity-90 transition-opacity">
-              <AiOutlineShoppingCart className={`${iconSizeClass} text-gray-800 hover:text-green-600 transition-colors`} />
+            <Link to="/checkout-page" className="relative hover:opacity-90">
+              <AiOutlineShoppingCart className={`${iconSizeClass} hover:text-green-600`} />
               {getCartCount() > 0 && (
-                <span className="absolute -top-1 -right-2 sm:-top-1.5 sm:-right-2 md:-top-2 md:-right-3 min-w-[18px] sm:min-w-[20px] md:min-w-[22px] h-[18px] sm:h-[20px] md:h-[22px] flex items-center justify-center text-[10px] sm:text-xs font-semibold text-white bg-green-500 rounded-full px-1">
+                <span className="absolute -top-1 -right-2 min-w-[16px] h-[16px] text-[10px] flex items-center justify-center bg-green-500 text-white rounded-full">
                   {getCartCount()}
                 </span>
               )}
@@ -62,33 +58,28 @@ const Header = ({ setVisible, asto_logo }) => {
           )}
 
           {checkUserRole && (
-            <div className="flex items-center flex-shrink-0">
-              <RingNotification />
-            </div>
+            <RingNotification />
           )}
 
-          <Link to="/user-profile" className="flex-shrink-0">
+          <Link to="/user-profile">
             {whoami?.profile_picture ? (
               <img 
-                src={whoami.profile_picture} 
-                alt='user profile picture'
-                className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-green-600"
+                src={whoami.profile_picture}
+                className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full object-cover border-2 border-green-600"
               />
             ) : (
-              <CgProfile className={`${iconSizeClass} text-gray-800 hover:text-green-600 transition-colors`} />
+              <CgProfile className={`${iconSizeClass} hover:text-green-600`} />
             )}
           </Link>
 
-          <div className="flex-shrink-0">
-            <LanguageChoice />
-          </div>
+          <LanguageChoice />
         </div>
       </nav>
 
-      {/* Hidden Google Translate Element */}
       <div id="google_translate_element" className="hidden"></div>
     </header>
   );
 };
 
 export default Header;
+

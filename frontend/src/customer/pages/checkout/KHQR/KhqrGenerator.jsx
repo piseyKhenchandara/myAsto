@@ -92,16 +92,16 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
     );
 
   return (
-    <article className="rounded-lg p-6 sm:p-8 max-w-md mx-4 relative">
+    <article className="rounded-lg p-6 sm:p-8 max-w-md mx-4 relative h-[90vh">
       {/* Close button */}
       {onClose && (
         <button
           onClick={handleClose}
-          className="absolute top-1  right-4 text-gray-400 hover:text-gray-600 transition-colors z-10 "
+          className="absolute top-1 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10"
           aria-label="Close QR code"
         >
           <svg
-            className="w-6 h-6 text-white cursor-pointer hover:scale-110 transform transition bg-red-600 rounded-full p-1 "
+            className="w-6 h-6 text-white cursor-pointer hover:scale-110 transform transition bg-red-600 rounded-full p-1"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -122,15 +122,6 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
       </section>
 
       {timeLeft && !isExpired && <QRTimer timeLeft={timeLeft} />}
-
-      {/* Warning message */}
-      {/* {!isPaymentVerified && !isExpired && (
-        <div className=" p-3 bg-yellow-50 border border-yellow-200 rounded-2xl">
-          <p className="text-xs text-yellow-800 text-center">
-            ⚠️ Please keep this window open until payment is confirmed
-          </p>
-        </div>
-      )} */}
     </article>
   );
 };

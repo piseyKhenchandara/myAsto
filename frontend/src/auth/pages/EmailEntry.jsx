@@ -123,15 +123,13 @@ const EmailEntry = () => {
               <button
                 type="submit"
                 disabled={loading || submit.process}
-                className="font-semibold py-2 px-5 border-2 border-green-200 
-                       transition-transform duration-300 hover: hover:scale-105
-                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-green-500 text-white rounded-[10px] cursor-pointer"
+                className={`font-semibold py-2 px-5 border-2 border-green-200 
+                       transition-all duration-300 hover:scale-105
+                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 mx-auto bg-green-500 text-white rounded-[10px] cursor-pointer
+                       ${(loading || submit.process) ? 'w-12 h-12 !p-0 rounded-full flex items-center justify-center' : 'block'}`}
               >
-                {loading ? (
-                  <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 mr-2"></div>
-                    Checking...
-                  </div>
+                {(loading || submit.process) ? (
+                  <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent"></div>
                 ) : (
                   <p>Continue</p>
                 )}
@@ -157,7 +155,7 @@ const EmailEntry = () => {
               <div className="text-sm font-medium">{msg.text}</div>
             </div>
           )}
-          <p className='text-gray-400 text-center'>We'll check if you have   an account</p>
+          <p className='text-gray-400 text-center'>We'll check if you have an account</p>
           
 
           {/* Footer Text */}
