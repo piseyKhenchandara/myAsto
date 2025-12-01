@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CiEdit, CiTrash } from 'react-icons/ci';
-import asto_logo from '../../../../assets/logoes/asto_logo.png'
+import asto_logo from '../../../../assets/logoes/asto_logo.png';
 
-const GridView = ({ 
-    categories, 
-    visible, 
-    handleOpenEdit, 
+const GridView = ({
+    categories,
+    visible,
+    handleOpenEdit,
     handleOpenDelete,
     whoami,
     loadingUserRole
@@ -26,158 +26,60 @@ const GridView = ({
     }
 
     return (
-        <section className="px-6 py-4 w-full flex flex-col items-center relative overflow-hidden">
-            <style>
-                {`
-                    .animated-background {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background: linear-gradient(
-                            135deg,
-                            #ffffff 0%,
-                            #e8f5e9 25%,
-                            #c8e6c9 50%,
-                            #a5d6a7 75%,
-                            #81c784 100%
-                        );
-                        background-size: 400% 400%;
-                        z-index: -2;
-                    }
+        <section className="px-6 py-4 w-full flex flex-col items-center relative">
 
-                    .floating-shapes {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        overflow: hidden;
-                        z-index: -1;
-                    }
-
-                    .shape {
-                        position: absolute;
-                        opacity: 0.1;
-                    }
-
-                    .shape:nth-child(1) {
-                        top: 10%;
-                        left: 10%;
-                        width: 80px;
-                        height: 80px;
-                        background: #4caf50;
-                        border-radius: 50%;
-                    }
-
-                    .shape:nth-child(2) {
-                        top: 60%;
-                        left: 80%;
-                        width: 120px;
-                        height: 120px;
-                        background: #66bb6a;
-                        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-                    }
-
-                    .shape:nth-child(3) {
-                        top: 30%;
-                        left: 70%;
-                        width: 100px;
-                        height: 100px;
-                        background: #81c784;
-                        border-radius: 50%;
-                    }
-
-                    .shape:nth-child(4) {
-                        top: 70%;
-                        left: 20%;
-                        width: 90px;
-                        height: 90px;
-                        background: #a5d6a7;
-                        border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
-                    }
-
-                    .shape:nth-child(5) {
-                        top: 20%;
-                        left: 40%;
-                        width: 110px;
-                        height: 110px;
-                        background: #4caf50;
-                        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-                    }
-
-                    .category-card {
-                        position: relative;
-                        z-index: 1;
-                    }
-                `}
-            </style>
-
-            {/* Animated Background */}
-            <div className="animated-background"></div>
-            
-            {/* Floating Shapes */}
-            <div className="floating-shapes">
-                <div className="shape"></div>
-                <div className="shape"></div>
-                <div className="shape"></div>
-                <div className="shape"></div>
-                <div className="shape"></div>
-            </div>
-
-            <div className="w-full max-w-6xl relative z-10">
+            <div className="w-full max-w-6xl relative">
                 {categories.map((cat, index) => (
-                    <article 
-                        ref={el => cardRefs.current[index] = el}
+                    <article
+                        ref={el => (cardRefs.current[index] = el)}
                         data-card-id={cat.id}
                         className="category-card backdrop-blur-sm transition-all duration-300 overflow-hidden"
                         key={cat.id}
                     >
-                        <div className="flex items-center p-2 sm:p-4 md:p-6 relative">
-                            {/* Image and Text Section */}
-                            <NavLink 
+                        <div className="flex items-center p-2 sm:p-4 md:p-6">
+
+                            <NavLink
                                 to={
-                                    (whoami?.role === 'admin' || whoami?.role === 'seller')
-                                    ? `/dashboard/category/${cat.slug}/brand/first/products`
-                                    : `/category/${cat.slug}/brand/first/products`
+                                    whoami?.role === 'admin' || whoami?.role === 'seller'
+                                        ? `/dashboard/category/${cat.slug}/brand/first/products`
+                                        : `/category/${cat.slug}/brand/first/products`
                                 }
                                 className={`flex items-center bg-white shadow-lg p-3 sm:p-4 md:p-6 rounded-e-xl sm:rounded-e-2xl flex-shrink-0 ${
-                                    (whoami?.role === 'admin' || whoami?.role === 'seller')
-                                    ? 'w-[calc(100%-80px)] sm:w-[calc(100%-100px)] md:w-[calc(100%-120px)]'
-                                    : 'w-full'
+                                    whoami?.role === 'admin' || whoami?.role === 'seller'
+                                        ? 'w-[calc(100%-80px)] sm:w-[calc(100%-100px)] md:w-[calc(100%-120px)]'
+                                        : 'w-full'
                                 }`}
                             >
                                 <img
                                     src={cat.image_url || asto_logo}
                                     alt={cat.name}
-                                    className="w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-contain rounded-lg sm:rounded-xl hover:scale-105 transition-transform duration-300 flex-shrink-0"
+                                    className="w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-contain rounded-lg sm:rounded-xl flex-shrink-0"
                                 />
 
-                                {/* Category Name - Positioned vertically centered and to the right */}
-                                <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 hover:text-green-600 transition-colors duration-200 ml-3 xs:ml-4 sm:ml-6 md:ml-8 lg:ml-10 leading-tight truncate">
+                                <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 ml-3 xs:ml-4 sm:ml-6 md:ml-8 lg:ml-10 leading-tight truncate">
                                     {cat.name}
                                 </h3>
                             </NavLink>
 
-                            {/* Action Buttons - Positioned on the far right */}
                             {(whoami?.role === 'admin' || whoami?.role === 'seller') && (
                                 <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 ml-2 sm:ml-4 flex-shrink-0">
-                                    <button 
-                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-green-50 transition duration-200 text-xl sm:text-2xl md:text-3xl text-green-500 hover:scale-110 transform flex-shrink-0" 
+
+                                    <button
+                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-green-50 transition duration-200 text-xl sm:text-2xl md:text-3xl text-green-500 flex-shrink-0"
                                         onClick={() => handleOpenEdit(cat)}
                                         aria-label="Edit category"
                                     >
-                                        <CiEdit/>
+                                        <CiEdit />
                                     </button>
 
-                                    <button 
-                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-red-50 transition duration-200 text-xl sm:text-2xl md:text-3xl text-red-500 hover:scale-110 transform flex-shrink-0" 
+                                    <button
+                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-red-50 transition duration-200 text-xl sm:text-2xl md:text-3xl text-red-500 flex-shrink-0"
                                         onClick={() => handleOpenDelete(cat)}
                                         aria-label="Delete category"
                                     >
-                                        <CiTrash/>
+                                        <CiTrash />
                                     </button>
+
                                 </div>
                             )}
                         </div>
