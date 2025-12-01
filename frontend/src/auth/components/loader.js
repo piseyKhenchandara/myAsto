@@ -4,8 +4,6 @@ import { whoamiAPI } from "../../api/Auth.api";
 
 
 
-
-
 export const guestOnlyLoader = async () => {
 
   try{

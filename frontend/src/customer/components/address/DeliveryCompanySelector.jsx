@@ -15,7 +15,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
                 <label 
                     onClick={() => handleDeliveryCompanySelect('Vireak Buntham')}
                     required
-                    className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
+                    className={`border-2 rounded-lg p-4 cursor-pointer transition-all shadow-xl ${
                     selectedDeliveryCompany === 'Vireak Buntham'
                         ? 'border-green-500 bg-green-50' 
                         : 'border-gray-200 hover:border-gray-300'
@@ -32,7 +32,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
                 <label 
                     onClick={() => handleDeliveryCompanySelect('J&T')}
                     required
-                    className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
+                    className={`border-2 rounded-lg p-4 cursor-pointer transition-all shadow-xl ${
                     selectedDeliveryCompany === 'J&T'
                         ? 'border-green-500 bg-green-50' 
                         : 'border-gray-200 hover:border-gray-300'
@@ -50,7 +50,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
 
             {/* Phnom Penh Delivery Option */}
             {isPhnomPenh && (
-            <section className={`border-2 rounded-lg p-4 transition-all hover:shadow-md max-w-xs ${
+            <section className={`border-2 rounded-lg p-4 transition-all shadow-xl max-w-xs  ${
                     selectedDeliveryCompany === 'Phnom Penh delivery'
                     ? 'border-green-500 bg-green-50' 
                     : 'border-gray-200 hover:border-gray-300'
