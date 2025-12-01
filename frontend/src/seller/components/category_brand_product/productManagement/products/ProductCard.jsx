@@ -16,9 +16,9 @@ const ProductCard = ({
   const checkUserRole = whoami?.role === 'admin' || whoami?.role === 'seller';
 
   return (
-    <article className="flex flex-col py-2 justify-between w-full max-w-xs hover:scale-105 transition duration-100 ease-in-out cursor-pointer hover:shadow-green-300 rounded-[15px] h-auto">
+    <article className="flex flex-col py-2 justify-between w-full max-w-xs hover:scale-105 transition duration-100 ease-in-out cursor-pointer hover:shadow-green-300 rounded-[20px] h-auto md:border px-5">
       {/* Image Section */}
-      <figure className="w-full flex flex-col items-center gap-2 px-[2px]">
+      <figure className="w-full flex flex-col items-center gap-2 px-[2px] mb-5 md:mb-10">
         {product.ProductImages?.[0] && (
           <Link 
             to={checkUserRole 
