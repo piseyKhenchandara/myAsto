@@ -43,7 +43,7 @@ const Header = ({ setVisible, asto_logo }) => {
           </Link>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+        <div className="flex items-center gap-5">
           <SearchPopup toggleSearchPopup={toggleSearchPopup} searchPopup={searchPopup} />
 
           {!checkUserRole && (
