@@ -26,7 +26,7 @@ const GridView = ({
     }
 
     return (
-        <section className="px-6 py-2 w-full flex flex-col items-center relative">
+        <section className="px-6 py-4 w-full flex flex-col items-center relative">
 
             <div className="w-full max-w-6xl relative">
                 {categories.map((cat, index) => (
@@ -36,26 +36,29 @@ const GridView = ({
                         className="category-card backdrop-blur-sm transition-all duration-300 overflow-hidden"
                         key={cat.id}
                     >
-                        <div className="flex items-center p-2 md:h-[150px]">
+                        <div className="flex items-center p-2 ">
 
                             <NavLink
-                                    className={`flex items-center shadow-lg p-2 sm:p-4 md:p-4 rounded-e-xl sm:rounded-e-2xl flex-shrink-0 h-full ${
-                                        whoami?.role === 'admin' || whoami?.role === 'seller'
-                                            ? 'w-[calc(100%-80px)] sm:w-[calc(100%-100px)] md:w-[calc(100%-120px)]'
-                                            : 'w-full'
-                                    }`}
-                                >
+                                to={
+                                    whoami?.role === 'admin' || whoami?.role === 'seller'
+                                        ? `/dashboard/category/${cat.slug}/brand/first/products`
+                                        : `/category/${cat.slug}/brand/first/products`
+                                }
+                                className={`flex items-center bg-white shadow-lg p-3  rounded-e-xl sm:rounded-e-2xl flex-shrink-0 h-full ${
+                                    whoami?.role === 'admin' || whoami?.role === 'seller'
+                                        ? 'w-[calc(100%-80px)] sm:w-[calc(100%-100px)] md:w-[calc(100%-120px)]'
+                                        : 'w-full'
+                                }`}
+                            >
+                                <img
+                                    src={cat.image_url || asto_logo}
+                                    alt={cat.name}
+                                    className="w-16 h-16 md:w-25 md:h-25 object-contain rounded-lg sm:rounded-xl flex-shrink-0"
+                                />
 
-                                    <img
-                                        src={cat.image_url || asto_logo}
-                                        alt={cat.name}
-                                        className="w-20 h-20 md:w-[20%] md:h-full object-contain rounded-lg sm:rounded-xl flex-shrink-0"
-                                    />
-
-                                    <h3 className="text-base xs:text-lg sm:text-xl md:text-xl lg:text-3xl xl:text-4xl font-bold text-gray-800 ml-3 xs:ml-4 sm:ml-6 md:ml-4 lg:ml-10 leading-tight truncate w-[80%]">
-                                        {cat.name}
-                                    </h3>
-
+                                <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 ml-3 xs:ml-4 sm:ml-6 md:ml-8 lg:ml-10 leading-tight truncate">
+                                    {cat.name}
+                                </h3>
                             </NavLink>
 
                             {(whoami?.role === 'admin' || whoami?.role === 'seller') && (
