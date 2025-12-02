@@ -4,15 +4,33 @@ import { auth } from "../../firebase/config";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
 import { useUser } from "../../../../context/UserContext";
+import { useEffect, useState } from 'react';  // ✅ ADD THIS
+
+// ✅ ADD THIS - Detect in-app browsers
+const isInAppBrowser = () => {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    return (
+        ua.includes('FBAN') || 
+        ua.includes('FBAV') || 
+        ua.includes('Instagram') ||
+        ua.includes('Telegram') ||
+        ua.includes('Line')
+    );
+};
 
 const GoogleAuth = ({ 
     submit=false, 
     setSubmit=false, 
     setMsg= false, 
-
 }) => {
     const navigate = useNavigate();
-    const {refetchUser} =useUser();
+    const {refetchUser} = useUser();
+    const [showWarning, setShowWarning] = useState(false);  // ✅ ADD THIS
+
+    // ✅ ADD THIS
+    useEffect(() => {
+        setShowWarning(isInAppBrowser());
+    }, []);
 
     const handleGoogleSignUp = async () => {
         const provider = new GoogleAuthProvider();
@@ -21,21 +39,26 @@ const GoogleAuth = ({
             setSubmit({ process: true, formName: 'google' });
 
             const result = await signInWithPopup(auth, provider);
-
             const user = result.user;
             
             console.log('Google sign-up successful:', user);
             
-            await googleAuthAPI(
+            // ✅ CHANGE THIS - Store the response
+            const response = await googleAuthAPI(
                 user.email,           
                 user.displayName,     
                 user.photoURL,        
                 user.uid        
-                
             );
-            await refetchUser();
 
-           
+            // ✅ ADD THIS - Store token in localStorage/sessionStorage
+            if (response.token) {
+                localStorage.setItem('authToken', response.token);
+                sessionStorage.setItem('authToken', response.token);
+            }
+            
+            await refetchUser();
+            
             setMsg({ type: 'success', text: 'Google sign-up successful!' });
 
             setTimeout(() => {
@@ -55,6 +78,15 @@ const GoogleAuth = ({
 
     return (
         <section>
+            {/* ✅ ADD THIS - Warning for in-app browsers */}
+            {showWarning && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                    <p className="text-sm text-yellow-800">
+                        <strong>⚠️ Note:</strong> For best experience, please open this page in your default browser (Chrome, Safari, etc.)
+                    </p>
+                </div>
+            )}
+
             <figure className="flex items-center my-4">
                 <hr className="flex-1 border-t border-gray-600" />
                 <span className="px-3 text-sm">OR</span>
@@ -73,8 +105,6 @@ const GoogleAuth = ({
                 <FcGoogle size={20} />
                 Continue with Google
             </button>
-
-            
         </section>
     );
 };

@@ -69,10 +69,11 @@ export const googleAuth = async (req, res) => {
             await user.update({
                 last_login: new Date()
             });
-            generateTokenAndSetCookie(res, user.id,user.role);
+            const token = generateTokenAndSetCookie(res, user.id,user.role);
             return res.status(200).json({
                 success: true, 
                 message: "Welcome back!",
+                token : token,
                 user: {
                     id: user.id,
                     email: user.email,
@@ -200,7 +201,7 @@ export const signup = async(req,res) => {
             profile_picture: null,
         });
 
-        generateTokenAndSetCookie(res,newUser.id, newUser.role);
+        const token = generateTokenAndSetCookie(res,newUser.id, newUser.role);
         await sendVerificationEmail(newUser.email, verificationToken, newUser.name);
 
         const notification = await db.Notification.create({
@@ -225,12 +226,14 @@ export const signup = async(req,res) => {
             success: true,
             message:
                 "User registered successfully! Please check your email for the verification code.",
+            token : token,
             user:{
                 id : newUser.id,
                 name : newUser.name,
                 email : newUser.email,
                 role : newUser.role,
                 is_verified : newUser.is_verified,
+                last_login : newUser.last_login,
 
               
             }

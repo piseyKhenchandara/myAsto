@@ -11,7 +11,7 @@ export const checkEmailAPI = async ({email}) => {
 export const googleAuthAPI = async (email,name,photoUrl,provider_id) => {
     const payload = {email, name, photoUrl, provider_id};
     const {data} = await http.post("/auth/google", payload);
-    return data.user;
+    return data;
 }
 
 
