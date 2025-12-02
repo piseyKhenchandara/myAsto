@@ -11,6 +11,9 @@ export const checkEmailAPI = async ({email}) => {
 export const googleAuthAPI = async (email,name,photoUrl,provider_id) => {
     const payload = {email, name, photoUrl, provider_id};
     const {data} = await http.post("/auth/google", payload);
+    if(data.token) {
+        localStorage.setItem('authToken', data.token);
+    }
     return data;
 }
 
@@ -55,21 +58,27 @@ export const resetPasswordAPI = async (token,newPassword) => {
 
 
 export const loginAPI = async (email, password) => {
-    
     const payload = {email, password};
-
-    const {data} = await http.post("/auth/login",payload);
+    const {data} = await http.post("/auth/login", payload);
+    
+    // Store token if using localStorage fallback
+    if (data.token) {
+        localStorage.setItem('authToken', data.token);
+    }
+    
     return data.user;
-
-
 }
 
 export const logoutAPI = async () => {
-
-    const {data} = await http.post('/auth/logout');
-    return data;
+    try {
+        const {data} = await http.post('/auth/logout');
+        return data;
+    } finally {
+        // Always clear tokens, even if request fails
+        localStorage.removeItem('authToken');
+        sessionStorage.removeItem('authToken');
+    }
 }
-
 
 
 export const whoamiAPI = async () => {
