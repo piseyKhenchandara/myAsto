@@ -93,7 +93,7 @@ const ProductDetail = () => {
                                 <img 
                                     src={productDetail.ProductImages[0].image_url} 
                                     alt={productDetail.name}
-                                    className='w-full h-full object-cover'
+                                    className='w-full h-full object-contain'
                                 />
                             ) : (
                                 <div className='w-full h-full flex items-center justify-center text-gray-400'>
@@ -168,23 +168,29 @@ const ProductDetail = () => {
                     )}
 
                     {/* Features */}
+                    {/* Features */}
                     {productDetail.ProductFeatures?.length > 0 && (
-                        <section className='space-y-3'>
-                            <h4 className=' text-gray-900 '>Specifications</h4>
-                            <dl className=''>
-                                {productDetail.ProductFeatures.map((feature, index) => (
-                                    <div key={index} className='px-4 py-3 flex justify-between border-b-1'>
-                                        <dt className='text-sm font-medium text-gray-900'>
-                                            {feature.feature_name}
-                                        </dt>
-                                        <dd className='text-sm text-gray-600'>
-                                            {feature.feature_value}
-                                        </dd>
-                                    </div>
-                                ))}
-                            </dl>
-                        </section>
+                    <section className="w-full">
+                        <h4 className="text-gray-900 mb-2">Specifications</h4>
+                        <table className="min-w-full border border-gray-200 divide-y divide-gray-200">
+                        <thead className="bg-gray-100">
+                            <tr>
+                            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Feature</th>
+                            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {productDetail.ProductFeatures.map((feature, index) => (
+                            <tr key={index}>
+                                <td className="px-4 py-2 text-sm text-black">{feature.feature_name}</td>
+                                <td className="px-4 py-2 text-sm text-gray-400">{feature.feature_value}</td>
+                            </tr>
+                            ))}
+                        </tbody>
+                        </table>
+                    </section>
                     )}
+                    
                 
                     {/* Price and Warranty */}
                     <div className='flex justify-around items-center space-y-2'>
