@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { googleAuthAPI, signupAPI } from '../../api/Auth.api'
+import { signupAPI } from '../../api/Auth.api'
 import '../../index.css'
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';

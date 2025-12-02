@@ -9,7 +9,7 @@ const http = axios.create({
 
 // ✅ ADD THIS - Send token from localStorage as fallback for in-app browsers
 http.interceptors.request.use((config) => {
-    const token = localStorage.getItem('authToken' || sessionStorage.getItem("authToken"));
+    const token = localStorage.getItem('authToken') || sessionStorage.getItem("authToken");
 
     if(token) {
         config.headers['Authorization'] = `Bearer ${token}`;

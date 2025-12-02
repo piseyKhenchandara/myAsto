@@ -126,7 +126,7 @@ export const googleAuth = async (req, res) => {
 
 
             console.log(' New user created:', newUser.id);
-            generateTokenAndSetCookie(res, newUser.id, newUser.role);
+            const token = generateTokenAndSetCookie(res, newUser.id, newUser.role);
             await sendWelcomeEmail(newUser.email, newUser.name);
 
 
@@ -152,12 +152,14 @@ export const googleAuth = async (req, res) => {
             return res.status(201).json({
                 success: true, 
                 message: "Account created successfully!",
+                token : token,
                 user: {
                     id: newUser.id,
                     email: newUser.email,
                     name: newUser.name,
                     role: newUser.role,
-                    is_verified: newUser.is_verified
+                    is_verified: newUser.is_verified,
+                    last_login : newUser.last_login
                 }
             });
         }
