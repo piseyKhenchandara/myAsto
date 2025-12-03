@@ -81,9 +81,14 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log("DB connected successfully");
 
-    // Temporarily force sync in Docker
-    await sequelize.sync({ alter: true });
-    console.log("✅ DB schema synchronized (alter: true)");
+    if(process.env.NODE_ENV === 'development') {
+      await sequelize.sync({alter: true});
+      console.log('dev moode');
+    }
+    else {
+      await sequelize.sync(); 
+      console.log('production mode')
+    }
 
     server.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}`);

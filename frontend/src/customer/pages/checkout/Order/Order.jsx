@@ -8,6 +8,7 @@ import Signup from '../../../../auth/pages/Signup';
 import { orderAPI } from '../../../../api/order.api';
 import { createKHQRPaymentAPI } from '../../../../api/payment.api';
 import KhqrGenerator from '../KHQR/KhqrGenerator';
+import toast from 'react-hot-toast';
 
 const Order = () => {
   const { user: whoami } = useUser();
@@ -55,7 +56,7 @@ const Order = () => {
       console.log('Response:', response);
 
       if (response.success) {
-        alert('Order placed successfully!✅');
+        toast.success('Order placed successfully!✅', {duration: 3000});
         const khqrResponse = await createKHQRPaymentAPI(response.data.order_id);
         setResFromKHQR(khqrResponse);
         setQrPopup(true);
@@ -63,7 +64,7 @@ const Order = () => {
       }
 
     } catch (error) {
-      alert(error.response?.data.message || 'Error processing order. Please try again.');
+      toast.error(error.response?.data.message || 'Error processing order. Please try again.')
     } finally {
       setIsProcessing(false);
       setSubmit(false);

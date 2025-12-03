@@ -138,7 +138,7 @@ const ProductDetail = () => {
                                         key={index}
                                         src={video.video_url}
                                         controls
-                                        className="w-full rounded-lg"
+                                        className="w-full rounded-lg h-[300px] md:h-[500px] "
                                         preload="metadata"
                                     >
                                         Your browser does not support the video tag.

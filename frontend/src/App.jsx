@@ -37,7 +37,7 @@ import Orders from './seller/components/orderManagement/Orders'
 import { NotificationProvider } from '../context/notificationContext/NotificationContext'
 import AboutUs from '../utils/AboutUs'
 import { initGA } from '../utils/analytics'
-
+import { Toaster } from 'react-hot-toast'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -106,6 +106,7 @@ const App = () => {
     <UserProvider>
     <NotificationProvider>
         <CartProvider>
+          <Toaster position='top-right' reverseOrder= {false}/>
           <RouterProvider router={router} />
         </CartProvider>
     </NotificationProvider>
