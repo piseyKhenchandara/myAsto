@@ -105,7 +105,7 @@ const Order = () => {
                 setAddress={setAddress}
                 phoneNumber={phoneNumber}
                 setPhoneNumber={setPhoneNumber}
-                selectedLocation={selectedLocation}
+                selectedLocation={finalAddress}
                 setSelectedLocation={setSelectedLocation}
                 selectedDeliveryCompany={selectedDeliveryCompany}
                 setSelectedDeliveryCompany={setSelectedDeliveryCompany}
@@ -119,6 +119,7 @@ const Order = () => {
                 isProcessing={isProcessing}
                 whoami={whoami}
                 totalPrice = {totalPrice}
+
               />
             </div>
             
