@@ -1,176 +1,337 @@
-# MYASTO (Asto Gear)
-
-A full-stack e-commerce platform with seller features, authentication, OAuth, product management, multi-language support, and demo payment flow.
-
-🚧 **Status:** Active Development | Started October 2025
-
----
-
-## Table of Contents
-
-- [Project Overview](#project-overview)
-- [Tech Stack](#tech-stack)
-- [Folder Structure](#folder-structure)
-- [Environment Variables](#environment-variables)
-- [Getting Started](#getting-started)
-- [API Endpoints](#api-endpoints)
-- [Development Timeline](#development-timeline)
-- [TODOs & Roadmap](#todos--roadmap)
-
----
+# Asto Gear - Computer Accessories E-commerce Platform
 
 ## Project Overview
 
-MYASTO is an e-commerce application allowing sellers to manage products and buyers to browse and purchase items with a complete shopping cart system.
+**Asto Gear** is a full-stack e-commerce web application that allows users to build and purchase computer accessories with ease. The platform features real-time notifications, multi-language support, and integrated payment through Bakong API. All orders come with **free delivery** for users.
 
-- `backend/` — Node.js + Express API, Sequelize ORM, authentication, OAuth, product management
-- `frontend/` — React + Vite client with Seller and Buyer flows, localization
+---
+
+## Key Features
+
+### Authentication
+- User registration and login (manual or Google OAuth)
+- JWT-based authentication with cookies and authorization headers
+- Secure session management
+
+### E-commerce Functionality
+- Browse computer accessories and components
+- Search products by name
+- Filter products by brand and category
+- Add products to shopping cart
+- View order receipts
+
+### Seller Dashboard
+- Full CRUD operations for products, brands, and categories
+- Track user login/signup activity
+- Manage product inventory
+
+### Real-time Features
+- WebSocket notifications for order updates
+- Live order tracking
+
+### Payment Integration
+- Bakong KHQR payment gateway
+- Secure payment processing
+
+### Multi-language Support
+- Language options: Khmer, Chinese, English
+- Flag-based language switcher
+
+### Delivery Management
+- User input for phone number and address
+- Multiple delivery provider options:
+  - JNT Express
+  - Vireak Buntham
+  - Grab
+
+### Contact & Support
+- About Us page
+- Contact via Telegram, Facebook, and Instagram
 
 ---
 
 ## Tech Stack
 
-- **Backend:** Node.js, Express, Sequelize, MySQL, JWT, Passport (OAuth)
-- **Frontend:** React + Vite, React Router
-- **Database:** MySQL
-- **Payment:** Demo/sandbox integration
-- **Language:** Google Cloud Translate API
-- **File Upload:** Multer + Cloudinary
+### Backend
+- **Node.js** & **Express.js** - Server framework
+- **MySQL** - Relational database
+- **Sequelize** - ORM for database management
+- **Firebase** - Authentication services
+- **WebSocket** - Real-time communication
+- **Nodemailer** - Email notifications
+- **Bakong API** - Payment integration
+- **JWT** - Token-based authentication
+- **Cloudinary** - Image storage and optimization
+
+### Frontend
+- **React** with **Vite** - Fast development environment
+- **Tailwind CSS** - Utility-first styling
+- **Socket.io** - WebSocket client
+- **React Toast** - User notifications
+
+### DevOps
+- **Docker** & **Docker Compose** - Containerization
+- **Nginx** - Reverse proxy and static file serving
 
 ---
 
-## Folder Structure
-
-myasto/
-├─ backend/
-│ ├─ config/ # Database & Sequelize config
-│ ├─ controllers/ # Auth, product, payment, category, brand, order controllers
-│ ├─ mail/ # Email templates & services
-│ ├─ middleware/ # authenticate.js, authorizeRoles.js, uploadImage.js, uploadVideo.js
-│ ├─ models/ # Sequelize models (User, Product, Category, Brand, Order)
-│ ├─ repositories/ # Data access layer
-│ ├─ routes/ # auth.routes.js, product.routes.js, category.routes.js, brand.routes.js, order.routes.js
-│ ├─ utils/ # Helper functions
-│ ├─ .env # Environment variables (DO NOT COMMIT)
-│ ├─ .env.example # Environment template
-│ ├─ server.js # Entry point
-│ └─ package.json
-├─ frontend/
-│ ├─ context/ # React Context for state management
-│ ├─ public/ # Static assets
-│ ├─ src/ # React components & pages
-│ ├─ utils/ # Frontend utilities
-│ ├─ vite.config.js # Vite configuration (proxy setup)
-│ └─ package.json
-├─ languages/ # Localization files
-├─ .gitignore
-└─ README.md
-
----
-
-## Environment Variables
-
-Create `backend/.env`:
-
-```env
-PORT=5000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=REDACTED_DB_NAME
-NODE_ENV=development
-JWT_SECRET=your_jwt_secret
-
-MAIL_USER=your_email@gmail.com
-MAIL_PASS=your_app_password
-
-CLOUD_NAME=your_cloudinary_name
-CLOUD_API_KEY=your_cloudinary_key
-CLOUD_API_SECRET=your_cloudinary_secret
-
-GOOGLE_TRANSLATE_API_KEY=your_google_api_key
-⚠️ NEVER commit .env to GitHub! Use .env.example as template.
-
-Getting Started
-Prerequisites
-
-Node.js (v16 or higher)
-MySQL
-npm or yarn
-
-Installation
-
-Clone the repository
-
-bashgit clone https://github.com/SeYz-GHB/myasto.git
-cd myasto
-
-Setup Backend
-
-bashcd backend
-npm install
-
-Configure Database
-
-
-Create a MySQL database
-Copy .env.example to .env and fill in your credentials
-Run migrations:
-
-bashnpx sequelize-cli db:migrate
-
-Setup Frontend
-
-bashcd ../frontend
-npm install
-Running the Application
-Backend:
-bashcd backend
-npm run dev
-Runs on: http://localhost:5000
-Frontend:
-bashcd frontend
-npm run dev
-Runs on: http://localhost:5173
-
-API Endpoints
-Authentication (/api/auth)
-MethodEndpointAccessDescriptionPOST/signupPublicUser registrationPOST/loginPublicUser loginPOST/check-emailPublicCheck email availabilityPOST/googlePublicGoogle OAuthPOST/forgot-passwordPublicRequest password resetPOST/reset-passwordPublicReset passwordPOST/verify-emailProtectedVerify emailPOST/resend-verificationProtectedResend verificationPOST/logoutPublicUser logoutGET/whoamiProtectedGet current user
-Categories (/api/category)
-MethodEndpointAccessDescriptionPOST/upload-categoryAdmin/SellerCreate categoryGET/view-all-categoriesPublicList all categoriesPATCH/update-category/:idAdmin/SellerUpdate categoryDELETE/delete-categories/:idAdmin/SellerDelete category
-Brands (/api/brand)
-MethodEndpointAccessDescriptionPOST/category/:category_slug/upload-brandAdmin/SellerCreate brandGET/view-all-brandsPublicList all brandsGET/category/:category_slug/brandsPublicGet brands by categoryPATCH/update-brand/:idAdmin/SellerUpdate brandDELETE/delete-brand/:idAdmin/SellerDelete brand
-Products (/api/product)
-MethodEndpointAccessDescriptionPOST/single_productAdmin/SellerCreate productGET/PublicList all productsGET/:idPublicGet product by IDGET/detail/:idPublicGet product detailsGET/category/:category_slug/brand/:brand_slugPublicFilter productsPUT/edit/:idAdmin/SellerUpdate productDELETE/delete/:idAdmin/SellerDelete product
-Orders (/api/order)
-MethodEndpointAccessDescriptionPOST/CustomerCreate order
-
-Development Timeline
-
-Week 1: Database setup, Sequelize integration, Frontend-Backend connection
-Week 2-4: Authentication system (Signup, Login, Password Reset, Email Verification)
-Week 5: Google OAuth integration
-Week 6-8: Seller dashboard (Category, Brand, Product CRUD operations)
-Week 9: Client-side design (Homepage, Cart, Payment demo)
-Week 10: Multi-language integration (Khmer, English, Chinese)
-
-
-TODOs & Roadmap
-
- Add automated tests (Jest)
- Implement admin dashboard
- Add pagination & search filters
- Real payment gateway integration
- Complete order management system
- Product reviews & ratings
- Email verification completion
- Mobile responsive optimization
- Inventory management
- Sales analytics
-
-
-👤 Author
-SeYz-GHB
-GitHub: @SeYz-GHB
+## Project Structure
 
 ```
+project-root/
+│
+├── backend/                     # Backend Node.js app
+│   ├── config/                  # Database & service configurations
+│   ├── controllers/             # Business logic (address, brand, category, order, etc.)
+│   ├── mail/                    # Email templates and nodemailer setup
+│   ├── middleware/              # Authentication & authorization middleware
+│   ├── models/                  # Sequelize models (User, Product, Order, etc.)
+│   ├── routes/                  # API route definitions
+│   ├── utils/                   # Helper functions
+│   ├── node_modules/
+│   ├── .dockerignore
+│   ├── .env.example
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── server.js                # Main server entry point
+│   └── wait-for-db.sh           # Database connection wait script
+│
+├── frontend/                    # Frontend Vite app
+│   ├── context/                 # React Context for state management
+│   ├── dist/                    # Production build output
+│   ├── node_modules/
+│   ├── public/                  # Static assets
+│   ├── src/                     # React components and pages
+│   ├── utils/                   # Frontend helper functions
+│   ├── .dockerignore
+│   ├── .env.development         # Development environment variables
+│   ├── .env.production          # Production environment variables
+│   ├── Dockerfile
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── nginx.dev.conf           # Nginx config for development
+│   ├── nginx.prod.conf          # Nginx config for production
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── socket.js                # WebSocket configuration
+│   └── vite.config.js
+│
+├── .env                         # Root environment variables
+├── .gitignore
+├── docker-compose.yml           # Docker orchestration
+└── README.md
+```
+
+---
+
+## Installation & Setup
+
+### Prerequisites
+- Node.js (v16 or higher)
+- MySQL database
+- Docker & Docker Compose (optional)
+
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd asto-gear
+```
+
+### 2. Database Setup
+Create a MySQL database and configure the required tables according to your schema.
+
+### 3. Backend Setup
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file in the backend directory with the following variables:
+
+```env
+# Database Configuration
+DB_NAME=your_database_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_HOST=localhost
+
+# Cloudinary Configuration
+CLOUD_NAME=your_cloudinary_name
+CLOUD_API_KEY=your_cloudinary_api_key
+CLOUD_API_SECRET=your_cloudinary_api_secret
+
+# JWT Secret
+JWT_SECRET=your_jwt_secret
+
+# Firebase Configuration
+FIREBASE_API_KEY=your_firebase_key
+
+# Bakong API
+BAKONG_API_KEY=your_bakong_key
+
+# Email Configuration
+EMAIL_USER=your_email
+EMAIL_PASSWORD=your_email_password
+```
+
+**Database Configuration (Sequelize):**
+```javascript
+import { Sequelize } from 'sequelize';
+
+export const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'mysql',
+    logging: false,
+  }
+);
+```
+
+**Cloudinary Configuration:**
+```javascript
+import {v2 as cloudinary} from 'cloudinary'
+import {CloudinaryStorage} from 'multer-storage-cloudinary'
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'products',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    transformation: [
+      { width: 500, height: 500, crop: 'limit', quality: 'auto', fetch_format: 'auto' }
+    ],
+    public_id: (req, file) => {
+      const uniqueSuffix = Date.now();
+      const nameWithoutExt = file.originalname.replace(/\.[^/.]+$/, '');
+      return `${nameWithoutExt}_${uniqueSuffix}`;
+    }
+  }
+});
+```
+
+**Run the backend:**
+```bash
+nodemon server.js
+```
+
+### 4. Frontend Setup
+
+```bash
+cd frontend
+npm install
+```
+
+Create environment files:
+
+**.env.development:**
+```env
+VITE_API_URL=http://localhost:5000
+VITE_SOCKET_URL=http://localhost:5000
+```
+
+**.env.production:**
+```env
+VITE_API_URL=https://your-production-api.com
+VITE_SOCKET_URL=https://your-production-api.com
+```
+
+**Run the frontend:**
+```bash
+npm run dev
+```
+
+### 5. Docker Setup (Optional)
+
+To run the entire application with Docker:
+
+```bash
+docker-compose up --build
+```
+
+---
+
+## Usage
+
+1. **Access the application:**
+   - Frontend: `http://localhost:5173`
+   - Backend API: `http://localhost:5000`
+
+2. **User Flow:**
+   - Register/Login to the platform
+   - Browse products and add to cart
+   - Enter delivery information
+   - Complete payment via Bakong KHQR
+   - Track order status in real-time
+
+3. **Seller Flow:**
+   - Login with seller credentials
+   - Manage products, brands, and categories
+   - View user activity and orders
+
+---
+
+## Available Scripts
+
+### Backend
+```bash
+npm start          # Start server with Node
+nodemon server.js  # Start server with auto-reload
+```
+
+### Frontend
+```bash
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run preview    # Preview production build
+```
+
+---
+
+## Security Features
+
+- JWT authentication with HTTP-only cookies
+- Authorization headers for API requests
+- Google OAuth integration
+- Secure password hashing
+- Environment-based configuration
+
+---
+
+## API Endpoints
+
+The backend provides RESTful API endpoints for:
+- Authentication (`/api/auth`)
+- Products (`/api/products`)
+- Categories (`/api/categories`)
+- Brands (`/api/brands`)
+- Orders (`/api/orders`)
+- Payments (`/api/payments`)
+- User management (`/api/users`)
+
+---
+
+## Contact
+
+For any inquiries or support, reach out via:
+- **Telegram:** [@Reajasey]
+- **Facebook:** [https://www.facebook.com/pisey.khenchandara]
+
+
+
+## Acknowledgments
+
+- Bakong API for payment integration
+- Cloudinary for image management
+- Firebase for authentication services
+- All open-source libraries used in this project
