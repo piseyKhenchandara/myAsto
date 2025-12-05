@@ -305,8 +305,10 @@ export const validateString = (fieldName, minLength, maxLength, required = true)
 //ORDER VALIDATOR
 
 
+import db from "../models/index.js"; // Add this import
+
 export const validateOrderCreation = () => {
-    return (req, res, next) => {
+    return async (req, res, next) => { // Make it async
         const { 
             amount,
             customer_name,
@@ -333,9 +335,6 @@ export const validateOrderCreation = () => {
             });
         }
 
-
-        
-        
         const validCompanies = ["Vireak Buntham", "J&T", 'Phnom Penh delivery'];
         console.log(validCompanies.includes(delivery_company) ? "Yes" : "No");
 
@@ -356,10 +355,6 @@ export const validateOrderCreation = () => {
             }
         }
 
-
-
-        
-      
         if (!cart) {
             return res.status(400).json({
                 success: false,
@@ -385,21 +380,47 @@ export const validateOrderCreation = () => {
         }
 
         for (let i = 0; i < parsedCart.length; i++) {
-
             const item = parsedCart[i];
 
-            if (!item.id || !item.quantity || !item.price || !item.name ) {
+            if (!item.id || !item.quantity || !item.price || !item.name) {
                 return res.status(400).json({
                     success: false,
                     message: `Cart item ${i + 1} is missing required fields!`
                 });
             }
-            
 
             if (!/^\d+$/.test(String(item.id)) || parseInt(item.id) <= 0) {
                 return res.status(400).json({
                     success: false,
                     message: `Cart item ${i + 1} has invalid product ID!`
+                });
+            }
+
+            // ✅ NEW: Check if product exists and check stock
+            try {
+                const product = await db.Product.findByPk(item.id, {
+                    attributes: ['id', 'name', 'stock']
+                });
+
+                if (!product) {
+                    return res.status(404).json({
+                        success: false,
+                        message: `Product "${item.name}" not found! Please choose another product.`
+                    });
+                }
+
+                if (product.stock === 'Out of Stock') {
+                    return res.status(400).json({
+                        success: false,
+                        message: `Product "${product.name}" is out of stock! Please choose another product.`
+                    });
+                }
+
+            } catch (error) {
+                console.error('Database error:', error);
+                return res.status(500).json({
+                    success: false,
+                    message: "Error checking product availability!"
                 });
             }
             
@@ -422,8 +443,6 @@ export const validateOrderCreation = () => {
             }
         }
 
-       
-
         const addressTrimmed = shipping_address.trim();
         if (addressTrimmed.length > 500) {
             return res.status(400).json({
@@ -440,7 +459,6 @@ export const validateOrderCreation = () => {
             });
         }
 
-        // 3. Allow only safe characters (letters, numbers, common punctuation, Khmer characters)
         const addressPattern = /^[\p{L}\p{N}\s,.\-#/()\u1780-\u17FF]+$/u;
         if (!addressPattern.test(addressTrimmed)) {
             return res.status(400).json({
@@ -458,10 +476,6 @@ export const validateOrderCreation = () => {
             });
         }
 
-
-        req.body.shipping_address = addressTrimmed;
-
-        // 8. Store sanitized values
         req.body.shipping_address = addressTrimmed;
         req.body.discount_amount = discount_amount;
         req.body.payment_method = payment_method;
@@ -470,7 +484,6 @@ export const validateOrderCreation = () => {
         req.body.cart = parsedCart;
         
         console.log('📦 Full Request Body:', req.body);
-
 
         next();
     };

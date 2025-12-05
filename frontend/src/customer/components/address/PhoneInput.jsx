@@ -35,7 +35,7 @@ const PhoneInput = ({phoneNumber, setPhoneNumber}) => {
       }
   return (
     <div>
-        <label className="block text-sm font-medpium text-gray-700 mb-2">Phone Number</label>
+        <label className="block text-sm font-medpium text-green-600 mb-2">Phone Number</label>
         <input 
           type="text"
           placeholder="012-345-678 or +855 12-345-678"
@@ -52,7 +52,7 @@ const PhoneInput = ({phoneNumber, setPhoneNumber}) => {
           <p className="mt-1 text-sm text-red-600">{phoneError}</p>
         )}
         {phoneNumber && !phoneError && (
-          <p className="mt-1 text-sm text-green-600 flex items-center" >
+          <p className="mt-1 text-sm text-green-300 flex items-center" >
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
