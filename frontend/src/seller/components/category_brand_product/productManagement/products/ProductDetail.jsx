@@ -216,7 +216,7 @@ const ProductDetail = () => {
                     </div>
 
 
-                    {whoami?.role === 'customer' && (
+                    {(whoami?.role !== 'seller' && whoami?.role !=="admin") && (
                         <button 
                             className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-green-500 rounded-[6px] flex items-center gap-1 min-w-[200px]"
                             onClick={() => addToCart(productDetail)}
