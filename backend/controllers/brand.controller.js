@@ -1,7 +1,7 @@
 import { Op } from "sequelize";
 import db from "../models/index.js";
 import { v2 as cloudinary } from "cloudinary";
-
+import { Sequelize } from "sequelize";
 export const uploadBrand = async (req, res) => {
     const { brand_name } = req.body;
     const file = req.file;
@@ -61,7 +61,14 @@ export const uploadBrand = async (req, res) => {
 export const getAllBrands = async (req, res) => {
   try {
     const brands = await db.Brand.findAll({
-      attributes: ['id', 'name', 'image_url', 'slug'], 
+      attributes: [
+        [Sequelize.fn('MIN', Sequelize.col('id')), 'id'],
+        'name',
+        [Sequelize.fn('MIN', Sequelize.col('image_url')), 'image_url'],
+        [Sequelize.fn('MIN', Sequelize.col('slug')), 'slug']
+      ],
+      group: ['name'],
+      raw: true
     });
 
     return res.status(200).json({ success: true, brands });

@@ -10,14 +10,11 @@ const BrandsHorizontally = () => {
   const getBrands = async () => {
     try {
       setLoading(true);
-      const data = await getAllBrandsAPI();
-      setBrands(data.brands || []);
-      setLoading(false);
+      const response = await getAllBrandsAPI();
+      setBrands(response.brands);
     } catch (error) {
-      setMsg({
-        type: 'error',
-        text: error.response?.data.message || 'Failed to fetch brands',
-      });
+      setMsg({ type: 'error', text: error.message });
+    } finally {
       setLoading(false);
     }
   };
@@ -38,14 +35,11 @@ const BrandsHorizontally = () => {
     return <p className="text-gray-500 text-center py-8">No brands available.</p>;
   }
 
-  // Duplicate brands for seamless scroll
-  const duplicatedBrands = [...brands, ...brands];
-
   return (
     <section className="overflow-hidden w-full py-2 mb-5">
-      <div className="flex animate-scroll items-center ">
-        {duplicatedBrands.map((b, idx) => (
-          <div className="brand-item flex-shrink-0 px-4" key={idx}>
+      <div className="flex animate-scroll items-center">
+        {brands.map((b) => (
+          <div className="brand-item flex-shrink-0 px-4" key={b.id}>
             <img
               src={b.image_url}
               alt={b.name || 'Brand'}

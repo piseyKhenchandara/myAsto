@@ -9,7 +9,7 @@ const Pagination = ({
   if (totalPages <= 1) return null;
 
   return (
-    <nav className="flex justify-center gap-2">
+    <nav className="flex justify-center gap-2 mb-5">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}

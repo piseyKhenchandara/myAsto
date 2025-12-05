@@ -20,9 +20,6 @@ export const orders = async (req, res) => {
         
         if(!checkUser) return res.status(404).json({message :"User not found!"});
 
-
-
-
         const order = await db.sequelize.transaction(async(transaction) => {
 
       
