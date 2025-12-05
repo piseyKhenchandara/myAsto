@@ -6,7 +6,7 @@ const DisplayFileNameSelected = ({fileName}) => {
    
         {fileName&& (
             <div className="mt-2 p-2 bg-gray-100 rounded-lg">
-            <p className="text-xs  truncate">
+            <p className="text-xs  text-wrap ">
                 You selected: <span className='text-green-700'>{fileName}</span>
             </p>
             </div>
