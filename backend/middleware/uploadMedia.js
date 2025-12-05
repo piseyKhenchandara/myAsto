@@ -115,7 +115,24 @@ export const uploadProductMedia = multer({
   storage: productStorage,
   fileFilter: productFileFilter,
   limits: {
-    files: 10,
-    fileSize: 200 * 1024 * 1024 // 200MB
+    files: 25,
+    fileSize: 100 * 1024 * 1024 // 100MB
   }
 }).any();
+
+export const validateProductMedia = (req, res, next) => {
+  const files = req.files || [];
+
+  const images = files.filter(f => f.mimetype.startsWith('image/'));
+  const videos = files.filter(f => f.mimetype.startsWith('video/'));
+
+  if (images.length > 20) {
+    return res.status(400).json({ error: 'Max 20 images allowed' });
+  }
+
+  if (videos.length > 5) {
+    return res.status(400).json({ error: 'Max 5 videos allowed' });
+  }
+
+  next();
+};

@@ -75,7 +75,7 @@ const ProductForm = ({
 
   const handleImageFiles = (e) => {
     const getFiles = Array.from(e.target.files || []);
-    if(getFiles.length > 5) {
+    if(getFiles.length > 20) {
       return;
     }
     setImageFiles(getFiles);
@@ -83,7 +83,7 @@ const ProductForm = ({
 
   const handleVideoFiles = (e) => {
     const getFiles = Array.from(e.target.files || []);
-    if(getFiles.length > 3) {
+    if(getFiles.length > 5) {
       return;
     }
     setVideoFiles(getFiles);
@@ -299,14 +299,14 @@ const ProductForm = ({
           
           {/* Images */}
           <div className="mt-2">
-            <label className="block text-sm mb-1">Images (Max 5)</label>
+            <label className="block text-sm mb-1">Images (Max 20)</label>
             <div className="relative">
               <button 
                 type="button"
                 className="bg-gray-300 hover:bg-gray-400 border-dashed border-2 relative flex flex-col justify-center items-center p-5 rounded-[15px] text-gray-700 w-full"
                 disabled={isProcessing}
               >
-                <h5>Choose images up to 5</h5>
+                <h5>Choose images up to 20</h5>
                 <p className="text-sm">image/jpeg, image/png, image/webp</p>
                 
                 <input 
@@ -330,14 +330,14 @@ const ProductForm = ({
 
           {/* Videos */}
           <div className="mt-2">
-            <label className="block text-sm mb-1">Videos (Max 3)</label>
+            <label className="block text-sm mb-1">Videos (Max 5)</label>
             <div className="relative">
               <button 
                 type="button"
                 className="bg-gray-300 hover:bg-gray-400 border-dashed border-2 relative flex flex-col justify-center items-center p-5 rounded-[15px] text-gray-700 w-full"
                 disabled={isProcessing}
               >
-                <h5>Choose videos up to 3</h5>
+                <h5>Choose videos up to 5</h5>
                 <p className="text-sm">video/mp4, video/webm, video/ogg, video/mpeg, video/quicktime, video/avi</p>
                 
                 <input 

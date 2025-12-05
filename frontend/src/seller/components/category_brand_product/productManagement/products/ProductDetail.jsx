@@ -150,7 +150,7 @@ const ProductDetail = () => {
                 </section>
 
                 {/* Product Info */}
-                <section className='space-y-6'>
+                <section className='space-y-6 md:sticky md:top-20 md:self-start'>
                     {/* Basic Info */}
                     <header className='space-y-2 border-b-1'>
                         <h3 className='text-2xl sm:text-3xl font-bold text-gray-900'>

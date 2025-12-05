@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import asto_logo from '../../../../assets/logoes/asto_logo.png'
@@ -17,6 +17,24 @@ const CarouselView = ({
 }) => {
   const visibleCategories = categories.slice(currentIndex, currentIndex + itemsPerView);
 
+  // Keep the selected category visible in the carousel
+  useEffect(() => {
+    if (category_slug && categories.length > 0) {
+      const selectedIndex = categories.findIndex(cat => cat.slug === category_slug);
+      
+      if (selectedIndex !== -1) {
+        // Check if the selected category is currently visible
+        const isVisible = selectedIndex >= currentIndex && selectedIndex < currentIndex + itemsPerView;
+        
+        if (!isVisible) {
+          // Calculate the page where this category should be displayed
+          const targetPage = Math.floor(selectedIndex / itemsPerView);
+          const newIndex = targetPage * itemsPerView;
+          setCurrentIndex(newIndex);
+        }
+      }
+    }
+  }, [category_slug, categories, itemsPerView]); // Removed currentIndex from dependencies to avoid loops
 
   return (
     <section>
