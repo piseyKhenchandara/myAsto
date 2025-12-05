@@ -33,7 +33,7 @@ const Products = () => {
   const [message, setMessage] = useState({ type: '', text: '' });
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 12,
+    limit: 15,
     total: 0, 
     totalPages: 0
   });

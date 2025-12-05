@@ -4,7 +4,7 @@ import { GrLinkPrevious, GrLinkNext } from 'react-icons/gr';
 const Pagination = ({pagination, handlePageChange}) => {
   return (
     <nav aria-label="Pagination">
-        <div className="flex justify-center items-center gap-4 mt-8">
+        <div className="flex justify-center items-center gap-4 my-8">
             <button
             onClick={() => handlePageChange(pagination.page - 1)}
             disabled={pagination.page === 1}

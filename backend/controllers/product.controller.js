@@ -34,7 +34,7 @@ const generateUniqueSlug = async (name, excludeId = null) => {
 }
 export const getAllProduct = async (req,res) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 12;
+    const limit = parseInt(req.query.limit) || 15;
     const offset = (page -1 ) * limit;
          
     try{

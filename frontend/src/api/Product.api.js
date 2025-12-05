@@ -3,7 +3,7 @@ import http from "./http";
 /**  @param {Object} params { page?: Number, limit? : number} */
 
 export const getAllProduct = async (params = {}) => {
-    const {page = 1, limit = 12} = params;
+    const {page = 1, limit = 15} = params;
     const {data} = await http.get("/products", {params: {page, limit}});
     return data;
 }
