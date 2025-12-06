@@ -213,14 +213,11 @@ export const signup = async(req,res) => {
             profile_picture: null,
         });
 
-          console.log('✅ NEW USER CREATED:', newUser.id); // ← ADD THIS
-    
-    // Verify immediately after creation
-    const checkUser = await db.User.findByPk(newUser.id); // ← ADD THIS
-    console.log('🔍 USER EXISTS IN DB?', checkUser ? 'YES' : 'NO'); // ← ADD THIS
+        await db.User.findByPk(newUser.id); // ← ADD THIS
 
-    const token = generateTokenAndSetCookie(res, newUser.id, newUser.role);
-    console.log('🎫 TOKEN GENERATED FOR USER ID:', newUser.id); // ← ADD THI
+
+        const token = generateTokenAndSetCookie(res, newUser.id, newUser.role);
+  
 
      
         await sendVerificationEmail(newUser.email, verificationToken, newUser.name);

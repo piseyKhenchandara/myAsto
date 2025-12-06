@@ -54,14 +54,22 @@ const ProductCard = ({
 
          
          
-            {!checkUserRole && <button 
-              className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-green-500 rounded-[6px] flex items-center gap-1"
-              onClick={() => addToCart(product)}
+          {!checkUserRole && (
+            <button
+              className={`text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 rounded-[6px] flex items-center gap-1 
+                ${product.stock === 'Out of Stock' ? 'bg-red-500' : 'bg-green-500'}`}
+              
+              disabled={product.stock === 'Out of Stock'}
+              onClick={() => {
+                if (product.stock !== 'Out of Stock') {
+                  addToCart(product);
+                }
+              }}
             >
-              <FaCartArrowDown />
-            
-            </button>}
-     
+              {product.stock === 'Out of Stock' ? 'SOLD OUT' : <FaCartArrowDown />}
+            </button>
+          )}
+
         </div>
 
         {/* Admin/Seller Actions */}
