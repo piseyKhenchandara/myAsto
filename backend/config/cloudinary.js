@@ -4,10 +4,13 @@ import {CloudinaryStorage} from 'multer-storage-cloudinary'
 cloudinary.config({
     cloud_name : process.env.CLOUD_NAME,
     api_key : process.env.CLOUD_API_KEY,
-    api_secret : process.env.CLOUD_API_SECRET
+    api_secret : process.env.CLOUD_API_SECRET,
+    timeout: 600000 // Add this: 10 minutes in milliseconds
 });
 
-if(!process.env.CLOUD_NAME && !process.env.CLOUD_API_KEY && !process.env.CLOUD_API_SECRET) console.log('connnection to Cloudinary faild!')
+if(!process.env.CLOUD_NAME || !process.env.CLOUD_API_KEY || !process.env.CLOUD_API_SECRET) {
+    console.log('Connection to Cloudinary failed!')
+}
 
 const storage = new CloudinaryStorage({
   cloudinary,
