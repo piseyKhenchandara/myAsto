@@ -14,7 +14,7 @@ const Login = () => {
   const [msg, setMsg] = useState({ type: '', text: '' })
   const [submit, setSubmit] = useState({ formName: '', process: false })
   const [progress, setProgress] = useState(0)
-  const navgiate = useNavigate();
+  const navigate = useNavigate();
   const location =useLocation();
   const {refetchUser} = useUser();
 
@@ -44,15 +44,27 @@ const login = async (e) => {
     setSubmit({ process: true, formName: 'login' })
 
     try {
-      await loginAPI(email, password)
+      const response = await loginAPI(email, password)
 
       await refetchUser();
+
+      if (!response.is_verified) {
+          setMsg({ 
+              type: 'success', 
+              text: 'Login successful! Please verify your email.' 
+          })
+          setTimeout(() => {
+              navigate('/auth/verify-email')  // ← Redirect to verification
+          }, 2000)
+          return;
+      }
+      
       
 
       setMsg({ type: 'success', text: 'Logged in successfully! ' })
       setTimeout(() => {
         setMsg({ type: '', text: '' })
-        navgiate('/user-profile')
+        navigate('/user-profile')
       
       }, 2000)
 
