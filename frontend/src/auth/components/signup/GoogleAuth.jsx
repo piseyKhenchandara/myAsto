@@ -40,10 +40,8 @@ const GoogleAuth = ({
 
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+        
             
-            console.log('Google sign-up successful:', user);
-            
-            // ✅ CHANGE THIS - Store the response
             const response = await googleAuthAPI(
                 user.email,           
                 user.displayName,     
@@ -51,7 +49,6 @@ const GoogleAuth = ({
                 user.uid        
             );
 
-            // ✅ ADD THIS - Store token in localStorage/sessionStorage
             if (response.token) {
                 localStorage.setItem('authToken', response.token);
                 sessionStorage.setItem('authToken', response.token);

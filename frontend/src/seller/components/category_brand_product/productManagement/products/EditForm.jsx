@@ -3,8 +3,7 @@ import DisplayFileNameSelected from '../../../DisplayFileNameSelected';
 
 
 const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,setName,file, setFile}) => {
-console.log('Submit state:', submit);
-console.log('Should show progress:', submit.formName && submit.process);
+
   return (
     <aside className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">
         <article className="bg-white rounded-[20px] p-4 sm:p-6 w-full mx-4 max-w-[400px] shadow-lg shadow-green-600">

@@ -44,8 +44,11 @@ const Signup = () => {
 
     try {
       setSubmit({ process: true, formName: 'signup' })
+          localStorage.removeItem('authToken');  
+          sessionStorage.removeItem('authToken'); 
 
       await signupAPI(name, email, password)
+
 
       setMsg({ type: 'success', text: 'User signed up successfully! ' })
       setTimeout(() => setMsg({ type: '', text: '' }), 3000)

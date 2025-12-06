@@ -93,9 +93,7 @@ const VerifyEmail = () => {
       setCode(['', '', '', '', '', ''])
       inputRefs.current[0]?.focus()
     } finally {
-      if (!message.type === 'success') {
-        setLoading(false)
-      }
+      setLoading(false)
       setProgress(0)
     }
   }

@@ -57,7 +57,7 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
       setProducts(data.products || []);
       setMsg({ type: '', text: '' });
     } catch (error) {
-      console.error('Fetch error:', error);
+
       setMsg({
         type: 'error',
         text: error.response?.data?.message || 'Error fetching products for search!'

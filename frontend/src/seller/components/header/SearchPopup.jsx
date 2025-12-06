@@ -84,8 +84,7 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
   if (productCategorySlug && productBrandSlug) {
     navigate(`/category/${productCategorySlug}/brand/${productBrandSlug}/product/detail/${product.id}`);
   } else {
-    // Fallback: if product doesn't have category/brand info
-    console.error('Product missing category or brand information:', product);
+
     navigate(`/product/${product.id}`); // Alternative route if you have one
   }
   

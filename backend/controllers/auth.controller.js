@@ -26,6 +26,15 @@ export const checkEmail = async (req,res) => {
             action : "signup"
 
         });
+        if(!user.is_verified) {
+            return res.status(200).json({
+                success: true,
+                message: "Please login and verify your email",
+                action: "login",
+                needsVerification: true,  // ← Add this flag
+                user
+            });
+        }
 
         else{
             if(user.auth_provider === 'google') {
@@ -180,6 +189,7 @@ export const signup = async(req,res) => {
     const {email,name,password} = req.body;
 
     try{
+        res.clearCookie('token');
         const existingUsers = await db.User.findOne({
             where : {email}
         })
@@ -203,7 +213,16 @@ export const signup = async(req,res) => {
             profile_picture: null,
         });
 
-        const token = generateTokenAndSetCookie(res,newUser.id, newUser.role);
+          console.log('✅ NEW USER CREATED:', newUser.id); // ← ADD THIS
+    
+    // Verify immediately after creation
+    const checkUser = await db.User.findByPk(newUser.id); // ← ADD THIS
+    console.log('🔍 USER EXISTS IN DB?', checkUser ? 'YES' : 'NO'); // ← ADD THIS
+
+    const token = generateTokenAndSetCookie(res, newUser.id, newUser.role);
+    console.log('🎫 TOKEN GENERATED FOR USER ID:', newUser.id); // ← ADD THI
+
+     
         await sendVerificationEmail(newUser.email, verificationToken, newUser.name);
 
         const notification = await db.Notification.create({
@@ -398,22 +417,21 @@ export const login = async(req,res) => {
         const isMatch = await bcrypt.compare(password, findUser.password);
         if(!isMatch) return res.status(400).json({message : "Invalid password!"});
 
-        if (!findUser.is_verified) {
+   /*      if (!findUser.is_verified) {
             return res.status(403).json({ message: "Please verify your email first." });
-        }
+        } */
 
         await findUser.update({
             last_login : new Date(),
         })
 
-        //here also
         generateTokenAndSetCookie(res,findUser.id, findUser.role);
 
         res.status(200).json({message : "User login successfully", 
             user : {
                 email : findUser.email,
                 role : findUser.role,
-                is_verified : 1,
+                is_verified : findUser.is_verified
             }
         });
     }catch(error){

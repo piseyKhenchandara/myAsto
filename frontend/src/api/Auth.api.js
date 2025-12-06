@@ -35,9 +35,9 @@ export const verificationCodeAPI = async (code) => {
 
 }
 
-export const resendVerificationCodeAPI = async (code) => {
+export const resendVerificationCodeAPI = async () => {
 
-    const {data} = await http.post("/auth/resend-verification",{code});
+    const {data} = await http.post("/auth/resend-verification");
     return data;
 }
 

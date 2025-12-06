@@ -15,7 +15,6 @@ export const UserProvider = ({ children }) => {
       const userData = await whoamiAPI();
       setUser(userData);
       setError(null);
-      console.log(userData);
     } catch (err) {
       console.log("No user logged in or session expired");
       setUser(null);
