@@ -15,7 +15,7 @@ const EmptyState = () => {
           </svg>
         </div>
         <p className='text-gray-500 text-center font-medium'>
-          You have to add Product first before add Banner!
+          Comming Soon...
         </p>
         <p className='text-gray-400 text-sm mt-2'>
           Create some products to start showcasing them with banners
