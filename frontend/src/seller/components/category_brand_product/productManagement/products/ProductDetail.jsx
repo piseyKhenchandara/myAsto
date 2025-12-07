@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { getProductDetail } from '../../../../../api/Product.api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCart } from '../../../../../customer/context/CartContext';
 import { useUser } from '../../../../../../context/UserContext';
 import { FaCartArrowDown } from 'react-icons/fa6';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import ShareLinkToSocial from './ShareLinkToSocial';
 
@@ -12,9 +13,13 @@ const ProductDetail = () => {
     const [load, setLoad] = useState(false);
     const [error, setError] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    const [isBuying, setIsBuying] = useState(false);
+    
 
     const {addToCart} = useCart();
     const {user : whoami} = useUser();
+
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -216,15 +221,43 @@ const ProductDetail = () => {
                     </div>
 
 
-                    {(whoami?.role !== 'seller' && whoami?.role !=="admin") && (productDetail.stock !=='Out of Stock') && (
-                        <button 
-                            className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-green-500 rounded-[6px] flex items-center gap-1 min-w-[200px]"
-                            onClick={() => addToCart(productDetail)}
-                        >
-                            <FaCartArrowDown /><span className='pl-5'>Add to Cart</span>
-                        
-                        </button>
-                    )}
+                    <div className='flex flex-col md:flex-row md:space-x-4 space-y-2.5 md:space-y-0 '>
+                        {(whoami?.role !== 'seller' && whoami?.role !=="admin") && (productDetail.stock !=='Out of Stock') && (
+                            <button 
+                                className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-green-500 rounded-[6px] flex items-center gap-1 w-[200px]"
+                                onClick={() => addToCart(productDetail)}
+                            >
+                                <FaCartArrowDown /><span className={`pl-5`}>Add to Cart</span>
+                            
+                            </button>
+                        )}
+                        {(whoami?.role !== 'seller' && whoami?.role !== "admin") &&
+                        productDetail.stock !== 'Out of Stock' && (
+                            <button
+                                className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-orange-500 rounded-[6px] flex items-center gap-1 w-[200px]"
+                                onClick={() => {
+                                    setIsBuying(true);
+                                    addToCart(productDetail);
+
+                                    setTimeout(() => {
+                                        navigate('/checkout-page');
+                                    }, 500);
+                                }}
+                            >
+                                {isBuying ? (
+                                    <AiOutlineLoading3Quarters className="animate-spin" />
+
+                                ) : (
+                                    <FaCartArrowDown />
+                                )}
+
+                                <span className="pl-5">
+                                    {isBuying ? "Processing..." : "Buy Now"}
+                                </span>
+                            </button>
+                        )}
+
+                    </div>
                     <ShareLinkToSocial productDetail={productDetail}/>
                     {/* Additional Info */}
                     <footer className='space-y-3 pt-4 border-gray-200'>
