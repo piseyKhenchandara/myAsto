@@ -15,7 +15,7 @@ export const useAutoSlide = (banners) => {
           // For mobile, show 1 banner at a time
           return prevIndex === banners.length - 1 ? 0 : prevIndex + 1;
         });
-      }, window.innerWidth >= 768 ? 2000 : 3000);
+      }, window.innerWidth >= 768 ? 2000 : 1500);
 
       return () => clearInterval(interval);
     }
