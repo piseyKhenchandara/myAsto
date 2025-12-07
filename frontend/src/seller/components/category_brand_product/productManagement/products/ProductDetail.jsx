@@ -173,7 +173,6 @@ const ProductDetail = () => {
                     )}
 
                     {/* Features */}
-                    {/* Features */}
                     {productDetail.ProductFeatures?.length > 0 && (
                     <section className="w-full">
                         <h4 className="text-gray-900 mb-2">Specifications</h4>
@@ -185,12 +184,30 @@ const ProductDetail = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {productDetail.ProductFeatures.map((feature, index) => (
-                            <tr key={index}>
-                                <td className="px-4 py-2 text-sm text-black">{feature.feature_name}</td>
-                                <td className="px-4 py-2 text-sm text-gray-400">{feature.feature_value}</td>
-                            </tr>
-                            ))}
+                            {productDetail.ProductFeatures.map((feature, index) => {
+                                // Check if the value is a URL
+                                const isUrl = feature.feature_value?.match(/^(https?:\/\/|www\.)/i);
+                                
+                                return (
+                                    <tr key={index}>
+                                        <td className="px-4 py-2 text-sm text-black">{feature.feature_name}</td>
+                                        <td className="px-4 py-2 text-sm text-gray-400">
+                                            {isUrl ? (
+                                                <a 
+                                                    href={feature.feature_value} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-600 hover:text-blue-800 underline break-all"
+                                                >
+                                                    {feature.feature_value}
+                                                </a>
+                                            ) : (
+                                                feature.feature_value
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                         </table>
                     </section>
@@ -276,4 +293,4 @@ const ProductDetail = () => {
     );
 }
 
-export default ProductDetail;
+export default ProductDetail
