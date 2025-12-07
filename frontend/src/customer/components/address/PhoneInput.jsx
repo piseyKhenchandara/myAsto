@@ -38,7 +38,7 @@ const PhoneInput = ({phoneNumber, setPhoneNumber}) => {
         <label className="block text-sm font-medpium text-green-600 mb-2">Phone Number</label>
         <input 
           type="text"
-          placeholder="012-345-678 or +855 12-345-678"
+          placeholder="Enter phone number"
           value={phoneNumber}
           onChange={handlePhoneChange}
           required
