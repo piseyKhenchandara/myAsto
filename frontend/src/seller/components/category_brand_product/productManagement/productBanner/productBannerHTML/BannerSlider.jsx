@@ -130,7 +130,7 @@ const BannerSlider = ({
             className='h-full bg-green-500 transition-all duration-75 ease-linear'
             style={{
               width: '100%',
-              animation: `progress-bar ${window.innerWidth >= 768 ? '2s' : '3s'} linear infinite`
+              animation: `progress-bar ${window.innerWidth >= 768 ? '2s' : '1.5s'} linear infinite`
             }}
           />
         </div>
