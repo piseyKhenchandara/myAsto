@@ -67,8 +67,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        BUILD_MODE: production
-        ENV: production
+        BUILD_MODE: development
+        ENV: development
     container_name: myasto_frontend
     restart: always
     ports:

@@ -7,14 +7,16 @@ RUN npm ci
 
 COPY . .
 
-RUN npm run build
+# Add build argument to control which .env file vite uses
+ARG BUILD_MODE=production
+RUN npm run build -- --mode ${BUILD_MODE}
 
 FROM nginx:alpine
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy the appropriate config based on environment
-ARG ENV=dev
+# Default to production, but allow override
+ARG ENV=production
 COPY nginx.${ENV}.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
