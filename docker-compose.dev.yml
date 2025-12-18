@@ -4,7 +4,7 @@ services:
   # MySQL Database
   db:
     #image: mysql:8.0 for start-up server
-    image : mysql:5.7 # for leader plan
+    image : mysql:8.0 # for leader plan
     platform: linux/amd64
     container_name: myasto_db
     restart: always
