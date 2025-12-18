@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { 
   getBrandsByCategoryAPI, 
-  uploadBrandsAPI, 
+uploadBrandsAPI, 
   updateBrandAPI, 
   deleteBrandAPI 
 } from '../../../../../api/BrandProduct.api';
