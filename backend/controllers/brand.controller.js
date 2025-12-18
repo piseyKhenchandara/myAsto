@@ -2,6 +2,9 @@ import { Op } from "sequelize";
 import db from "../models/index.js";
 import { v2 as cloudinary } from "cloudinary";
 import { Sequelize } from "sequelize";
+
+
+
 export const uploadBrand = async (req, res) => {
     const { brand_name } = req.body;
     const file = req.file;
