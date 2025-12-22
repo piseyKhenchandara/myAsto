@@ -59,7 +59,7 @@ const teamMembers = [
     description: '',
     image: pisey,
     links: {
-      github: 'https://github.com/SeYz-GHB',
+      github: 'https://github.com/piseyKhenchandara',
       facebook: 'https://www.facebook.com/pisey.khenchandara',
       telegram: 'https://t.me/Reajasey',
     },
