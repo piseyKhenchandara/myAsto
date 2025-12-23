@@ -3,8 +3,8 @@ version: '3.8'
 services:
   # MySQL Database
   db:
-    #image: mysql:8.0 for start-up server
-    image : mysql:5.7 # for leader plan
+  
+    image : mysql:8.0 
     platform: linux/amd64
     container_name: myasto_db
     restart: always
@@ -22,9 +22,12 @@ services:
     networks:
       - myasto-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
       retries: 10
+      start_period: 30s
+
 
   # Backend Service
   backend:
