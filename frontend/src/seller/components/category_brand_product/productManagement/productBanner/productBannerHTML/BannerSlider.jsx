@@ -18,7 +18,7 @@ const BannerSlider = ({
 }) => {
   return (
     //  Increased heights across all breakpoints
-    <div className='relative w-full h-64 sm:h-80 overflow-hidden bg-gray-100'>
+    <div className='relative w-full h-64 sm:h-80 lg:h-[400px] overflow-hidden bg-gray-100'>
       {/* Banner Container */}
       <div
         className='flex transition-transform duration-1000 ease-in-out h-full'
@@ -42,7 +42,7 @@ const BannerSlider = ({
               <img
                 src={b.image_url}
                 alt={b.Product?.name}
-                className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+                className='w-full md:w-auto h-full  group-hover:scale-105 transition-transform duration-300'
                 loading='lazy'
               />
 
