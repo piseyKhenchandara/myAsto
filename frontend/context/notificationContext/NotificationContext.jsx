@@ -17,22 +17,18 @@ export const NotificationProvider = ({children}) => {
     const [loading, setLoading] = useState(false);
     const {user} = useUser();
 
-    const addNotification = (notif) => {
-        setNotification((prevNotifs) => [notif, ...prevNotifs]);
-        setUnreadCount((prevCount) => prevCount + 1);
-    }
-
+    
     const fetchNotifications = useCallback(async (pageNum = 1, append = false) => {
         try {
             setLoading(true);
             const data = await getNotificationsAPI({page: pageNum, limit: 15});
-
+            
             if(append) {
                 setNotification(prev => [...prev, ...(data.notifications || [])]);
             } else {
                 setNotification(data.notifications || []);
             }
-
+            
             setUnreadCount(data.unreadCount || 0);
             setHasMore(data.hasMore || false);
             setPage(pageNum);
@@ -42,7 +38,11 @@ export const NotificationProvider = ({children}) => {
             setLoading(false); //  YOU WERE MISSING THIS!
         }
     }, []);
-
+    
+    const addNotification = (notif) => {
+        setNotification((prevNotifs) => [notif, ...prevNotifs]);
+        setUnreadCount((prevCount) => prevCount + 1);
+    }
     //  Add loadMoreNotifications function
     const loadMoreNotifications = useCallback(() => {
         if (!loading && hasMore) {
