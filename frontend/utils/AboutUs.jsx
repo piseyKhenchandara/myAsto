@@ -1,7 +1,7 @@
 import React from 'react'
 import pisey from '../src/assets/ceo/Pisey.png'
 import endy from '../src/assets/ceo/endyong.png'
-import panha from '../src/assets/ceo/panhaPlaceholder.png'
+import panha from '../src/assets/ceo/titpanha.png'
 import facebookIcon from '../src/assets/logoes/facebook_logo.png'
 import instagramIcon from '../src/assets/logoes/ig_logo.png'
 import telegramIcon from '../src/assets/logoes/telegram_logo.png'
@@ -55,7 +55,7 @@ const SocialLinks = ({ links }) => (
 const teamMembers = [
   {
     name: 'Khen Chandarapisey',
-    role: 'Web developer',
+    role: 'Developer',
     description: '',
     image: pisey,
     links: {
@@ -66,7 +66,7 @@ const teamMembers = [
   },
   {
     name: 'Ong Endy',
-    role: 'Frontend developer',
+    role: 'Developer',
     description: '',
     image: endy,
     links: {
@@ -77,7 +77,7 @@ const teamMembers = [
   },
   {
     name: 'Hak Titpanha',
-    role: 'Marketing Specialist',
+    role: 'Owner',
     description: '',
     image: panha,
     links: {
@@ -131,21 +131,27 @@ const AboutUs = () => {
           {/* Mission */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
             <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-gray-100 hover:border-green-500 transition-colors">
-              <h2 className="text-xl sm:text-3xl font-bold">Our Mission</h2>
+              <h2 className="text-xl sm:text-3xl font-bold">Why Choose Us</h2>
               <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-green-600 my-3"></div>
-              <p className="text-gray-600 text-sm sm:text-base">
-                To make online shopping easy and enjoyable with fast delivery and secure transactions.
-              </p>
+
+              <ul className="text-gray-600 text-sm sm:text-base space-y-2">
+                <li> No seller negotiation — browse & buy</li>
+                <li> Bakong KHQR payment</li>
+                <li> Free delivery nationwide</li>
+              </ul>
+
             </div>
+
 
             <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-gray-100 hover:border-green-500 transition-colors">
               <h2 className="text-xl sm:text-3xl font-bold">What We Offer</h2>
               <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-green-600 my-3"></div>
               <ul className="space-y-3 text-gray-600 text-sm sm:text-base">
-                <li className="flex gap-3">• Premium tech accessories</li>
+                <li className="flex gap-3">• Premium and affordable tech accessories</li>
                 <li className="flex gap-3">• Comfortable chairs and bags</li>
                 <li className="flex gap-3">• Fast delivery across Cambodia</li>
                 <li className="flex gap-3">• Friendly customer service</li>
+
               </ul>
             </div>
           </div>
