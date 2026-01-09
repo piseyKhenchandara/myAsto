@@ -104,7 +104,7 @@ const CarouselView = ({
             <button
                 key={index}
                 onClick={() => setCurrentIndex(index * itemsPerView)}
-                className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 isActive
                     ? 'bg-green-600 scale-125'
                     : 'bg-gray-300 hover:bg-gray-400 hover:scale-110'

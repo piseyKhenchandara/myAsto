@@ -23,7 +23,7 @@ const BannerSlider = ({
       <div
         className='flex transition-transform duration-1000 ease-in-out h-full'
         style={{
-          transform: `translateX(-${currentIndex * (window.innerWidth >= 768 ? (100 / 3) : 300)}%)`,
+          transform: `translateX(-${currentIndex * (window.innerWidth >= 768 ? (100 / 3) : 100)}%)`,
         }}
       >
         {banners.map((b, index) => (
