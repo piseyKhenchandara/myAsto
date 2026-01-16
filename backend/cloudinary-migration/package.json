@@ -1,0 +1,28 @@
+{
+  "name": "cloudinary-to-r2-migration",
+  "version": "1.0.0",
+  "description": "Migration tool to move images from Cloudinary to Cloudflare R2",
+  "type": "module",
+  "main": "migrate-cloudinary-to-r2.js",
+  "scripts": {
+    "migrate": "node migrate-cloudinary-to-r2.js",
+    "dry-run": "node migrate-cloudinary-to-r2.js --dry-run"
+  },
+  "keywords": [
+    "cloudinary",
+    "r2",
+    "cloudflare",
+    "migration",
+    "image-storage"
+  ],
+  "author": "Asto Gear",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.709.0",
+    "@aws-sdk/lib-storage": "^3.709.0",
+    "@aws-sdk/node-http-handler": "^3.374.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "mysql2": "^3.11.5"
+  }
+}

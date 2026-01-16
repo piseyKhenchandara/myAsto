@@ -16,17 +16,27 @@ import userRoute from './routes/user.routes.js';
 import reciptRoute from './routes/recipt.routes.js';
 import notificationRoute from './routes/notification.routes.js';
 import db from './models/index.js';
-
+import migrateRoutes from './routes/migrate.routes.js';
 const { sequelize } = db;
 const app = express();
 
 // Middleware
-app.use(cors({
+/* app.use(cors({
   origin: ["http://localhost:5173", "https://www.astogear.com"],
+  credentials: true,
+
+})); */
+
+app.use(cors({
+  origin: ["http://localhost:5173", "http://127.0.0.1:5500", "http://localhost:5500", "https://www.astogear.com"],
   credentials: true,
 }));
 app.use(express.json());
 app.use(cookieParser());
+
+
+
+app.use(express.static('public'));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -40,7 +50,7 @@ app.use('/api/payment', paymentRoute);
 app.use('/api/users', userRoute);
 app.use('/api/recipts', reciptRoute);
 app.use('/api/notifications', notificationRoute);
-
+app.use('/api/migrate', migrateRoutes);
 
 
 

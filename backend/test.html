@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Migrate Images</title>
+    <style>
+        body { font-family: Arial; padding: 40px; max-width: 900px; margin: 0 auto; }
+        h1 { color: #333; }
+        button { 
+            padding: 15px 40px; 
+            font-size: 18px; 
+            background: #0066cc; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin: 20px 0;
+        }
+        button:hover { background: #0052a3; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #status { 
+            margin-top: 20px; 
+            background: #f5f5f5; 
+            padding: 20px; 
+            border-radius: 5px; 
+            white-space: pre-wrap; 
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Migrate Cloudinary Images to R2</h1>
+    <p>This will migrate all your product images from Cloudinary to Cloudflare R2.</p>
+    <button id="btn" onclick="migrate()">Start Migration Now</button>
+    <div id="status"></div>
+
+    <script>
+        async function migrate() {
+            const btn = document.getElementById('btn');
+            const status = document.getElementById('status');
+            
+            btn.disabled = true;
+            status.innerHTML = '<span class="success">🚀 Starting migration... Please wait...</span>';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/migrate/images', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                let html = `
+<span class="${result.failed === 0 ? 'success' : 'error'}">
+============================================================
+📊 MIGRATION RESULTS
+============================================================
+</span>
+Total Images:     ${result.total}
+✅ Successful:    ${result.success}
+❌ Failed:        ${result.failed}
+
+Details:
+${JSON.stringify(result.details, null, 2)}
+                `;
+                
+                status.innerHTML = html;
+                
+                if (result.failed === 0) {
+                    alert('🎉 All images migrated successfully! You can now cancel your Cloudinary subscription.');
+                } else {
+                    alert(`⚠️ Migration completed with ${result.failed} errors. Check the details below.`);
+                }
+                
+            } catch (error) {
+                status.innerHTML = `<span class="error">❌ Error: ${error.message}</span>
+                
+Make sure your backend is running at http://localhost:5000`;
+                console.error('Migration error:', error);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
