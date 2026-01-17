@@ -96,24 +96,31 @@ export const googleAuth = async (req, res) => {
         } 
         else {
         
-            let cloudinaryUrl = null;
+            let r2Url = null;
             let publicId = null;
             
             if (photoUrl) {
                 try {
+                    // Download the Google profile photo
+                    const response = await fetch(photoUrl);
+                    const arrayBuffer = await response.arrayBuffer();
+                    const buffer = Buffer.from(arrayBuffer);
                     
-                    const uploadResult = await cloudinary.uploader.upload(photoUrl, {
-                        folder: 'user_profiles',
-                        public_id: `google_user_${provider_id}`,
-                        overwrite: true,
-                        transformation: [
-                            { width: 400, height: 400, crop: 'fill', gravity: 'face' },
-                            { quality: 'auto', fetch_format: 'auto' }
-                        ]
+                    // Upload to R2
+                    const timestamp = Date.now();
+                    const filename = `google_user_${provider_id}_${timestamp}.jpg`;
+                    const key = `users/${filename}`;
+                    
+                    await r2.putObject({
+                        Bucket: process.env.R2_BUCKET_NAME,
+                        Key: key,
+                        Body: buffer,
+                        ContentType: 'image/jpeg'
                     });
-                    cloudinaryUrl = uploadResult.secure_url;
-                    publicId = uploadResult.public_id;
-                    console.log(' Photo uploaded to Cloudinary:', cloudinaryUrl);
+                    
+                    r2Url = `${process.env.R2_PUBLIC_URL}/${key}`;
+                    publicId = key;
+                    console.log('✅ Photo uploaded to R2:', r2Url);
                 } catch (uploadError) {
                     console.error('⚠️ Failed to upload photo:', uploadError);
                     
@@ -126,7 +133,7 @@ export const googleAuth = async (req, res) => {
                 password: null,                    
                 auth_provider: 'google',           
                 provider_id,                       
-                profile_picture: cloudinaryUrl,  
+                profile_picture: r2Url,  
                 public_id: publicId,
                 is_verified: 1,
                 last_login : new Date()                    
