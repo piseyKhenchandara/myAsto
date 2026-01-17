@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import db from "../models/index.js";
-import { v2 as cloudinary } from "cloudinary";
+import r2 from "../config/r2.js";
 import { Sequelize } from "sequelize";
 
 
@@ -138,8 +138,8 @@ export const updateBrand = async (req, res) => {
 
         if (file && brand.public_id) {
             try {
-                await cloudinary.uploader.destroy(brand.public_id);
-                console.log('Old image deleted from Cloudinary ');
+                await r2.deleteObject(brand.public_id);
+                console.log('Old image deleted from R2 ');
             } catch (error) {
                 console.log('Error deleting old image:', error);
             }
@@ -177,10 +177,10 @@ export const deleteBrand = async (req, res) => {
 
         if (brand.public_id) {
             try {
-                await cloudinary.uploader.destroy(brand.public_id);
-                console.log("delete succesfuly from cloudinary")
+                await r2.deleteObject(brand.public_id);
+                console.log("delete succesfuly from R2")
             } catch (error) {
-                console.log('Error deleting image from cloudinary:', error);
+                console.log('Error deleting image from R2:', error);
             }
         }
 

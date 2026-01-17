@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-import { v2 as cloudinary } from "cloudinary";
+import r2 from "../config/r2.js";
 
 
 export const uploadBanner = async (req, res) => {
@@ -115,13 +115,13 @@ export const deleteBanner = async(req, res) => {
             });
         }
 
-        // Delete image from cloudinary if it exists
+        // Delete image from R2 if it exists
         if (existingBanner.public_id) {
             try {
-                await cloudinary.uploader.destroy(existingBanner.public_id);
+                await r2.deleteObject(existingBanner.public_id);
             } catch (e) {
-                console.log('Error deleting image from cloudinary:', e);
-                // Continue with database deletion even if cloudinary fails
+                console.log('Error deleting image from R2:', e);
+                // Continue with database deletion even if R2 fails
             }
         }
         
