@@ -6,7 +6,7 @@ import db from '../models/index.js';
 import { sendPasswordResetEmail } from '../mail/mailService/sendPasswordResetEmail.js';
 import { sendWelcomeEmail } from '../mail/mailService/sendWelcomEmail.js';
 import { sendResetSuccessEmail } from '../mail/mailService/sendResetSuccessEmail.js';
-import cloudinary from '../config/cloudinary.js';
+import r2 from '../config/r2.js';
 import { io } from '../server.js';
 
 
@@ -622,7 +622,7 @@ export const updateAuth = async (req,res) => {
         if(file && user.public_id) {
 
             try{
-                await cloudinary.uploader.destroy(user.public_id);
+                await r2.deleteObject(user.public_id);
             }catch(error) {
                 console.log('Error deleting old image : ', error);
             }

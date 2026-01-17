@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+import r2 from "../config/r2.js";
 import db from "../models/index.js";
 
 export const uploadCategory = async (req, res) => {
@@ -108,11 +108,11 @@ export const updateCategory = async (req,res) => {
 
         if(file && existingName.public_id) {
             try{
-                await cloudinary.uploader.destroy(existingName.public_id);
+                await r2.deleteObject(existingName.public_id);
                 console.log('delete success fully')
             }
             catch(e){
-                console.log(`error failed delete image from Cloudiary ,${existingName.public_id} `);
+                console.log(`error failed delete image from R2 ,${existingName.public_id} `);
             }
         }
 
@@ -136,8 +136,8 @@ export const deleteCategory = async(req,res) => {
 
         if(category.public_id) {
             try{ 
-                await cloudinary.uploader.destroy(category.public_id);
-                console.log('category deleted from cloudinary successfully')
+                await r2.deleteObject(category.public_id);
+                console.log('category deleted from R2 successfully')
             }
             catch(error){
                 return res.status(500).json({message : error.message})

@@ -13,7 +13,7 @@ import { authenticate } from "../middleware/autheticate.js"; // <— check filen
 import { authorizeRoles } from "../middleware/authorizeRoles.js";
 import { validateId } from "../middleware/validator.js";
 
-import { uploadProductMedia } from "../middleware/uploadMedia.js";
+import { uploadProductMedia, processProductMedia } from "../middleware/uploadMedia.js";
 import {
   deleteBanner,
   getBannerByCategory,
@@ -34,7 +34,8 @@ router.put(
   authenticate,
   authorizeRoles("admin", "seller"),
   validateId('id'),
-  uploadProductMedia,   
+  uploadProductMedia,
+  processProductMedia,
   updateProduct
 );
 
@@ -44,6 +45,7 @@ router.post(
   authenticate,
   authorizeRoles("admin", "seller"),
   uploadProductMedia,
+  processProductMedia,
   uploadBanner
 );
 
@@ -65,8 +67,8 @@ router.post(
   "/single_product",
   authenticate,
   authorizeRoles("admin", "seller"),
-
   uploadProductMedia,
+  processProductMedia,
   uploadProduct
 );
 

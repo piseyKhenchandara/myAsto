@@ -9,12 +9,12 @@ import {
 
 import { authenticate } from "../middleware/autheticate.js";
 import { authorizeRoles } from "../middleware/authorizeRoles.js";
-import { uploadBrandLogo } from "../middleware/uploadMedia.js";
+import { uploadBrandLogo, processBrandLogo } from "../middleware/uploadMedia.js";
 
 const router = Router();
 
 
-router.post('/category/:category_slug/upload-brand',authenticate,authorizeRoles('admin', 'seller'), uploadBrandLogo, uploadBrand);
+router.post('/category/:category_slug/upload-brand',authenticate,authorizeRoles('admin', 'seller'), uploadBrandLogo, processBrandLogo, uploadBrand);
 
 
 router.get('/view-all-brands', getAllBrands);
@@ -23,7 +23,7 @@ router.get('/view-all-brands', getAllBrands);
 router.get('/category/:category_slug/brands', getBrandsByCategory);
 
 
-router.patch('/update-brand/:id',authenticate,authorizeRoles('admin', 'seller'), uploadBrandLogo, updateBrand);
+router.patch('/update-brand/:id',authenticate,authorizeRoles('admin', 'seller'), uploadBrandLogo, processBrandLogo, updateBrand);
 
 
 router.delete('/delete-brand/:id',authenticate,authorizeRoles('admin', 'seller'), deleteBrand);
