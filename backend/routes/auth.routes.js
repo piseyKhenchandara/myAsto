@@ -18,7 +18,7 @@ import {
 import { authenticate } from "../middleware/autheticate.js";
 import {authorizeRoles} from '../middleware/authorizeRoles.js'
 import { validateAddress, validateCode, validateEmail, validateId, validateName, validatePassword, validatePhone, validateUrl, validateString} from "../middleware/validator.js";
-import { uploadProfilePicture } from "../middleware/uploadMedia.js";
+import { uploadProfilePicture, processProfilePicture } from "../middleware/uploadMedia.js";
 import { loadUserData } from "../middleware/loadUserdata.js";
 
 
@@ -78,7 +78,8 @@ router.post('/logout',
 
 router.patch('/profile/update',
     authenticate,
-    uploadProfilePicture, 
+    uploadProfilePicture,
+    processProfilePicture,
     validateName('name', false),
     validatePhone('phone',false),
     validateAddress('address',false),
