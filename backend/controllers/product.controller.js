@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import db from "../models/index.js";
-import { v2 as cloudinary } from "cloudinary";
+import r2 from "../config/r2.js";
 
 
 const generateSlug = (name) => {
@@ -413,10 +413,10 @@ export const updateProduct = async (req,res) => {
 
             for(const p of publicId){
                 try{
-                    await cloudinary.uploader.destroy(p);
+                    await r2.deleteObject(p);
                 }
                 catch(error){
-                    console.log(`Failed to delete ${p} from cloudinary!`, error.message );
+                    console.log(`Failed to delete ${p} from R2!`, error.message );
                 }
             }
 
@@ -461,11 +461,11 @@ export const deleteProduct = async(req,res) => {
 
         for(const pid of imagesPublicId) {
             try {
-                await cloudinary.uploader.destroy(pid);
-                console.log('Image deleted successfully from cloudinary!')
+                await r2.deleteObject(pid);
+                console.log('Image deleted successfully from R2!')
             } 
             catch (e) {
-                console.warn("Cloudinary destroy failed:", pid, e.message);
+                console.warn("R2 destroy failed:", pid, e.message);
             }
         }
 
@@ -480,11 +480,11 @@ export const deleteProduct = async(req,res) => {
 
         for(const vdo of videosPublicId) {
             try{
-                await cloudinary.uploader.destroy(vdo, {resource_type: "video"});
-                console.log('Video deleted successfully from cloudinary!')
+                await r2.deleteObject(vdo);
+                console.log('Video deleted successfully from R2!')
             }
             catch (e) {
-                console.warn("Cloudinary video destroy failed:", vdo, e.message);
+                console.warn("R2 video destroy failed:", vdo, e.message);
             }
         }
 
