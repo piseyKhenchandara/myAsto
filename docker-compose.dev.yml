@@ -9,7 +9,7 @@ services:
     env_file:
       - ./backend/.env
     ports:
-      - "3307:3306"
+      - "3307:3306"               # ✅ OK for development - database debugging
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -30,7 +30,7 @@ services:
     container_name: myasto_backend
     restart: always
     ports:
-      - "5000:5000"
+      - "5000:5000"               # ✅ OK for development - direct API testing
     env_file:
       - ./backend/.env
     environment:
@@ -52,7 +52,7 @@ services:
     container_name: myasto_frontend
     restart: always
     ports:
-      - "3000:80"
+      - "3000:80"                 # ✅ Main entry point
     depends_on:
       - backend
     networks:
