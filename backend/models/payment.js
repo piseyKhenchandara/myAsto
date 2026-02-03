@@ -50,7 +50,7 @@ export default (sequelize) => {
         },
 
         // Payment return from Bakong API
-        bakongHash : {
+    bakongHash : {
             type : DataTypes.STRING(255),  //  Changed to STRING (has index potential)
             allowNull : true
         },

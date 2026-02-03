@@ -27,7 +27,7 @@ export const createKHQRPayment = async (req,  res) => {
             })
         }
 
-        if (order.user_id !== user.id) {
+        if (order.user_id !== user.id) { 
             return res.status(403).json({
                 success: false,
                 message: "Unauthorized: This order does not belong to you!"
