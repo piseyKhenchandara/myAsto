@@ -37,16 +37,16 @@ const Footer = ({ facebook_logo, ig_logo, tiktok_logo, telegram_logo }) => {
               >
                 <img onError={handleImageError} src={facebook_logo} alt="Facebook" className="w-8 h-8 rounded" />
               </a>
-              <a 
+              {/* <a 
                 href="https://www.instagram.com/asto_kh/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform duration-200"
               >
                 <img onError={handleImageError} src={ig_logo} alt="Instagram" className="w-8 h-8 rounded" />
-              </a>
+              </a> */}
               <a 
-                href="https://www.tiktok.com/@asto_store" 
+                href="https://www.tiktok.com/@asto_gear" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform duration-200"
