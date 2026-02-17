@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend Docker image
+        run: docker build ./backend --file ./backend/Dockerfile --tag myasto-backend:$(date +%s)
+
+      - name: Build frontend Docker image
+        run: docker build ./frontend --file ./frontend/Dockerfile --tag myasto-frontend:$(date +%s)
