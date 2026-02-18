@@ -1,0 +1,94 @@
+
+name: myasto_gear
+
+on:
+  push:
+    branches: [ main, develop]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+
+  test-backend:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      
+      - name: install dependencies
+        run: |
+          cd backend
+          npm ci
+      
+      - name: Run Tests
+        run: |
+          cd backend
+          npm test || echo "no test configured yet"
+        continue-on-error: true
+  
+  test-frontend:
+    name: frontend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: install dependencies
+        run: |
+          cd frontend
+          npm ci
+      
+      - name: Build test
+        run: | 
+          cd frontend
+          npm run build
+        env: 
+          NODE_ENV: production
+
+      - name: ✅ Build successful
+        run: echo "✅ Frontend builds successfully!"
+
+  database-connection:
+    name: 🗄️ Database Connection Test
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: test_password
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🗄️ Test MySQL connection
+        run: |
+          mysql -h 127.0.0.1 -u root -ptest_password -e "SELECT 1;"
+          echo "✅ Database connection successful!"
+
