@@ -62,17 +62,17 @@ jobs:
         env: 
           NODE_ENV: production
 
-      - name: ✅ Build successful
-        run: echo "✅ Frontend builds successfully!"
+      - name:  Build successful
+        run: echo " Frontend builds successfully!"
 
-  database-connection:
-    name: 🗄️ Database Connection Test
+  database-connection: 
+    name: Database Connection Test
     runs-on: ubuntu-latest
-    
+
     services:
-      mysql:
-        image: mysql:8.0
-        env:
+      mysql: 
+        image: msql:8.0
+        env: 
           MYSQL_ROOT_PASSWORD: test_password
           MYSQL_DATABASE: test_db
         ports:
@@ -84,11 +84,11 @@ jobs:
           --health-retries=5
     
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
-      
-      - name: 🗄️ Test MySQL connection
-        run: |
+
+      - name: Test Mysql connection
+        run: | 
           mysql -h 127.0.0.1 -u root -ptest_password -e "SELECT 1;"
-          echo "✅ Database connection successful!"
+          echo "Database connection successful!"
 
