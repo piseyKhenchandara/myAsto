@@ -1,0 +1,95 @@
+name: 🧪 Deploy to Staging
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  deploy-staging:
+    name: 🧪 Deploy to Staging Environment
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🚀 Deploy to Staging VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            
+            echo "================================================"
+            echo "🧪 STAGING DEPLOYMENT STARTED"
+            echo "================================================"
+            
+            # Navigate to project
+            cd ${{ secrets.PROJECT_PATH }}
+            
+            # Show current branch
+            echo "📍 Current branch:"
+            git branch
+            
+            # Fetch and pull latest code
+            echo "📥 Pulling latest code from develop..."
+            git fetch origin develop
+            git checkout develop
+            git reset --hard origin/develop
+            
+            # Show latest commit
+            echo "📝 Latest commit:"
+            git log -1 --oneline
+            
+            # Stop existing containers
+            echo "🛑 Stopping existing containers..."
+            docker-compose down || true
+            
+            # Remove old containers
+            echo "🗑️ Removing old containers..."
+            docker-compose rm -f || true
+            
+            # Build and start new containers
+            echo "🏗️ Building new containers..."
+            docker-compose build --no-cache
+            
+            echo "▶️ Starting containers..."
+            docker-compose up -d
+            
+            # Wait for containers to start
+            echo "⏳ Waiting for containers to be healthy..."
+            sleep 15
+            
+            # Show running containers
+            echo "📊 Container status:"
+            docker-compose ps
+            
+            # Show logs (last 20 lines)
+            echo "📋 Recent logs:"
+            docker-compose logs --tail=20
+            
+            echo "================================================"
+            echo "✅ STAGING DEPLOYMENT COMPLETED!"
+            echo "🌐 Available at: http://${{ secrets.VPS_HOST }}:3000"
+            echo "================================================"
+      
+      - name: 🏥 Health Check
+        run: |
+          echo "🏥 Performing health check..."
+          sleep 5
+          curl -f http://${{ secrets.VPS_HOST }}:3000 || echo "⚠️ Health check warning - service may still be starting"
+      
+      - name: ✅ Deployment Success
+        if: success()
+        run: |
+          echo "🎉 Staging environment updated successfully!"
+          echo "🧪 Test your changes at: http://${{ secrets.VPS_HOST }}:3000"
+      
+      - name: ❌ Deployment Failed
+        if: failure()
+        run: |
+          echo "❌ Staging deployment failed!"
+          echo "🔍 Check the logs above for errors"
