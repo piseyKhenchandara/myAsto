@@ -32,9 +32,8 @@ jobs:
       - name: Run Tests
         run: |
           cd backend
-          npm test || echo "no test configured yet"
-        continue-on-error: true
-  
+          npm test 
+
   test-frontend:
     name: frontend Tests
     runs-on: ubuntu-latest
@@ -71,7 +70,7 @@ jobs:
 
     services:
       mysql: 
-        image: mysql:8.0
+        image: mysql:5.7
         env: 
           MYSQL_ROOT_PASSWORD: test_password
           MYSQL_DATABASE: test_db
