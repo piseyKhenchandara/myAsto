@@ -1,87 +1,66 @@
-name: 🧪 Deploy to Staging
+services:
+  # MySQL Database
+  db:
+    image: mysql:5.7
+    platform: linux/amd64
+    container_name: myasto_db_prod
+    restart: always
+    env_file:
+      - ./backend/.env
+    # No ports exposed - database only accessible internally
+    expose:
+      - "3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - myasto-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p{MYSQL_ROOT_PASSWORD}"]
+      timeout: 20s
+      retries: 10
 
-on:
-  push:
-    branches: [develop]
-  workflow_dispatch:
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: myasto_backend_prod
+    restart: always
+    # No ports exposed - only accessible through nginx
+    expose:
+      - "5000"
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_HOST: db
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - myasto-network
 
-jobs:
-  deploy-staging:
-    name: 🧪 Deploy to Staging Environment
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-      
-      - name: 🚀 Deploy to Staging VPS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            set -e
-            
-            COMPOSE="docker-compose -f docker-compose.production.yml"
-            
-            echo "================================================"
-            echo "🧪 STAGING DEPLOYMENT STARTED"
-            echo "================================================"
-            
-            cd ${{ secrets.PROJECT_PATH }}
-            
-            echo "📍 Current branch:"
-            git branch
-            
-            echo "📥 Pulling latest code from develop..."
-            git fetch origin develop
-            git checkout develop
-            git reset --hard origin/develop
-            
-            echo "📝 Latest commit:"
-            git log -1 --oneline
-            
-            echo "🛑 Stopping existing containers..."
-            $COMPOSE down || true
-            
-            echo "🗑️ Removing old containers..."
-            $COMPOSE rm -f || true
-            
-            echo "🏗️ Building new containers..."
-            $COMPOSE build --no-cache
-            
-            echo "▶️ Starting containers..."
-            $COMPOSE up -d
-            
-            echo "⏳ Waiting for containers to be healthy..."
-            sleep 15
-            
-            echo "📊 Container status:"
-            $COMPOSE ps
-            
-            echo "📋 Recent logs:"
-            $COMPOSE logs --tail=20
-            
-            echo "================================================"
-            echo "✅ STAGING DEPLOYMENT COMPLETED!"
-            echo "🌐 Available at: http://${{ secrets.VPS_HOST }}"
-            echo "================================================"
-      
-      - name: 🏥 Health Check
-        run: |
-          echo "🏥 Performing health check..."
-          sleep 5
-          curl -f http://${{ secrets.VPS_HOST }} || echo "⚠️ Health check warning - service may still be starting"
-      
-      - name: ✅ Deployment Success
-        if: success()
-        run: |
-          echo "🎉 Staging environment updated successfully!"
-          echo "🧪 Test your changes at: http://${{ secrets.VPS_HOST }}"
-      
-      - name: ❌ Deployment Failed
-        if: failure()
-        run: |
-          echo "❌ Staging deployment failed!"
-          echo "🔍 Check the logs above for errors"
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        BUILD_MODE: production
+        ENV: production
+    container_name: myasto_frontend_prod
+    restart: always
+    ports:
+      - "80:80"                   # Only nginx exposed to public
+      # - "443:443"               # For SSL in future
+    depends_on:
+      - backend
+    networks:
+      - myasto-network
+
+volumes:
+  mysql_data:
+
+networks:
+  myasto-network:
+    driver: bridge
