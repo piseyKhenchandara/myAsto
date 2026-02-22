@@ -1,13 +1,16 @@
 name: 🧪 Deploy to Staging
 
 on:
-  push:
-    branches: [develop]
-  workflow_dispatch:  # Allow manual trigger
+  workflow_run:
+    workflows: ["myasto_gear"]
+    types: [completed]
+  workflow_dispatch:
 
 jobs:
   deploy-staging:
     name: 🧪 Deploy to Staging Environment
+    if: >
+      github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == "develop"
     runs-on: ubuntu-latest
     
     steps:
@@ -22,6 +25,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e
+
+            COMPOSE="docker-compose -f docker-compose.production.yml"
+
             
             echo "================================================"
             echo "🧪 STAGING DEPLOYMENT STARTED"
@@ -40,24 +46,25 @@ jobs:
             git checkout develop
             git reset --hard origin/develop
             
+            # display the last commit
             # Show latest commit
             echo "📝 Latest commit:"
             git log -1 --oneline
             
             # Stop existing containers
             echo "🛑 Stopping existing containers..."
-            docker-compose down || true
+            $COMPOSE down || true
             
             # Remove old containers
             echo "🗑️ Removing old containers..."
-            docker-compose rm -f || true
+            $COMPOSE rm -f || true
             
             # Build and start new containers
             echo "🏗️ Building new containers..."
-            docker-compose build --no-cache
+            $COMPOSE build --no-cache
             
             echo "▶️ Starting containers..."
-            docker-compose up -d
+            $COMPOSE up -d
             
             # Wait for containers to start
             echo "⏳ Waiting for containers to be healthy..."
@@ -65,28 +72,28 @@ jobs:
             
             # Show running containers
             echo "📊 Container status:"
-            docker-compose ps
+            $COMPOSE ps
             
             # Show logs (last 20 lines)
             echo "📋 Recent logs:"
-            docker-compose logs --tail=20
+            $COMPOSE logs --tail=20
             
             echo "================================================"
             echo "✅ STAGING DEPLOYMENT COMPLETED!"
-            echo "🌐 Available at: http://${{ secrets.VPS_HOST }}:3000"
+            echo "🌐 Available at: http://${{ secrets.VPS_HOST }}"
             echo "================================================"
       
       - name: 🏥 Health Check
         run: |
           echo "🏥 Performing health check..."
           sleep 5
-          curl -f http://${{ secrets.VPS_HOST }}:3000 || echo "⚠️ Health check warning - service may still be starting"
+          curl -f http://${{ secrets.VPS_HOST }} || echo "⚠️ Health check warning - service may still be starting"
       
       - name: ✅ Deployment Success
         if: success()
         run: |
           echo "🎉 Staging environment updated successfully!"
-          echo "🧪 Test your changes at: http://${{ secrets.VPS_HOST }}:3000"
+          echo "🧪 Test your changes at: http://${{ secrets.VPS_HOST }}"
       
       - name: ❌ Deployment Failed
         if: failure()
