@@ -26,8 +26,8 @@ jobs:
           script: |
             set -e
 
-            COMPOSE="docker-compose -f docker-compose.production.yml"
-
+            # ✅ CHANGED: Use dev compose for staging!
+            COMPOSE="docker-compose -f docker-compose.dev.yml"
             
             echo "================================================"
             echo "🧪 STAGING DEPLOYMENT STARTED"
@@ -46,7 +46,6 @@ jobs:
             git checkout develop
             git reset --hard origin/develop
             
-            # display the last commit
             # Show latest commit
             echo "📝 Latest commit:"
             git log -1 --oneline
@@ -80,20 +79,20 @@ jobs:
             
             echo "================================================"
             echo "✅ STAGING DEPLOYMENT COMPLETED!"
-            echo "🌐 Available at: http://${{ secrets.VPS_HOST }}"
+            echo "🌐 Available at: http://${{ secrets.VPS_HOST }}:3000"
             echo "================================================"
       
       - name: 🏥 Health Check
         run: |
           echo "🏥 Performing health check..."
           sleep 5
-          curl -f http://${{ secrets.VPS_HOST }} || echo "⚠️ Health check warning - service may still be starting"
+          curl -f http://${{ secrets.VPS_HOST }}:3000 || echo "⚠️ Health check warning - service may still be starting"
       
       - name: ✅ Deployment Success
         if: success()
         run: |
           echo "🎉 Staging environment updated successfully!"
-          echo "🧪 Test your changes at: http://${{ secrets.VPS_HOST }}"
+          echo "🧪 Test your changes at: http://${{ secrets.VPS_HOST }}:3000"
       
       - name: ❌ Deployment Failed
         if: failure()
