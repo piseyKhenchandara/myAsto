@@ -38,6 +38,7 @@ import { NotificationProvider } from '../context/notificationContext/Notificatio
 import AboutUs from '../utils/AboutUs'
 import { initGA } from '../utils/analytics'
 import { Toaster } from 'react-hot-toast'
+import NotFound from './customer/pages/NotFound'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -88,6 +89,8 @@ const router = createBrowserRouter(
         <Route path='view-all-orders' element = {<Orders/>}/>
         <Route path='about-us' element= {<AboutUs/>}/>
       </Route>
+
+      <Route path='*' element={<NotFound/>} />
         
     </>
   )
