@@ -1,0 +1,207 @@
+name: 🚀 Deploy to Production
+
+on:
+  workflow_dispatch:  # Manual trigger ONLY! Never auto-deploy production!
+    inputs:
+      confirm:
+        description: 'Type DEPLOY to confirm production deployment'
+        required: true
+        default: 'NO'
+
+jobs:
+  verify-confirmation:
+    name: ✅ Verify Deployment Confirmation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🔍 Check confirmation input
+        if: github.event.inputs.confirm != 'DEPLOY'
+        run: |
+          echo "❌ Production deployment CANCELLED"
+          echo "⚠️ You must type 'DEPLOY' to confirm"
+          echo "📝 You typed: '${{ github.event.inputs.confirm }}'"
+          exit 1
+      
+      - name: ✅ Confirmation verified
+        run: |
+          echo "✅ Deployment confirmed!"
+          echo "🚀 Proceeding to production deployment..."
+
+  deploy-production:
+    name: 🚀 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: verify-confirmation  # Must pass confirmation first!
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🚀 Deploy to Production VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            
+            COMPOSE="docker-compose -f docker-compose.production.yml"
+            
+            echo "================================================"
+            echo "🚀 PRODUCTION DEPLOYMENT STARTED"
+            echo "👤 Deployed by: ${{ github.actor }}"
+            echo "📅 Date: $(date)"
+            echo "================================================"
+            
+            # Navigate to project
+            cd ${{ secrets.PROJECT_PATH }}
+            
+            # Create backup of current state
+            echo "💾 Creating backup..."
+            mkdir -p backups
+            BACKUP_DIR="backups/backup_$(date +%Y%m%d_%H%M%S)"
+            mkdir -p $BACKUP_DIR
+            $COMPOSE ps > $BACKUP_DIR/containers_state.txt
+            git rev-parse HEAD > $BACKUP_DIR/commit_hash.txt
+            git log -1 --oneline > $BACKUP_DIR/last_commit.txt
+            echo "✅ Backup saved to: $BACKUP_DIR"
+            
+            # Show current branch
+            echo "📍 Current branch:"
+            git branch
+            
+            # Fetch and pull latest code from main
+            echo "📥 Pulling latest code from main..."
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
+            
+            # Show latest commit being deployed
+            echo "📝 Deploying commit:"
+            git log -1 --oneline
+            
+            # Stop existing containers
+            echo "🛑 Stopping production containers..."
+            $COMPOSE down || true
+            
+            # Remove old containers
+            echo "🗑️ Removing old containers..."
+            $COMPOSE rm -f || true
+            
+            # Build new containers (no cache for production)
+            echo "🏗️ Building production containers..."
+            $COMPOSE build --no-cache
+            
+            # Start containers
+            echo "▶️ Starting production containers..."
+            $COMPOSE up -d
+            
+            # Wait for services to be healthy
+            echo "⏳ Waiting for services to be healthy..."
+            sleep 20
+            
+            # Check container status
+            echo "📊 Container status:"
+            $COMPOSE ps
+            
+            # Show recent logs
+            echo "📋 Recent logs:"
+            $COMPOSE logs --tail=20
+            
+            # Health check
+            echo "🏥 Running health check..."
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:80)
+            if [ $HTTP_CODE -eq 200 ]; then
+              echo "✅ Health check passed! (HTTP $HTTP_CODE)"
+            else
+              echo "⚠️ Health check returned: HTTP $HTTP_CODE"
+            fi
+            
+            echo "================================================"
+            echo "🎉 PRODUCTION DEPLOYMENT COMPLETED!"
+            echo "🌐 Live at: http://${{ secrets.VPS_HOST }}"
+            echo "📝 Commit: $(git rev-parse --short HEAD)"
+            echo "================================================"
+      
+      - name: 🏥 External Health Check
+        run: |
+          echo "🏥 Performing external health check..."
+          sleep 10
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://${{ secrets.VPS_HOST }})
+          if [ $HTTP_CODE -eq 200 ]; then
+            echo "✅ Production is LIVE and healthy!"
+          else
+            echo "⚠️ Warning: HTTP status code: $HTTP_CODE"
+            exit 1
+          fi
+      
+      - name: 🎉 Deployment Success Notification
+        if: success()
+        run: |
+          echo "================================================"
+          echo "🎉 PRODUCTION DEPLOYMENT SUCCESSFUL!"
+          echo "================================================"
+          echo "🌐 Website: http://${{ secrets.VPS_HOST }}"
+          echo "📝 Commit: ${{ github.sha }}"
+          echo "👤 Deployed by: ${{ github.actor }}"
+          echo "⏰ Time: $(date)"
+          echo "================================================"
+      
+      - name: 🆘 Rollback on Failure
+        if: failure()
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            
+            COMPOSE="docker-compose -f docker-compose.production.yml"
+            
+            echo "================================================"
+            echo "🆘 DEPLOYMENT FAILED - INITIATING ROLLBACK"
+            echo "================================================"
+            
+            cd ${{ secrets.PROJECT_PATH }}
+            
+            # Find latest backup
+            LATEST_BACKUP=$(ls -t backups/ | head -1)
+            echo "📁 Found backup: $LATEST_BACKUP"
+            
+            # Read previous commit hash
+            if [ -f "backups/$LATEST_BACKUP/commit_hash.txt" ]; then
+              PREV_COMMIT=$(cat backups/$LATEST_BACKUP/commit_hash.txt)
+              echo "↩️ Rolling back to commit: $PREV_COMMIT"
+              
+              # Reset to previous commit
+              git reset --hard $PREV_COMMIT
+            else
+              echo "↩️ Rolling back to previous commit..."
+              git reset --hard HEAD~1
+            fi
+            
+            # Restart with previous version
+            echo "🔄 Restarting containers with previous version..."
+            $COMPOSE down
+            $COMPOSE up -d --build
+            
+            # Wait and check status
+            sleep 15
+            $COMPOSE ps
+            
+            echo "================================================"
+            echo "↩️ ROLLBACK COMPLETE!"
+            echo "Previous version has been restored."
+            echo "================================================"
+      
+      - name: ❌ Deployment Failed Notification
+        if: failure()
+        run: |
+          echo "================================================"
+          echo "❌ PRODUCTION DEPLOYMENT FAILED!"
+          echo "================================================"
+          echo "🔍 Check the logs above for details"
+          echo "↩️ System has been rolled back to previous version"
+          echo "⚠️ Please investigate and fix the issue before retrying"
+          echo "================================================"
