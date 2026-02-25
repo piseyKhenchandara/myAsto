@@ -1,19 +1,17 @@
 services:
-  # MySQL Database
   db:
-  
-    image : mysql:5.7
+    image: mysql:5.7
     platform: linux/amd64
-    container_name: myasto_db
+    container_name: myasto_db_dev
     restart: always
     env_file:
       - ./backend/.env
     ports:
-      - "3307:3306"               # ✅ OK for development - database debugging
+      - "3307:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data_dev:/var/lib/mysql
     networks:
-      - myasto-network
+      - myasto-dev-network
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
@@ -21,16 +19,15 @@ services:
       retries: 10
       start_period: 30s
 
-
-  # Backend Service
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: myasto_backend
+    image: myasto-backend-dev
+    container_name: myasto_backend_dev
     restart: always
     ports:
-      - "5000:5000"               # ✅ OK for development - direct API testing
+      - "5000:5000"
     env_file:
       - ./backend/.env
     environment:
@@ -39,9 +36,8 @@ services:
       db:
         condition: service_healthy
     networks:
-      - myasto-network
+      - myasto-dev-network
 
-  # Frontend Service
   frontend:
     build:
       context: ./frontend
@@ -49,18 +45,19 @@ services:
       args:
         BUILD_MODE: development
         ENV: development
-    container_name: myasto_frontend
+    image: myasto-frontend-dev
+    container_name: myasto_frontend_dev
     restart: always
     ports:
-      - "3000:80"                 # ✅ Main entry point
+      - "3000:80"
     depends_on:
       - backend
     networks:
-      - myasto-network
+      - myasto-dev-network
 
 volumes:
-  mysql_data:
+  mysql_data_dev:
 
 networks:
-  myasto-network:
+  myasto-dev-network:
     driver: bridge
