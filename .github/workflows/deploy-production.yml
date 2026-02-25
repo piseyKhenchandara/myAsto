@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy-production:
-    name: 🚀 Deploy to Production
+    name:  Deploy to Production
     runs-on: ubuntu-latest
     if: github.event.inputs.confirm == 'DEPLOY'
 
@@ -18,7 +18,7 @@ jobs:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      - name: 🚀 Deploy to Production VPS
+      - name:  Deploy to Production VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -31,7 +31,7 @@ jobs:
             cd ${{ secrets.PROJECT_PATH }}
 
             # Backup database BEFORE deploying
-            echo "💾 Backing up database..."
+            echo " Backing up database..."
             mkdir -p backups
             BACKUP_DIR="backups/backup_$(date +%Y%m%d_%H%M%S)"
             mkdir -p $BACKUP_DIR
@@ -43,7 +43,7 @@ jobs:
             git fetch origin main
             git checkout main
             git reset --hard origin/main
-            echo "📝 Deploying: $(git log -1 --oneline)"
+            echo " Deploying: $(git log -1 --oneline)"
 
             # Deploy
             $COMPOSE down || true
@@ -54,6 +54,10 @@ jobs:
             $COMPOSE ps
 
             # Health check
+
+            # -s → silent mode (no progress output)
+            # -o /dev/null → throw away the response body
+            #-w "%{http_code}" → print only the HTTP status code and store in HTTP_CODE
             HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:80)
             if [ $HTTP_CODE -eq 200 ]; then
               echo "✅ Health check passed!"
@@ -76,6 +80,12 @@ jobs:
             COMPOSE="docker-compose -f docker-compose.production.yml"
             cd ${{ secrets.PROJECT_PATH }}
 
+
+            # ls -t = list folders sorted by newest first
+            # head -1 = take only the newest one
+            # So now LATEST_BACKUP becomes something like:
+            # backup_20260225_210501
+
             LATEST_BACKUP=$(ls -t backups/ | head -1)
             if [ -f "backups/$LATEST_BACKUP/commit_hash.txt" ]; then
               git reset --hard $(cat backups/$LATEST_BACKUP/commit_hash.txt)
@@ -93,8 +103,8 @@ jobs:
         if: success()
         run: |
           echo "🎉 PRODUCTION DEPLOYMENT SUCCESSFUL!"
-          echo "🌐 Website: http://${{ secrets.VPS_HOST }}"
-          echo "📝 Commit: ${{ github.sha }}"
+          echo " Website: http://${{ secrets.VPS_HOST }}"
+          echo " Commit: ${{ github.sha }}"
 
       - name: ❌ Failed Notification
         if: failure()
