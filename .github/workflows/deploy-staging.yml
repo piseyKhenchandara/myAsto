@@ -66,7 +66,7 @@ jobs:
 
             # Make sure production is still running!
             echo "🔒 Ensuring production is still running..."
-            $COMPOSE_PROD up -d
+            $COMPOSE_PROD up -d --no-recreate
             echo "📊 Production container status:"
             $COMPOSE_PROD ps
             
