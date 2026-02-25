@@ -35,7 +35,7 @@ jobs:
             mkdir -p backups
             BACKUP_DIR="backups/backup_$(date +%Y%m%d_%H%M%S)"
             mkdir -p $BACKUP_DIR
-            $COMPOSE exec -T db mysqldump -u root -p$MYSQL_ROOT_PASSWORD REDACTED_DB_NAME > $BACKUP_DIR/db_backup.sql
+            $COMPOSE exec -T db mysqldump -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} REDACTED_DB_NAME > $BACKUP_DIR/db_backup.sql
             git rev-parse HEAD > $BACKUP_DIR/commit_hash.txt
             echo "✅ Backup saved!"
 
