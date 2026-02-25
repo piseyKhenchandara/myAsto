@@ -26,76 +26,84 @@ jobs:
           script: |
             set -e
 
-            # ✅ CHANGED: Use dev compose for staging!
             COMPOSE="docker-compose -f docker-compose.dev.yml"
+            COMPOSE_PROD="docker-compose -f docker-compose.production.yml"
             
             echo "================================================"
             echo "🧪 STAGING DEPLOYMENT STARTED"
             echo "================================================"
             
-            # Navigate to project
             cd ${{ secrets.PROJECT_PATH }}
-            
-            # Show current branch
-            echo "📍 Current branch:"
-            git branch
+
+            # Stop staging only (leave production running)
+            echo "🛑 Stopping existing staging containers..."
+            $COMPOSE down || true
+            $COMPOSE rm -f || true
             
             # Fetch and pull latest code
             echo "📥 Pulling latest code from develop..."
             git fetch origin develop
             git checkout develop
             git reset --hard origin/develop
+            echo "📝 Latest commit: $(git log -1 --oneline)"
             
-            # Show latest commit
-            echo "📝 Latest commit:"
-            git log -1 --oneline
-            
-            # Stop existing containers
-            echo "🛑 Stopping existing containers..."
-            $COMPOSE down || true
-            
-            # Remove old containers
-            echo "🗑️ Removing old containers..."
-            $COMPOSE rm -f || true
-            
-            # Build and start new containers
-            echo "🏗️ Building new containers..."
+            # Build and start staging
+            echo "🏗️ Building staging containers..."
             $COMPOSE build --no-cache
             
-            echo "▶️ Starting containers..."
+            echo "▶️ Starting staging containers..."
             $COMPOSE up -d
             
-            # Wait for containers to start
+            # Wait for containers
             echo "⏳ Waiting for containers to be healthy..."
             sleep 15
             
-            # Show running containers
-            echo "📊 Container status:"
+            echo "📊 Staging container status:"
             $COMPOSE ps
             
-            # Show logs (last 20 lines)
             echo "📋 Recent logs:"
             $COMPOSE logs --tail=20
+
+            # Make sure production is still running!
+            echo "🔒 Ensuring production is still running..."
+            $COMPOSE_PROD up -d
+            echo "📊 Production container status:"
+            $COMPOSE_PROD ps
             
             echo "================================================"
             echo "✅ STAGING DEPLOYMENT COMPLETED!"
-            echo "🌐 Available at: http://${{ secrets.VPS_HOST }}:3000"
+            echo "🧪 Staging: http://${{ secrets.VPS_HOST }}:3000"
+            echo "🌐 Production: http://${{ secrets.VPS_HOST }}"
             echo "================================================"
       
-      - name: 🏥 Health Check
+      - name: 🏥 Health Check Staging
         run: |
-          echo "🏥 Performing health check..."
+          echo "🏥 Performing staging health check..."
           sleep 5
-          curl -f http://${{ secrets.VPS_HOST }}:3000 || echo "⚠️ Health check warning - service may still be starting"
+          curl -f http://${{ secrets.VPS_HOST }}:3000 || echo "⚠️ Staging health check warning"
+
+      - name: 🏥 Health Check Production
+        run: |
+          echo "🏥 Verifying production still alive..."
+          curl -f http://${{ secrets.VPS_HOST }} || echo "⚠️ Production health check warning"
       
       - name: ✅ Deployment Success
         if: success()
         run: |
           echo "🎉 Staging environment updated successfully!"
           echo "🧪 Test your changes at: http://${{ secrets.VPS_HOST }}:3000"
+          echo "🌐 Production still running at: http://${{ secrets.VPS_HOST }}"
       
       - name: ❌ Deployment Failed
         if: failure()
-        run: |
-          echo "❌ Staging deployment failed!"
-          echo "🔍 Check the logs above for errors"
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Make sure production is running even if staging failed!
+            echo "🔒 Ensuring production is running after staging failure..."
+            cd ${{ secrets.PROJECT_PATH }}
+            docker-compose -f docker-compose.production.yml up -d
+            echo "✅ Production restored!"
