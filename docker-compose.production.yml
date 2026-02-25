@@ -1,3 +1,4 @@
+name: myasto-production
 services:
   # MySQL Database
   db:
