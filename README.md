@@ -259,5 +259,15 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-- Telegram: [@Reajasey](https://t.me/Reajasey)
-- Facebook: [Pisey Khenchandara](https://www.facebook.com/pisey.khenchandara)
+For any inquiries or support, reach out via:
+- **Telegram:** [@Reajasey]
+- **Facebook:** [https://www.facebook.com/pisey.khenchandara]
+
+
+
+## Acknowledgments
+
+- Bakong API for payment integration
+- Cloudinary for image management
+- Firebase for authentication services
+- All open-source libraries used in this project#
