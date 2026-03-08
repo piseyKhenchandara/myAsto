@@ -23,6 +23,7 @@ const ProductEdit = () => {
     // Image handling states
     const [existingImages, setExistingImages] = useState([]);
     const [finalImages, setFinalImages] = useState({});
+    const [additionalImages, setAdditionalImages] = useState([]);
 
     const { id, category_slug, brand_slug } = useParams();
     const navigate = useNavigate();
@@ -92,39 +93,19 @@ const ProductEdit = () => {
 
         try {
             // Filter out empty features
-            const validFeatures = features.filter(f => 
+            const validFeatures = features.filter(f =>
                 f.feature_name?.trim() && f.feature_value?.trim()
             );
-            
-            // Prepare files array: send replacement files OR original files
-            const filesToSend = await Promise.all(
-                existingImages.map(async (img, idx) => {
-                    // If image was replaced, send the new file
-                    if (finalImages[idx]) {
-                        return finalImages[idx].file;
-                    }
-                    
-                    // If image wasn't replaced, fetch and send the original file
-                    try {
-                        const response = await fetch(img.image_url);
-                        const blob = await response.blob();
-                        
-                        // Extract filename from URL or use default
-                        const urlParts = img.image_url.split('/');
-                        const filename = urlParts[urlParts.length - 1] || `image_${idx}.jpg`;
-                        
-                        // Create File object from blob
-                        const file = new File([blob], filename, { type: blob.type });
-                        return file;
-                    } catch (error) {
-                        console.error(`Failed to fetch image ${idx}:`, error);
-                        return null;
-                    }
-                })
-            );
 
-            // Filter out any null values (failed fetches)
-            const files = filesToSend.filter(file => file !== null);
+            // Replacement files (swapped slots) + brand-new additions
+            const replacementFiles = Object.values(finalImages).map(item => item.file);
+            const additionalFiles = additionalImages.map(item => item.file);
+            const allNewFiles = [...replacementFiles, ...additionalFiles];
+
+            // Keep all existing image URLs that are NOT being replaced
+            const existingImageUrls = existingImages
+                .filter((_, idx) => !finalImages[idx])
+                .map(img => img.image_url);
 
             const payload = {
                 id,
@@ -134,11 +115,9 @@ const ProductEdit = () => {
                 stock: stock.trim(),
                 warranty: warranty.trim(),
                 features: validFeatures,
-                files: files
-            } 
-            
-            console.log('Submitting payload:', payload);
-            console.log('Files to send:', files.map(f => f.name));
+                files: allNewFiles,
+                existingImageUrls: allNewFiles.length > 0 ? existingImageUrls : undefined,
+            };
             
             await updateProduct(payload);
             
@@ -198,11 +177,13 @@ const ProductEdit = () => {
     return (
         <div className='w-full p-2 sm:p-4 flex flex-col lg:flex-row lg:justify-center gap-3 sm:gap-5'>
             {/* Images Section */}
-            <ProductImageSection 
+            <ProductImageSection
                 existingImages={existingImages}
                 setExistingImages={setExistingImages}
                 finalImages={finalImages}
                 setFinalImages={setFinalImages}
+                additionalImages={additionalImages}
+                setAdditionalImages={setAdditionalImages}
                 productDetail={productDetail}
             />
 
