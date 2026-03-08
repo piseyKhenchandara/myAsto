@@ -2,15 +2,39 @@ import React, { useState } from 'react';
 import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 
-const ProductImageSection = ({ 
-    existingImages, 
-    setExistingImages, 
-    finalImages, 
+const ProductImageSection = ({
+    existingImages,
+    setExistingImages,
+    finalImages,
     setFinalImages,
-    productDetail 
+    additionalImages,
+    setAdditionalImages,
+    productDetail
 }) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const navigate = useNavigate();
+
+    const handleAddMoreImages = (e) => {
+        const files = Array.from(e.target.files);
+        if (!files.length) return;
+
+        const valid = files.filter(f => {
+            if (!f.type.startsWith('image/')) { alert(`${f.name} is not an image`); return false; }
+            if (f.size > 5 * 1024 * 1024) { alert(`${f.name} exceeds 5MB`); return false; }
+            return true;
+        });
+
+        const newEntries = valid.map(f => ({ file: f, previewUrl: URL.createObjectURL(f) }));
+        setAdditionalImages(prev => [...prev, ...newEntries]);
+        e.target.value = '';
+    };
+
+    const removeAdditionalImage = (idx) => {
+        setAdditionalImages(prev => {
+            URL.revokeObjectURL(prev[idx].previewUrl);
+            return prev.filter((_, i) => i !== idx);
+        });
+    };
 
     const handleImageReplacement = (e, idx) => {
         const file = e.target.files[0];
@@ -133,6 +157,51 @@ const ProductImageSection = ({
                                 </ul>
                             </aside>
                         )}
+
+                        {/* Add More Images */}
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                            <div className="flex items-center justify-between mb-3">
+                                <span className="text-sm font-medium text-gray-700">Add more images</span>
+                                <label className="cursor-pointer bg-green-500 text-white text-xs px-3 py-1.5 rounded hover:bg-green-600 transition-colors">
+                                    + Choose Files
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        className="hidden"
+                                        onChange={handleAddMoreImages}
+                                    />
+                                </label>
+                            </div>
+
+                            {additionalImages.length > 0 ? (
+                                <div className="grid grid-cols-3 gap-2">
+                                    {additionalImages.map((item, idx) => (
+                                        <figure key={idx} className="relative border rounded-lg p-1 bg-white shadow-sm">
+                                            <div className="aspect-square bg-gray-100 rounded overflow-hidden">
+                                                <img
+                                                    src={item.previewUrl}
+                                                    alt={`New ${idx + 1}`}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeAdditionalImage(idx)}
+                                                className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hover:bg-red-600"
+                                            >
+                                                ×
+                                            </button>
+                                            <span className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-1 rounded">
+                                                New
+                                            </span>
+                                        </figure>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-xs text-gray-400 text-center py-2">No new images selected</p>
+                            )}
+                        </div>
 
                         {/* Selected Image Preview */}
                         {selectedImage && (

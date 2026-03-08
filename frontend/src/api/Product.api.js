@@ -78,7 +78,7 @@ const {
 }
 
 export const updateProduct = async (payload) => {
-    const {id, name, description, price, stock, features, warranty, files} = payload;
+    const {id, name, description, price, stock, features, warranty, files, existingImageUrls} = payload;
 
     const fd = new FormData();
     fd.append('name', name ? name.trim() : '');
@@ -89,12 +89,17 @@ export const updateProduct = async (payload) => {
     if (warranty) {
         fd.append('warranty', warranty);
     }
-    
+
     // Handle features
     const featuresJson = typeof features === 'string' ? features : JSON.stringify(features || []);
     fd.append("features", featuresJson);
-    
-    // Handle files - only add files that exist
+
+    // Send existing image URLs to keep (only when replacing images)
+    if (existingImageUrls !== undefined) {
+        fd.append('existingImageUrls', JSON.stringify(existingImageUrls));
+    }
+
+    // Handle files - only replacement files
     if (files && files.length > 0) {
         const fileList = Array.isArray(files) ? files : [files];
         fileList.forEach(f => {
@@ -102,10 +107,6 @@ export const updateProduct = async (payload) => {
                 fd.append('files', f);
             }
         });
-    }
-
-    for (let [key, value] of fd.entries()) {
-        console.log(key, ':', value);
     }
 
     try {

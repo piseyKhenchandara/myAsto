@@ -34,6 +34,7 @@ Asto Gear lets users browse, configure, and purchase computer accessories online
 ## Features
 
 **Customers**
+
 - Register / login via email or Google OAuth
 - Browse, search, and filter products by brand or category
 - Add to cart and checkout
@@ -43,6 +44,7 @@ Asto Gear lets users browse, configure, and purchase computer accessories online
 - Switch UI language: Khmer, Chinese, English
 
 **Sellers & Admins**
+
 - Full CRUD for products, brands, and categories
 - Monitor user login/signup activity
 - Track and manage all orders
@@ -51,16 +53,16 @@ Asto Gear lets users browse, configure, and purchase computer accessories online
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
+| Layer    | Technology                                  |
+| -------- | ------------------------------------------- |
 | Frontend | React, Vite, Tailwind CSS, Socket.io Client |
-| Backend | Node.js, Express.js, WebSocket |
-| Database | MySQL 8, Sequelize ORM |
-| Auth | JWT, Firebase (Google OAuth) |
-| Payment | Bakong KHQR API |
-| Storage | Cloudinary |
-| Email | Nodemailer |
-| DevOps | Docker, Docker Compose, Nginx |
+| Backend  | Node.js, Express.js, WebSocket              |
+| Database | MySQL 8, Sequelize ORM                      |
+| Auth     | JWT, Firebase (Google OAuth)                |
+| Payment  | Bakong KHQR API                             |
+| Storage  | Cloudinary                                  |
+| Email    | Nodemailer                                  |
+| DevOps   | Docker, Docker Compose, Nginx               |
 
 ---
 
@@ -128,6 +130,7 @@ npm run dev
 ```
 
 The app will be available at:
+
 - Frontend: `http://localhost:5173`
 - Backend API: `http://localhost:5000`
 
@@ -216,20 +219,20 @@ npm run preview    # Preview production build
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login |
-| GET | `/api/products` | List all products |
-| POST | `/api/products` | Create a product *(seller)* |
-| PUT | `/api/products/:id` | Update a product *(seller)* |
-| DELETE | `/api/products/:id` | Delete a product *(seller)* |
-| GET | `/api/categories` | List categories |
-| GET | `/api/brands` | List brands |
-| POST | `/api/orders` | Place an order |
-| GET | `/api/orders/:id` | Get order details |
-| POST | `/api/payments` | Process a payment |
-| GET | `/api/users/me` | Get current user profile |
+| Method | Endpoint             | Description                 |
+| ------ | -------------------- | --------------------------- |
+| POST   | `/api/auth/register` | Register a new user         |
+| POST   | `/api/auth/login`    | Login                       |
+| GET    | `/api/products`      | List all products           |
+| POST   | `/api/products`      | Create a product _(seller)_ |
+| PUT    | `/api/products/:id`  | Update a product _(seller)_ |
+| DELETE | `/api/products/:id`  | Delete a product _(seller)_ |
+| GET    | `/api/categories`    | List categories             |
+| GET    | `/api/brands`        | List brands                 |
+| POST   | `/api/orders`        | Place an order              |
+| GET    | `/api/orders/:id`    | Get order details           |
+| POST   | `/api/payments`      | Process a payment           |
+| GET    | `/api/users/me`      | Get current user profile    |
 
 ---
 
@@ -251,23 +254,9 @@ npm run preview    # Preview production build
 
 ---
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
 ## Contact
 
 For any inquiries or support, reach out via:
+
 - **Telegram:** [@Reajasey]
 - **Facebook:** [https://www.facebook.com/pisey.khenchandara]
-
-
-
-## Acknowledgments
-
-- Bakong API for payment integration
-- Cloudinary for image management
-- Firebase for authentication services
-- All open-source libraries used in this project#

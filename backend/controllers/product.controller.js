@@ -396,40 +396,73 @@ export const updateProduct = async (req,res) => {
             }
         }
         
-        if(req.files && req.files.length> 0) {
-            await db.ProductImage.destroy({
-                where : {product_id : product.id} // Fixed: was public_id : product.id
-            })
+        if (req.body.existingImageUrls !== undefined) {
+            // Selective update: keep images whose URLs are in existingImageUrls,
+            // delete the rest from R2 + DB, then add the newly uploaded files.
+            let urlsToKeep = [];
+            try {
+                urlsToKeep = JSON.parse(req.body.existingImageUrls);
+            } catch (e) {
+                urlsToKeep = [];
+            }
 
-            const publicId = [];
+            const imagesToDelete = (product.ProductImages || []).filter(
+                img => !urlsToKeep.includes(img.image_url)
+            );
 
-            if(product.ProductImages && product.ProductImages.length > 0){ // Fixed: ProductImages
-                for (const img of product.ProductImages) {
-                    if(img?.public_id) {
-                        publicId.push(img.public_id);
+            // Delete removed images from R2
+            for (const img of imagesToDelete) {
+                if (img?.public_id) {
+                    try {
+                        await r2.deleteObject(img.public_id);
+                    } catch (error) {
+                        console.log(`Failed to delete ${img.public_id} from R2!`, error.message);
                     }
                 }
             }
 
-            for(const p of publicId){
-                try{
-                    await r2.deleteObject(p);
-                }
-                catch(error){
-                    console.log(`Failed to delete ${p} from R2!`, error.message );
+            // Delete removed images from DB
+            if (imagesToDelete.length > 0) {
+                await db.ProductImage.destroy({
+                    where: { id: imagesToDelete.map(img => img.id) }
+                });
+            }
+
+            // Add new uploaded files
+            if (req.files && req.files.length > 0) {
+                const imageData = req.files.map(f => ({
+                    product_id: product.id,
+                    image_url: f.path,
+                    public_id: f.filename,
+                    is_main: false
+                }));
+                await db.ProductImage.bulkCreate(imageData);
+            }
+        } else if (req.files && req.files.length > 0) {
+            // Legacy fallback: delete all existing images and replace with uploaded files
+            await db.ProductImage.destroy({
+                where: { product_id: product.id }
+            });
+
+            for (const img of (product.ProductImages || [])) {
+                if (img?.public_id) {
+                    try {
+                        await r2.deleteObject(img.public_id);
+                    } catch (error) {
+                        console.log(`Failed to delete ${img.public_id} from R2!`, error.message);
+                    }
                 }
             }
 
-            const imageData = req.files.map((f, index) => ({ // Added index for is_main
-                product_id : product.id,
-                image_url : f.path,
-                public_id : f.filename,
-                is_main: index === 0 // First image is main
-            }))
-
-            await db.ProductImage.bulkCreate(imageData)
+            const imageData = req.files.map((f, index) => ({
+                product_id: product.id,
+                image_url: f.path,
+                public_id: f.filename,
+                is_main: index === 0
+            }));
+            await db.ProductImage.bulkCreate(imageData);
         }
-        
+
         res.status(200).json({message : "Product updated successfully", product });
         
     }
