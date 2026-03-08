@@ -17,7 +17,6 @@ export const googleAuthAPI = async (email,name,photoUrl,provider_id) => {
     return data;
 }
 
-
 export const signupAPI = async (name, email, password) => {
 
     const payload = {name,email,password};
