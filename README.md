@@ -1,13 +1,125 @@
-# Asto Gear 🖥️
+# Asto Gear - Computer Accessories E-commerce Platform
 
-> A full-stack e-commerce platform for computer accessories with real-time notifications, multi-language support, and integrated Bakong KHQR payment.
+🌐 **Live Demo:** [astogear.com](https://astogear.com)
 
-![Node.js](https://img.shields.io/badge/Node.js-18-green?logo=node.js)
-![React](https://img.shields.io/badge/React-Vite-blue?logo=react)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-orange?logo=mysql)
-![Docker](https://img.shields.io/badge/Docker-Compose-blue?logo=docker)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
+---
 
+## Full Demo Video
+
+[Watch the complete walkthrough on YouTube](https://www.youtube.com/watch?v=LKBMF5jg0k8)
+
+---
+
+## 📺 Demo
+
+### Authentication
+![User Authentication](authentication.gif)
+
+### Homepage & Product Browsing
+![Homepage and Product Browsing](homepage_productBrows.gif)
+
+### Product Details
+![Product Detail Page](product_detail.gif)
+
+### Shopping Cart & Checkout
+![Checkout Process](checkout_payment.gif)
+
+### Payment Integration
+![Bakong KHQR Payment](checkout_payment.gif)
+
+### Real-time Notifications
+![WebSocket Real-time Notifications](real_time_notification.gif)
+
+### Seller Dashboard
+![Admin Dashboard](seller_dashboard.gif)
+
+
+---
+
+## System Architecture
+
+```mermaid
+graph TD
+    USER["Users / Web & Mobile Browsers"]
+
+    CLOUDFLARE["Cloudflare CDN\nSSL/TLS and DDoS Protection"]
+
+    USER --> CLOUDFLARE
+
+    subgraph INFRASTRUCTURE["Docker Infrastructure - myasto-network"]
+
+        subgraph C_FRONT["Frontend Container - myasto_frontend_prod"]
+            NGINX["Nginx Alpine\nPort 80 - Public Entry Point\nStatic Server + Reverse Proxy"]
+            REACT["React + Vite + Tailwind CSS\nMulti-Language - Cart - Notifications"]
+        end
+
+        subgraph C_BACK["Backend Container - myasto_backend_prod"]
+            EXPRESS["Express.js REST API\nInternal 5000"]
+            WS["Socket.IO WebSocket Server"]
+            JWT["JWT Auth"]
+            AUTHZ["Authorization Middleware"]
+            subgraph CTRL["Controllers"]
+                direction LR
+                C1["Auth"]
+                C2["Products"]
+                C3["Orders"]
+                C4["Payments"]
+                C5["Users"]
+            end
+        end
+
+        subgraph C_DB["Database Container - myasto_db_prod"]
+            DB[("MySQL 5.7\nInternal 3306")]
+            TABLES["users - products - orders\npayments - categories - brands\naddresses - notifications"]
+        end
+
+    end
+
+    subgraph SERVICES["External Services"]
+        direction LR
+        FIREBASE["Firebase\nGoogle OAuth"]
+        R2["Cloudflare R2\nObject Storage"]
+        BAKONG["Bakong API\nKHQR Payment"]
+    end
+
+    subgraph DEPLOY["Deployment Flow"]
+        direction LR
+        STAGING["Staging Server"] -->|"test and validate"| PROD["Production Server"]
+    end
+
+    CLOUDFLARE -->|"HTTP port 80"| NGINX
+    NGINX -->|"serves static files"| REACT
+    NGINX -->|"proxy /api"| EXPRESS
+    NGINX -->|"proxy /socket.io"| WS
+    USER <-->|"WebSocket"| WS
+    EXPRESS --> JWT
+    JWT --> AUTHZ
+    AUTHZ --> C1 & C2 & C3 & C4 & C5
+    C1 & C2 & C3 & C4 & C5 --> DB
+    DB --- TABLES
+    C1 --> FIREBASE
+    C2 & C3 --> R2
+    C4 --> BAKONG
+
+    classDef cdnStyle fill:#ff6b35,stroke:#f7931e,stroke-width:2px,color:#fff
+    classDef userStyle fill:#1a1a1a,stroke:#00ff88,stroke-width:2px,color:#fff
+    classDef frontendStyle fill:#0d7377,stroke:#14ffec,stroke-width:2px,color:#fff
+    classDef backendStyle fill:#1a1a2e,stroke:#4caf50,stroke-width:2px,color:#fff
+    classDef dbStyle fill:#1b5e20,stroke:#76ff03,stroke-width:2px,color:#fff
+    classDef serviceStyle fill:#004d40,stroke:#00e676,stroke-width:2px,color:#fff
+    classDef deployStyle fill:#1b5e20,stroke:#00e676,stroke-width:2px,color:#fff
+    classDef ctrlStyle fill:#212121,stroke:#4caf50,stroke-width:1px,color:#fff
+
+    class CLOUDFLARE cdnStyle
+    class USER userStyle
+    class C_FRONT,NGINX,REACT frontendStyle
+    class C_BACK,EXPRESS,WS,JWT,AUTHZ backendStyle
+    class C_DB,DB,TABLES dbStyle
+    class SERVICES,FIREBASE,R2,BAKONG serviceStyle
+    class DEPLOY,STAGING,PROD deployStyle
+    class CTRL,C1,C2,C3,C4,C5 ctrlStyle
+```
+The diagram above illustrates the complete system architecture of Asto Gear, showing the flow from users through CDN and reverse proxy layers, to the containerized application services, database, and external API integrations.
 ---
 
 ## Table of Contents
@@ -53,45 +165,177 @@ Asto Gear lets users browse, configure, and purchase computer accessories online
 
 ## Tech Stack
 
-| Layer    | Technology                                  |
-| -------- | ------------------------------------------- |
-| Frontend | React, Vite, Tailwind CSS, Socket.io Client |
-| Backend  | Node.js, Express.js, WebSocket              |
-| Database | MySQL 8, Sequelize ORM                      |
-| Auth     | JWT, Firebase (Google OAuth)                |
-| Payment  | Bakong KHQR API                             |
-| Storage  | Cloudinary                                  |
-| Email    | Nodemailer                                  |
-| DevOps   | Docker, Docker Compose, Nginx               |
+| Layer    | Technology                                          |
+| -------- | --------------------------------------------------- |
+| Frontend | React, Vite, Tailwind CSS, Socket.io Client         |
+| Backend  | Node.js, Express.js, Socket.IO                      |
+| Database | MySQL 5.7, Sequelize ORM                            |
+| Auth     | JWT, Firebase (Google OAuth)                        |
+| Payment  | Bakong KHQR API                                     |
+| Storage  | Cloudflare R2                                       |
+| Email    | Nodemailer                                          |
+| DevOps   | Docker, Docker Compose, Nginx, GitHub Actions CI/CD |
 
 ---
 
 ## Project Structure
 
 ```
-asto-gear/
+myasto/
+├── .github/
+│   └── workflows/
+│       ├── deploy-production.yml
+│       ├── deploy-staging.yml
+│       └── test.yml
+│
 ├── backend/
-│   ├── config/           # DB & service configs
-│   ├── controllers/      # Business logic
-│   ├── mail/             # Email templates
-│   ├── middleware/       # Auth & authorization
-│   ├── models/           # Sequelize models
-│   ├── routes/           # API route definitions
-│   ├── utils/            # Helper functions
-│   ├── server.js         # Entry point
-│   └── wait-for-db.sh    # DB connection wait script
+│   ├── config/
+│   │   ├── cloudinary.js              # Cloudinary config
+│   │   ├── r2.js                      # Cloudflare R2 / AWS S3 config
+│   │   └── sequelize.js               # Sequelize DB connection
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── brand.controller.js
+│   │   ├── category.controller.js
+│   │   ├── notificatoin.controller.js
+│   │   ├── order.controller.js
+│   │   ├── payment.controller.js
+│   │   ├── product.controller.js
+│   │   ├── productBanner.controller.js
+│   │   ├── recipt.controller.js
+│   │   └── user.controller.js
+│   ├── mail/
+│   │   ├── generateCode.js
+│   │   ├── mailerConfig.js            # Nodemailer transport config
+│   │   └── mailService/
+│   │       ├── EmailService.js
+│   │       ├── sendPasswordResetEmail.js
+│   │       ├── sendResetSuccessEmail.js
+│   │       ├── sendVerificationEmail.js
+│   │       └── sendWelcomEmail.js
+│   ├── middleware/
+│   │   ├── autheticate.js             # JWT verification
+│   │   ├── authorizeRoles.js          # Role-based authorization
+│   │   ├── loadUserdata.js            # Load user from token
+│   │   ├── uploadMedia.js             # Multer media upload
+│   │   └── validator.js               # Request validation
+│   ├── models/
+│   │   ├── index.js                   # Model associations
+│   │   ├── address.js
+│   │   ├── brand.js
+│   │   ├── category.js
+│   │   ├── notification.js
+│   │   ├── order.js
+│   │   ├── orderItem.js
+│   │   ├── payment.js
+│   │   ├── product.js
+│   │   ├── productBanner.js
+│   │   ├── productFeature.js
+│   │   ├── productImage.js
+│   │   ├── ProductVideo.js
+│   │   ├── review.js
+│   │   └── user.js
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── brand.routes.js
+│   │   ├── category.routes.js
+│   │   ├── checkout.routes.js
+│   │   ├── notification.routes.js
+│   │   ├── order.routes.js
+│   │   ├── payment.routes.js
+│   │   ├── product.routes.js
+│   │   ├── recipt.routes.js
+│   │   └── user.routes.js
+│   ├── scripts/
+│   │   └── migrate_cloudinary_to_r2.js
+│   ├── utils/
+│   │   ├── generateOrderID.js
+│   │   └── generateTokenAndSetCookie.js
+│   ├── .env.example
+│   ├── Dockerfile
+│   ├── server.js                      # Entry point
+│   └── wait-for-db.sh                 # DB readiness wait script
 │
 ├── frontend/
-│   ├── src/              # React components & pages
-│   ├── context/          # Global state (React Context)
-│   ├── public/           # Static assets
-│   ├── utils/            # Frontend helpers
-│   ├── socket.js         # WebSocket config
-│   ├── nginx.dev.conf
-│   ├── nginx.prod.conf
+│   ├── context/
+│   │   ├── UserContext.jsx
+│   │   └── notificationContext/
+│   │       └── NotificationContext.jsx
+│   ├── utils/
+│   │   ├── AboutUs.jsx
+│   │   ├── Footer.jsx
+│   │   ├── ScrollToTheTop.jsx
+│   │   ├── analytics.jsx
+│   │   └── googleTranslateService.js
+│   ├── public/
+│   │   ├── favicon.png
+│   │   ├── promotionasto.png
+│   │   └── vite.svg
+│   ├── src/
+│   │   ├── api/                       # Axios API call modules
+│   │   │   ├── http.js                # Axios instance & base config
+│   │   │   ├── Auth.api.js
+│   │   │   ├── BrandProduct.api.js
+│   │   │   ├── CategoryProduct.api.js
+│   │   │   ├── Checkout.api.js
+│   │   │   ├── notification.api.js
+│   │   │   ├── order.api.js
+│   │   │   ├── payment.api.js
+│   │   │   ├── Product.api.js
+│   │   │   ├── ProductBanner.api.js
+│   │   │   ├── Recipt.api.js
+│   │   │   └── User.api.js
+│   │   ├── assets/
+│   │   │   ├── ceo/
+│   │   │   ├── flag/
+│   │   │   ├── logoes/
+│   │   │   └── qrcode/
+│   │   ├── auth/                      # Auth pages & components
+│   │   │   ├── RootAuthLayout.jsx
+│   │   │   ├── components/
+│   │   │   │   └── signup/
+│   │   │   │       └── GoogleAuth.jsx
+│   │   │   ├── firebase/
+│   │   │   │   └── config.js
+│   │   │   └── pages/
+│   │   │       ├── EmailEntry.jsx
+│   │   │       ├── ForgotPassword.jsx
+│   │   │       ├── Login.jsx
+│   │   │       ├── ResetPassword.jsx
+│   │   │       ├── Signup.jsx
+│   │   │       └── VerifyEmail.jsx
+│   │   ├── customer/                  # Customer storefront
+│   │   │   ├── RootCustomerLayout.jsx
+│   │   │   ├── context/
+│   │   │   │   └── CartContext.jsx
+│   │   │   ├── components/
+│   │   │   │   ├── address/
+│   │   │   │   └── recipt/
+│   │   │   └── pages/
+│   │   │       ├── Homepage.jsx
+│   │   │       ├── NotFound.jsx
+│   │   │       └── checkout/
+│   │   │           ├── KHQR/
+│   │   │           └── Order/
+│   │   ├── seller/                    # Seller / Admin dashboard
+│   │   │   ├── RootSellerLayout.jsx
+│   │   │   └── components/
+│   │   │       ├── header/
+│   │   │       ├── leftNavbar/
+│   │   │       ├── mainContent/
+│   │   │       ├── category_brand_product/
+│   │   │       ├── orderManagement/
+│   │   │       └── user/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── socket.js                      # Socket.io client config
+│   ├── nginx.development.conf
+│   ├── nginx.production.conf
+│   ├── Dockerfile
 │   └── vite.config.js
 │
-├── docker-compose.yml
+├── docker-compose.dev.yml
+├── docker-compose.production.yml
 └── README.md
 ```
 
@@ -101,8 +345,8 @@ asto-gear/
 
 ### Prerequisites
 
-- Node.js v16+
-- MySQL 8
+- Node.js v18+
+- MySQL 5.7+
 - Docker & Docker Compose (optional)
 
 ### 1. Clone the Repository
@@ -134,20 +378,20 @@ The app will be available at:
 - Frontend: `http://localhost:5173`
 - Backend API: `http://localhost:5000`
 
-> ⚠️ Start the database first, then the backend, then the frontend.
+> Start order: Database first, then backend, then frontend.
 
 ### 4. Docker (Recommended)
 
 Runs everything in one command:
 
 ```bash
-docker-compose up --build
+docker-compose -f docker-compose.dev.yml up --build
 ```
 
 This starts three containers: MySQL, Node.js backend, and Nginx frontend.
 
 ```bash
-docker-compose down   # to stop
+docker-compose -f docker-compose.dev.yml down   # to stop
 ```
 
 ---
@@ -166,10 +410,11 @@ DB_HOST=localhost
 # JWT
 JWT_SECRET=your_jwt_secret
 
-# Cloudinary
-CLOUD_NAME=your_cloud_name
-CLOUD_API_KEY=your_api_key
-CLOUD_API_SECRET=your_api_secret
+# Cloudflare R2
+R2_ACCESS_KEY_ID=your_r2_access_key
+R2_SECRET_ACCESS_KEY=your_r2_secret_key
+R2_BUCKET_NAME=your_bucket_name
+R2_ENDPOINT=your_r2_endpoint
 
 # Firebase
 FIREBASE_API_KEY=your_firebase_key
@@ -232,6 +477,8 @@ npm run preview    # Preview production build
 | POST   | `/api/orders`        | Place an order              |
 | GET    | `/api/orders/:id`    | Get order details           |
 | POST   | `/api/payments`      | Process a payment           |
+| POST   | `/api/checkout`      | Checkout                    |
+| GET    | `/api/notifications` | Get notifications           |
 | GET    | `/api/users/me`      | Get current user profile    |
 
 ---
@@ -240,8 +487,8 @@ npm run preview    # Preview production build
 
 - JWT with HTTP-only cookies
 - Google OAuth via Firebase
-- Authorization middleware on protected routes
-- Secure password hashing
+- Role-based authorization middleware (Customer / Seller / Admin)
+- Secure password hashing (bcrypt)
 - Environment-based configuration (no secrets in code)
 
 ---
@@ -249,7 +496,7 @@ npm run preview    # Preview production build
 ## Acknowledgments
 
 - [Bakong API](https://bakong.nbc.gov.kh) — KHQR payment
-- [Cloudinary](https://cloudinary.com) — Image storage
+- [Cloudflare R2](https://developers.cloudflare.com/r2/) — Image storage
 - [Firebase](https://firebase.google.com) — Google OAuth
 
 ---
@@ -258,5 +505,11 @@ npm run preview    # Preview production build
 
 For any inquiries or support, reach out via:
 
-- **Telegram:** [@Reajasey]
-- **Facebook:** [https://www.facebook.com/pisey.khenchandara]
+- **Telegram:** [@Reajasey](https://t.me/Reajasey)
+- **Facebook:** [Pisey Khenchandara](https://www.facebook.com/pisey.khenchandara)
+
+---
+
+## License
+
+This project is for **showcase purposes only**. All rights reserved.
