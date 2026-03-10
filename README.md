@@ -10,7 +10,7 @@
 
 ---
 
-## 📺 Demo
+## Demo
 
 ### Authentication
 ![User Authentication](authentication.gif)
@@ -32,7 +32,6 @@
 
 ### Seller Dashboard
 ![Admin Dashboard](seller_dashboard.gif)
-
 
 ---
 
@@ -119,62 +118,86 @@ graph TD
     class DEPLOY,STAGING,PROD deployStyle
     class CTRL,C1,C2,C3,C4,C5 ctrlStyle
 ```
+
 The diagram above illustrates the complete system architecture of Asto Gear, showing the flow from users through CDN and reverse proxy layers, to the containerized application services, database, and external API integrations.
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Environment Variables](#environment-variables)
-- [Available Scripts](#available-scripts)
-- [API Endpoints](#api-endpoints)
-- [Security](#security)
-- [Contact](#contact)
 
 ---
 
-## Overview
+## Project Overview
 
-Asto Gear lets users browse, configure, and purchase computer accessories online. The platform supports three roles — **Customer**, **Seller**, and **Admin** — each with tailored functionality. All orders include free delivery.
+**Asto Gear** is a full-stack e-commerce web application that allows users to build and purchase computer accessories with ease. The platform features real-time notifications, multi-language support, and integrated payment through Bakong API. All orders come with **free delivery** for users.
 
 ---
 
-## Features
+## Key Features
 
-**Customers**
+### Authentication
+- User registration and login (manual or Google OAuth)
+- JWT-based authentication with cookies and authorization headers
+- Email verification, forgot password, and password reset flow
+- Secure session management
 
-- Register / login via email or Google OAuth
-- Browse, search, and filter products by brand or category
-- Add to cart and checkout
-- Pay via Bakong KHQR
-- Real-time order status updates via WebSocket
-- Choose delivery provider: JNT Express, Vireak Buntham, or Grab
-- Switch UI language: Khmer, Chinese, English
+### E-commerce Functionality
+- Browse computer accessories and components
+- Search products by name
+- Filter products by brand and category
+- Add products to shopping cart
+- View order receipts
 
-**Sellers & Admins**
+### Seller Dashboard
+- Full CRUD operations for products, brands, categories, and product banners
+- Track user login/signup activity
+- Manage product inventory and orders
 
-- Full CRUD for products, brands, and categories
-- Monitor user login/signup activity
-- Track and manage all orders
+### Real-time Features
+- Socket.IO notifications for order status updates
+- Live order tracking
+
+### Payment Integration
+- Bakong KHQR payment gateway
+- Secure payment processing
+
+### Multi-language Support
+- Language options: Khmer, Chinese, English
+- Flag-based language switcher
+
+### Delivery Management
+- User input for phone number and address
+- Multiple delivery provider options:
+  - JNT Express
+  - Vireak Buntham
+  - Grab
+
+### Contact & Support
+- About Us page
+- Contact via Telegram, Facebook, and Instagram
 
 ---
 
 ## Tech Stack
 
-| Layer    | Technology                                          |
-| -------- | --------------------------------------------------- |
-| Frontend | React, Vite, Tailwind CSS, Socket.io Client         |
-| Backend  | Node.js, Express.js, Socket.IO                      |
-| Database | MySQL 5.7, Sequelize ORM                            |
-| Auth     | JWT, Firebase (Google OAuth)                        |
-| Payment  | Bakong KHQR API                                     |
-| Storage  | Cloudflare R2                                       |
-| Email    | Nodemailer                                          |
-| DevOps   | Docker, Docker Compose, Nginx, GitHub Actions CI/CD |
+### Backend
+- **Node.js** & **Express.js** (ESM) - Server framework
+- **MySQL 5.7** - Relational database
+- **Sequelize** - ORM for database management
+- **Firebase** - Google OAuth authentication
+- **Socket.IO** - Real-time WebSocket communication
+- **Nodemailer** - Email notifications (verification, reset, welcome)
+- **Bakong API** - KHQR payment integration
+- **JWT** - Token-based authentication (HTTP-only cookies)
+- **Cloudflare R2** - Image storage (S3-compatible)
+
+### Frontend
+- **React 19** with **Vite 7** - Fast development environment
+- **Tailwind CSS 4** - Utility-first styling
+- **React Router v7** - Client-side routing
+- **Socket.io-client** - WebSocket client
+- **Axios** - HTTP client with interceptors
+
+### DevOps
+- **Docker** & **Docker Compose** - Containerization (dev + production configs)
+- **Nginx** - Reverse proxy and static file serving
+- **GitHub Actions** - CI/CD with staging → production pipeline, DB backup, and auto-rollback
 
 ---
 
@@ -184,28 +207,28 @@ Asto Gear lets users browse, configure, and purchase computer accessories online
 myasto/
 ├── .github/
 │   └── workflows/
-│       ├── deploy-production.yml
-│       ├── deploy-staging.yml
-│       └── test.yml
+│       ├── deploy-production.yml      # SSH deploy to VPS + DB backup + rollback
+│       ├── deploy-staging.yml         # Staging CI/CD workflow
+│       └── test.yml                   # Test runner workflow
 │
 ├── backend/
 │   ├── config/
-│   │   ├── cloudinary.js              # Cloudinary config
-│   │   ├── r2.js                      # Cloudflare R2 / AWS S3 config
-│   │   └── sequelize.js               # Sequelize DB connection
+│   │   ├── cloudinary.js              # Cloudinary SDK setup (legacy)
+│   │   ├── r2.js                      # Cloudflare R2 (S3-compatible) config
+│   │   └── sequelize.js               # Sequelize / MySQL connection config
 │   ├── controllers/
-│   │   ├── auth.controller.js
-│   │   ├── brand.controller.js
-│   │   ├── category.controller.js
-│   │   ├── notificatoin.controller.js
-│   │   ├── order.controller.js
-│   │   ├── payment.controller.js
-│   │   ├── product.controller.js
-│   │   ├── productBanner.controller.js
-│   │   ├── recipt.controller.js
-│   │   └── user.controller.js
+│   │   ├── auth.controller.js         # Register, login, logout, verify, reset password
+│   │   ├── brand.controller.js        # CRUD for product brands
+│   │   ├── category.controller.js     # CRUD for product categories
+│   │   ├── notificatoin.controller.js # Real-time notification logic
+│   │   ├── order.controller.js        # Order creation and status updates
+│   │   ├── payment.controller.js      # Bakong KHQR payment processing
+│   │   ├── product.controller.js      # CRUD for products, images, features
+│   │   ├── productBanner.controller.js# Homepage banner management
+│   │   ├── recipt.controller.js       # Receipt / invoice generation
+│   │   └── user.controller.js         # User profile and address management
 │   ├── mail/
-│   │   ├── generateCode.js
+│   │   ├── generateCode.js            # OTP / verification code generator
 │   │   ├── mailerConfig.js            # Nodemailer transport config
 │   │   └── mailService/
 │   │       ├── EmailService.js
@@ -214,11 +237,11 @@ myasto/
 │   │       ├── sendVerificationEmail.js
 │   │       └── sendWelcomEmail.js
 │   ├── middleware/
-│   │   ├── autheticate.js             # JWT verification
-│   │   ├── authorizeRoles.js          # Role-based authorization
-│   │   ├── loadUserdata.js            # Load user from token
-│   │   ├── uploadMedia.js             # Multer media upload
-│   │   └── validator.js               # Request validation
+│   │   ├── autheticate.js             # JWT verification middleware
+│   │   ├── authorizeRoles.js          # Role-based access control (Customer / Seller / Admin)
+│   │   ├── loadUserdata.js            # Attach user data to request
+│   │   ├── uploadMedia.js             # Multer + R2 file upload
+│   │   └── validator.js               # Request input validation
 │   ├── models/
 │   │   ├── index.js                   # Model associations
 │   │   ├── address.js
@@ -247,33 +270,32 @@ myasto/
 │   │   ├── recipt.routes.js
 │   │   └── user.routes.js
 │   ├── scripts/
-│   │   └── migrate_cloudinary_to_r2.js
+│   │   └── migrate_cloudinary_to_r2.js# One-time Cloudinary → R2 migration script
 │   ├── utils/
 │   │   ├── generateOrderID.js
 │   │   └── generateTokenAndSetCookie.js
-│   ├── .env.example
+│   ├── .env.example                   # Template for environment variables
 │   ├── Dockerfile
-│   ├── server.js                      # Entry point
-│   └── wait-for-db.sh                 # DB readiness wait script
+│   ├── server.js                      # App entry point (Express + Socket.IO)
+│   └── wait-for-db.sh                 # Wait for MySQL health before starting
 │
 ├── frontend/
-│   ├── context/
-│   │   ├── UserContext.jsx
+│   ├── context/                       # Global React contexts
+│   │   ├── UserContext.jsx            # Auth / user state
 │   │   └── notificationContext/
 │   │       └── NotificationContext.jsx
-│   ├── utils/
+│   ├── utils/                         # Shared utilities & layout components
 │   │   ├── AboutUs.jsx
 │   │   ├── Footer.jsx
 │   │   ├── ScrollToTheTop.jsx
-│   │   ├── analytics.jsx
+│   │   ├── analytics.jsx              # Google Analytics 4 wrapper
 │   │   └── googleTranslateService.js
 │   ├── public/
 │   │   ├── favicon.png
-│   │   ├── promotionasto.png
-│   │   └── vite.svg
+│   │   └── promotionasto.png
 │   ├── src/
 │   │   ├── api/                       # Axios API call modules
-│   │   │   ├── http.js                # Axios instance & base config
+│   │   │   ├── http.js                # Axios instance (base URL, interceptors)
 │   │   │   ├── Auth.api.js
 │   │   │   ├── BrandProduct.api.js
 │   │   │   ├── CategoryProduct.api.js
@@ -286,56 +308,61 @@ myasto/
 │   │   │   ├── Recipt.api.js
 │   │   │   └── User.api.js
 │   │   ├── assets/
-│   │   │   ├── ceo/
-│   │   │   ├── flag/
-│   │   │   ├── logoes/
-│   │   │   └── qrcode/
-│   │   ├── auth/                      # Auth pages & components
+│   │   │   ├── ceo/                   # Team / founder photos
+│   │   │   ├── flag/                  # Language selector flags (KH, CN, EN)
+│   │   │   ├── logoes/                # Brand and social logos
+│   │   │   └── qrcode/                # Social media QR codes
+│   │   ├── auth/                      # Authentication module
 │   │   │   ├── RootAuthLayout.jsx
 │   │   │   ├── components/
 │   │   │   │   └── signup/
-│   │   │   │       └── GoogleAuth.jsx
+│   │   │   │       └── GoogleAuth.jsx # Firebase Google OAuth button
 │   │   │   ├── firebase/
 │   │   │   │   └── config.js
 │   │   │   └── pages/
+│   │   │       ├── Login.jsx
+│   │   │       ├── Signup.jsx
+│   │   │       ├── VerifyEmail.jsx
 │   │   │       ├── EmailEntry.jsx
 │   │   │       ├── ForgotPassword.jsx
-│   │   │       ├── Login.jsx
-│   │   │       ├── ResetPassword.jsx
-│   │   │       ├── Signup.jsx
-│   │   │       └── VerifyEmail.jsx
-│   │   ├── customer/                  # Customer storefront
+│   │   │       └── ResetPassword.jsx
+│   │   ├── customer/                  # Customer-facing storefront
 │   │   │   ├── RootCustomerLayout.jsx
 │   │   │   ├── context/
-│   │   │   │   └── CartContext.jsx
+│   │   │   │   └── CartContext.jsx    # Shopping cart state
 │   │   │   ├── components/
-│   │   │   │   ├── address/
-│   │   │   │   └── recipt/
+│   │   │   │   ├── address/           # Phone, location, delivery selector
+│   │   │   │   └── recipt/            # Receipt header and body
 │   │   │   └── pages/
 │   │   │       ├── Homepage.jsx
 │   │   │       ├── NotFound.jsx
 │   │   │       └── checkout/
-│   │   │           ├── KHQR/
-│   │   │           └── Order/
+│   │   │           ├── KHQR/          # QR code display, timer, expiry
+│   │   │           └── Order/         # Cart, summary, empty state
 │   │   ├── seller/                    # Seller / Admin dashboard
 │   │   │   ├── RootSellerLayout.jsx
 │   │   │   └── components/
-│   │   │       ├── header/
-│   │   │       ├── leftNavbar/
+│   │   │       ├── header/            # Search, notifications, language switcher
+│   │   │       ├── leftNavbar/        # Sidebar navigation
 │   │   │       ├── mainContent/
 │   │   │       ├── category_brand_product/
-│   │   │       ├── orderManagement/
-│   │   │       └── user/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── socket.js                      # Socket.io client config
+│   │   │       │   ├── brandManagement/
+│   │   │       │   ├── categoryManagement/
+│   │   │       │   └── productManagement/
+│   │   │       │       ├── productBanner/
+│   │   │       │       └── products/
+│   │   │       ├── orderManagement/   # Orders table + order detail view
+│   │   │       └── user/              # User list and activity monitoring
+│   │   ├── App.jsx                    # Root router (React Router v7)
+│   │   └── main.jsx                   # React DOM entry point
+│   ├── socket.js                      # Socket.IO client singleton
 │   ├── nginx.development.conf
 │   ├── nginx.production.conf
-│   ├── Dockerfile
+│   ├── Dockerfile                     # Multi-stage: Vite build → Nginx serve
 │   └── vite.config.js
 │
-├── docker-compose.dev.yml
-├── docker-compose.production.yml
+├── docker-compose.dev.yml             # Dev: MySQL, backend :5000, frontend :80
+├── docker-compose.production.yml      # Prod: all containers on internal network
 └── README.md
 ```
 
@@ -347,25 +374,57 @@ myasto/
 
 - Node.js v18+
 - MySQL 5.7+
-- Docker & Docker Compose (optional)
+- Docker & Docker Compose (for containerized setup)
 
-### 1. Clone the Repository
+### Option 1 — Docker (Recommended)
+
+Runs the entire stack (MySQL + backend + frontend) in one command.
+
+**Development:**
+
+```bash
+docker-compose -f docker-compose.dev.yml up --build
+```
+
+**Production:**
+
+```bash
+docker-compose -f docker-compose.production.yml up --build
+```
+
+Stop containers:
+
+```bash
+docker-compose -f docker-compose.dev.yml down
+```
+
+The app will be available at `http://localhost`.
+
+---
+
+### Option 2 — Manual Setup
+
+> Start order: database first, then backend, then frontend.
+
+**1. Clone the repository**
 
 ```bash
 git clone https://github.com/your-username/asto-gear.git
 cd asto-gear
 ```
 
-### 2. Backend
+**2. Backend**
 
 ```bash
 cd backend
 npm install
-cp .env.example .env   # then fill in your values
-nodemon server.js
+cp .env.example .env    # fill in your values (see Environment Variables below)
+node server.js          # or: nodemon server.js for auto-reload
 ```
 
-### 3. Frontend
+Backend API will be available at `http://localhost:5000`.
+
+**3. Frontend**
 
 ```bash
 cd frontend
@@ -373,26 +432,7 @@ npm install
 npm run dev
 ```
 
-The app will be available at:
-
-- Frontend: `http://localhost:5173`
-- Backend API: `http://localhost:5000`
-
-> Start order: Database first, then backend, then frontend.
-
-### 4. Docker (Recommended)
-
-Runs everything in one command:
-
-```bash
-docker-compose -f docker-compose.dev.yml up --build
-```
-
-This starts three containers: MySQL, Node.js backend, and Nginx frontend.
-
-```bash
-docker-compose -f docker-compose.dev.yml down   # to stop
-```
+Frontend will be available at `http://localhost:5173`.
 
 ---
 
@@ -410,106 +450,54 @@ DB_HOST=localhost
 # JWT
 JWT_SECRET=your_jwt_secret
 
-# Cloudflare R2
+# Cloudflare R2 (image storage)
 R2_ACCESS_KEY_ID=your_r2_access_key
 R2_SECRET_ACCESS_KEY=your_r2_secret_key
 R2_BUCKET_NAME=your_bucket_name
 R2_ENDPOINT=your_r2_endpoint
+R2_PUBLIC_URL=your_r2_public_url
 
-# Firebase
-FIREBASE_API_KEY=your_firebase_key
+# Firebase (Google OAuth)
+FIREBASE_API_KEY=your_firebase_api_key
 
-# Bakong
+# Bakong (KHQR payment)
 BAKONG_API_KEY=your_bakong_key
 
-# Email
+# Email (Nodemailer)
 EMAIL_USER=your_email
-EMAIL_PASSWORD=your_email_password
+EMAIL_PASSWORD=your_email_app_password
 ```
 
 ### `frontend/.env.development`
 
 ```env
-VITE_API_URL=http://localhost:5000
-VITE_SOCKET_URL=http://localhost:5000
+VITE_API_BASE_URL=http://localhost:5000
 ```
 
 ### `frontend/.env.production`
 
 ```env
-VITE_API_URL=https://your-production-api.com
-VITE_SOCKET_URL=https://your-production-api.com
+VITE_API_BASE_URL=https://your-production-domain.com
 ```
-
----
-
-## Available Scripts
-
-### Backend
-
-```bash
-npm start          # Start with Node
-nodemon server.js  # Start with auto-reload
-```
-
-### Frontend
-
-```bash
-npm run dev        # Development server
-npm run build      # Production build
-npm run preview    # Preview production build
-```
-
----
-
-## API Endpoints
-
-| Method | Endpoint             | Description                 |
-| ------ | -------------------- | --------------------------- |
-| POST   | `/api/auth/register` | Register a new user         |
-| POST   | `/api/auth/login`    | Login                       |
-| GET    | `/api/products`      | List all products           |
-| POST   | `/api/products`      | Create a product _(seller)_ |
-| PUT    | `/api/products/:id`  | Update a product _(seller)_ |
-| DELETE | `/api/products/:id`  | Delete a product _(seller)_ |
-| GET    | `/api/categories`    | List categories             |
-| GET    | `/api/brands`        | List brands                 |
-| POST   | `/api/orders`        | Place an order              |
-| GET    | `/api/orders/:id`    | Get order details           |
-| POST   | `/api/payments`      | Process a payment           |
-| POST   | `/api/checkout`      | Checkout                    |
-| GET    | `/api/notifications` | Get notifications           |
-| GET    | `/api/users/me`      | Get current user profile    |
-
----
-
-## Security
-
-- JWT with HTTP-only cookies
-- Google OAuth via Firebase
-- Role-based authorization middleware (Customer / Seller / Admin)
-- Secure password hashing (bcrypt)
-- Environment-based configuration (no secrets in code)
-
----
-
-## Acknowledgments
-
-- [Bakong API](https://bakong.nbc.gov.kh) — KHQR payment
-- [Cloudflare R2](https://developers.cloudflare.com/r2/) — Image storage
-- [Firebase](https://firebase.google.com) — Google OAuth
 
 ---
 
 ## Contact
 
 For any inquiries or support, reach out via:
-
 - **Telegram:** [@Reajasey](https://t.me/Reajasey)
 - **Facebook:** [Pisey Khenchandara](https://www.facebook.com/pisey.khenchandara)
 
 ---
 
+## Acknowledgments
+
+- [Bakong API](https://bakong.nbc.gov.kh) — KHQR payment integration
+- [Cloudflare R2](https://developers.cloudflare.com/r2/) — Image storage
+- [Firebase](https://firebase.google.com) — Google OAuth
+
+---
+
 ## License
 
-This project is for **showcase purposes only**. All rights reserved.
+This project is for showcase purposes. All rights reserved.
