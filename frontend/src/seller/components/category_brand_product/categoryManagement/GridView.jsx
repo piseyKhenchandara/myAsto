@@ -28,7 +28,7 @@ const GridView = ({
     return (
         <section className="px-6 py-4 w-full flex flex-col items-center relative">
 
-            <div className="w-full max-w-6xl relative">
+            <div className="w-full max-w-6xl relative md:grid md:grid-cols-3">
                 {categories.map((cat, index) => (
                     <article
                         ref={el => (cardRefs.current[index] = el)}
@@ -36,7 +36,7 @@ const GridView = ({
                         className="category-card backdrop-blur-sm transition-all duration-300 overflow-hidden"
                         key={cat.id}
                     >
-                        <div className="flex items-center p-2 ">
+                        <div className="flex items-center p-2 md:flex-col ">
 
                             <NavLink
                                 to={
@@ -44,7 +44,7 @@ const GridView = ({
                                         ? `/dashboard/category/${cat.slug}/brand/first/products`
                                         : `/category/${cat.slug}/brand/first/products`
                                 }
-                                className={`flex items-center bg-white shadow-lg p-3  rounded-e-xl sm:rounded-e-2xl flex-shrink-0 h-full ${
+                                className={`flex items-center bg-white shadow-lg p-3  rounded-e-xl sm:rounded-e-2xl flex-shrink-0 h-full md:flex-col ${
                                     whoami?.role === 'admin' || whoami?.role === 'seller'
                                         ? 'w-[calc(100%-80px)] sm:w-[calc(100%-100px)] md:w-[calc(100%-120px)]'
                                         : 'w-full'
