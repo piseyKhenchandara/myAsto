@@ -46,17 +46,17 @@ const GridView = ({
                                 }
                                 className={`flex items-center bg-white shadow-lg p-3  rounded-e-xl sm:rounded-e-2xl flex-shrink-0 h-full md:flex-col ${
                                     whoami?.role === 'admin' || whoami?.role === 'seller'
-                                        ? 'w-[calc(100%-80px)] sm:w-[calc(100%-100px)] md:w-[calc(100%-120px)]'
+                                        ? 'w-[calc(100%-80px)] sm:w-[calc(100%-100px)] md:w-full h-auto'
                                         : 'w-full'
                                 }`}
                             >
                                 <img
                                     src={cat.image_url || asto_logo}
                                     alt={cat.name}
-                                    className="w-16 h-16 md:w-25 md:h-25 object-contain rounded-lg sm:rounded-xl flex-shrink-0"
+                                    className="w-16 h-16 md:w-40 md:h-40 object-contain rounded-lg sm:rounded-xl flex-shrink-0"
                                 />
 
-                                <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 ml-3 xs:ml-4 sm:ml-6 md:ml-8 lg:ml-10 leading-tight truncate">
+                                <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 ml-3 xs:ml-4 sm:ml-6 md:ml-0 leading-tight truncate w-full text-center">
                                     {cat.name}
                                 </h3>
                             </NavLink>
