@@ -77,8 +77,8 @@ const AuthSetting = ({
         {msg.text && (
           <div className={`mx-6 mt-6 p-4 rounded-xl font-medium shadow-sm ${
             msg.type === 'success' 
-              ? 'bg-green-50 text-green-700 border-l-4 border-green-500' 
-              : 'bg-red-50 text-red-700 border-l-4 border-red-500'
+              ? 'bg-primary-faint text-primary-dark border-l-4 border-primary-light' 
+              : 'bg-danger-bg text-danger-text border-l-4 border-danger'
           }`}>
             <div className='flex items-center gap-2'>
               <span>{msg.type === 'success' ? '' : ''}</span>
@@ -102,14 +102,14 @@ const AuthSetting = ({
                     ) : user?.profile_picture ? (
                       <img src={user.profile_picture} alt="Profile" className='w-full h-full object-cover' />
                     ) : (
-                      <span className='text-5xl sm:text-6xl lg:text-7xl font-bold text-green-600'>
+                      <span className='text-5xl sm:text-6xl lg:text-7xl font-bold text-primary'>
                         {user?.name?.charAt(0)?.toUpperCase()}
                       </span>
                     )}
                   </div>
                   <label 
                     htmlFor='profile-picture' 
-                    className='absolute bottom-2 right-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white p-3 rounded-full cursor-pointer hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:scale-110 transform duration-200'
+                    className='absolute bottom-2 right-2 bg-gradient-to-r from-primary to-emerald-600 text-white p-3 rounded-full cursor-pointer hover:from-primary-dark hover:to-emerald-700 transition-all shadow-lg hover:scale-110 transform duration-200'
                   >
                     <FiUpload className='text-lg' />
                   </label>
@@ -193,7 +193,7 @@ const AuthSetting = ({
                 <button
                   type='submit'
                   disabled={loading || !hasChanges}
-                  className='flex-1 px-6 py-3 bg-gradient-to-r text-black rounded-xl hover:bg-green-300 transition-all font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] border-1 border-gray-300'
+                  className='flex-1 px-6 py-3 bg-gradient-to-r text-black rounded-xl hover:bg-primary-border transition-all font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] border-1 border-gray-300'
                 >
                   {loading ? (
                     <span className='flex items-center justify-center gap-2'>

@@ -7,7 +7,7 @@ const PaymentSummary = ({ orderItems, deliveryCompany, discountAmount }) => {
   const total = subtotal + delivery - discount; //  Removed tax
 
   return (
-    <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>
+    <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-primary'>
       <h5 className='font-bold text-gray-800 mb-4 text-base sm:text-lg text-center sm:text-left'>
         Payment Summary
       </h5>
@@ -26,12 +26,12 @@ const PaymentSummary = ({ orderItems, deliveryCompany, discountAmount }) => {
         {/* Delivery */}
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
           <dt className='text-gray-600'>Delivery</dt>
-          <dd className='font-medium text-gray-800'>{delivery === 0? <span className='text-green-600'>Free</span> : '$2'}</dd>
+          <dd className='font-medium text-gray-800'>{delivery === 0? <span className='text-primary'>Free</span> : '$2'}</dd>
         </div>
 
         {/* Discount */}
         {discount > 0 && (
-          <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center text-green-600'>
+          <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center text-primary'>
             <dt>Discount</dt>
             <dd className='font-medium'>-${discount.toFixed(2)}</dd>
           </div>

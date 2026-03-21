@@ -6,7 +6,7 @@ const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,
 
   return (
     <aside className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">
-        <article className="bg-white rounded-[20px] p-4 sm:p-6 w-full mx-4 max-w-[400px] shadow-lg shadow-green-600">
+        <article className="bg-white rounded-card p-4 sm:p-6 w-full mx-4 max-w-[400px] shadow-lg shadow-primary">
         <header className="flex justify-between items-center mb-4">
             <h4 className="text-lg font-semibold">{type_name}</h4>
             
@@ -22,7 +22,7 @@ const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,
             <div className="w-full mb-3">
             <div className="w-full h-2 bg-gray-200 rounded">
                 <div
-                className="h-2 rounded bg-green-600 transition-all"
+                className="h-2 rounded bg-primary transition-all"
                 style={{ width: `${progress}%` }}
                 />
             </div>
@@ -33,7 +33,7 @@ const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,
         }
         
         {msg &&
-            <p className={`${msg.type === "error" ? "text-red-500" : "text-green-500 "}`}>{msg.text}</p>
+            <p className={`${msg.type === "error" ? "text-danger" : "text-primary-light "}`}>{msg.text}</p>
         }
         
         <form onSubmit={updateType} className="flex flex-col gap-3">
@@ -47,7 +47,7 @@ const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,
             <div className="relative">
             <button 
                 type="button"
-                className="bg-gray-300 hover:bg-gray-400 border-dashed border-2 relative flex flex-col justify-center items-center p-5 rounded-[15px] text-gray-700 w-full"
+                className="bg-gray-300 hover:bg-gray-400 border-dashed border-2 relative flex flex-col justify-center items-center p-5 rounded-modal-btn text-gray-700 w-full"
             >
                 <h5>Choose one image</h5>
                 <p className="text-sm">image/jpeg, image/png, image/webp</p>
@@ -62,7 +62,7 @@ const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,
             {file && (
                 <div className="mt-2 p-2 bg-gray-100 rounded-lg">
                 <p className="text-xs  truncate">
-                    You selected: <span className='text-green-700'>{file.name}</span>
+                    You selected: <span className='text-primary-dark'>{file.name}</span>
                 </p>
                 </div>
             )}
@@ -86,7 +86,7 @@ const EditForm = ({type_name, setOpen, submit, progress, msg, updateType,  name,
                 className={`flex-1 px-4 py-2 rounded-lg transition duration-200 ${
                     submit.process 
                         ? "bg-gray-300 text-gray-400 cursor-not-allowed"
-                        : "bg-green-600 text-white hover: cursor-pointer"
+                        : "bg-primary text-white hover: cursor-pointer"
                 }`}
                 disabled={submit.process}
             >

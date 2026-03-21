@@ -181,7 +181,7 @@ const CategoryNew = ({ category_slug, visible}) => {
             <h4 >Categories-section</h4>
       
             <button 
-                className="rounded-[10px] flex items-center shadow-md shadow-green-400 cursor-pointer hover:text-white transition duration-200 bg-green-500 hover:bg-green-500 text-white  py-1 p-5" 
+                className="rounded-btn flex items-center shadow-md shadow-primary-mid cursor-pointer hover:text-white transition duration-200 bg-primary-light hover:bg-primary-light text-white  py-1 p-5" 
                 onClick={handleOpenAdd}
               >
                 Add 

@@ -80,7 +80,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
                     className="flex bg-white px-4 justify-between list-none"
                     onClick={() => setActive(eachChoice.choice)}
                   >
-                    <span className="hover:text-green-800">{eachChoice.choice}</span>
+                    <span className="hover:text-primary-darker">{eachChoice.choice}</span>
                     <span>{eachChoice.icon}</span>
                   </summary>
                   <div className="flex justify-end px-2">

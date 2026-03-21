@@ -85,7 +85,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
     return (
       <article className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
         <div className="flex flex-col items-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
           <p className="text-gray-600">Generating KHQR code...</p>
         </div>
       </article>
@@ -101,7 +101,7 @@ const KhqrGenerator = ({ resFromKHQR, onClose }) => {
           aria-label="Close QR code"
         >
           <svg
-            className="w-6 h-6 text-white cursor-pointer hover:scale-110 transform transition bg-red-600 rounded-full p-1"
+            className="w-6 h-6 text-white cursor-pointer hover:scale-110 transform transition bg-danger-dark rounded-full p-1"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

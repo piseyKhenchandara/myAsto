@@ -42,10 +42,10 @@ const Logout = () => {
 
   return (
     <>
-      {msg.type === 'error' ? <p className='text-red-500 text-center'>{msg.text}</p> : <p className='text-green-500 text-center'>{msg.text}</p>}
+      {msg.type === 'error' ? <p className='text-danger text-center'>{msg.text}</p> : <p className='text-primary-light text-center'>{msg.text}</p>}
 
 
-      <button type='button' className=' text-red-600 cursor-pointer disabled:bg-gray-300 border-b-1' onClick = { () => setOpen(true)}>
+      <button type='button' className=' text-danger-dark cursor-pointer disabled:bg-gray-300 border-b-1' onClick = { () => setOpen(true)}>
         logout
 
       </button>
@@ -60,8 +60,8 @@ const Logout = () => {
             
           
             <header className="text-center mb-8">
-              <figure className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <figure className="w-16 h-16 bg-danger-subtle rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-danger-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
@@ -74,8 +74,8 @@ const Logout = () => {
             {msg.text && (
               <section className={`mb-6 p-4 rounded-xl text-center font-medium transition-all duration-300 ${
                 msg.type === 'error' 
-                  ? 'bg-red-50 text-red-700 border border-red-200' 
-                  : 'bg-green-50 text-green-700 border border-green-200'
+                  ? 'bg-danger-bg text-danger-text border border-danger-border' 
+                  : 'bg-primary-faint text-primary-dark border border-primary-muted'
               }`} aria-live="polite">
                 {msg.text}
               </section>
@@ -87,7 +87,7 @@ const Logout = () => {
                 className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-200 transform ${
                   submit 
                     ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-red-600 hover:bg-red-700 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl'
+                    : 'bg-danger-dark hover:bg-danger-text hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl'
                 }`}
                 onClick={authLogout}
                 disabled={submit}

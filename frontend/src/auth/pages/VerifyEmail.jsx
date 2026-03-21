@@ -138,7 +138,7 @@ const VerifyEmail = () => {
             <div className="w-full mb-3">
               <div className="w-full h-2 bg-gray-200 rounded">
                 <div
-                  className="h-2 rounded bg-green-600 transition-all"
+                  className="h-2 rounded bg-primary transition-all"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -150,7 +150,7 @@ const VerifyEmail = () => {
 
           {/* Message Display */}
           {message.text && (
-            <p className={message.type === 'error' ? 'text-red-500 text-center' : 'text-green-600 text-center' }>
+            <p className={message.type === 'error' ? 'text-danger text-center' : 'text-primary text-center' }>
               {message.text}
             </p>
           )}
@@ -166,10 +166,10 @@ const VerifyEmail = () => {
                 value={digit}
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className={`w-12 h-12 text-center text-lg font-semibold border-b focus:border-green-600 border-1 outline-none bg-transparent rounded-[10px] ${
+                className={`w-12 h-12 text-center text-lg font-semibold border-b focus:border-primary border-1 outline-none bg-transparent rounded-btn ${
                   message.type === 'error' 
-                    ? 'border-red-500' 
-                    : 'border-gray-600 focus:border-green-500'
+                    ? 'border-danger' 
+                    : 'border-gray-600 focus:border-primary-light'
                 } transition-colors duration-200`}
                 disabled={loading}
               />
@@ -180,9 +180,9 @@ const VerifyEmail = () => {
           <button
             type="submit"
             disabled={loading || code.some(digit => digit === '')}
-            className="font-semibold py-2 px-5 border-2 border-green-200 
+            className="font-semibold py-2 px-5 border-2 border-primary-muted 
                        transition-transform duration-300 hover:hover:scale-105
-                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-green-500 text-white rounded-[10px] cursor-pointer"
+                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-primary-light text-white rounded-btn cursor-pointer"
           >
             {loading ? (
               <div className="flex items-center justify-center">
@@ -203,7 +203,7 @@ const VerifyEmail = () => {
               type="button"
               onClick={handleResendCode}
               disabled={resendLoading || resendCooldown > 0}
-              className="font-medium border-b-2 border-green-500 hover:border-black text-sm disabled:border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors duration-200 cursor-pointer"
+              className="font-medium border-b-2 border-primary-light hover:border-black text-sm disabled:border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors duration-200 cursor-pointer"
             >
               {resendLoading ? (
                 'Sending...'
@@ -218,7 +218,7 @@ const VerifyEmail = () => {
           <div className="text-center mt-6">
             <a
               href="/auth/login"
-              className="font-medium border-b-2 border-green-500 hover:border-black text-sm"
+              className="font-medium border-b-2 border-primary-light hover:border-black text-sm"
             >
               Back to Login
             </a>

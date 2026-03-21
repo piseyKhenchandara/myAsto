@@ -75,7 +75,7 @@ const ResetPassword = () => {
         <form className="space-y-4" onSubmit={handleSubmit}>
           
           {message.text && (
-            <p className={message.type === 'error' ? 'text-red-500' : 'text-green-600'}>
+            <p className={message.type === 'error' ? 'text-danger' : 'text-primary'}>
               {message.text}
             </p>
           )}
@@ -87,7 +87,7 @@ const ResetPassword = () => {
               type="text"
               value={token}
               onChange={(e) => setToken(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none mb-2 rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none mb-2 rounded-xl"
               placeholder="Enter 6-digit code"
               required
               disabled={loading}
@@ -102,7 +102,7 @@ const ResetPassword = () => {
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none mb-2  rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none mb-2  rounded-xl"
               placeholder="New Password"
               required
               disabled={loading}
@@ -110,7 +110,7 @@ const ResetPassword = () => {
             />
           </div>
             {newPassword && newPassword.length < 6 && (
-            <span className='text-red-500 text-xs block'>
+            <span className='text-danger text-xs block'>
               Password must be at least 8 characters
             </span>
           )}
@@ -122,7 +122,7 @@ const ResetPassword = () => {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none  rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none  rounded-xl"
               placeholder="Confirm Password"
               required
               disabled={loading}
@@ -130,7 +130,7 @@ const ResetPassword = () => {
             />
           </div>
             {confirmPassword && confirmPassword.length < 6 && (
-            <span className='text-red-500 text-xs block'>
+            <span className='text-danger text-xs block'>
               Password must be at least 8 characters
             </span>
           )}
@@ -139,9 +139,9 @@ const ResetPassword = () => {
           <button
             type="submit"
             disabled={loading || token.length<6 || newPassword.length < 6 || confirmPassword.length <6 }
-            className="font-semibold py-2 px-5 border-2 border-green-200 
+            className="font-semibold py-2 px-5 border-2 border-primary-muted 
                        transition-transform duration-300 hover: hover:scale-105
-                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-green-500 text-white cursor-pointer rounded-[10px]"
+                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-primary-light text-white cursor-pointer rounded-btn"
           >
             {loading ? 'Resetting Password...' : 'Reset Password'}
           </button>
@@ -149,10 +149,10 @@ const ResetPassword = () => {
 
         {/* Extra Links */}
         <div className="text-center text-sm text-gray-500 mt-6 space-x-4">
-          <a href="/auth/forgot-password" className="font-medium border-b-2 border-green-500 hover:border-black">
+          <a href="/auth/forgot-password" className="font-medium border-b-2 border-primary-light hover:border-black">
             Resend Code
           </a>
-          <a href="/auth/login" className="font-medium border-b-2 border-green-500 hover:border-black">
+          <a href="/auth/login" className="font-medium border-b-2 border-primary-light hover:border-black">
             Back to Login
           </a>
         </div>

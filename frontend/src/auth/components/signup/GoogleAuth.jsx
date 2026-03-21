@@ -38,7 +38,12 @@ const GoogleAuth = ({
         try {
             setSubmit({ process: true, formName: 'google' });
 
+            /* provider give : 
+            - which OAuth URL to open  (accounts.google.com/o/oauth2/auth)
+- which scopes to request  (email, profile) */
+
             const result = await signInWithPopup(auth, provider);
+
             const user = result.user;
         
             
@@ -77,8 +82,8 @@ const GoogleAuth = ({
         <section>
             {/* ✅ ADD THIS - Warning for in-app browsers */}
             {showWarning && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
-                    <p className="text-sm text-yellow-800">
+                <div className="bg-warning-bg border border-warning-border rounded-lg p-3 mb-4">
+                    <p className="text-sm text-warning-text">
                         <strong>⚠️ Note:</strong> For best experience, please open this page in your default browser (Chrome, Safari, etc.)
                     </p>
                 </div>

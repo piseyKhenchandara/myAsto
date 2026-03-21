@@ -61,7 +61,7 @@ export default function LanguageChoice() {
     <nav className="relative notranslate" translate='no' data-gt-ignore="true">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer"
+        className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-light cursor-pointer"
         aria-label="Select language"
       >
         <img src={currentFlag} alt="Current Language" className="h-5 w-6 sm:h-6 sm:w-7 object-cover rounded-sm" />

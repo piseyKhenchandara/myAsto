@@ -35,7 +35,7 @@ const PhoneInput = ({phoneNumber, setPhoneNumber}) => {
       }
   return (
     <div>
-        <label className="block text-sm font-medpium text-green-600 mb-2">Phone Number</label>
+        <label className="block text-sm font-medpium text-primary mb-2">Phone Number</label>
         <input 
           type="text"
           placeholder="Enter phone number"
@@ -44,15 +44,15 @@ const PhoneInput = ({phoneNumber, setPhoneNumber}) => {
           required
           className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent ${
             phoneError 
-              ? 'border-red-300 focus:ring-red-500' 
-              : 'border-gray-300 focus:ring-green-500'
+              ? 'border-red-300 focus:ring-danger' 
+              : 'border-gray-300 focus:ring-primary-light'
           }`}
         />
         {phoneError && (
-          <p className="mt-1 text-sm text-red-600">{phoneError}</p>
+          <p className="mt-1 text-sm text-danger-dark">{phoneError}</p>
         )}
         {phoneNumber && !phoneError && (
-          <p className="mt-1 text-sm text-green-300 flex items-center" >
+          <p className="mt-1 text-sm text-primary-border flex items-center" >
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>

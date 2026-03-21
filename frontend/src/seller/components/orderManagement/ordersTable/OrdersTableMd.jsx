@@ -13,7 +13,7 @@ const OrdersTableMd = ({
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>
-            <tr className="bg-gradient-to-r from-green-500 to-emerald-600 border-b border-green-600">
+            <tr className="bg-gradient-to-r from-primary-light to-emerald-600 border-b border-primary">
               <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
                 Ordered At
               </th>
@@ -61,7 +61,7 @@ const OrdersTableMd = ({
                         setOpen(true)
                         fetchTheReceipt(order.user_id, order.order_number)
                       }}
-                      className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700 transition-colors group"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary-dark transition-colors group"
                     >
                       #{order.order_number}
                       <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,10 +107,10 @@ const OrdersTableMd = ({
                           }}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-border rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-light"></div>
                       </label>
                       {isNewOrder(order.Payment.paid_at) && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 animate-pulse">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-subtle text-primary-darker animate-pulse">
                           NEW
                         </span>
                       )}

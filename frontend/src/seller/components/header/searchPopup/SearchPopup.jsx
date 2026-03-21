@@ -141,7 +141,7 @@ const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
 
             {/* Error Message */}
             {msg.type === 'error' && (
-              <div className="text-red-500 text-xs mt-2 px-2">
+              <div className="text-danger text-xs mt-2 px-2">
                 {msg.text}
               </div>
             )}

@@ -24,13 +24,13 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
             <NavLink
               to="/dashboard/categories"
               className={({ isActive }) =>
-                ` ${isActive ? 'text-green-600' : ''}`
+                ` ${isActive ? 'text-primary' : ''}`
               }
               >
               View / Search / Filter Products
             </NavLink>
           </li>
-          {/* <li><NavLink to= "/seller-dashboard/products/bulk" className={({isActive}) => `${isActive? "text-green-600" : ""}`}>Bulk Upload via CSV</NavLink> </li>
+          {/* <li><NavLink to= "/seller-dashboard/products/bulk" className={({isActive}) => `${isActive? "text-primary" : ""}`}>Bulk Upload via CSV</NavLink> </li>
           <li> Organize by Categories/Brands</li> */}
         </ul>
       </section>
@@ -41,7 +41,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
       <section>
         <ul className="space-y-2">
           <li>
-             <NavLink to="/dashboard/categories" className={({isActive}) => isActive ? "text-green-600" : ""}>
+             <NavLink to="/dashboard/categories" className={({isActive}) => isActive ? "text-primary" : ""}>
               Add New Category
             </NavLink> 
           </li>
@@ -55,7 +55,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
         <ul className="space-y-2">
           <li>Bulk Upload Brands</li>
           <li>
-            <NavLink to="dashboard/category/sigma-keyboard/brand/asto/products" className={({isActive}) => isActive ? "text-green-600" : ""}>
+            <NavLink to="dashboard/category/sigma-keyboard/brand/asto/products" className={({isActive}) => isActive ? "text-primary" : ""}>
             Brand Management
           </NavLink> 
           </li>
@@ -69,7 +69,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
         <ul className="space-y-2">
           
           <li>
-            <NavLink to="/dashboard/view-all-users" className={({isActive}) => isActive ? "text-green-600" : ""}>
+            <NavLink to="/dashboard/view-all-users" className={({isActive}) => isActive ? "text-primary" : ""}>
 
                 View All Users
             </NavLink> 
@@ -84,7 +84,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
       <section>
         <ul className="space-y-2">
           <li>
-            <NavLink to="/dashboard/view-all-orders" className={({isActive}) => isActive ? "text-green-600" : ""}>
+            <NavLink to="/dashboard/view-all-orders" className={({isActive}) => isActive ? "text-primary" : ""}>
 
                 View All Orders
             </NavLink> 
@@ -103,7 +103,7 @@ import { useNotifications } from "../../../../context/notificationContext/Notifi
       
         <ul className="space-y-2">
           <li>
-            <NavLink to="/seller-dashboard/brands" className={({isActive}) => isActive ? "text-green-600" : ""}>
+            <NavLink to="/seller-dashboard/brands" className={({isActive}) => isActive ? "text-primary" : ""}>
 
                 Add/Edit/Delete brands
             </NavLink> </li>

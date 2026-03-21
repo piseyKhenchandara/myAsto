@@ -20,7 +20,7 @@ const ProductList = ({
         {/* Message Display */}
         {message.text && (
           <p className={`col-span-full ${
-            message.type === 'error' ? 'text-red-600' : 'text-green-600'
+            message.type === 'error' ? 'text-danger-dark' : 'text-primary'
           }`}>
             {message.text}
           </p>

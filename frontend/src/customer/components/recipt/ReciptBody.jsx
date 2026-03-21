@@ -115,7 +115,7 @@ const ReciptBody = (
               $2.00
             </span> */}
             <span>Delivery Fee:</span>
-            <span className='font-normal text-green-600'>
+            <span className='font-normal text-primary'>
               FREE
             </span>
           </div>

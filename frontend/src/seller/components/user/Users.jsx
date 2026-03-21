@@ -60,7 +60,7 @@ const Users = () => {
   if (whoami?.role !== 'admin') {
     return (
       <section className="w-full min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center text-red-600">
+        <div className="text-center text-danger-dark">
           <h2 className="text-2xl font-semibold">Access Denied</h2>
           <p className="text-gray-500">You don't have permission to view this page.</p>
         </div>
@@ -76,8 +76,8 @@ const Users = () => {
         <aside
           className={`p-4 mb-6 rounded-xl border ${
             message.type === 'error'
-              ? 'bg-red-50 text-red-700 border-red-200'
-              : 'bg-green-50 text-green-700 border-green-200'
+              ? 'bg-danger-bg text-danger-text border-danger-border'
+              : 'bg-primary-faint text-primary-dark border-primary-muted'
           }`}
         >
           {message.text}
