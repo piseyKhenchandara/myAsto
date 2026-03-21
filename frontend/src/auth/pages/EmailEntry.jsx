@@ -88,7 +88,7 @@ const EmailEntry = () => {
     <div className=" flex justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-[500px] p-8">
         <div className='pb-5'>
-          <h2 className="text-center text-3xl font-bold text-green-600 mb-2">
+          <h2 className="text-center text-3xl font-bold text-primary mb-2">
             Welcome to ASTO
           </h2>
    
@@ -110,7 +110,7 @@ const EmailEntry = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="w-full pl-12 pr-3 py-3 bg-transparent border-1 border-gray-600 placeholder-gray-500 focus:outline-none focus:border-green-500 transition-colors duration-200 rounded-xl"
+                  className="w-full pl-12 pr-3 py-3 bg-transparent border-1 border-gray-600 placeholder-gray-500 focus:outline-none focus:border-primary-light transition-colors duration-200 rounded-xl"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -123,9 +123,9 @@ const EmailEntry = () => {
               <button
                 type="submit"
                 disabled={loading || submit.process}
-                className={`font-semibold py-2 px-5 border-2 border-green-200 
+                className={`font-semibold py-2 px-5 border-2 border-primary-muted 
                        transition-all duration-300 hover:scale-105
-                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 mx-auto bg-green-500 text-white rounded-[10px] cursor-pointer
+                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 mx-auto bg-primary-light text-white rounded-btn cursor-pointer
                        ${(loading || submit.process) ? 'w-12 h-12 !p-0 rounded-full flex items-center justify-center' : 'block'}`}
               >
                 {(loading || submit.process) ? (
@@ -149,8 +149,8 @@ const EmailEntry = () => {
           {msg.text && (
             <div className={`rounded-[12px] p-4 border ${
               msg.type === 'error' 
-                ? 'bg-red-900/20 border-red-500 text-red-400' 
-                : 'bg-green-900/20 border-green-500 text-green-600'
+                ? 'bg-red-900/20 border-danger text-danger-muted' 
+                : 'bg-green-900/20 border-primary-light text-primary'
             }`}>
               <div className="text-sm font-medium">{msg.text}</div>
             </div>

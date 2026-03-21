@@ -3,7 +3,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 
 const CategoryHeader = ({ loadingUserRole, whoami, handleOpenAdd }) => {
   if (loadingUserRole) {
-    return <p className="text-center text-green-300">loading....permission</p>;
+    return <p className="text-center text-primary-border">loading....permission</p>;
   }
 
   if (whoami?.role === 'seller' || whoami?.role === 'admin') {
@@ -14,7 +14,7 @@ const CategoryHeader = ({ loadingUserRole, whoami, handleOpenAdd }) => {
             Categories Section
           </h4>
           <button
-            className="rounded-[10px] flex items-center shadow-md shadow-green-400 cursor-pointer hover:text-white transition duration-200 bg-green-500 hover:bg-green-500 text-white py-1 px-3 gap-2"
+            className="rounded-btn flex items-center shadow-md shadow-primary-mid cursor-pointer hover:text-white transition duration-200 bg-primary-light hover:bg-primary-light text-white py-1 px-3 gap-2"
             onClick={handleOpenAdd}
           >
             Add

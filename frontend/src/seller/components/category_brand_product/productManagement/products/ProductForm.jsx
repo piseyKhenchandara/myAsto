@@ -132,7 +132,7 @@ const ProductForm = ({
 
   return (
     <div className="fixed flex items-center justify-center inset-0 bg-black/50 z-50 p-4">
-      <div className="bg-white rounded-[20px] shadow-lg shadow-green-600 py-4 px-6 sm:p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-card shadow-lg shadow-primary py-4 px-6 sm:p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Add New Product</h2>
           <button
@@ -157,7 +157,7 @@ const ProductForm = ({
 
         {/* Message Display */}
         {message.text && (
-          <p className={`mb-3 ${message.type === 'error' ? 'text-red-600' : 'text-green-600'}`}>
+          <p className={`mb-3 ${message.type === 'error' ? 'text-danger-dark' : 'text-primary'}`}>
             {message.text}
           </p>
         )}
@@ -167,7 +167,7 @@ const ProductForm = ({
           <div className="w-full mb-3">
             <div className="w-full h-2 bg-gray-200 rounded">
               <div
-                className="h-2 rounded bg-green-600 transition-all"
+                className="h-2 rounded bg-primary transition-all"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -253,7 +253,7 @@ const ProductForm = ({
             <div className="flex flex-row justify-between items-center">
               <p>Features</p>
               <button 
-                className="bg-green-600 px-2 py-2 text-xs text-white rounded-[10px] shadow-sm shadow-green-400 hover: hover:scale-105 transition-transform hover:cursor-pointer" 
+                className="bg-primary px-2 py-2 text-xs text-white rounded-btn shadow-sm shadow-primary-mid hover: hover:scale-105 transition-transform hover:cursor-pointer" 
                 onClick={addNewRowFeature}
                 disabled={isProcessing}
                 type="button"
@@ -284,7 +284,7 @@ const ProductForm = ({
                     required
                   />
                   <button 
-                    className="col-span-2 text-red-600 border border-red-500 text-center flex items-center justify-center rounded hover:scale-105 transition-transform"  
+                    className="col-span-2 text-danger-dark border border-danger text-center flex items-center justify-center rounded hover:scale-105 transition-transform"  
                     onClick={() => removeFeatureRow(index)}
                     disabled={isProcessing}
                     type="button"
@@ -303,7 +303,7 @@ const ProductForm = ({
             <div className="relative">
               <button 
                 type="button"
-                className="bg-gray-300 hover:bg-gray-400 border-dashed border-2 relative flex flex-col justify-center items-center p-5 rounded-[15px] text-gray-700 w-full"
+                className="bg-gray-300 hover:bg-gray-400 border-dashed border-2 relative flex flex-col justify-center items-center p-5 rounded-modal-btn text-gray-700 w-full"
                 disabled={isProcessing}
               >
                 <h5>Choose images up to 20</h5>
@@ -334,7 +334,7 @@ const ProductForm = ({
             <div className="relative">
               <button 
                 type="button"
-                className="bg-gray-300 hover:bg-gray-400 border-dashed border-2 relative flex flex-col justify-center items-center p-5 rounded-[15px] text-gray-700 w-full"
+                className="bg-gray-300 hover:bg-gray-400 border-dashed border-2 relative flex flex-col justify-center items-center p-5 rounded-modal-btn text-gray-700 w-full"
                 disabled={isProcessing}
               >
                 <h5>Choose videos up to 5</h5>
@@ -378,7 +378,7 @@ const ProductForm = ({
               className={`flex-1 px-4 py-2 rounded-lg transition duration-200 ${
                 isProcessing 
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                  : "bg-green-600 text-white hover: cursor-pointer"
+                  : "bg-primary text-white hover: cursor-pointer"
               }`}
               disabled={isProcessing}
             >

@@ -57,7 +57,7 @@ const RingNotification = () => {
           />
         </svg>
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] sm:text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+          <span className="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] sm:text-xs font-bold leading-none text-white bg-danger-dark rounded-full">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}
@@ -86,7 +86,7 @@ const RingNotification = () => {
               </p>
               <button
                 onClick={markAllAsRead}
-                className="text-xs sm:text-sm text-green-600 hover:text-green-700 font-medium transition-colors px-2 py-1 hover:bg-green-50 rounded whitespace-nowrap"
+                className="text-xs sm:text-sm text-primary hover:text-primary-dark font-medium transition-colors px-2 py-1 hover:bg-primary-faint rounded whitespace-nowrap"
               >
                 Mark all read
               </button>
@@ -124,13 +124,13 @@ const RingNotification = () => {
                       }}
                       className={`p-3 sm:p-4 border-b border-gray-100 cursor-pointer transition-all duration-200 ${
                         !notif.read
-                          ? 'bg-green-50 hover:bg-green-100'
+                          ? 'bg-primary-faint hover:bg-primary-subtle'
                           : 'hover:bg-gray-50'
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex-1 min-w-0">
-                          <p className={`text-sm sm:text-base leading-relaxed break-words ${notif.message.includes('New') ? "text-black" : "text-green-600"}`}>
+                          <p className={`text-sm sm:text-base leading-relaxed break-words ${notif.message.includes('New') ? "text-black" : "text-primary"}`}>
                             {notif.message}
                           </p>
                           <time className="text-xs text-gray-500 mt-1.5 block">
@@ -143,7 +143,7 @@ const RingNotification = () => {
                           </time>
                         </div>
                         {!notif.read && (
-                          <span className="w-2 h-2 bg-green-600 rounded-full flex-shrink-0 mt-1.5"></span>
+                          <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-1.5"></span>
                         )}
                       </div>
                     </article>
@@ -155,7 +155,7 @@ const RingNotification = () => {
                     <button 
                       onClick={loadMoreNotifications}
                       disabled={loading}
-                      className='text-center w-full py-3 sm:py-4 bg-green-400 cursor-pointer hover:bg-green-500 active:bg-green-600 transition-colors hover:text-white text-sm sm:text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed'
+                      className='text-center w-full py-3 sm:py-4 bg-primary-mid cursor-pointer hover:bg-primary-light active:bg-primary transition-colors hover:text-white text-sm sm:text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed'
                     > 
                       {loading ? 'Loading...' : 'See previous notifications'}
                     </button>

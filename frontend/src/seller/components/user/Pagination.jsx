@@ -8,7 +8,7 @@ const Pagination = ({pagination, handlePageChange}) => {
             <button
             onClick={() => handlePageChange(pagination.page - 1)}
             disabled={pagination.page === 1}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-light transition disabled:bg-gray-300 disabled:cursor-not-allowed"
             aria-label="Previous page"
             >
             <GrLinkPrevious />
@@ -21,7 +21,7 @@ const Pagination = ({pagination, handlePageChange}) => {
             <button
             onClick={() => handlePageChange(pagination.page + 1)}
             disabled={pagination.page >= pagination.totalPages}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-light transition disabled:bg-gray-300 disabled:cursor-not-allowed"
             aria-label="Next page"
             >
             <GrLinkNext/>

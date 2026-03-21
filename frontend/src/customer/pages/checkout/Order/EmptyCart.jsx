@@ -10,7 +10,7 @@ const EmptyCart = () => (
       <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">Add some products to your cart to get started</p>
       <button
         onClick={() => window.history.back()}
-        className="bg-green-600 hover:bg-green-700 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold text-sm sm:text-base transition-colors w-full sm:w-auto"
+        className="bg-primary hover:bg-primary-dark text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold text-sm sm:text-base transition-colors w-full sm:w-auto"
       >
         Continue Shopping
       </button>

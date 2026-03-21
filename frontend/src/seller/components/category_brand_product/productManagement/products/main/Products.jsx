@@ -233,7 +233,7 @@ const Products = () => {
             <div className="flex justify-between items-center md:w-[50%] py-1">
               <h4>Products-section</h4>
               <button
-                className="rounded-[10px] flex items-center shadow-md shadow-green-400 cursor-pointer transition duration-200 bg-green-500 hover:bg-green-500 text-white py-1 px-3 gap-2"
+                className="rounded-btn flex items-center shadow-md shadow-primary-mid cursor-pointer transition duration-200 bg-primary-light hover:bg-primary-light text-white py-1 px-3 gap-2"
                 onClick={handleOpen}
               >
                 Add

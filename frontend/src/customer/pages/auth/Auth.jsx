@@ -97,8 +97,8 @@ const UserProfile = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="text-red-500 text-xl mb-4"></div>
-          <p className="text-red-600">{error}</p>
+          <div className="text-danger text-xl mb-4"></div>
+          <p className="text-danger-dark">{error}</p>
           <button 
             onClick={fetchUserProfile}
             className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
@@ -115,7 +115,7 @@ const UserProfile = () => {
   return (
     <div className='w-full min-h-screen'>
   
-<div className="relative p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-green-100 via-lime-50 to-emerald-100 overflow-hidden">
+<div className="relative p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-primary-subtle via-lime-50 to-emerald-100 overflow-hidden">
   
   <div className='flex flex-row items-center justify-between gap-2 sm:gap-4 max-w-[1920px] mx-auto'>
     

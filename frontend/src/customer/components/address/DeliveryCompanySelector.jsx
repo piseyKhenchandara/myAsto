@@ -10,14 +10,14 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
             {/* Province Delivery Options */}
             {isProvince && (
             <section className="space-y-4 notranslate" translate="no">
-                <p className="text-sm text-green-600 mb-3">Available for province delivery:</p>
+                <p className="text-sm text-primary mb-3">Available for province delivery:</p>
                 <div className="grid grid-cols-2 gap-4">
                 <label 
                     onClick={() => handleDeliveryCompanySelect('Vireak Buntham')}
                     required
                     className={`border-2 rounded-lg p-4 cursor-pointer transition-all shadow-xl ${
                     selectedDeliveryCompany === 'Vireak Buntham'
-                        ? 'border-green-500 bg-green-50' 
+                        ? 'border-primary-light bg-primary-faint' 
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                 >
@@ -34,7 +34,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
                     required
                     className={`border-2 rounded-lg p-4 cursor-pointer transition-all shadow-xl ${
                     selectedDeliveryCompany === 'J&T'
-                        ? 'border-green-500 bg-green-50' 
+                        ? 'border-primary-light bg-primary-faint' 
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                 >
@@ -52,7 +52,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
             {isPhnomPenh && (
             <section className={`border-2 rounded-lg p-4 transition-all shadow-xl max-w-xs notranslate ${
                     selectedDeliveryCompany === 'Phnom Penh delivery'
-                    ? 'border-green-500 bg-green-50' 
+                    ? 'border-primary-light bg-primary-faint' 
                     : 'border-gray-200 hover:border-gray-300'
                 } space-y-4` } translate="no">
                 <p className="text-sm text-gray-600 mb-3">Available for Phnom Penh delivery:</p>
@@ -71,12 +71,12 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
 
             {/* Selected Company Confirmation */}
             {selectedDeliveryCompany && (
-            <aside className="mt-4 p-3 bg-green-100 border border-green-300 rounded-md notranslate" translate="no">
+            <aside className="mt-4 p-3 bg-primary-subtle border border-primary-border rounded-md notranslate" translate="no">
                 <p className="flex items-center">
-                <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-green-800 font-medium">
+                <span className="text-primary-darker font-medium">
                     {selectedDeliveryCompany === 'Vireak Buntham' && 'VET Express selected'}
                     {selectedDeliveryCompany === 'J&T' && 'J&T Express selected'}
                     {selectedDeliveryCompany === 'Phnom Penh delivery' && 'Grab Express selected'}
@@ -92,7 +92,7 @@ const DeliveryCompanySelector = ({isPhnomPenh, isProvince,handleDeliveryCompanyS
                 value={orderNotes}
                 onChange={(e) => setOrderNotes(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent resize-none"
                 
             />
             </div>

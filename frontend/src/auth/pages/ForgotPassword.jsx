@@ -66,7 +66,7 @@ const ForgotPassword = () => {
             <div className="w-full mb-3">
               <div className="w-full h-2 bg-gray-200 rounded">
                 <div
-                  className="h-2 rounded bg-green-600 transition-all"
+                  className="h-2 rounded bg-primary transition-all"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -78,7 +78,7 @@ const ForgotPassword = () => {
 
           {/* Message Display */}
           {message.text && (
-            <p className={message.type === 'error' ? 'text-red-500' : 'text-green-600'}>
+            <p className={message.type === 'error' ? 'text-danger' : 'text-primary'}>
               {message.text}
             </p>
           )}
@@ -94,7 +94,7 @@ const ForgotPassword = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none rounded-xl"
               placeholder="example@email.com"
               disabled={loading}
             />
@@ -104,9 +104,9 @@ const ForgotPassword = () => {
           <button
             type="submit"
             disabled={loading || !email.includes('@gmail.com')}
-            className="font-semibold py-2 px-5 border-2 border-green-200 
+            className="font-semibold py-2 px-5 border-2 border-primary-muted 
                        transition-transform duration-300 hover: hover:scale-105
-                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-green-500 text-white rounded-[10px] cursor-pointer "
+                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-primary-light text-white rounded-btn cursor-pointer "
           >
             {loading ? 'Sending Reset Code...' : 'Send Reset Code'}
           </button>
@@ -114,7 +114,7 @@ const ForgotPassword = () => {
           <div className="text-center mt-6">
             <a
               href="/auth/login"
-              className="font-medium border-b-2 border-green-500 hover:border-black text-sm"
+              className="font-medium border-b-2 border-primary-light hover:border-black text-sm"
             >
               Back to Login
             </a>

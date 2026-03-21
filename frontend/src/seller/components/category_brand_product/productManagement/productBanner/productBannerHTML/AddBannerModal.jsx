@@ -19,7 +19,7 @@ const AddBannerModal = ({
 
   return (
     <div className='inset-0 fixed justify-center items-center bg-black/50 flex flex-col gap-5 z-50'>
-      <div className="bg-white rounded-[20px] shadow-lg shadow-green-600 p-4 sm:p-6 mx-4 md:max-w-[400px]">
+      <div className="bg-white rounded-card shadow-lg shadow-primary p-4 sm:p-6 mx-4 md:max-w-[400px]">
         <div className="flex justify-between items-center w-full">
           <h4 className="text-lg font-semibold">Add Banner Image</h4>
           <button
@@ -34,7 +34,7 @@ const AddBannerModal = ({
           <div className="w-full mb-3">
             <div className="w-full h-2 bg-gray-200 rounded">
               <div
-                className="h-2 rounded bg-green-600 transition-all"
+                className="h-2 rounded bg-primary transition-all"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -45,14 +45,14 @@ const AddBannerModal = ({
         )}
 
         {msg.text && (
-          <p className={`${msg.type === "error" ? "text-red-500" : "text-green-500"}`}>
+          <p className={`${msg.type === "error" ? "text-danger" : "text-primary-light"}`}>
             {msg.text}
           </p>
         )}
 
         <form onSubmit={handleUpload} className='flex flex-col gap-3'>
           <p className='mt-5'>Image (Max 1)</p>
-          <div className='bg-gray-300 hover:bg-gray-400 border-dashed border relative flex flex-col justify-center items-center p-5 rounded-[15px] text-gray-700 cursor-pointer'>
+          <div className='bg-gray-300 hover:bg-gray-400 border-dashed border relative flex flex-col justify-center items-center p-5 rounded-modal-btn text-gray-700 cursor-pointer'>
             <IoIosAddCircleOutline className='text-4xl w-full' />
             <h5>Choose one image for one banner</h5>
             <p className='text-gray-500'>Accept: jpg, png, webp</p>
@@ -71,7 +71,7 @@ const AddBannerModal = ({
             placeholder='Link to product ID, e.g: 65'
             value={productId}
             onChange={(e) => setProductId(e.target.value)}
-            className="outline-none border-b-2 border-gray-300 focus:border-green-600 py-2"
+            className="outline-none border-b-2 border-gray-300 focus:border-primary py-2"
           />
 
           <div className="flex gap-2 mt-2">
@@ -87,7 +87,7 @@ const AddBannerModal = ({
               className={`flex-1 px-4 py-2 rounded-lg transition duration-200 cursor-pointer ${
                 submit.process && submit.formName === 'add'
                   ? 'bg-gray-300 text-gray-200'
-                  : "bg-green-600 text-white"
+                  : "bg-primary text-white"
               }`}
               disabled={submit.process && submit.formName === 'add'}
             >

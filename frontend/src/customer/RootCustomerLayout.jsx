@@ -57,21 +57,21 @@ const RootCustomerLayout = () => {
           
           {/* {!whoami && popup && (
             <aside className='inset-0 flex justify-center items-center fixed bg-black/50 z-50'>
-              <div className='text-center bg-black text-white px-8 max-w-[400px] rounded-[30px] py-8 space-y-6 shadow-lg shadow-white animation_form_popup'>
+              <div className='text-center bg-black text-white px-8 max-w-[400px] rounded-modal py-8 space-y-6 shadow-lg shadow-white animation_form_popup'>
                 <h4>Welcome</h4>
                 <p className='text-wrap'>
-                  signup now! to get <span className='text-green-500 border-b-1'>a free mouse pad</span> when you buy your first product!
+                  signup now! to get <span className='text-primary-light border-b-1'>a free mouse pad</span> when you buy your first product!
                 </p>
                 
                 <div className='flex flex-col items-center gap-2'>
                   <button 
-                    className='bg-white text-black py-2 w-[80%] rounded-[15px] cursor-pointer hover:scale-105 transition-transform duration-100' 
+                    className='bg-white text-black py-2 w-[80%] rounded-modal-btn cursor-pointer hover:scale-105 transition-transform duration-100' 
                     onClick={() => navigate('/auth/login')}
                   >
                     login
                   </button>
                   <button 
-                    className='bg-green-600 py-2 w-[80%] rounded-[15px] cursor-pointer hover:scale-105 transition-transform duration-100' 
+                    className='bg-primary py-2 w-[80%] rounded-modal-btn cursor-pointer hover:scale-105 transition-transform duration-100' 
                     onClick={() => navigate('/auth/signup')}
                   >
                     signup

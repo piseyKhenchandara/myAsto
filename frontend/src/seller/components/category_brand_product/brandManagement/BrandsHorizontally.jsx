@@ -28,7 +28,7 @@ const BrandsHorizontally = () => {
   }
 
   if (msg.type === 'error') {
-    return <p className="text-red-500 text-center py-8">{msg.text}</p>;
+    return <p className="text-danger text-center py-8">{msg.text}</p>;
   }
 
   if (brands.length === 0) {

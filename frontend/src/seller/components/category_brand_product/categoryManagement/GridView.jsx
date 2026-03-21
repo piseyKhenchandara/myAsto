@@ -65,7 +65,7 @@ const GridView = ({
                                 <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 ml-2 sm:ml-4 flex-shrink-0">
 
                                     <button
-                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-green-50 transition duration-200 text-xl sm:text-2xl md:text-3xl text-green-500 flex-shrink-0"
+                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-primary-faint transition duration-200 text-xl sm:text-2xl md:text-3xl text-primary-light flex-shrink-0"
                                         onClick={() => handleOpenEdit(cat)}
                                         aria-label="Edit category"
                                     >
@@ -73,7 +73,7 @@ const GridView = ({
                                     </button>
 
                                     <button
-                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-red-50 transition duration-200 text-xl sm:text-2xl md:text-3xl text-red-500 flex-shrink-0"
+                                        className="p-1.5 sm:p-2 rounded-lg hover:bg-danger-bg transition duration-200 text-xl sm:text-2xl md:text-3xl text-danger flex-shrink-0"
                                         onClick={() => handleOpenDelete(cat)}
                                         aria-label="Delete category"
                                     >

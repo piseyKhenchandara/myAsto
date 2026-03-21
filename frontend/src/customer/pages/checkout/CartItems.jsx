@@ -26,7 +26,7 @@ const CartItems = ({
           {cart.map((item) => (
             <article 
               key={item.id} 
-              className="flex gap-3 sm:gap-4 p-3 sm:p-4 border-b-2 border-green-500"
+              className="flex gap-3 sm:gap-4 p-3 sm:p-4 border-b-2 border-primary-light"
             >
 
               <figure className="flex-shrink-0">
@@ -84,7 +84,7 @@ const CartItems = ({
                   <button
                     onClick={() => removeFromCart(item.id)}
                     type='button'
-                    className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
+                    className="text-danger hover:text-danger-text hover:bg-danger-bg p-2 rounded-md transition-colors"
                     title="Remove item"
                     aria-label="Remove item from cart"
                   >

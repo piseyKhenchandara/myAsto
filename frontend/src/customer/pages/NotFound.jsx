@@ -6,7 +6,7 @@ const NotFound = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
-        <h1 className="text-9xl font-bold text-red-500">404</h1>
+        <h1 className="text-9xl font-bold text-danger">404</h1>
         <h2 className="text-4xl font-semibold text-black mt-4">
           Page Not Found
         </h2>
@@ -17,14 +17,14 @@ const NotFound = () => {
         <div className="mt-8 space-x-4">
           <Link 
             to="/" 
-            className="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition font-semibold"
+            className="bg-primary-dark text-white px-6 py-3 rounded-lg hover:bg-primary-darker transition font-semibold"
           >
             Go to Homepage
           </Link>
           
           {/* <Link 
             to="/dashboard" 
-            className="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition font-semibold"
+            className="bg-primary-dark text-white px-6 py-3 rounded-lg hover:bg-primary-darker transition font-semibold"
           >
             Go to Dashboard
           </Link> */}

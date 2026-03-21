@@ -40,7 +40,7 @@ const UserCart = ({ user }) => {
         </header>
 
       
-        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 pt-3 border-t-2 border-green-600">
+        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 pt-3 border-t-2 border-primary">
           {/* <div className="flex items-center gap-2">
             <dt className="font-medium text-gray-700 text-xs sm:text-sm">Role:</dt>
             <dd className="text-gray-600 text-xs sm:text-sm capitalize">{user.role}</dd>

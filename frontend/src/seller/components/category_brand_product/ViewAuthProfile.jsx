@@ -32,7 +32,7 @@ const ViewAuthProfile = () => {
 
   return (
     <section>
-      <header className="bg-white shadow p-4 mb-4 border-b-2 border-green-600">
+      <header className="bg-white shadow p-4 mb-4 border-b-2 border-primary">
         <h4 className="text-xl font-bold">
           Viewing Receipts for: {targetUser.name}
         </h4>

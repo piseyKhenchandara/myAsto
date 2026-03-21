@@ -59,7 +59,7 @@ const ProductDetail = () => {
         return (
             <div className='flex items-center justify-center min-h-96'>
                 <div className='text-center'>
-                    <p className='text-red-600 mb-4'>{error}</p>
+                    <p className='text-danger-dark mb-4'>{error}</p>
                     <button 
                         onClick={fetchProductDetail}
                         className='px-4 py-2 text-sm bg-gray-900 text-white hover:bg-gray-800 transition-colors'
@@ -197,7 +197,7 @@ const ProductDetail = () => {
                                                     href={feature.feature_value} 
                                                     target="_blank" 
                                                     rel="noopener noreferrer"
-                                                    className="text-blue-600 hover:text-blue-800 underline break-all"
+                                                    className="text-link hover:text-link-hover underline break-all"
                                                 >
                                                     {feature.feature_value}
                                                 </a>
@@ -216,20 +216,20 @@ const ProductDetail = () => {
                 
                     {/* Price and Warranty */}
                     <div className='flex justify-around items-center space-y-2'>
-                        <p>Price: <span className='font-bold text-green-600'>
+                        <p>Price: <span className='font-bold text-primary'>
                             ${productDetail.price}
                         </span></p>
                         
                         {productDetail.warranty && productDetail.warranty !== 'none' && (
-                            <p>Warranty: <span className='font-semibold text-green-600'>
+                            <p>Warranty: <span className='font-semibold text-primary'>
                                 {productDetail.warranty}
                             </span></p>
                         )}
                         {productDetail.stock && (
                             <p className={`px-3 py-1 rounded-md text-white font-medium ${
-                                productDetail.stock === 'Available' ? 'bg-green-400' :
+                                productDetail.stock === 'Available' ? 'bg-primary-mid' :
                                 productDetail.stock === 'Low Stock' ? 'bg-yellow-300' :
-                                productDetail.stock === 'Out of Stock' ? 'bg-red-500' : 'bg-gray-500'
+                                productDetail.stock === 'Out of Stock' ? 'bg-danger' : 'bg-gray-500'
                             }`}>
                                 {productDetail.stock}
                             </p>
@@ -241,7 +241,7 @@ const ProductDetail = () => {
                     <div className='flex flex-col md:flex-row md:space-x-4 space-y-2.5 md:space-y-0 '>
                         {(whoami?.role !== 'seller' && whoami?.role !=="admin") && (productDetail.stock !=='Out of Stock') && (
                             <button 
-                                className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-green-500 rounded-[6px] flex items-center gap-1 w-[200px]"
+                                className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-primary-light rounded-badge flex items-center gap-1 w-[200px]"
                                 onClick={() => addToCart(productDetail)}
                             >
                                 <FaCartArrowDown /><span className={`pl-5`}>Add to Cart</span>
@@ -251,7 +251,7 @@ const ProductDetail = () => {
                         {(whoami?.role !== 'seller' && whoami?.role !== "admin") &&
                         productDetail.stock !== 'Out of Stock' && (
                             <button
-                                className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-orange-500 rounded-[6px] flex items-center gap-1 w-[200px]"
+                                className="text-xs md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 bg-orange-500 rounded-badge flex items-center gap-1 w-[200px]"
                                 onClick={() => {
                                     if (isBuying) return;
                                     setIsBuying(true);
