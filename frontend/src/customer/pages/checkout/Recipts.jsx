@@ -73,7 +73,7 @@ const Recipts = ({whoami}) => {
     if (message.type === 'error') {
         return (
             <section className="flex justify-center items-center min-h-screen">
-                <aside className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                <aside className="bg-danger-subtle border border-danger-muted text-danger-text px-4 py-3 rounded">
                     {message.text}
                 </aside>
             </section>
@@ -98,7 +98,7 @@ const Recipts = ({whoami}) => {
                         
                         {/* NEW Badge - Shows if receipt is less than 24 hours old */}
                         {isNewReceipt(payment.createdAt) && (
-                            <span className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                            <span className="absolute top-3 right-3 bg-primary-light text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
                                 NEW
                             </span>
                         

@@ -9,8 +9,8 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
         {/* Header */}
         <header className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-              <CiTrash className="text-red-500 text-xl" />
+            <div className="w-10 h-10 bg-danger-subtle rounded-full flex items-center justify-center">
+              <CiTrash className="text-danger text-xl" />
             </div>
             <div>
               <h4 className="text-lg font-semibold text-gray-900">{name}</h4>
@@ -38,8 +38,8 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
           {msg?.text && (
             <div className={`mb-4 p-3 rounded-lg border animate-in slide-in-from-top duration-300 ${
               msg.type === "error" 
-                ? "bg-red-50 border-red-200 text-red-700" 
-                : "bg-green-50 border-green-200 text-green-700"
+                ? "bg-danger-bg border-danger-border text-danger-text" 
+                : "bg-primary-faint border-primary-muted text-primary-dark"
             }`}>
               <p className="text-sm font-medium">{msg.text}</p>
             </div>
@@ -75,16 +75,16 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
           )}
 
           {/* Warning Message */}
-          <aside className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+          <aside className="bg-warning-bg border border-warning-border rounded-lg p-4 mb-6">
             <div className="flex items-start gap-3">
-              <div className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0">
+              <div className="w-5 h-5 text-warning mt-0.5 flex-shrink-0">
                 <svg fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-medium text-amber-800">Are you sure?</p>
-                <p className="text-sm text-amber-700 mt-1">
+                <p className="text-sm font-medium text-warning-text">Are you sure?</p>
+                <p className="text-sm text-warning-text mt-1">
                   This will permanently delete <span className="font-semibold">{name}</span>. This action cannot be undone.
                 </p>
               </div>
@@ -112,7 +112,7 @@ const DeleteForm = ({ setOpen, deleteCate, msg, name, submit, typeData}) => {
             className={`flex-1 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
               submit.process 
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed" 
-                : "bg-red-500 text-white hover:bg-red-600 active:bg-red-700 cursor-pointer hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                : "bg-danger text-white hover:bg-danger-dark active:bg-danger-text cursor-pointer hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
             }`}
             onClick={deleteCate}
             disabled={submit.process}

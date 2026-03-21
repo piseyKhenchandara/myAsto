@@ -1,5 +1,6 @@
 
 @import "tailwindcss";
+@import "./styles/theme.css";
 h1 {
   font-size: 5rem;
   font-weight: bold;
@@ -146,21 +147,21 @@ h1,h2,h3,h4,h6 {
 }
 
 .thin-scroll::-webkit-scrollbar-thumb {
-  background-color: #0ab60a;
+  background-color: var(--color-primary);
   border-radius: 4px;
 }
 
 .thin-scroll::-webkit-scrollbar-thumb:hover {
-  background: #00ff00;
+  background: var(--color-primary-light);
 }
 
 .background_rgb {
   background: linear-gradient(
     90deg,
-    #ecf6eb 0%,
-    #00ff00 33%,
-    #e6ece7 66%,
-    #00ff00 100%
+    var(--color-primary-subtle) 0%,
+    var(--color-primary-light) 33%,
+    var(--color-primary-subtle) 66%,
+    var(--color-primary-light) 100%
   );
   background-size: 300% 100%;
   animation: RGB_TEXT 3s linear infinite;
@@ -177,7 +178,7 @@ h1,h2,h3,h4,h6 {
 }
 
 .animated-bg {
-  background: linear-gradient(120deg, rgb(180, 226, 180), rgb(236, 240, 237), rgb(157, 219, 157));
+  background: linear-gradient(120deg, var(--color-primary-subtle), var(--color-surface), var(--color-primary-muted));
   background-size: 150% 150%;
   animation: rgbFlow 2s linear infinite;
 }
@@ -199,7 +200,7 @@ h1,h2,h3,h4,h6 {
 /* Firefox */
 .thin-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #1fdc71 transparent; /* thumb / track */
+  scrollbar-color: var(--color-primary-light) transparent; /* thumb / track */
 }
 
 /* Chrome / Edge / Safari */
@@ -235,12 +236,12 @@ h1,h2,h3,h4,h6 {
 
 /* Animated mint background class for Tailwind */
 .mint-animated-bg {
-    background: linear-gradient(180deg, 
-        #ffffff 0%, 
-        #8bff8b 25%, 
-        #fbfffb 50%, 
-        #a3ffa3 75%, 
-        #ffffff 100%
+    background: linear-gradient(180deg,
+        var(--color-surface) 0%,
+        var(--color-primary-light) 25%,
+        var(--color-primary-subtle) 50%,
+        var(--color-primary-border) 75%,
+        var(--color-surface) 100%
     );
     background-size: 400% 400%;
     animation: gradientShift 8s ease infinite;

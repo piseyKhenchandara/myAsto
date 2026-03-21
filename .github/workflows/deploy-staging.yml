@@ -67,7 +67,7 @@ jobs:
             echo " Staging container status:"
             $COMPOSE ps
             
-            echo " Recent logs:"
+            echo " Recent logs: to see what went wrong in github action"
             $COMPOSE logs --tail=20
 
             # Make sure production is still running!

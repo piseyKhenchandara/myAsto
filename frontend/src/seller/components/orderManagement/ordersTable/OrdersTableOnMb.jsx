@@ -30,14 +30,14 @@ const OrdersTableOnMb = ({
               <div className="flex justify-between items-start mb-3">
                 <div className='relative'>
                   {isNewOrder(order.Payment.paid_at) && (
-                    <span className="absolute -top-1 left-18 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                    <span className="absolute -top-1 left-18 bg-primary-light text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
                       NEW
                     </span>
                   )}
                   <p className="text-xs text-gray-500 uppercase">Order #</p>
                   <p className="text-sm font-semibold text-gray-800">{order.order_number}</p>
                 </div>
-                <p className="text-base font-bold text-green-600">{order.amount} $</p>
+                <p className="text-base font-bold text-primary">{order.amount} $</p>
               </div>
 
               <div className="text-sm text-gray-700 space-y-1 mb-2">
@@ -74,7 +74,7 @@ const OrdersTableOnMb = ({
                     }}
                     className="peer sr-only"
                   />
-                  <div className="w-5 h-5 border-2 border-gray-300 rounded transition-all peer-checked:bg-green-500 peer-checked:border-green-500 flex items-center justify-center group-hover:border-green-400">
+                  <div className="w-5 h-5 border-2 border-gray-300 rounded transition-all peer-checked:bg-primary-light peer-checked:border-primary-light flex items-center justify-center group-hover:border-primary-mid">
                     <svg 
                       className="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" 
                       fill="none" 
@@ -87,7 +87,7 @@ const OrdersTableOnMb = ({
                 </div>
                 <span className={`text-sm transition-colors ${
                   order.delivery_check 
-                    ? 'text-green-600 font-medium' 
+                    ? 'text-primary font-medium' 
                     : 'text-gray-600 group-hover:text-gray-800'
                 }`}>
                   {order.delivery_check ? 'Delivered ✓' : 'Mark as delivered'}

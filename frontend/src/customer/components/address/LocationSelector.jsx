@@ -10,13 +10,13 @@ const LocationSelector = ({
 }) => {
   return (
     <div>
-      <label className="block text-sm font-medium text-green-600 mb-2">
+      <label className="block text-sm font-medium text-primary mb-2">
         {label}
       </label>
       <select 
         value={selectedLocation}
         onChange={handleLocationChange}
-        className={`w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white ${className}`}
+        className={`w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent bg-white ${className}`}
         required={required}
       >
         <option value="">{placeholder}</option>

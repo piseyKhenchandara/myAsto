@@ -32,11 +32,8 @@ const Signup = () => {
     }
 
     if (password.length < 8) {
-          return res.status(400).json({
-              success: false,
-              message: "Password must be at least 8 characters long"
-          });
-      }
+      return setMsg({ type: 'error', text: 'Password must be at least 8 characters long' })
+    }
 
     if (password !== confirmPassword) {
       return setMsg({ type: 'error', text: 'Passwords do not match!' })
@@ -75,7 +72,7 @@ const Signup = () => {
         <form className="space-y-4" onSubmit={signup}>
          
           {msg.text && (
-            <p className={msg.type === 'error' ? 'text-red-500' : 'text-green-600'}>
+            <p className={msg.type === 'error' ? 'text-danger' : 'text-primary'}>
               {msg.text}
             </p>
           )}
@@ -87,12 +84,12 @@ const Signup = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none mb-2 rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none mb-2 rounded-xl"
               placeholder="Your full name"
               required
             />
             {name && name.length < 3 && (
-              <span className='text-red-500 p-2 text-xs rounded mt-1 block'>
+              <span className='text-danger p-2 text-xs rounded mt-1 block'>
                 Name must be at least 3 characters
               </span>
             )}
@@ -105,7 +102,7 @@ const Signup = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none mb-2 rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none mb-2 rounded-xl"
               placeholder="example@email.com"
               required
             />
@@ -118,12 +115,12 @@ const Signup = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none mb-2 rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none mb-2 rounded-xl"
               placeholder="Password"
               required
             />
             {password && password.length < 8 && (
-              <span className='text-red-500 p-2 text-xs rounded mt-1 block'>
+              <span className='text-danger p-2 text-xs rounded mt-1 block'>
                 Password must be at least 8 characters
               </span>
             )}
@@ -136,13 +133,13 @@ const Signup = () => {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none rounded-xl"
               placeholder="Confirm Password"
               required
               />
           </div>
           {confirmPassword && confirmPassword.length < 8 && (
-            <span className='text-red-500 p-2 text-xs rounded mt-1 block'>
+            <span className='text-danger p-2 text-xs rounded mt-1 block'>
               Password must be at least 8 characters
             </span>
           )}
@@ -150,10 +147,10 @@ const Signup = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={submit.process || name.length<3 || !email.includes('@gmail.com') || password.length<8 || confirmPassword.length<8 }
-            className="font-semibold py-2 px-5 border-2 border-green-200 
+            disabled={submit.process || name.length<3 || !email || password.length<8 || confirmPassword.length<8 }
+            className="font-semibold py-2 px-5 border-2 border-primary-muted 
                        transition-transform duration-300 hover: hover:scale-105
-                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-green-500 text-white rounded-[10px] cursor-pointer"
+                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-primary-light text-white rounded-btn cursor-pointer"
           >
             {submit.process ? 'Signing Up…' : 'Sign Up'}
           </button>
@@ -168,7 +165,7 @@ const Signup = () => {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{' '}
-          <a href="/auth/login" className="font-medium border-b-2 border-green-500 hover:border-black">
+          <a href="/auth/login" className="font-medium border-b-2 border-primary-light hover:border-black">
             Log in
           </a>
         </p>

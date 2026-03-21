@@ -4,7 +4,7 @@ import { LuPhone } from "react-icons/lu";
 
 const CustomerInfo = ({ user, shippingAddress, phoneNumber }) => {
   return (
-    <article className='bg-white rounded-lg shadow-lg p-4 sm:p-5 space-y-6 h-full border-b-2 border-green-600'>
+    <article className='bg-white rounded-lg shadow-lg p-4 sm:p-5 space-y-6 h-full border-b-2 border-primary'>
       {/* Customer Header */}
       <section>
         <h5 className='font-bold text-gray-800 mb-3 text-base sm:text-lg text-center sm:text-left'>

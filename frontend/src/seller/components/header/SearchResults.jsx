@@ -65,7 +65,7 @@ const SearchResults = () => {
       <section className="max-w-4xl mx-auto px-6 py-4">
         {/* Error Message */}
         {msg.type === 'error' && (
-          <aside className="bg-green-100 border border-green-300 px-4 py-3 rounded mb-6">
+          <aside className="bg-primary-subtle border border-primary-border px-4 py-3 rounded mb-6">
             <p className="font-medium">Error:</p>
             <p>{msg.text}</p>
           </aside>
@@ -74,7 +74,7 @@ const SearchResults = () => {
         {/* Loading State */}
         {loading ? (
           <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-700"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-dark"></div>
             <p className="mt-4">Searching products...</p>
           </div>
         ) : (
@@ -83,7 +83,7 @@ const SearchResults = () => {
               filteredProducts.map((product) => (
                 <article 
                   key={product.id}
-                  className="hover:border-green-500 hover:border-b-2 p-2 transition-colors"
+                  className="hover:border-primary-light hover:border-b-2 p-2 transition-colors"
                 >
                   <Link 
                     to={checkUserRole 
@@ -122,10 +122,10 @@ const SearchResults = () => {
                             p-1 rounded-xl inline-block
                             ${
                               product.stock === 'Available'
-                                ? 'bg-green-200 text-black/70'
+                                ? 'bg-primary-muted text-black/70'
                                 : product.stock === 'Low Stock'
                                 ? 'bg-yellow-200 text-black/70'
-                                : 'bg-red-200 text-black/70'
+                                : 'bg-danger-border text-black/70'
                             }
                           `}
                         >
@@ -147,7 +147,7 @@ const SearchResults = () => {
               !loading && searchTerm && (
                 <div className="text-center py-16">
                   <div className="max-w-md mx-auto">
-                    <div className="w-24 h-24 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
+                    <div className="w-24 h-24 mx-auto mb-6 bg-primary-subtle rounded-full flex items-center justify-center">
                       <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                       </svg>
@@ -163,7 +163,7 @@ const SearchResults = () => {
                     
                     <button
                       onClick={handleBackToSearch}
-                      className="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800 transition-colors text-sm"
+                      className="bg-primary-dark text-white px-6 py-2 rounded hover:bg-primary-darker transition-colors text-sm"
                     >
                       Go back
                     </button>

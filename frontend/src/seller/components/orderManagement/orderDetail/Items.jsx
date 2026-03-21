@@ -4,7 +4,7 @@ const Items = ({ items }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>
+    <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-primary'>
       <div className='space-y-4'>
         {items.map((item, index) => {
           const mainImage = item.Product?.ProductImages?.find(img => img.is_main);
@@ -44,7 +44,7 @@ const Items = ({ items }) => {
               {/* Price Info */}
               <div className='text-center sm:text-right flex-shrink-0'>
                 <div className='flex justify-center sm:justify-end items-center gap-2'>
-                  <span className='text-red-500 font-medium text-sm sm:text-base'>${item.price}</span>
+                  <span className='text-danger font-medium text-sm sm:text-base'>${item.price}</span>
                   {item.original_price && (
                     <span className='text-gray-400 line-through text-xs sm:text-sm'>
                       ${item.original_price}

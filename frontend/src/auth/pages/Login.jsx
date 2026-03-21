@@ -92,7 +92,7 @@ const login = async (e) => {
           
 
           {msg.text && (
-            <p className={msg.type === 'error' ? 'text-red-500' : 'text-green-600'}>
+            <p className={msg.type === 'error' ? 'text-danger' : 'text-primary'}>
               {msg.text}
             </p>
           )}
@@ -105,7 +105,7 @@ const login = async (e) => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none mb-2 rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none mb-2 rounded-xl"
               placeholder="example@email.com"
               required
             />
@@ -119,20 +119,20 @@ const login = async (e) => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-5 pr-3 py-3 border-b focus:border-green-600 border-1 outline-none rounded-xl"
+              className="w-full pl-5 pr-3 py-3 border-b focus:border-primary border-1 outline-none rounded-xl"
               placeholder="Password"
               required
             />
           </div>
 
-          <a href="/auth/forgot-password" className='text-right block'><span className=' text-xs border-b-2 border-green-500 hover:border-b-black'>Forgot password??</span></a>
+          <a href="/auth/forgot-password" className='text-right block'><span className=' text-xs border-b-2 border-primary-light hover:border-b-black'>Forgot password??</span></a>
           {/* Submit Button */}
           <button
             type="submit"
             disabled={submit.process || password.length<6}
-            className=" font-semibold py-2 px-5 border-2 border-green-200 
+            className=" font-semibold py-2 px-5 border-2 border-primary-muted 
                        transition-transform duration-300 hover: hover:scale-105
-                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-green-500 text-white rounded-[10px] cursor-pointer"
+                       disabled:opacity-50 disabled:cursor-not-allowed mt-5 block mx-auto bg-primary-light text-white rounded-btn cursor-pointer"
           >
             {submit.process ? 'Logging In…' : 'Log In'}
           </button>
@@ -148,7 +148,7 @@ const login = async (e) => {
         />
         <p className="text-center text-sm text-gray-500 mt-6">
           Don’t have an account?{' '}
-          <a href="/auth/signup" className="font-medium border-b-2 border-green-500 hover:border-black">
+          <a href="/auth/signup" className="font-medium border-b-2 border-primary-light hover:border-black">
             Sign up
           </a>
         </p>

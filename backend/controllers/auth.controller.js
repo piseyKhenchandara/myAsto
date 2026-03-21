@@ -406,7 +406,7 @@ export const resendVerificationCode = async (req, res) => {
 export const login = async(req,res) => {
     try{
         const {email, password} = req.body;
-        console.log(req.body);
+   
 
 
         const findUser = await db.User.findOne({

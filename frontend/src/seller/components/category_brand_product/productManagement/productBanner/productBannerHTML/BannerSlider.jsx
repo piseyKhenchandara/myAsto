@@ -62,7 +62,7 @@ const BannerSlider = ({
                   </div>
 
                   <button
-                    className="absolute bottom-3 left-3 flex items-center cursor-pointer transition-all duration-200 py-1 px-2 text-xl sm:text-2xl text-red-400 z-30 bg-black/80"
+                    className="absolute bottom-3 left-3 flex items-center cursor-pointer transition-all duration-200 py-1 px-2 text-xl sm:text-2xl text-danger-muted z-30 bg-black/80"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -121,13 +121,13 @@ const BannerSlider = ({
       <div className='absolute top-2 sm:top-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-1 rounded-full text-xs backdrop-blur-sm'>
         <span className='md:hidden'>{currentIndex + 1} / {banners.length}</span>
         <span className='hidden md:inline'>{Math.min(currentIndex + 3, banners.length)} / {banners.length}</span>
-        {isAutoPlaying && <span className='ml-1 sm:ml-2 text-green-400'>●</span>}
+        {isAutoPlaying && <span className='ml-1 sm:ml-2 text-primary-mid'>●</span>}
       </div>
 
       {banners.length > 1 && isAutoPlaying && (
         <div className='absolute bottom-0 left-0 w-full h-0.5 sm:h-1 bg-white/20'>
           <div
-            className='h-full bg-green-500 transition-all duration-75 ease-linear'
+            className='h-full bg-primary-light transition-all duration-75 ease-linear'
             style={{
               width: '100%',
               animation: `progress-bar ${window.innerWidth >= 768 ? '2s' : '3s'} linear infinite`

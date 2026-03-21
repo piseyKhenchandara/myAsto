@@ -47,8 +47,8 @@ export const sendPasswordResetEmail = async (email, reset_password_token, userNa
                         </div>
                     </div>
                     <div class="footer">
-                        <p>&copy; 2024 Your App Name. All rights reserved.</p>
-                        <p>Need help? Contact us at support@yourapp.com</p>
+                        <p>&copy; 2026 Asto Gear. All rights reserved.</p>
+                        <p>Need help? Contact us at REDACTED_EMAIL</p>
                     </div>
                 </div>
             </body>

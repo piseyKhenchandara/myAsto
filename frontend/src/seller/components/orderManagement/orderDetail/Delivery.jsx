@@ -12,12 +12,12 @@ const Delivery = ({ deliveryCompany }) => {
     },
     'J&T': {
       logo: jnt_logo,
-      bgColor: 'bg-red-100',
+      bgColor: 'bg-danger-subtle',
       subtitle: 'Fast shipping'
     },
     'Phnom Penh delivery': {
       logo: grab_logo,
-      bgColor: 'bg-green-100',
+      bgColor: 'bg-primary-subtle',
       subtitle: 'Local delivery'
     }
   };
@@ -29,7 +29,7 @@ const Delivery = ({ deliveryCompany }) => {
   };
 
   return (
-    <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-green-600'>
+    <section className='bg-white rounded-lg shadow-lg p-4 sm:p-5 border-b-2 border-primary'>
       <h5 className='font-bold text-gray-800 mb-4 text-base sm:text-lg text-center sm:text-left'>
         Delivery
       </h5>

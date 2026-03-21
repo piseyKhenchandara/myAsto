@@ -59,7 +59,7 @@ const CarouselView = ({
                 
                 {visibleCategories.map((cat) => (
                 <article 
-                    className={`rounded-[15px] flex flex-col items-center transition-all cursor-pointer ${
+                    className={`rounded-modal-btn flex flex-col items-center transition-all cursor-pointer ${
                     category_slug === cat.slug 
                         ? "opacity-100" 
                         : "opacity-20"
@@ -106,7 +106,7 @@ const CarouselView = ({
                 onClick={() => setCurrentIndex(index * itemsPerView)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 isActive
-                    ? 'bg-green-600 scale-125'
+                    ? 'bg-primary scale-125'
                     : 'bg-gray-300 hover:bg-gray-400 hover:scale-110'
                 }`}
                 aria-label={`Go to page ${index + 1}`}

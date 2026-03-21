@@ -106,7 +106,7 @@ const ProductImageSection = ({
                                     {/* Replace Button */}
                                     <div className="absolute -top-2 -right-2">
                                         <div className="relative">
-                                            <MdOutlineSwapHorizontalCircle className="text-2xl text-green-500 bg-white rounded-full cursor-pointer hover:text-green-600 border border-gray-200 shadow-sm" />
+                                            <MdOutlineSwapHorizontalCircle className="text-2xl text-primary-light bg-white rounded-full cursor-pointer hover:text-primary border border-gray-200 shadow-sm" />
                                             <input 
                                                 type="file"
                                                 accept="image/*"
@@ -121,7 +121,7 @@ const ProductImageSection = ({
                                         <button
                                             type="button"
                                             onClick={() => cancelImageReplacement(idx)}
-                                            className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition-colors"
+                                            className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-danger text-white text-xs px-2 py-1 rounded hover:bg-danger-dark transition-colors"
                                         >
                                             Cancel
                                         </button>
@@ -129,14 +129,14 @@ const ProductImageSection = ({
                                     
                                     {/* Main image indicator */}
                                     {img.is_main && (
-                                        <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                                        <span className="absolute top-2 left-2 bg-primary-light text-white text-xs px-2 py-1 rounded">
                                             Main
                                         </span>
                                     )}
 
                                     {/* Replacement indicator */}
                                     {img.isReplaced && (
-                                        <span className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                                        <span className="absolute top-2 right-2 bg-primary-light text-white text-xs px-2 py-1 rounded">
                                             New
                                         </span>
                                     )}
@@ -146,9 +146,9 @@ const ProductImageSection = ({
 
                         {/* Replacement Summary */}
                         {Object.keys(finalImages).length > 0 && (
-                            <aside className="bg-green-50 border border-green-200 rounded-lg p-4">
-                                <h4 className="text-md font-medium text-green-800 mb-2">Images to be replaced:</h4>
-                                <ul className="text-sm text-green-700">
+                            <aside className="bg-primary-faint border border-primary-muted rounded-lg p-4">
+                                <h4 className="text-md font-medium text-primary-darker mb-2">Images to be replaced:</h4>
+                                <ul className="text-sm text-primary-dark">
                                     {Object.keys(finalImages).map(idx => (
                                         <li key={idx}>
                                             • Image {parseInt(idx) + 1}: {finalImages[idx].file.name}
@@ -162,7 +162,7 @@ const ProductImageSection = ({
                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
                             <div className="flex items-center justify-between mb-3">
                                 <span className="text-sm font-medium text-gray-700">Add more images</span>
-                                <label className="cursor-pointer bg-green-500 text-white text-xs px-3 py-1.5 rounded hover:bg-green-600 transition-colors">
+                                <label className="cursor-pointer bg-primary-light text-white text-xs px-3 py-1.5 rounded hover:bg-primary transition-colors">
                                     + Choose Files
                                     <input
                                         type="file"
@@ -188,11 +188,11 @@ const ProductImageSection = ({
                                             <button
                                                 type="button"
                                                 onClick={() => removeAdditionalImage(idx)}
-                                                className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hover:bg-red-600"
+                                                className="absolute -top-1.5 -right-1.5 bg-danger text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hover:bg-danger-dark"
                                             >
                                                 ×
                                             </button>
-                                            <span className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-1 rounded">
+                                            <span className="absolute bottom-1 left-1 bg-info text-white text-xs px-1 rounded">
                                                 New
                                             </span>
                                         </figure>

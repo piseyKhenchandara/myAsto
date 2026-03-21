@@ -3,7 +3,7 @@ import QRCode from 'react-qr-code';
 const QRDisplay = ({ resFromKHQR }) => (
   <div>
     <h2
-      className="text-center bg-red-600 text-white pb-10 py-2 font-semibold text-lg"
+      className="text-center bg-danger-dark text-white pb-10 py-2 font-semibold text-lg"
       style={{
         clipPath: 'polygon(0 0, 100% 0, 100% 100%, 100% 100%, 90% 60%, 0 60%)',
         borderTopLeftRadius: '24px',

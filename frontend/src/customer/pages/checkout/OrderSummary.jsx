@@ -76,8 +76,8 @@ const OrderSummary = ({
           className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors ${
             isProcessing || cart.length === 0
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-green-600 hover:bg-green-700 text-white'
-          } ${submit ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 text-white"}`}
+              : 'bg-primary hover:bg-primary-dark text-white'
+          } ${submit ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-primary hover:bg-primary-dark text-white"}`}
         >
           {isProcessing ? 'Processing...' : 'Proceed to Order'}
         </button>

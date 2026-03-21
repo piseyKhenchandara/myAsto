@@ -1,0 +1,133 @@
+/*
+ * ============================================================
+ *  ASTO Store — Design Tokens
+ *  Tailwind CSS v4  ·  @theme directive
+ *
+ *  How it works
+ *  ─────────────────────────────────────────────────────────
+ *  Token prefix   →   Generated utility
+ *  --color-*      →   bg-* / text-* / border-* / shadow-*
+ *  --radius-*     →   rounded-*
+ *  --z-*          →   z-*
+ *  --text-*       →   text-*  (font size)
+ *  --duration-*   →   duration-*
+ *
+ *  Categories (in order of impact)
+ *  1. Color
+ *  2. Border Radius
+ *  3. Z-index
+ *  4. Typography
+ *  5. Motion
+ * ============================================================
+ */
+
+@theme {
+
+  /* ══════════════════════════════════════════════════════════
+     1. COLOR
+     ══════════════════════════════════════════════════════════ */
+
+  /* ── Brand / Primary (green) ─────────────────────────────
+     Usage examples:
+       bg-primary           text-primary           border-primary
+       bg-primary-light     hover:bg-primary-light  shadow-primary
+       bg-primary-subtle    border-primary-muted              */
+
+  --color-primary:        #16a34a;   /* green-600 – main brand accent          */
+  --color-primary-light:  #22c55e;   /* green-500 – hover / lighter variant    */
+  --color-primary-mid:    #4ade80;   /* green-400 – mid-tone accent / shadows  */
+  --color-primary-border: #86efac;   /* green-300 – subtle border / glow       */
+  --color-primary-muted:  #bbf7d0;   /* green-200 – very light accent          */
+  --color-primary-subtle: #dcfce7;   /* green-100 – near-white tinted surface  */
+  --color-primary-faint:  #f0fdf4;   /* green-50  – faintest primary bg        */
+  --color-primary-dark:   #15803d;   /* green-700 – darker primary tone        */
+  --color-primary-darker: #166534;   /* green-800 – even darker (text on light)*/
+
+  /* ── Status: Danger / Error (red) ───────────────────────
+     Usage: bg-danger  text-danger  hover:bg-danger-dark       */
+
+  --color-danger:         #ef4444;   /* red-500 – errors, delete actions       */
+  --color-danger-dark:    #dc2626;   /* red-600 – danger hover state           */
+  --color-danger-text:    #b91c1c;   /* red-700 – danger body text             */
+  --color-danger-muted:   #f87171;   /* red-400 – muted / softer danger        */
+  --color-danger-border:  #fecaca;   /* red-200 – danger border                */
+  --color-danger-subtle:  #fee2e2;   /* red-100 – light danger tint / icon bg  */
+  --color-danger-bg:      #fef2f2;   /* red-50  – very light danger background */
+
+  /* ── Status: Warning (amber) ────────────────────────────
+     Usage: bg-warning-bg  border-warning-border  text-warning-text
+     Context: warning boxes, caution banners, low-stock alerts  */
+
+  --color-warning:          #d97706;   /* amber-600 – icon / accent color      */
+  --color-warning-bg:       #fffbeb;   /* amber-50  – box background           */
+  --color-warning-border:   #fde68a;   /* amber-200 – box border               */
+  --color-warning-text:     #92400e;   /* amber-800 – body text in warning box */
+
+  /* ── Status: Info / Links (blue) ────────────────────────
+     Usage: text-link  hover:text-link-hover  bg-info
+     Context: social share links, product URLs, info states    */
+
+  --color-info:             #3b82f6;   /* blue-500 – info accent / badges      */
+  --color-link:             #2563eb;   /* blue-600 – inline / social links     */
+  --color-link-hover:       #1e40af;   /* blue-800 – link hover state          */
+
+  /* ── Backgrounds / Surfaces ─────────────────────────────
+     Usage: bg-bg-page  bg-surface  bg-bg-input  bg-overlay   */
+
+  --color-surface:          #ffffff;   /* white    – card / panel background   */
+  --color-bg-page:          #f9fafb;   /* gray-50  – outer page background     */
+  --color-bg-input:         #f3f4f6;   /* gray-100 – input field fill          */
+  --color-overlay:          #00000080; /* black/50 – modal backdrop            */
+
+  /* ── Neutral / Text / Borders ───────────────────────────
+     Usage: text-text-base  text-text-muted  border-border-base  */
+
+  --color-border-base:      #d1d5db;   /* gray-300 – default dividers/borders  */
+  --color-text-base:        #1f2937;   /* gray-800 – primary body text         */
+  --color-text-muted:       #6b7280;   /* gray-500 – secondary / helper text   */
+  --color-text-disabled:    #9ca3af;   /* gray-400 – disabled state text       */
+  --color-bg-disabled:      #d1d5db;   /* gray-300 – disabled state background */
+
+
+  /* ══════════════════════════════════════════════════════════
+     2. BORDER RADIUS
+     Usage: rounded-badge  rounded-btn  rounded-card  rounded-modal
+     ══════════════════════════════════════════════════════════ */
+
+  --radius-badge:      6px;   /* small chips, stock tags                  */
+  --radius-btn:       10px;   /* buttons, inputs                          */
+  --radius-card:      20px;   /* product cards, info panels               */
+  --radius-modal:     30px;   /* modal containers (customer layout popup) */
+  --radius-modal-btn: 15px;   /* buttons inside modal containers          */
+
+
+  /* ══════════════════════════════════════════════════════════
+     3. Z-INDEX
+     Usage: z-raised  z-banner  z-dropdown  z-modal
+     ══════════════════════════════════════════════════════════ */
+
+  --z-raised:    10;   /* floating cards, KhqrGenerator               */
+  --z-banner:    30;   /* in-page overlays (carousel slide dots)      */
+  --z-dropdown:  40;   /* dropdowns, language picker, ring panel      */
+  --z-modal:     50;   /* modals, sticky header, full-screen overlays */
+
+
+  /* ══════════════════════════════════════════════════════════
+     4. TYPOGRAPHY
+     Usage: text-badge  (all other sizes use Tailwind defaults)
+     ══════════════════════════════════════════════════════════ */
+
+  --text-badge: 0.625rem;   /* 10px – notification / cart count bubbles */
+
+
+  /* ══════════════════════════════════════════════════════════
+     5. MOTION
+     Usage: duration-fast  duration-base  duration-slow  duration-slower
+     ══════════════════════════════════════════════════════════ */
+
+  --duration-fast:   100ms;    /* micro-interactions (button press tap)   */
+  --duration-base:   200ms;    /* standard hover / active transitions     */
+  --duration-slow:   300ms;    /* auth form animations, nav slide-fades   */
+  --duration-slower: 1000ms;   /* sidebar drawer, banner auto-scroll      */
+
+}

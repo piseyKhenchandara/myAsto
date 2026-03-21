@@ -165,7 +165,7 @@ const ProductEdit = () => {
     if (load) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-500"></div>
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-light"></div>
             </div>
         );
     }
@@ -203,7 +203,7 @@ const ProductEdit = () => {
                                     type="text" 
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light'
                                     placeholder="Enter product name"
                                     required
                                 />
@@ -219,7 +219,7 @@ const ProductEdit = () => {
                                     step="0.01"
                                     min="0"
                                     onChange={(e) => setPrice(e.target.value)}
-                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light'
                                     placeholder="0.00"
                                     required
                                 />
@@ -234,7 +234,7 @@ const ProductEdit = () => {
                                 <select
                                     value={stock}
                                     onChange={(e) => setStock(e.target.value)}
-                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light'
                                     required
                                 >
                                     <option value="">Select stock status</option>
@@ -253,7 +253,7 @@ const ProductEdit = () => {
                                     type="text"
                                     value={warranty}
                                     onChange={(e) => setWarranty(e.target.value)}
-                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light'
                                     placeholder="e.g., 1 year, 6 months, none"
                                 />
                             </div>
@@ -267,7 +267,7 @@ const ProductEdit = () => {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 rows={4}
-                                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light'
                                 placeholder="Enter product description"
                                 required
                             />
@@ -280,7 +280,7 @@ const ProductEdit = () => {
                                 <button 
                                     type="button"
                                     onClick={handleAddNewRow}
-                                    className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                                    className="bg-primary-light text-white px-3 py-1 rounded text-sm hover:bg-primary"
                                 >
                                     + Add Feature
                                 </button>
@@ -293,20 +293,20 @@ const ProductEdit = () => {
                                             type="text"
                                             value={feature.feature_name || ''}
                                             onChange={(e) => setFeatureForm(idx, 'feature_name', e.target.value)}
-                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light"
                                             placeholder="Feature name"
                                         />
                                         <input
                                             type="text"
                                             value={feature.feature_value || ''}
                                             onChange={(e) => setFeatureForm(idx, 'feature_value', e.target.value)}
-                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light"
                                             placeholder="Feature value"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => removeFeatureRow(idx)}
-                                            className="text-red-500 hover:text-red-700 p-2"
+                                            className="text-danger hover:text-danger-text p-2"
                                         >
                                             <CiTrash className="text-xl" />
                                         </button>
@@ -319,8 +319,8 @@ const ProductEdit = () => {
                         {msg.text && (
                             <div className={`p-3 rounded ${
                                 msg.type === 'success' 
-                                    ? 'bg-green-100 text-green-700 border border-green-300' 
-                                    : 'bg-red-100 text-red-700 border border-red-300'
+                                    ? 'bg-primary-subtle text-primary-dark border border-primary-border' 
+                                    : 'bg-danger-subtle text-danger-text border border-red-300'
                             }`}>
                                 {msg.text}
                             </div>
@@ -339,7 +339,7 @@ const ProductEdit = () => {
                             <button
                                 type="submit"
                                 disabled={submitLoading}
-                                className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-6 py-2 bg-primary-light text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {submitLoading ? 'Updating...' : 'Update Product'}
                             </button>

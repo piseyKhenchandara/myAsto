@@ -13,7 +13,7 @@ const ShareLinkToSocial = ({productDetail}) => {
             target="_blank"
             rel="noopener noreferrer"
             title="Share via Facebook"
-            className="text-blue-600 hover:text-blue-800"
+            className="text-link hover:text-link-hover"
         >
             <FaFacebookMessenger size={20} />
         </a>
@@ -24,7 +24,7 @@ const ShareLinkToSocial = ({productDetail}) => {
             target="_blank"
             rel="noopener noreferrer"
             title="Send via Telegram"
-            className="text-blue-400 hover:text-blue-600"
+            className="text-blue-400 hover:text-link"
         >
             <FaTelegram size={20} />
         </a>
@@ -35,7 +35,7 @@ const ShareLinkToSocial = ({productDetail}) => {
             target="_blank"
             rel="noopener noreferrer"
             title="Send via WhatsApp"
-            className="text-green-500 hover:text-green-700"
+            className="text-primary-light hover:text-primary-dark"
         >
             <FaWhatsapp size={20} />
         </a>

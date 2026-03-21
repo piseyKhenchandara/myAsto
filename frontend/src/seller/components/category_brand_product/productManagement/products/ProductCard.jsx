@@ -16,7 +16,7 @@ const ProductCard = ({
   const checkUserRole = whoami?.role === 'admin' || whoami?.role === 'seller';
 
   return (
-    <article className="flex flex-col py-2 justify-between w-full max-w-xs hover:scale-105 transition duration-100 ease-in-out cursor-pointer hover:shadow-green-300 rounded-[20px] h-auto md:border px-5">
+    <article className="flex flex-col py-2 justify-between w-full max-w-xs hover:scale-105 transition duration-100 ease-in-out cursor-pointer hover:shadow-primary-border rounded-card h-auto md:border px-5">
       {/* Image Section */}
       <figure className="w-full flex flex-col items-center gap-2 px-[2px] mb-5 md:mb-10">
         {product.ProductImages?.[0] && (
@@ -56,8 +56,8 @@ const ProductCard = ({
          
           {!checkUserRole && (
             <button
-              className={`md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 rounded-[6px] flex items-center gap-1 
-                ${product.stock === 'Out of Stock' ? 'bg-red-500' : 'bg-green-500'}`}
+              className={`md:text-base font-bold text-white hover:bg-black cursor-pointer duration-200 ease-in-out border p-2 px-4 md:px-5 rounded-badge flex items-center gap-1 
+                ${product.stock === 'Out of Stock' ? 'bg-danger' : 'bg-primary-light'}`}
               
               disabled={product.stock === 'Out of Stock'}
               onClick={() => {
@@ -76,13 +76,13 @@ const ProductCard = ({
         {checkUserRole && (
           <div className="flex gap-3 mt-3 text-2xl justify-center md:justify-start"> 
             <Link 
-              className="text-green-600 shadow-lg p-2 rounded cursor-pointer hover:scale-110 transition-transform hover:text-white hover:bg-green-500" 
+              className="text-primary shadow-lg p-2 rounded cursor-pointer hover:scale-110 transition-transform hover:text-white hover:bg-primary-light" 
               to={`/dashboard/category/${category_slug}/brand/${brand_slug}/product/detail/edit/${product.id}/${product.slug}`}
             >
               <CiEdit />
             </Link>
             <button 
-              className="text-red-600 shadow-lg p-2 rounded cursor-pointer hover:scale-110 transition-transform hover:text-white hover:bg-red-600" 
+              className="text-danger-dark shadow-lg p-2 rounded cursor-pointer hover:scale-110 transition-transform hover:text-white hover:bg-danger-dark" 
               onClick={() => onDelete(product)}
             >
               <CiTrash />

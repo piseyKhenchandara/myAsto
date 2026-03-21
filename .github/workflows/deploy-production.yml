@@ -32,8 +32,12 @@ jobs:
 
             # Backup database BEFORE deploying
             echo " Backing up database..."
+            #Creates a backups folder if it doesn't exist. -p means don't error if it already exists.
             mkdir -p backups
+
+            #Creates a folder name with timestamp. Example: backups/backup_20260315_142030
             BACKUP_DIR="backups/backup_$(date +%Y%m%d_%H%M%S)"
+            
             mkdir -p $BACKUP_DIR
             $COMPOSE exec -T db mysqldump -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} REDACTED_DB_NAME > $BACKUP_DIR/db_backup.sql
             git rev-parse HEAD > $BACKUP_DIR/commit_hash.txt
@@ -85,6 +89,9 @@ jobs:
             # head -1 = take only the newest one
             # So now LATEST_BACKUP becomes something like:
             # backup_20260225_210501
+
+            #if [ -f "backups/$LATEST_BACKUP/commit_hash.txt" ]; then
+              git reset --hard $(cat backups/$LATEST_BACKUP/commit_hash.txt) role back to previous commit before this commit
 
             LATEST_BACKUP=$(ls -t backups/ | head -1)
             if [ -f "backups/$LATEST_BACKUP/commit_hash.txt" ]; then

@@ -21,13 +21,13 @@ const Header = ({ setVisible, asto_logo }) => {
   const iconSizeClass = "text-2xl"; // smaller icons = shorter header
 
   return (
-    <header className="w-full border-b border-green-600 bg-white sticky top-0 z-50 shadow-sm">
+    <header className="w-full border-b border-primary bg-white sticky top-0 z-50 shadow-sm">
       <nav className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-2 max-w-[1920px] mx-auto">
         
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
           {checkUserRole && location.pathname.includes('/dashboard') && (
             <button 
-              className={`${iconSizeClass} hover:text-green-600`} 
+              className={`${iconSizeClass} hover:text-primary`} 
               onClick={() => setVisible((prev) => !prev)}
             >
               <FaBars />
@@ -48,9 +48,9 @@ const Header = ({ setVisible, asto_logo }) => {
 
           {!checkUserRole && (
             <Link to="/checkout-page" className="relative hover:opacity-90">
-              <AiOutlineShoppingCart className={`${iconSizeClass} hover:text-green-600`} />
+              <AiOutlineShoppingCart className={`${iconSizeClass} hover:text-primary`} />
               {getCartCount() > 0 && (
-                <span className="absolute -top-1 -right-2 min-w-[16px] h-[16px] text-[10px] flex items-center justify-center bg-green-500 text-white rounded-full">
+                <span className="absolute -top-1 -right-2 min-w-[16px] h-[16px] text-[10px] flex items-center justify-center bg-primary-light text-white rounded-full">
                   {getCartCount()}
                 </span>
               )}
@@ -65,10 +65,10 @@ const Header = ({ setVisible, asto_logo }) => {
             {whoami?.profile_picture ? (
               <img 
                 src={whoami.profile_picture}
-                className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full object-cover border-2 border-green-600"
+                className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full object-cover border-2 border-primary"
               />
             ) : (
-              <CgProfile className={`${iconSizeClass} hover:text-green-600`} />
+              <CgProfile className={`${iconSizeClass} hover:text-primary`} />
             )}
           </Link>
 

@@ -19,14 +19,33 @@ const ALLOWED_IMAGE_TYPES = [
 // HELPER: Generate R2 public URL
 // ==================================================================
 function makePublicUrl(key) {
+
+  
   const base = (process.env.R2_PUBLIC_URL || "").replace(/\/$/, "");
+
+  //https://abc123.r2.cloudflarestorage.com/astogear-bucket/profile_pictures/abc.jpg
   if (!base) return `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${process.env.R2_BUCKET_NAME}/${key}`;
+  
   return `${base}/${key}`;
 }
 
 // ==================================================================
 // HELPER: Upload buffer to R2
-// ==================================================================
+// =================================================================
+/* 
+
+It uploads a file to R2 and returns where to find it.
+javascriptuploadToR2(buffer, "profile_pictures", "abc123.jpg", "image/jpeg")
+
+Builds the path: profile_pictures/abc123.jpg
+Uploads the file bytes to R2 at that path
+Returns:
+
+javascript{
+  url: "https://cdn.astogear.com/profile_pictures/abc123.jpg", // save this to DB
+  public_id: "profile_pictures/abc123.jpg"  // use this to delete later
+}
+*/
 async function uploadToR2(buffer, folder, filename, contentType) {
   const key = `${folder}/${filename}`;
   await r2.putObject({
@@ -36,8 +55,8 @@ async function uploadToR2(buffer, folder, filename, contentType) {
     ContentType: contentType || "application/octet-stream",
   });
   return {
-    url: makePublicUrl(key),
-    public_id: key
+    url: makePublicUrl(key), // the full public URL to access the file
+    public_id: key   // the full public URL to access the file
   };
 }
 
@@ -69,7 +88,9 @@ export const uploadProfilePicture = multer({
   storage: memoryStorage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
   fileFilter: imageFileFilter
-}).single("image");
+}).single("image"); // this RETURNS a function that looks like: (req, res, next) => { ... }
+
+
 
 export const processProfilePicture = async (req, res, next) => {
   if (!req.file) return next();
@@ -78,8 +99,8 @@ export const processProfilePicture = async (req, res, next) => {
     const filename = `${crypto.randomBytes(16).toString("hex")}.${req.file.mimetype.split("/")[1]}`;
     const result = await uploadToR2(req.file.buffer, "profile_pictures", filename, req.file.mimetype);
     
-    req.file.path = result.url;
-    req.file.filename = result.public_id;
+    req.file.path = result.url; // result is just the object that uploadToR2 returned
+    req.file.filename = result.public_id; // result is just the object that uplodToR2 returned
     next();
   } catch (err) {
     next(err);
@@ -102,8 +123,8 @@ export const processCategoryImage = async (req, res, next) => {
     const filename = `${crypto.randomBytes(16).toString("hex")}.${req.file.mimetype.split("/")[1]}`;
     const result = await uploadToR2(req.file.buffer, "category_images", filename, req.file.mimetype);
     
-    req.file.path = result.url;
-    req.file.filename = result.public_id;
+    req.file.path = result.url; // like a home address
+    req.file.filename = result.public_id; // like room number
     next();
   } catch (err) {
     next(err);
