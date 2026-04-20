@@ -26,8 +26,8 @@ jobs:
           script: |
             set -e
 
-            COMPOSE="docker-compose -f docker-compose.dev.yml"
-            COMPOSE_PROD="docker-compose -f docker-compose.production.yml"
+            COMPOSE="docker-compose -p myasto-dev -f docker-compose.dev.yml"
+            COMPOSE_PROD="docker-compose -p myasto-prod -f docker-compose.production.yml"
             
             echo "================================================"
             echo " STAGING DEPLOYMENT STARTED"
@@ -112,5 +112,5 @@ jobs:
             echo " Ensuring production is running after staging failure..."
             cd ${{ secrets.PROJECT_PATH }}
 
-            docker-compose -f docker-compose.production.yml up -d
+            docker-compose -p myasto-prod -f docker-compose.production.yml up -d
             echo "✅ Production restored!"
