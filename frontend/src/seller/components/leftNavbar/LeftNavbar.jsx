@@ -14,7 +14,7 @@ import {
     Brand_Management,
 } from './ContentUnderLeftNavbar';
 
-import { useNotifications } from "../../../../context/notificationContext/NotificationContext";
+import { useNotifications } from '../../../context/NotificationContext';
 
 
     const LeftNavbar = ({visible}) => {

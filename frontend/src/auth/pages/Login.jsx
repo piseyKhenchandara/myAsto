@@ -4,8 +4,8 @@ import { RiLockPasswordLine } from 'react-icons/ri'
 import { MdMailOutline } from "react-icons/md";
 import { loginAPI } from '../../api/Auth.api'
 import { useLocation, useNavigate } from 'react-router-dom';
-import GoogleAuth from '../components/signup/GoogleAuth';
-import { useUser } from '../../../context/UserContext';
+import GoogleAuth from '../components/GoogleAuth';
+import { useUser } from '../../context/UserContext';
 
 
 const Login = () => {

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkEmailAPI } from '../../api/Auth.api';
-import { useUser } from '../../../context/UserContext';
+import { useUser } from '../../context/UserContext';
 
 import { FcGoogle } from 'react-icons/fc';
-import GoogleAuth from '../components/signup/GoogleAuth';
+import GoogleAuth from '../components/GoogleAuth';
 
 const EmailEntry = () => {
 

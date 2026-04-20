@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {getAllProduct} from '../../../../api/Product.api'
+import {getAllProduct} from '../../../../../api/Product.api'
 
 export const useProductSearch = (searchPopup) => {
   const [searchTerm, setSearchTerm] = useState("");

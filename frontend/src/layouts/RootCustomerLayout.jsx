@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import asto_logo from '../assets/logoes/asto_logo.png'
-import { useUser } from '../../context/UserContext'
+import { useUser } from '../context/UserContext'
 import facebook_logo from '../assets/logoes/facebook_logo.png'
 import ig_logo from '../assets/logoes/ig_logo.png'
 import tiktok_logo from '../assets/logoes/tiktok_logo.png'
 import telegram_logo from '../assets/logoes/telegram_logo.png'
 import Header from '../seller/components/header/Header'
-import ScrollToTop from '../../utils/ScrollToTheTop'
-import Footer from '../../utils/Footer'
+import ScrollToTop from '../components/ScrollToTheTop'
+import Footer from '../components/Footer'
 import { logPageView } from '../../utils/analytics'
 
 

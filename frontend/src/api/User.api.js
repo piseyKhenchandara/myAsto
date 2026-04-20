@@ -1,4 +1,4 @@
-import http from "./http";
+import http from "../lib/http";
 
 export const viewAlluserAPI = async (page,limit) => {
 

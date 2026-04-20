@@ -11,7 +11,7 @@ import Pagination from "../Pagination";
 import ProductBanner from "../../productBanner/ProductBanner";
 import BrandManagement from "../../../brandManagement/main/BrandManagement";
 import DeleteForm from "../DeleteForm";
-import { useUser } from "../../../../../../../context/UserContext";
+import { useUser } from '../../../../../../context/UserContext';
 import BrandsHorizontally from "../../../brandManagement/BrandsHorizontally";
 
 const Products = () => {

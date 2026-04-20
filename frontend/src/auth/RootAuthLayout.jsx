@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import asto_logo from '../assets/logoes/asto_logo.png'
-import ScrollToTop from '../../utils/ScrollToTheTop'
+import ScrollToTop from '../components/ScrollToTheTop'
 import { logPageView } from '../../utils/analytics'
 const RootAuthLayout = () => {
 

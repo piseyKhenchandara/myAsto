@@ -3,7 +3,7 @@ import { IoIosSearch } from "react-icons/io";
 import { getAllProduct } from "../../../../api/Product.api";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useUser } from "../../../../../context/UserContext";
+import { useUser } from '../../../../context/UserContext';
 
 const SearchPopup = ({ toggleSearchPopup, searchPopup }) => {
   const [searchTerm, setSearchTerm] = useState("");

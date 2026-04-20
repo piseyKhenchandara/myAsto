@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { socket } from "../../socket";
-import { useUser } from "../UserContext";
+import { socket } from "../lib/socket";
+import { useUser } from "./UserContext";
 import { 
     getNotificationsAPI, 
     markAsReadAPI, 

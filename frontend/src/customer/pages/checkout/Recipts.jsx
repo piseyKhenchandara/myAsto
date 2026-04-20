@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { reciptsAPI } from '../../../api/Recipt.api';
-import { useUser } from '../../../../context/UserContext';
+import { useUser } from '../../../context/UserContext';
 import ReciptBody from '../../components/recipt/ReciptBody';
 import ReciptHeader from '../../components/recipt/ReciptHeader';
 import asto_logo from '../../../assets/logoes/asto_logo.png'

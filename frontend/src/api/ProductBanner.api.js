@@ -1,4 +1,4 @@
-import http from "./http";
+import http from "../lib/http";
 
 export const uploadBanner = async ({ category_slug, productId, file, onProgress }) => {
     const formData = new FormData();

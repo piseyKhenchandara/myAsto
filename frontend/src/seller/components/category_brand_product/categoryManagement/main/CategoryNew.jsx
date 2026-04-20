@@ -11,7 +11,7 @@ import AddREditForm from "../../productManagement/products/AddForm.jsx";
 import EditForm from "../../productManagement/products/EditForm.jsx";
 import DeleteForm from "../../productManagement/products/DeleteForm.jsx";
 import GridView from "../GridView.jsx";
-import { useUser } from "../../../../../../context/UserContext.jsx";
+import { useUser } from '../../../../../context/UserContext';
 
 
 const CategoryNew = ({ category_slug, visible}) => {

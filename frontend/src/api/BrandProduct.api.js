@@ -1,4 +1,4 @@
-import http from './http';
+import http from '../lib/http';
 
 
 export const uploadBrandsAPI = async({brand_name,file,category_slug,onProgress}) => {

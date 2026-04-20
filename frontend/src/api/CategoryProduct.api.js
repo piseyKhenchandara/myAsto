@@ -1,5 +1,5 @@
 import axios from "axios";
-import http from "./http";
+import http from "../lib/http";
 
 export const uploadCategoriesAPI = async ({name,file,onProgress}) => {
 

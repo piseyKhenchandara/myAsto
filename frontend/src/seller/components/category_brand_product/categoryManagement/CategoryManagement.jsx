@@ -4,7 +4,7 @@ import EditForm from "../productManagement/products/EditForm.jsx";
 import DeleteForm from "../productManagement/products/DeleteForm.jsx";
 import CarouselView from './CarouselView';
 import AddREditForm from "../productManagement/products/AddForm.jsx";
-import { useUser } from "../../../../../context/UserContext.jsx";
+import { useUser } from '../../../../context/UserContext';
 import CategoryHeader from "./CategoryHeader.jsx";
 import { useCategoryOperations } from "./Hook/useCategoryOperations.js";
 import { useCarouselPagination } from "./Hook/useCarouselPagination.js";

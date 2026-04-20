@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllBrandsAPI } from '../../../../api/BrandProduct.api';
-import '../../../../index.css';
+import '../../../../styles/index.css';
 
 const BrandsHorizontally = () => {
   const [loading, setLoading] = useState(false);

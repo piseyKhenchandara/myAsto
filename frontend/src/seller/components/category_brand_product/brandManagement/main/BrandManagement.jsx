@@ -4,7 +4,7 @@ import CategoryManagement from '../../categoryManagement/CategoryManagement';
 import AddForm from '../../productManagement/products/AddForm';
 import EditForm from '../../productManagement/products/EditForm';
 import DeleteForm from '../../productManagement/products/DeleteForm';
-import { useUser } from '../../../../../../context/UserContext';
+import { useUser } from '../../../../../context/UserContext';
 import { useBrandOperations } from '../Hook/useBrandOperations';
 import { useBrandNavigation } from '../Hook/useBrandNavigation';
 import BrandHeader from '../brandManagementHtmlFormat/BrandHeader'

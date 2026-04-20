@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useSearchParams, useNavigate, Link } from 'react-router-dom'
 import { getAllProduct } from '../../../api/Product.api';
-import { useUser } from '../../../../context/UserContext';
+import { useUser } from '../../../context/UserContext';
 
 
 

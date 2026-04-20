@@ -1,4 +1,4 @@
-import http from "./http";
+import http from "../lib/http";
 
 export const reciptsAPI = async (user_id) => {
     const {data} = await http.get(`/recipts/view-all-recipts/${user_id}` );

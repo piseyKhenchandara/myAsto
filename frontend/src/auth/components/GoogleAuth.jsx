@@ -1,9 +1,9 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { googleAuthAPI } from "../../../api/Auth.api";
-import { auth } from "../../firebase/config";
+import { googleAuthAPI } from "../../api/Auth.api";
+import { auth } from '../../config/firebase';
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
-import { useUser } from "../../../../context/UserContext";
+import { useUser } from '../../context/UserContext';
 import { useEffect, useState } from 'react';  // ✅ ADD THIS
 
 // ✅ ADD THIS - Detect in-app browsers

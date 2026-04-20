@@ -1,4 +1,4 @@
-import http from "./http";
+import http from "../lib/http";
 
 /**  @param {Object} params { page?: Number, limit? : number} */
 

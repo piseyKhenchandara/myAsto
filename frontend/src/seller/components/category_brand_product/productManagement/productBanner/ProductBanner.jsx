@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useUser } from '../../../../../../context/UserContext';
+import { useUser } from '../../../../../context/UserContext';
 import { useFetchBanner } from './Hook/useFetchBanner';
 import { useAutoSlide } from './Hook/useAutoSlide';
 import { useBannerActions } from './Hook/useBannerActions';

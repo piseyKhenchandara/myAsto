@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { logoutAPI } from '../../api/Auth.api';
 import { useNavigate } from 'react-router-dom'  //  Correct
-import { useUser } from '../../../context/UserContext';
+import { useUser } from '../../context/UserContext';
 
 
 const Logout = () => {

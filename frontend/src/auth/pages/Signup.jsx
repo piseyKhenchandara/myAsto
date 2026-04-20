@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { signupAPI } from '../../api/Auth.api'
-import '../../index.css'
+import '../../styles/index.css'
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../../context/UserContext';
-import GoogleAuth from '../components/signup/GoogleAuth';
+import { useUser } from '../../context/UserContext';
+import GoogleAuth from '../components/GoogleAuth';
 
 const Signup = () => {
   const [password, setPassword] = useState('')

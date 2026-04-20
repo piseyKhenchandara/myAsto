@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNotifications } from '../../../../context/notificationContext/NotificationContext';
+import { useNotifications } from '../../../context/NotificationContext';
 import { useNavigate } from 'react-router-dom';
 
 const RingNotification = () => {
